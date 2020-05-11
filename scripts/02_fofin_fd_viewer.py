@@ -3,7 +3,7 @@ import compas
 
 from compas.datastructures import Network
 from compas.numerical import fd_numpy
-from compas_plotters import NetworkPlotter
+from compas_viewers.objectviewer import ObjectViewer
 
 
 class Cablenet(Network):
@@ -59,8 +59,3 @@ for key, attr in cablenet.nodes(True):
 # Visualisation
 # ==============================================================================
 
-plotter = NetworkPlotter(cablenet, figsize=(8, 5))
-
-plotter.draw_nodes(facecolor={key: '#ff0000' for key in corners})
-plotter.draw_edges()
-plotter.show()

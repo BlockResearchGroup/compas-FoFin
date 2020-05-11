@@ -2,8 +2,8 @@ import random
 import compas
 
 from compas.datastructures import Network
-from compas.numerical import fd_numpy
-from compas_plotters import NetworkPlotter
+from compas_rhino.artists import NetworkArtist
+from compas_cloud import Proxy
 
 
 class Cablenet(Network):
@@ -29,6 +29,13 @@ class Cablenet(Network):
             'radius': None
         })
 
+
+# ==============================================================================
+# Cloud
+# ==============================================================================
+
+proxy = Proxy()
+fd_numpy = proxy.package('compas.numerical.fd_numpy')
 
 # ==============================================================================
 # FoFin
@@ -59,8 +66,8 @@ for key, attr in cablenet.nodes(True):
 # Visualisation
 # ==============================================================================
 
-plotter = NetworkPlotter(cablenet, figsize=(8, 5))
-
-plotter.draw_nodes(facecolor={key: '#ff0000' for key in corners})
-plotter.draw_edges()
-plotter.show()
+artist = NetworkArtist(cablenet, layer="FoFin::Cablenet")
+artist.clear_layer()
+artist.draw_nodes(color={key: (255, 0, 0) for key in cablenet.nodes_where({'is_anchor': True})})
+artist.draw_edges()
+artist.redraw()
