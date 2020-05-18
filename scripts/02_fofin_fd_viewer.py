@@ -59,3 +59,7 @@ for key, attr in cablenet.nodes(True):
 # Visualisation
 # ==============================================================================
 
+viewer = ObjectViewer()
+viewer.add(cablenet)
+viewer.update()
+viewer.show()
