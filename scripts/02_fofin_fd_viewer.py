@@ -59,6 +59,9 @@ for key, attr in cablenet.nodes(True):
 # Visualisation
 # ==============================================================================
 
+anchors = list(cablenet.nodes_where({'is_anchor': True}))
+cablenet.nodes_attribute('color', (255, 0, 0), keys=anchors)
+
 viewer = ObjectViewer()
 viewer.add(cablenet)
 viewer.update()
