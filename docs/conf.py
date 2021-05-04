@@ -13,7 +13,7 @@ import sphinx_compas_theme
 project = 'Form Finder'
 copyright = 'Block Research Group - ETH Zurich'
 author = 'Tom Van Mele'
-release = '0.1.2rc1'
+release = '0.1.2'
 
 version = '.'.join(release.split('.')[0:2])
 
