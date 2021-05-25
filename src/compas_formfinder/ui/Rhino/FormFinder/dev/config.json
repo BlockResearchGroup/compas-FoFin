@@ -12,11 +12,13 @@
             "bitmap": [],
             "images":
             [
+                "0_init"
             ]
         },
 
         "commands":
         [
+            {"name": "FFinit",                         "menu_text": "Initialise FF",                  "icon": 0,      "tooltip": "Initialise FF"}
         ],
 
         "menus":
@@ -25,6 +27,7 @@
                 "name" : "FormFinder",
                 "items":
                 [
+                    {"command": "FFinit"}
                 ]
             }
         ],
@@ -34,6 +37,7 @@
                 "name": "FormFinder",
                 "items":
                 [
+                    {"command": "FFinit"}
                 ]
             }
         ],
