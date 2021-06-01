@@ -45,7 +45,7 @@ if __name__ == '__main__':
         else:
             print('   {} {}'.format(p.ljust(20), "OK"))
 
-    is_dev = is_editable("compas-fofin")
+    is_dev = is_editable("compas-formfinder")
     print("compas_formfinder is editable install: ", is_dev)
 
     if args.remove_plugins:
