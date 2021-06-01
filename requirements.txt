@@ -1,5 +1,1 @@
-COMPAS>=1.4.0
-# -e git+https://github.com/blockresearchgroup/compas_skeleton.git#egg=compas_skeleton
-# -e git+https://github.com/blockresearchgroup/compas_pattern.git#egg=compas_pattern
-# -e git+https://github.com/blockresearchgroup/compas_fofin.git#egg=compas_fofin
-# -e git+https://github.com/blockresearchgroup/compas_cloud.git#egg=compas_cloud
+COMPAS>=1.6.3
