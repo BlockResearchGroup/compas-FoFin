@@ -16,15 +16,19 @@ __all__ = ["CableMeshObject"]
 
 
 class CableMeshObject(MeshObject):
-    """Scene object for RV2 force diagrams.
+    """Scene object for FF cable meshes.
     """
 
     SETTINGS = {
-        'layer': "FF::Cablemesh",
+        'layer': "FF::CableMesh",
         'show.vertices': True,
         'show.edges': True,
-        'color.vertices': [0, 255, 255],
-        'color.vertices:is_fixed': [0, 255, 255],
+        'show.faces': True,
+        'color.vertices': [255, 255, 255],
+        'color.vertices:is_anchor': [255, 0, 0],
+        'color.vertices:is_fixed': [0, 0, 255],
+        'color.vertices:is_constrained': [0, 255, 255],
         'color.edges': [0, 0, 255],
-        'color.tension': [255, 0, 0]
+        'color.tension': [255, 0, 0],
+        'color.faces': [200, 200, 200]
     }
