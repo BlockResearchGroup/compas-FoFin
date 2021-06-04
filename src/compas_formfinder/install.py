@@ -12,7 +12,7 @@ import importlib
 
 
 PLUGIN_NAME = "FormFinder"
-PACKAGES = ['compas', 'compas_rhino', 'compas_formfinder']
+PACKAGES = ['compas', 'compas_rhino', 'compas_fofin', 'compas_formfinder']
 
 
 def is_editable(project_name):
