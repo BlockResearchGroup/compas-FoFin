@@ -34,7 +34,7 @@
         </text>
         <tool_bar_id>97e814be-bf03-4c43-8c22-38794a3c96f1</tool_bar_id>
       </tool_bar_group_item>
-      <dock_bar_info dpi_scale="200" dock_bar="False" docking="True" horz="False" visible="True" floating="False" mru_float_style="4096" bar_id="59480" mru_width="868" point_pos="0,0" float_point="-1,0" rect_mru_dock_pos="0,0,58,2016" dock_location_u="59420" dock_location="left" float_size="90,66" />
+      <dock_bar_info dpi_scale="200" dock_bar="False" docking="True" horz="False" visible="True" floating="False" mru_float_style="4096" bar_id="59480" mru_width="868" point_pos="0,0" float_point="-1,0" rect_mru_dock_pos="0,0,58,1536" dock_location_u="59420" dock_location="left" float_size="90,66" />
     </tool_bar_group>
   </tool_bar_groups>
   <tool_bars>

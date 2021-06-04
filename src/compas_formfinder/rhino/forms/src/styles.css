@@ -47,7 +47,7 @@ a:visited{
 
 #terms{
     position: absolute;
-    top: 80%;
+    bottom: 15%;
     left: 8%;
     font-size: xx-small;
 }
@@ -78,6 +78,6 @@ a:visited{
 
 #version{
     position: fixed;
-    left: 34%;
-    top: 52%;
+    left: 29.1%;
+    top: 53%;
 }
