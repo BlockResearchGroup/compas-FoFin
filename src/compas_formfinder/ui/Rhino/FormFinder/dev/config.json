@@ -14,7 +14,8 @@
             [
                 "0_init",
                 "1_opem",
-                "2_save"
+                "2_save",
+                "3_FFcablemesh_from_mesh"
             ]
         },
 
@@ -22,7 +23,8 @@
         [
             {"name": "FFinit",          "menu_text": "Initialise FF",       "icon": 0,      "tooltip": "Initialise FF"},
             {"name": "FFfile_open",      "menu_text": "Open File",      "icon": 1,      "tooltip": "Open FF session"},
-            {"name": "FFfile_save",      "menu_text": "Save File",      "icon": 2,      "tooltip": "Save FF session"}
+            {"name": "FFfile_save",      "menu_text": "Save File",      "icon": 2,      "tooltip": "Save FF session"},
+            {"name": "FFcablemesh_from_mesh",      "menu_text": "Save File",      "icon": 3,      "tooltip": "Save FF session"}
         ],
 
         "menus":
@@ -45,7 +47,8 @@
                 [
                     {"left": "FFinit"},
                     {"left": "FFfile_open"},
-                    {"left": "FFfile_save"}
+                    {"left": "FFfile_save"},
+                    {"left": "FFcablemesh_from_mesh"}
                 ]
             }
         ],
