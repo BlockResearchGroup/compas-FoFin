@@ -4,60 +4,68 @@
 #
 # needs_sphinx = '1.0'
 
+import importlib
+import inspect
 from sphinx.ext.napoleon.docstring import NumpyDocstring
 
 import sphinx_compas_theme
 
 # -- General configuration ------------------------------------------------
 
-project = 'Form Finder'
+project = 'FormFinder'
 copyright = 'Block Research Group - ETH Zurich'
 author = 'Tom Van Mele'
 release = '0.1.3'
 
-version = '.'.join(release.split('.')[0:2])
-
-master_doc = 'index'
-source_suffix = ['.rst', ]
-templates_path = ['_templates']
+master_doc = "index"
+source_suffix = [".rst", ]
+templates_path = sphinx_compas_theme.get_autosummary_templates_path()
 exclude_patterns = []
 
-pygments_style = 'sphinx'
-show_authors = True
+pygments_style   = "sphinx"
+show_authors     = True
 add_module_names = True
-language = None
+language         = None
 
 
 # -- Extension configuration ------------------------------------------------
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode',
-    'matplotlib.sphinxext.plot_directive',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.doctest",
+    "sphinx.ext.coverage",
+    "sphinx.ext.linkcode",
+    "sphinx.ext.extlinks",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.githubpages",
+    "matplotlib.sphinxext.plot_directive",
 ]
 
 # autodoc options
 
-autodoc_mock_imports = ["Rhino", "System", "scriptcontext", "rhinoscriptsyntax", "clr", "bpy"]
-
 autodoc_default_options = {
-    'undoc-members': True,
-    'show-inheritance': True,
+    "undoc-members": True,
+    "show-inheritance": True,
 }
 
-autodoc_member_order = 'groupwise'
+autodoc_member_order = "alphabetical"
 
 autoclass_content = "class"
+
+def skip(app, what, name, obj, would_skip, options):
+    if name.startswith('_'):
+        return True
+    return would_skip
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip)
 
 # autosummary options
 
 autosummary_generate = True
-autosummary_mock_imports = ["Rhino", "System", "scriptcontext", "rhinoscriptsyntax", "clr", "bpy"]
 
 # napoleon options
 
@@ -73,82 +81,94 @@ napoleon_use_ivar = False
 napoleon_use_param = False
 napoleon_use_rtype = False
 
-
-# first, we define new methods for any new sections and add them to the class
-def parse_keys_section(self, section):
-    return self._format_fields('Keys', self._consume_fields())
-
-
-NumpyDocstring._parse_keys_section = parse_keys_section
-
-
-def parse_attributes_section(self, section):
-    return self._format_fields('Attributes', self._consume_fields())
-
-
-NumpyDocstring._parse_attributes_section = parse_attributes_section
-
-
-def parse_class_attributes_section(self, section):
-    return self._format_fields('Class Attributes', self._consume_fields())
-
-
-NumpyDocstring._parse_class_attributes_section = parse_class_attributes_section
-
-
-# we now patch the parse method to guarantee that the the above methods are
-# assigned to the _section dict
-def patched_parse(self):
-    self._sections['keys'] = self._parse_keys_section
-    self._sections['class attributes'] = self._parse_class_attributes_section
-    self._unpatched_parse()
-
-
-NumpyDocstring._unpatched_parse = NumpyDocstring._parse
-NumpyDocstring._parse = patched_parse
-
 # plot options
-
-# plot_include_source
-# plot_pre_code
-# plot_basedir
-# plot_formats
-# plot_rcparams
-# plot_apply_rcparams
-# plot_working_directory
-# plot_template
 
 plot_html_show_source_link = False
 plot_html_show_formats = False
 
+# docstring sections
+
+def parse_attributes_section(self, section):
+    return self._format_fields("Attributes", self._consume_fields())
+
+NumpyDocstring._parse_attributes_section = parse_attributes_section
+
+def patched_parse(self):
+    self._sections["attributes"] = self._parse_attributes_section
+    self._unpatched_parse()
+
+NumpyDocstring._unpatched_parse = NumpyDocstring._parse
+NumpyDocstring._parse = patched_parse
+
 # intersphinx options
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/', None),
-    'compas': ('https://compas-dev.github.io/compas', 'https://compas-dev.github.io/compas/objects.inv'),
+    "python": ("https://docs.python.org/", None),
+    "compas": ("https://compas.dev/compas/latest/", None),
 }
 
+# linkcode
+
+def linkcode_resolve(domain, info):
+    if domain != 'py':
+        return None
+    if not info['module']:
+        return None
+    if not info['fullname']:
+        return None
+
+    package = info['module'].split('.')[0]
+    if not package.startswith('compas_formfinder'):
+        return None
+
+    module = importlib.import_module(info['module'])
+    parts = info['fullname'].split('.')
+
+    if len(parts) == 1:
+        obj = getattr(module, info['fullname'])
+        filename = inspect.getmodule(obj).__name__.replace('.', '/')
+        lineno = inspect.getsourcelines(obj)[1]
+    elif len(parts) == 2:
+        obj_name, attr_name = parts
+        obj = getattr(module, obj_name)
+        attr = getattr(obj, attr_name)
+        if inspect.isfunction(attr):
+            filename = inspect.getmodule(obj).__name__.replace('.', '/')
+            lineno = inspect.getsourcelines(attr)[1]
+        else:
+            return None
+    else:
+        return None
+
+    return f"https://github.com/BlockResearchGroup/compas_formfinder/blob/main/src/{filename}.py#L{lineno}"
+
+# extlinks
+
+extlinks = {}
 
 # -- Options for HTML output ----------------------------------------------
 
-html_theme = 'compaspkg'
+html_theme = "compaspkg"
 html_theme_path = sphinx_compas_theme.get_html_theme_path()
+
 html_theme_options = {
     "package_name": "FormFinder",
     "package_title": project,
     "package_version": release,
     "package_author": "Tom Van Mele",
-    "package_description": "COMPAS package for Algebraic Graph Statics",
+    "package_description": "Form Finding bundle for COMPAS",
     "package_repo": "https://github.com/BlockResearchGroup/FormFinder",
     "package_docs": "https://blockresearchgroup.github.io/FormFinder/",
     "package_old_versions_txt": "https://blockresearchgroup.github.io/FormFinder/doc_versions.txt"
 }
+
 html_context = {}
 html_static_path = []
-html_extra_path = ['.nojekyll']
-html_last_updated_fmt = ''
+html_extra_path = []
+html_last_updated_fmt = ""
 html_copy_source = False
 html_show_sourcelink = False
-html_add_permalinks = ''
+html_permalinks = False
+html_add_permalinks = ""
 html_experimental_html5_writer = True
 html_compact_lists = True

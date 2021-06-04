@@ -4,17 +4,12 @@ from __future__ import print_function
 import contextlib
 import glob
 import os
+import shutil
 import sys
-from shutil import rmtree
+import tempfile
 
 from invoke import Exit
 from invoke import task
-
-try:
-    input = raw_input
-except NameError:
-    pass
-
 
 BASE_FOLDER = os.path.dirname(__file__)
 
@@ -98,7 +93,7 @@ def clean(ctx, docs=True, bytecode=True, builds=True):
             folders.append('src/compas_formfinder.egg-info/')
 
         for folder in folders:
-            rmtree(os.path.join(BASE_FOLDER, folder), ignore_errors=True)
+            shutil.rmtree(os.path.join(BASE_FOLDER, folder), ignore_errors=True)
 
 
 @task(help={
@@ -112,8 +107,6 @@ def docs(ctx, doctest=False, rebuild=False, check_links=False):
         clean(ctx)
 
     with chdir(BASE_FOLDER):
-        # ctx.run('sphinx-autogen docs/**.rst')
-
         if doctest:
             testdocs(ctx, rebuild=rebuild)
 
@@ -135,8 +128,7 @@ def lint(ctx):
 def testdocs(ctx, rebuild=False):
     """Test the examples in the docstrings."""
     log.write('Running doctest...')
-    opts = '-E' if rebuild else ''
-    ctx.run('sphinx-build {} -b doctest docs dist/docs'.format(opts))
+    ctx.run('pytest --doctest-modules')
 
 
 @task()
@@ -162,7 +154,8 @@ def check(ctx):
 
 
 @task(help={
-      'checks': 'True to run all checks before testing, otherwise False.'})
+      'checks': 'True to run all checks before testing, otherwise False.',
+      'doctest': 'True to run doctest on all modules, otherwise False.'})
 def test(ctx, checks=False, doctest=False):
     """Run all tests."""
     if checks:
@@ -193,26 +186,32 @@ def prepare_changelog(ctx):
 
 
 @task(help={
-      'release_type': 'Type of release follows semver rules. Must be one of: major, minor, patch, major-rc, minor-rc, patch-rc, rc, release.'})
+      'release_type': 'Type of release follows semver rules. Must be one of: major, minor, patch.'})
 def release(ctx, release_type):
     """Releases the project in one swift command!"""
-    if release_type not in ('patch', 'minor', 'major', 'major-rc', 'minor-rc', 'patch-rc', 'rc', 'release'):
-        raise Exit('The release type parameter is invalid.\nMust be one of: major, minor, patch, major-rc, minor-rc, patch-rc, rc, release')
-
-    is_rc = release_type.find('rc') >= 0
-    release_type = release_type.split('-')[0]
+    if release_type not in ('patch', 'minor', 'major'):
+        raise Exit('The release type parameter is invalid.\nMust be one of: major, minor, patch')
 
     # Run checks
-    ctx.run('invoke check')
+    ctx.run('invoke check test')
 
     # Bump version and git tag it
-    if is_rc:
-        ctx.run('bump2version %s --verbose' % release_type)
-    elif release_type == 'release':
-        ctx.run('bump2version release --verbose')
+    ctx.run('bump2version %s --verbose' % release_type)
+
+    # Build project
+    ctx.run('python setup.py clean --all sdist bdist_wheel')
+
+    # Prepare changelog for next release
+    prepare_changelog(ctx)
+
+    # Clean up local artifacts
+    clean(ctx)
+
+    # Upload to pypi
+    if confirm('Everything is ready. You are about to push to git which will trigger a release to pypi.org. Are you sure? [y/N]'):
+        ctx.run('git push --tags && git push')
     else:
-        ctx.run('bump2version %s --verbose --no-tag' % release_type)
-        ctx.run('bump2version release --verbose')
+        raise Exit('You need to manually revert the tag/commits created.')
 
 
 @contextlib.contextmanager
