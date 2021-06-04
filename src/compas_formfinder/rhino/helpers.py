@@ -11,10 +11,10 @@ import scriptcontext as sc
 import compas_rhino
 from compas_rhino.forms import TextForm
 
-from FormFinder.datastructures import Pattern
-from FormFinder.datastructures import FormDiagram
-from FormFinder.datastructures import ForceDiagram
-from FormFinder.datastructures import ThrustDiagram
+from compas_formfinder.datastructures import Pattern
+from compas_formfinder.datastructures import FormDiagram
+from compas_formfinder.datastructures import ForceDiagram
+from compas_formfinder.datastructures import ThrustDiagram
 
 
 __all__ = [

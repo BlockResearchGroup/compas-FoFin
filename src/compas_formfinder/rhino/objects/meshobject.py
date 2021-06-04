@@ -16,9 +16,9 @@ from compas_rhino.objects import mesh_update_vertex_attributes
 from compas_rhino.objects import mesh_update_edge_attributes
 from compas_rhino.objects import mesh_update_face_attributes
 
-from FormFinder.rhino import select_vertices as rv2_select_vertices
-from FormFinder.rhino import select_faces as rv2_select_faces
-from FormFinder.rhino import select_edges as rv2_select_edges
+from compas_formfinder.rhino import select_vertices as rv2_select_vertices
+from compas_formfinder.rhino import select_faces as rv2_select_faces
+from compas_formfinder.rhino import select_edges as rv2_select_edges
 
 
 __all__ = ['MeshObject']

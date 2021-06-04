@@ -6,8 +6,8 @@ from uuid import uuid4
 
 import compas_rhino
 
-from FormFinder.rhino import SettingsForm
-from FormFinder.rhino import MeshObject
+from compas_formfinder.rhino import SettingsForm
+from compas_formfinder.rhino import MeshObject
 
 
 __all__ = ['Scene']
