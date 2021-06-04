@@ -2,11 +2,11 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from FormFinder.datastructures import Cablenet
+from compas_formfinder.datastructures import CableMesh
 
-from .cablenetartist import CablenetArtist
+from .cablemeshartist import CableMeshArtist
 from .meshartist import MeshArtist
 
-MeshArtist.register(Cablenet, CablenetArtist)
+MeshArtist.register(CableMesh, CableMeshArtist)
 
 __all__ = [name for name in dir() if not name.startswith('_')]

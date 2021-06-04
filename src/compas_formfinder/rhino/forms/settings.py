@@ -2,7 +2,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_FF.rhino import get_scene
+from compas_formfinder.rhino import get_scene
 from collections import OrderedDict
 
 import Eto.Drawing as drawing

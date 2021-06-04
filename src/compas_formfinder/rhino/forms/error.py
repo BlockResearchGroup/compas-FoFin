@@ -8,7 +8,7 @@ import traceback
 import Eto.Drawing as drawing
 import Eto.Forms as forms
 import Rhino.UI
-import FormFinder
+import compas_formfinder
 import compas
 import Rhino
 
@@ -128,7 +128,7 @@ class ErrorForm(forms.Dialog):
         if compas.OSX:
             _os = "OSX"
 
-        body = ISSUE_TEMPLATE % (self.m_textarea.Text, _os, Rhino.RhinoApp.Version, FormFinder.__version__)
+        body = ISSUE_TEMPLATE % (self.m_textarea.Text, _os, Rhino.RhinoApp.Version, compas_formfinder.__version__)
         url = "https://github.com/BlockResearchGroup/FormFinder/issues/new?title=%s&body=%s" % (title, body)
         url = url.replace("\n", "%0A")
         webbrowser.open_new_tab(url)

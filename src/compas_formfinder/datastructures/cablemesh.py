@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas_fofin.datastructures import Cablenet as CableMesh
-from meshmixin import MeshMixin
+from .meshmixin import MeshMixin
 
 
 __all__ = ['CableMesh']

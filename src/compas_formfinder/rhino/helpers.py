@@ -11,10 +11,7 @@ import scriptcontext as sc
 import compas_rhino
 from compas_rhino.forms import TextForm
 
-from compas_formfinder.datastructures import Pattern
-from compas_formfinder.datastructures import FormDiagram
-from compas_formfinder.datastructures import ForceDiagram
-from compas_formfinder.datastructures import ThrustDiagram
+from compas_formfinder.datastructures import CableMesh
 
 
 __all__ = [
@@ -34,8 +31,8 @@ __all__ = [
 ]
 
 
-def match_vertices(diagram, keys):
-    temp = compas_rhino.get_objects(name="{}.vertex.*".format(diagram.name))
+def match_vertices(cablemesh, keys):
+    temp = compas_rhino.get_objects(name="{}.vertex.*".format(cablemesh.name))
     names = compas_rhino.get_object_names(temp)
     guids = []
     for guid, name in zip(temp, names):
@@ -46,8 +43,8 @@ def match_vertices(diagram, keys):
     return guids
 
 
-def match_edges(diagram, keys):
-    temp = compas_rhino.get_objects(name="{}.edge.*".format(diagram.name))
+def match_edges(cablemesh, keys):
+    temp = compas_rhino.get_objects(name="{}.edge.*".format(cablemesh.name))
     names = compas_rhino.get_object_names(temp)
     guids = []
     for guid, name in zip(temp, names):
@@ -59,8 +56,8 @@ def match_edges(diagram, keys):
     return guids
 
 
-def match_faces(diagram, keys):
-    temp = compas_rhino.get_objects(name="{}.face.*".format(diagram.name))
+def match_faces(cablemesh, keys):
+    temp = compas_rhino.get_objects(name="{}.face.*".format(cablemesh.name))
     names = compas_rhino.get_object_names(temp)
     guids = []
     for guid, name in zip(temp, names):
@@ -71,22 +68,22 @@ def match_faces(diagram, keys):
     return guids
 
 
-def select_vertices(diagram, keys):
-    guids = match_vertices(diagram, keys)
+def select_vertices(cablemesh, keys):
+    guids = match_vertices(cablemesh, keys)
     compas_rhino.rs.EnableRedraw(False)
     compas_rhino.rs.SelectObjects(guids)
     compas_rhino.rs.EnableRedraw(True)
 
 
-def select_edges(diagram, keys):
-    guids = match_edges(diagram, keys)
+def select_edges(cablemesh, keys):
+    guids = match_edges(cablemesh, keys)
     compas_rhino.rs.EnableRedraw(False)
     compas_rhino.rs.SelectObjects(guids)
     compas_rhino.rs.EnableRedraw(True)
 
 
-def select_faces(diagram, keys):
-    guids = match_faces(diagram, keys)
+def select_faces(cablemesh, keys):
+    guids = match_faces(cablemesh, keys)
     compas_rhino.rs.EnableRedraw(False)
     compas_rhino.rs.SelectObjects(guids)
     compas_rhino.rs.EnableRedraw(True)
@@ -187,18 +184,12 @@ def get_system():
 def save_session():
     scene = get_scene()
     session = {
-        "data": {"pattern": None, "form": None, "force": None},
+        "data": {"cablemesh": None},
         "settings": scene.settings,
     }
-    pattern = scene.get('pattern')[0]
-    if pattern:
-        session['data']['pattern'] = pattern.datastructure.to_data()
-    form = scene.get('form')[0]
-    if form:
-        session['data']['form'] = form.datastructure.to_data()
-    force = scene.get('force')[0]
-    if force:
-        session['data']['force'] = force.datastructure.to_data()
+    cablemesh = scene.get('cablemesh')[0]
+    if cablemesh:
+        session['data']['cablemesh'] = cablemesh.datastructure.to_data()
     return session
 
 
@@ -210,22 +201,9 @@ def load_session(session):
         scene.settings = session['settings']
     if 'data' in session:
         data = session['data']
-        if 'pattern' in data and data['pattern']:
-            pattern = Pattern.from_data(data['pattern'])
-            scene.add(pattern, name="pattern")
-        else:
-            if 'form' in data and data['form']:
-                form = FormDiagram.from_data(data['form'])
-                thrust = form.copy(cls=ThrustDiagram)  # this is not a good idea
-                scene.add(form, name="form")
-                scene.add(thrust, name="thrust")
-
-            if 'force' in data and data['force']:
-                force = ForceDiagram.from_data(data['force'])
-                force.primal = form
-                form.dual = force
-                force.update_angle_deviations()
-                scene.add(force, name="force")
+        if 'cablemesh' in data and data['cablemesh']:
+            cablemesh = CableMesh.from_data(data['cablemesh'])
+            scene.add(cablemesh, name="cablemesh")
     scene.update()
 
 

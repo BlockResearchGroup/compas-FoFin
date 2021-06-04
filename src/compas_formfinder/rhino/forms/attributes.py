@@ -4,8 +4,8 @@ from __future__ import division
 
 import ast
 
-from FormFinder.rhino import get_scene
-from FormFinder.rhino.forms.settings import Settings_Tab
+from compas_formfinder.rhino import get_scene
+from compas_formfinder.rhino.forms.settings import Settings_Tab
 
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
