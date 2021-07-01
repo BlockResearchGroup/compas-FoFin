@@ -2,46 +2,37 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-# import compas_rhino
+import compas_rhino
+
 from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import get_proxy
-from compas_formfinder.rhino import FF_undo
 from compas_formfinder.rhino import FF_error
 
+import FFcablemesh_modify_edges_cmd
 
-__commandname__ = "FFsolve_fd"
+
+__commandname__ = "FFtoolbar_cablemesh_modify_edges"
 
 
 @FF_error()
-@FF_undo
 def RunCommand(is_interactive):
 
     scene = get_scene()
     if not scene:
         return
 
-    proxy = get_proxy()
-    if not proxy:
-        return
-
-    fd_xyz = proxy.function('compas_formfinder.fofin.fd_xyz_numpy_proxy')
-
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
         print("There is no CableMesh in the scene.")
         return
 
-    result = fd_xyz(cablemesh.datastructure.data)
+    options = ["EdgesAttributes"]
+    option = compas_rhino.rs.GetString("Modify CableMesh edges:", strings=options)
 
-    if not result:
-        print("Force-denisty method equilibrium failed!")
+    if not option:
         return
 
-    cablemesh.datastructure.data = result
-
-    scene.update()
-
-    print('Equilibrium found!')
+    elif option == "EdgesAttributes":
+        FFcablemesh_modify_edges_cmd.RunCommand(True)
 
 
 # ==============================================================================
