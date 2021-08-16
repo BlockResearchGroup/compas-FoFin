@@ -29,9 +29,9 @@ def RunCommand(is_interactive):
 
     compas_rhino.rs.HideObject(guid)
 
-    # scene.clear()
-    # scene.add(cablemesh, name='cablemesh')
-    # scene.update()
+    scene.clear()
+    scene.add(cablemesh, name='cablemesh')
+    scene.update()
 
     print("CableMesh object successfully created. Input mesh has been hidden.")
 
