@@ -20,7 +20,7 @@ __all__ = [
     ]
 
 
-def fd_xyz_numpy(data, *args, **kwargs):
+def fd_xyz_numpy(mesh, *args, **kwargs):
     """Find the equilibrium shape of a mesh for the given force densities.
 
     Parameters
@@ -34,7 +34,6 @@ def fd_xyz_numpy(data, *args, **kwargs):
         The function updates the input mesh and returns nothing.
 
     """
-    mesh = CableMesh.from_data(data)
 
     # how to deal with it if it's a network instead?
     k_i = mesh.key_index()
@@ -87,4 +86,4 @@ def fd_xyz_numpy(data, *args, **kwargs):
         attr['f'] = f[index, 0]
         attr['l'] = l[index, 0]
 
-    return mesh.to_data()
+    return mesh
