@@ -2,9 +2,11 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+from compas_formfinder.fofin import fd_xyz_numpy
+
 # import compas_rhino
 from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import get_proxy
+# from compas_formfinder.rhino import get_proxy
 from compas_formfinder.rhino import FF_undo
 from compas_formfinder.rhino import FF_error
 
@@ -20,21 +22,21 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    proxy = get_proxy()
-    if not proxy:
-        return
+    # proxy = get_proxy()
+    # if not proxy:
+    #     return
 
-    fd_xyz = proxy.function('compas_formfinder.fofin.fd_xyz_numpy_proxy')
+    # fd_xyz = proxy.function('compas_formfinder.fofin.fd_xyz_numpy_proxy')
 
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
         print("There is no CableMesh in the scene.")
         return
 
-    result = fd_xyz(cablemesh.datastructure.data)
+    result = fd_xyz_numpy(cablemesh.datastructure.data)
 
     if not result:
-        print("Force-denisty method equilibrium failed!")
+        print("Force-density method equilibrium failed!")
         return
 
     cablemesh.datastructure.data = result

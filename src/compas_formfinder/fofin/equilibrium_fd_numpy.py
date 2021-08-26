@@ -16,15 +16,15 @@ from compas_formfinder.datastructures import CableMesh
 
 
 __all__ = [
-    'fd_xyz_numpy',
-    'fd_xyz_numpy_proxy'
+    'fd_xyz_numpy'
+    # 'fd_xyz_numpy_proxy'
     ]
 
 
-def fd_xyz_numpy_proxy(data, *args, **kwargs):
-    cablemesh = CableMesh.from_data(data)
-    fd_xyz_numpy(cablemesh, *args, **kwargs)
-    return cablemesh.to_data()
+# def fd_xyz_numpy_proxy(data, *args, **kwargs):
+#     cablemesh = CableMesh.from_data(data)
+#     fd_xyz_numpy(cablemesh, *args, **kwargs)
+#     return cablemesh.to_data()
 
 
 def fd_xyz_numpy(mesh):
@@ -92,10 +92,4 @@ def fd_xyz_numpy(mesh):
         attr['f'] = f[index, 0]
         attr['l'] = l[index, 0]
 
-
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass
+    return cablemesh #.to_data() ?

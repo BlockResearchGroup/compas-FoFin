@@ -21,24 +21,32 @@ class CableMesh(MeshMixin, Mesh):
         * ``py (float)``: Component along the Y axis of an applied point load. Default is ``0.0``.
         * ``pz (float)``: Component along the Z axis of an applied point load. Default is ``0.0``.
 
-        * ``_rx (float)``: Component along the X axis of a residual force. Default is ``0.0``. Protected.
-        * ``_ry (float)``: Component along the Y axis of a residual force. Default is ``0.0``. Protected.
-        * ``_rz (float)``: Component along the Z axis of a residual force. Default is ``0.0``. Protected.
-
-        * ``is_anchor (bool)``:     Indicates whether a vertex is anchored and can take reaction forces. Default is ``False``.
-        * ``is_fixed (bool)``:      Indicates whether a vertex is fixed furing geometric operations. Default is ``False``.
-        * ``t (float)``:            Thickness of the concrete shell at the vertex. Default is ``0.05``.
-        * ``constraint (int)``:     Can be used to store the key of a geometrical object to which a vertex is constrained. Default is ``None``.
-        * ``param (???)``:          Stores the current parameter of a vertex on the constraint object.. Default is ``None``.
+        * ``is_anchor (bool)``: Indicates whether a vertex is anchored and can take reaction forces. Default is ``False``.
+        * ``is_fixed (bool)``:  Indicates whether a vertex is fixed furing geometric operations. Default is ``False``.
+        * ``t (float)``:        Thickness of the concrete shell at the vertex. Default is ``0.05``.
+        * ``constraint (int)``: Can be used to store the key of a geometrical object to which a vertex is constrained. Default is ``None``.
+        * ``param (float)``:    Stores the current parameter of a vertex on the constraint object. Default is ``None``.
 
     default_edge_attributes : dict
         The default data attributes assigned to every new edge.
 
-        ...
+        * ``q (float)``:        Force density, edge force over stressed length. Default is ``1.0``.
+        * ``f (float)``:        Force in the edge. Default is ``None``.
+        * ``l (float)``:        Stressed length. Default is ``None``.
+        * ``l0 (float)``:       Unstressed initial length. Default is ``None``.
+        * ``E (float)``:        Young's modulus of elasticity. Default is ``None``.
+        * ``radius (float)``:   Radius of the edge's cross section. Default is ``None``.
+        * ``yield (float)``:    Yield strength. Default is ``None``.
+
+    attributes : dict
+        The default data attributes generally assigned to the CableMesh.
+
+        * ``denisty (float)``:  Density of the concrete. Default is ``None``.
+
 
     Default vertex/edge/face attributes can be "public" or "protected".
     Protected attributes are usually only for internal use and should only be modified by the algorithms that rely on them.
-    If you do change them, do so with care...
+    If you do change them, do so with care.
 
     Notes
     -----
