@@ -17,17 +17,10 @@ from compas_formfinder.datastructures import CableMesh
 
 __all__ = [
     'fd_xyz_numpy'
-    # 'fd_xyz_numpy_proxy'
     ]
 
 
-# def fd_xyz_numpy_proxy(data, *args, **kwargs):
-#     cablemesh = CableMesh.from_data(data)
-#     fd_xyz_numpy(cablemesh, *args, **kwargs)
-#     return cablemesh.to_data()
-
-
-def fd_xyz_numpy(mesh):
+def fd_xyz_numpy(data, *args, **kwargs):
     """Find the equilibrium shape of a mesh for the given force densities.
 
     Parameters
@@ -41,6 +34,8 @@ def fd_xyz_numpy(mesh):
         The function updates the input mesh and returns nothing.
 
     """
+    mesh = CableMesh.from_data(data)
+
     # how to deal with it if it's a network instead?
     k_i = mesh.key_index()
     fixed = mesh.vertices_where({'is_anchor': True})
@@ -92,4 +87,4 @@ def fd_xyz_numpy(mesh):
         attr['f'] = f[index, 0]
         attr['l'] = l[index, 0]
 
-    return cablemesh #.to_data() ?
+    return mesh.to_data()
