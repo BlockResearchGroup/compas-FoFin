@@ -10,7 +10,7 @@ __all__ = ['MeshMixin']
 
 
 class MeshMixin(object):
-    """Mixin for all mesh-based data structure in RV2."""
+    """Mixin for all mesh-based data structure in FF."""
 
     def edge_loop(self, uv):
         if self.is_edge_on_boundary(*uv):
