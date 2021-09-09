@@ -25,6 +25,7 @@ class CableMeshObject(MeshObject):
         'show.edges': True,
         'show.faces': True,
         'show.vertexlabels': False,
+        'show.pipes': False,
 
         'color.vertices': [255, 255, 255],
         'color.vertices:is_anchor': [255, 0, 0],
@@ -33,9 +34,6 @@ class CableMeshObject(MeshObject):
         'color.edges': [0, 0, 255],
         'color.tension': [255, 0, 0],
         'color.faces': [200, 200, 200],
-
-        'show.pipes': False,
-
         'color.pipes': [255, 0, 0],
 
         'scale.pipes': 0.01,

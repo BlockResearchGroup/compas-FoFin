@@ -19,7 +19,16 @@ from compas_formfinder.rhino import Browser
 __commandname__ = "FFinit"
 
 
-SETTINGS = {}
+SETTINGS = {
+
+    "FF": {
+        "show.forces": False,
+    },
+
+    "Solvers": {
+    }
+
+}
 
 
 HERE = compas_rhino.get_document_dirname()
