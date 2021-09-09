@@ -304,6 +304,24 @@
       </menu_text>
       <script>-_FFtoolbar_cablemesh_modify_edges</script>
     </macro_item>
+    <macro_item guid="4ee4be7a-82cb-4931-8a1c-ae7894ff806b" bitmap_id="ec19a8a4-3062-4821-a52a-8abdca399061">
+      <text>
+        <locale_1033>FFcloud_restart</locale_1033>
+      </text>
+      <script>-_FFcloud_restart</script>
+      <tooltip>
+        <locale_1033>None</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Restart Cloud</locale_1033>
+      </menu_text>
+    </macro_item>
   </macros>
   <bitmaps>
     <small_bitmap item_width="16" item_height="16">

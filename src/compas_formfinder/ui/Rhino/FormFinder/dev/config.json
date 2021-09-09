@@ -26,6 +26,7 @@
 
                 "9_modify_nodes",
                 "10_modify_edges"
+                "11_cloud_restart"
             ]
         },
 
@@ -45,6 +46,7 @@
 
             {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 9,      "tooltip": "Modify Nodes"},
             {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,     "tooltip": "Modify Edges"}
+            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 11}
         ],
 
         "menus":

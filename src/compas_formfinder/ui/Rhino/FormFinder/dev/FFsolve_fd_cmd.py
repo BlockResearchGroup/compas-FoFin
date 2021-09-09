@@ -40,7 +40,6 @@ def RunCommand(is_interactive):
     cablemesh.datastructure = result
 
     scene.update()
-    
 
     print('Equilibrium found!')
 
