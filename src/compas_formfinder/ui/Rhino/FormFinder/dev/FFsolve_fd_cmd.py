@@ -24,7 +24,7 @@ def RunCommand(is_interactive):
     if not proxy:
         return
 
-    fd_xyz = proxy.function('compas_formfinder.fofin.fd_xyz_numpy')
+    fd_xyz = proxy.function('compas_fofin.fofin.fd_xyz_numpy')
 
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
