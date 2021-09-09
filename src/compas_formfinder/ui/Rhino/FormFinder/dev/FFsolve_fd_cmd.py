@@ -31,13 +31,13 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    result = fd_xyz(cablemesh.datastructure)
+    result = fd_xyz(cablemesh.datastructure.data)
 
     if not result:
         print("Force-density method equilibrium failed!")
         return
 
-    cablemesh.datastructure = result
+    cablemesh.datastructure.data = result
 
     scene.update()
 
