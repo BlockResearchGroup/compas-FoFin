@@ -9,4 +9,4 @@ __all__ = ['MeshArtist']
 
 
 class MeshArtist(MeshArtist):
-    """A customised `MeshArtist` for FF `Mesh`-based data structures."""
+    """A customised ``MeshArtist`` for FF `Mesh`-based data structures."""
