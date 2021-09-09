@@ -19,12 +19,12 @@
                 "3_from_mesh",
                 "4_anchors",
                 "5_move",
-                "6_vertices_attributes",
+                "6_nodes_attributes",
                 "7_edges_attributes",
 
                 "8_equilibrium",
 
-                "9_modify_vertices",
+                "9_modify_nodes",
                 "10_modify_edges"
             ]
         },
@@ -37,14 +37,14 @@
 
             {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
-            {"name": "FFcablemesh_move_vertices",           "menu_text": "Move Vertices",       "icon": 5,      "tooltip": "Move Vertices"},
-            {"name": "FFcablemesh_modify_vertices",         "menu_text": "Vertices Attributes", "icon": 6,      "tooltip": "Vertices Attributes"},
+            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Nodes",          "icon": 5,      "tooltip": "Move Nodes"},
+            {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 6,      "tooltip": "Nodes Attributes"},
             {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 7,      "tooltip": "Edges Attributes"},
 
             {"name": "FFsolve_fd",                          "menu_text": "Equilibrium",         "icon": 8,      "tooltip": "Equilibrium FD"},
 
-            {"name": "FFtoolbar_cablemesh_modify_vertices", "menu_text": "Modify Vertices",     "icon": 9,      "tooltip": "Modify Vertices"},
-            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,      "tooltip": "Modify Edges"}
+            {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 9,      "tooltip": "Modify Nodes"},
+            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,     "tooltip": "Modify Edges"}
         ],
 
         "menus":
@@ -69,12 +69,12 @@
                     {"command": "FFcablemesh_from_mesh"},
 
                     {
-                        "name": "CableMesh Vertices",
+                        "name": "CableMesh Nodes",
                         "items":
                         [
                             {"command": "FFcablemesh_anchors"},
-                            {"command": "FFcablemesh_move_vertices"},
-                            {"command": "FFcablemesh_modify_vertices"}
+                            {"command": "FFcablemesh_move_nodes"},
+                            {"command": "FFcablemesh_modify_nodes"}
                         ]
                     },
                     {
@@ -109,7 +109,7 @@
 
                     {"type": "separator"},
 
-                    {"left": "FFtoolbar_cablemesh_modify_vertices"},
+                    {"left": "FFtoolbar_cablemesh_modify_nodes"},
                     {"left": "FFtoolbar_cablemesh_modify_edges"},
 
                     {"type": "separator"},
