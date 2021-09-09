@@ -9,10 +9,10 @@ import compas_rhino
 from compas_formfinder.rhino import get_scene
 from compas_formfinder.rhino import FF_undo
 from compas_formfinder.rhino import FF_error
-# from compas_rv2.rhino import ModifyAttributesForm
+# from compas_formfinder.rhino import ModifyAttributesForm
 
 
-__commandname__ = "FFcablemesh_modify_vertices"
+__commandname__ = "FFcablemesh_modify_nodes"
 
 
 @FF_error()
@@ -28,14 +28,14 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["AllBoundaryVertices", "Corners", "ByContinuousEdges", "Manual"]
+    options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     option = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
     if not option:
         return
 
-    if option == "AllBoundaryVertices":
+    if option == "AllBoundaryNodes":
         keys = cablemesh.datastructure.vertices_on_boundary()
 
     elif option == "Corners":

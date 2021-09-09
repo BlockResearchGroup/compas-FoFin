@@ -188,11 +188,3 @@ class CableMeshObject(MeshObject):
         #     scale = self.settings['scale.pipes']
         #     guids = self.artist.draw_pipes(edges, color, scale, tol)
         #     self.guid_pipe = zip(guids, edges)
-
-
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass

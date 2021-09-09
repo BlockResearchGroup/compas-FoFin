@@ -24,7 +24,7 @@ def RunCommand(is_interactive):
     if not proxy:
         return
 
-    fd_xyz = proxy.function('compas_formfinder.fofin.fd_xyz_numpy_proxy')
+    fd_xyz = proxy.function('compas_fofin.fofin.fd_xyz_numpy')
 
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
@@ -34,7 +34,7 @@ def RunCommand(is_interactive):
     result = fd_xyz(cablemesh.datastructure.data)
 
     if not result:
-        print("Force-denisty method equilibrium failed!")
+        print("Force-density method equilibrium failed!")
         return
 
     cablemesh.datastructure.data = result

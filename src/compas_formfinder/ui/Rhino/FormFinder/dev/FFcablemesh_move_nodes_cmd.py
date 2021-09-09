@@ -12,7 +12,7 @@ from compas_formfinder.rhino import FF_error
 from compas_formfinder.rhino import select_vertices
 
 
-__commandname__ = "FFcablemesh_move_vertices"
+__commandname__ = "FFcablemesh_move_nodes"
 
 
 @FF_error()

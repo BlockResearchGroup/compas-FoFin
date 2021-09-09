@@ -21,7 +21,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from .meshmixin import MeshMixin  # noqa: F401
 from .cablemesh import CableMesh  # noqa: F401
 
 

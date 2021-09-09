@@ -3,13 +3,13 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas.datastructures import Mesh
-from .meshmixin import MeshMixin
+from compas.geometry import angle_vectors
 
 
 __all__ = ['CableMesh']
 
 
-class CableMesh(MeshMixin, Mesh):
+class CableMesh(Mesh):
     """The FF CableMesh.
 
     Attributes
@@ -21,24 +21,32 @@ class CableMesh(MeshMixin, Mesh):
         * ``py (float)``: Component along the Y axis of an applied point load. Default is ``0.0``.
         * ``pz (float)``: Component along the Z axis of an applied point load. Default is ``0.0``.
 
-        * ``_rx (float)``: Component along the X axis of a residual force. Default is ``0.0``. Protected.
-        * ``_ry (float)``: Component along the Y axis of a residual force. Default is ``0.0``. Protected.
-        * ``_rz (float)``: Component along the Z axis of a residual force. Default is ``0.0``. Protected.
-
-        * ``is_anchor (bool)``:     Indicates whether a vertex is anchored and can take reaction forces. Default is ``False``.
-        * ``is_fixed (bool)``:      Indicates whether a vertex is fixed furing geometric operations. Default is ``False``.
-        * ``t (float)``:            Thickness of the concrete shell at the vertex. Default is ``0.05``.
-        * ``constraint (int)``:     Can be used to store the key of a geometrical object to which a vertex is constrained. Default is ``None``.
-        * ``param (???)``:          Stores the current parameter of a vertex on the constraint object.. Default is ``None``.
+        * ``is_anchor (bool)``: Indicates whether a vertex is anchored and can take reaction forces. Default is ``False``.
+        * ``is_fixed (bool)``:  Indicates whether a vertex is fixed furing geometric operations. Default is ``False``.
+        * ``t (float)``:        Thickness of the concrete shell at the vertex. Default is ``0.05``.
+        * ``constraint (int)``: Can be used to store the key of a geometrical object to which a vertex is constrained. Default is ``None``.
+        * ``param (float)``:    Stores the current parameter of a vertex on the constraint object. Default is ``None``.
 
     default_edge_attributes : dict
         The default data attributes assigned to every new edge.
 
-        ...
+        * ``q (float)``:        Force density, edge force over stressed length. Default is ``1.0``.
+        * ``f (float)``:        Force in the edge. Default is ``None``.
+        * ``l (float)``:        Stressed length. Default is ``None``.
+        * ``l0 (float)``:       Unstressed initial length. Default is ``None``.
+        * ``E (float)``:        Young's modulus of elasticity. Default is ``None``.
+        * ``radius (float)``:   Radius of the edge's cross section. Default is ``None``.
+        * ``yield (float)``:    Yield strength. Default is ``None``.
+
+    attributes : dict
+        The default data attributes generally assigned to the CableMesh.
+
+        * ``density (float)``:  Density of the concrete. Default is ``None``.
+
 
     Default vertex/edge/face attributes can be "public" or "protected".
     Protected attributes are usually only for internal use and should only be modified by the algorithms that rely on them.
-    If you do change them, do so with care...
+    If you do change them, do so with care.
 
     Notes
     -----
@@ -86,10 +94,27 @@ class CableMesh(MeshMixin, Mesh):
             'density': None
         })
 
+    def vertices_on_edge_loop(self, uv):
+        edges = self.edge_loop(uv)
+        if len(edges) == 1:
+            return edges[0]
+        vertices = [edge[0] for edge in edges]
+        if edges[-1][1] != edges[0][0]:
+            vertices.append(edges[-1][1])
+        return vertices
 
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass
+    def corner_vertices(self, tol=160):
+        vkeys = []
+        for key in self.vertices_on_boundary():
+            if self.vertex_degree(key) == 2:
+                vkeys.append(key)
+            else:
+                nbrs = []
+                for nkey in self.vertex_neighbors(key):
+                    if self.is_edge_on_boundary(key, nkey):
+                        nbrs.append(nkey)
+                u = (self.edge_vector(key, nbrs[0]))
+                v = (self.edge_vector(key, nbrs[1]))
+                if angle_vectors(u, v, deg=True) < tol:
+                    vkeys.append(key)
+        return vkeys
