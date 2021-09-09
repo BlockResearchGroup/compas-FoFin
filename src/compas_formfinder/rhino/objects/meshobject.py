@@ -261,11 +261,3 @@ class MeshObject(MeshObject):
             self.datastructure.vertex_attributes(key, 'xyz', add_vectors(xyz, vector))
 
         return True
-
-
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass

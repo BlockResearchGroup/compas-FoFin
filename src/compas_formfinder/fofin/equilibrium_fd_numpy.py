@@ -10,7 +10,7 @@ from scipy.sparse.linalg import spsolve
 from compas.numerical import connectivity_matrix
 from compas.numerical import normrow
 
-from compas_formfinder.datastructures import CableMesh
+# from compas_formfinder.datastructures import CableMesh
 
 # from compas_fofin.loads import SelfweightCalculator
 

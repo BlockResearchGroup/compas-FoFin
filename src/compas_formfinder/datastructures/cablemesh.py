@@ -41,7 +41,7 @@ class CableMesh(Mesh):
     attributes : dict
         The default data attributes generally assigned to the CableMesh.
 
-        * ``denisty (float)``:  Density of the concrete. Default is ``None``.
+        * ``density (float)``:  Density of the concrete. Default is ``None``.
 
 
     Default vertex/edge/face attributes can be "public" or "protected".
@@ -238,11 +238,3 @@ class CableMesh(Mesh):
                 if angle_vectors(u, v, deg=True) < tol:
                     vkeys.append(key)
         return vkeys
-
-
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass
