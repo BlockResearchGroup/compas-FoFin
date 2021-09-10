@@ -21,14 +21,16 @@
                 "5_move",
                 "6_nodes_attributes",
                 "7_edges_attributes",
+                "8_faces_attributes",
 
-                "8_equilibrium",
+                "9_equilibrium",
 
-                "9_modify_nodes",
-                "10_modify_edges",
-                "11_cloud_restart",
+                "10_modify_nodes",
+                "11_modify_edges",
+                "12_modify_edges",
+                "13_cloud_restart",
 
-                "12_clear"
+                "14_clear"
             ]
         },
 
@@ -43,14 +45,16 @@
             {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Nodes",          "icon": 5,      "tooltip": "Move Nodes"},
             {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 6,      "tooltip": "Nodes Attributes"},
             {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 7,      "tooltip": "Edges Attributes"},
+            {"name": "FFcablemesh_modify_faces",            "menu_text": "Faces Attributes",    "icon": 8,      "tooltip": "Faces Attributes"},
 
-            {"name": "FFsolve_fd",                          "menu_text": "Equilibrium",         "icon": 8,      "tooltip": "Equilibrium FD"},
+            {"name": "FFsolve_fd",                          "menu_text": "Equilibrium",         "icon": 9,      "tooltip": "Equilibrium FD"},
 
-            {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 9,      "tooltip": "Modify Nodes"},
-            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,     "tooltip": "Modify Edges"},
-            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 11},
+            {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 10,      "tooltip": "Modify Nodes"},
+            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 11,      "tooltip": "Modify Edges"},
+            {"name": "FFtoolbar_cablemesh_modify_faces",    "menu_text": "Modify Faces",        "icon": 12,      "tooltip": "Modify Faces"},
+            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 13},
 
-            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 12,     "tooltip": "Clear Scene"}
+            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 14,     "tooltip": "Clear Scene"}
         ],
 
         "menus":
@@ -104,8 +108,6 @@
                 [
                     {"left": "FFinit"},
 
-                    {"left": "FFclear_all"},
-
                     {"type": "separator"},
 
                     {"left": "FFfile_open"},
@@ -119,10 +121,15 @@
 
                     {"left": "FFtoolbar_cablemesh_modify_nodes"},
                     {"left": "FFtoolbar_cablemesh_modify_edges"},
+                    {"left": "FFtoolbar_cablemesh_modify_faces"},
 
                     {"type": "separator"},
 
-                    {"left": "FFsolve_fd"}
+                    {"left": "FFsolve_fd"},
+
+                    {"type": "separator"},
+
+                    {"left": "FFclear_all"}
                 ]
             }
         ],
