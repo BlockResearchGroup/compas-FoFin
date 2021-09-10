@@ -26,6 +26,9 @@ SETTINGS = {
     },
 
     "Solvers": {
+        'fd': True,
+        'nfd': False,
+        'dr': False
     }
 
 }

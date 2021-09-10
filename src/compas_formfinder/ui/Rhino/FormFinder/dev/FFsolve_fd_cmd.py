@@ -24,14 +24,19 @@ def RunCommand(is_interactive):
     if not proxy:
         return
 
-    fd_xyz = proxy.function('compas_fofin.fofin.fd_xyz_numpy')
+    if scene.settings['Solvers']['fd']:
+
+        solver = proxy.function('compas_fofin.fofin.fd_xyz_numpy')
+
+    else:
+        print("No solver selected!")
 
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
         print("There is no CableMesh in the scene.")
         return
 
-    result = fd_xyz(cablemesh.datastructure.data)
+    result = solver(cablemesh.datastructure.data)
 
     if not result:
         print("Force-density method equilibrium failed!")
