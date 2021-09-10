@@ -160,8 +160,7 @@ class CableMeshObject(MeshObject):
         # # Color overlays for various display modes.
         # # ======================================================================
 
-        # if self.settings['_is.valid'] and self.settings['show.pipes']:
-        if self.settings['show.pipes']:
+        if self.settings['_is.valid'] and self.settings['show.pipes']:
 
             tol = self.settings['tol.pipes']
             edges = list(self.mesh.edges_where({'_is_edge': True}))
@@ -170,18 +169,17 @@ class CableMeshObject(MeshObject):
             # color analysis
             if self.scene and self.scene.settings['FF']['show.forces']:
                 forces = [self.mesh.edge_attribute(edge, 'f') for edge in edges]
-                if None not in forces:
 
-                    fmin = min(forces)
-                    fmax = max(forces)
-                    fabs = max(abs(fmin), abs(fmax))
-                    for edge, force in zip(edges, forces):
-                        if fmin != fmax:
-                            if force > 0.0:
-                                color[edge] = i_to_red((force) / fabs)
+                fmin = min(forces)
+                fmax = max(forces)
+                fabs = max(abs(fmin), abs(fmax))
+                for edge, force in zip(edges, forces):
+                    if fmin != fmax:
+                        if force > 0.0:
+                            color[edge] = i_to_red((force) / fabs)
 
-                            if force < 0.0:
-                                color[edge] = i_to_blue((-force) / fabs)
+                        if force < 0.0:
+                            color[edge] = i_to_blue((-force) / fabs)
 
             scale = self.settings['scale.pipes']
             guids = self.artist.draw_pipes(edges, color, scale, tol)
