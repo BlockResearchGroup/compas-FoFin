@@ -25,8 +25,10 @@
                 "8_equilibrium",
 
                 "9_modify_nodes",
-                "10_modify_edges"
-                "11_cloud_restart"
+                "10_modify_edges",
+                "11_cloud_restart",
+
+                "12_clear"
             ]
         },
 
@@ -45,8 +47,10 @@
             {"name": "FFsolve_fd",                          "menu_text": "Equilibrium",         "icon": 8,      "tooltip": "Equilibrium FD"},
 
             {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 9,      "tooltip": "Modify Nodes"},
-            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,     "tooltip": "Modify Edges"}
-            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 11}
+            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 10,     "tooltip": "Modify Edges"},
+            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 11},
+
+            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 12,     "tooltip": "Clear Scene"}
         ],
 
         "menus":
@@ -99,6 +103,8 @@
                 "items":
                 [
                     {"left": "FFinit"},
+
+                    {"left": "FFclear_all"},
 
                     {"type": "separator"},
 
