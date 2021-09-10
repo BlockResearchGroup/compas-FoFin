@@ -33,6 +33,14 @@
       </menu_item>
       <menu guid="080c3b92-e171-4913-9555-27e0f615e90d">
         <text>
+          <locale_1033>Create CableMesh</locale_1033>
+        </text>
+        <menu_item guid="1afc5992-0c9e-4130-8645-e6439d732305" item_type="normal">
+          <macro_id>ab2549f2-f291-475a-8f06-15d3d2a483f6</macro_id>
+        </menu_item>
+      </menu>
+      <menu guid="0f00a1c8-6036-48ef-ad32-56697c927747">
+        <text>
           <locale_1033>CableMesh Nodes</locale_1033>
         </text>
         <menu_item guid="d2431d24-7bdb-441b-bce9-db420b85e3d7" item_type="normal">
@@ -56,6 +64,9 @@
       <menu_item guid="9607a06e-e854-43f5-b925-554b1669fb53" item_type="separator"/>
       <menu_item guid="0c063af0-9dfc-4c3a-8f4e-123b5f949a5c" item_type="normal">
         <macro_id>aa6f94be-14f2-4499-9019-6ed6622f3e6c</macro_id>
+      </menu_item>
+      <menu_item guid="c4a0f965-e4af-4689-bdf7-7424ffd2ae1e" item_type="normal">
+        <macro_id>31663c7a-05b7-43d3-bfd1-41cc7ec68600</macro_id>
       </menu_item>
     </menu>
   </menus>
@@ -284,6 +295,24 @@
     </macro_item>
     <macro_item guid="aa6f94be-14f2-4499-9019-6ed6622f3e6c" bitmap_id="494581f7-e970-43af-a55f-835f4cf7c0bd">
       <text>
+        <locale_1033>FFcablemesh_modify_faces</locale_1033>
+      </text>
+      <script>-_FFcablemesh_modify_faces</script>
+      <tooltip>
+        <locale_1033>Faces Attributes</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Faces Attributes</locale_1033>
+      </menu_text>
+    </macro_item>
+    <macro_item guid="db053e97-5399-446d-8c45-4a57c28306f4" bitmap_id="1cee187e-74d4-40c0-b3c9-1874917edf19">
+      <text>
         <locale_1033>FFsolve_fd</locale_1033>
       </text>
       <script>-_FFsolve_fd</script>
@@ -297,10 +326,28 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Equilibrium</locale_1033>
+        <locale_1033>Equilibrium FD</locale_1033>
       </menu_text>
     </macro_item>
     <macro_item guid="9f848d19-b9fc-4a68-8890-5c2d3400247b" bitmap_id="63e3a165-46f8-4bfb-ba92-00c17e6668fa">
+      <text>
+        <locale_1033>FFtoolbar_cablemesh</locale_1033>
+      </text>
+      <script>-_FFtoolbar_cablemesh</script>
+      <tooltip>
+        <locale_1033>Create CableMesh</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Create CableMesh</locale_1033>
+      </menu_text>
+    </macro_item>
+    <macro_item guid="eb257a6b-21c1-4f4a-a72b-2aafd4750c61" bitmap_id="1ded9725-9202-443d-a417-e82dccc5a7c7">
       <text>
         <locale_1033>FFtoolbar_cablemesh_modify_nodes</locale_1033>
       </text>
@@ -370,6 +417,24 @@
       </button_text>
       <menu_text>
         <locale_1033>Restart Cloud</locale_1033>
+      </menu_text>
+    </macro_item>
+    <macro_item guid="3066fb5d-a3e4-4181-a27f-eee3962c792d" bitmap_id="5ecedcab-5140-4d49-bfe8-026aa16b0292">
+      <text>
+        <locale_1033>FFclear_all</locale_1033>
+      </text>
+      <script>-_FFclear_all</script>
+      <tooltip>
+        <locale_1033>Clear Scene</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Clear All</locale_1033>
       </menu_text>
     </macro_item>
   </macros>
