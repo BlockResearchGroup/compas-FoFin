@@ -30,7 +30,6 @@ class CableMeshArtist(MeshArtist):
     def vertex_xyz(self, vertex_xyz):
         self._vertex_xyz = vertex_xyz
 
-
     def draw_pipes(self, edges, color, scale, tol):
         vertex_xyz = self.vertex_xyz
         cylinders = []
@@ -39,6 +38,8 @@ class CableMeshArtist(MeshArtist):
             start = vertex_xyz[u]
             end = vertex_xyz[v]
             force = self.mesh.edge_attribute(edge, 'f')
+            if force < 0:
+                force = -force
             force = scale * force
             if force < tol:
                 continue

@@ -6,7 +6,7 @@ from compas.geometry import Point
 from compas.geometry import Scale
 from compas.geometry import Translation
 from compas.geometry import Rotation
-from compas.utilities import i_to_rgb
+from compas.utilities import i_to_red, i_to_blue
 import compas_rhino
 
 from .meshobject import MeshObject
@@ -20,6 +20,7 @@ class CableMeshObject(MeshObject):
     """
 
     SETTINGS = {
+        '_is.valid': False,
         'layer': "FF::CableMesh",
         'show.vertices': True,
         'show.edges': True,
@@ -32,9 +33,8 @@ class CableMeshObject(MeshObject):
         'color.vertices:is_fixed': [0, 0, 255],
         'color.vertices:is_constrained': [0, 255, 255],
         'color.edges': [0, 0, 255],
-        'color.tension': [255, 0, 0],
         'color.faces': [200, 200, 200],
-        'color.pipes': [255, 0, 0],
+        'color.pipes': [100, 100, 100],
 
         'scale.pipes': 0.01,
 
@@ -160,29 +160,29 @@ class CableMeshObject(MeshObject):
         # # Color overlays for various display modes.
         # # ======================================================================
 
-        # edges = list(self.mesh.edges_where({'_is_edge': True}))
-        # color = {edge: self.settings['color.pipes'] for edge in edges}
+        # if self.settings['_is.valid'] and self.settings['show.pipes']:
+        if self.settings['show.pipes']:
 
-        # # if self.settings['_is.valid'] and self.settings['show.pipes']:
-        # # if True:
-        # #     print('okay')
-        # tol = self.settings['tol.pipes']
-        #     # edges = list(self.mesh.edges_where({'_is_edge': True}))
-        #     # color = {edge: self.settings['color.pipes'] for edge in edges}
+            tol = self.settings['tol.pipes']
+            edges = list(self.mesh.edges_where({'_is_edge': True}))
+            color = {edge: self.settings['color.pipes'] for edge in edges}
 
-        #     # # color analysis
-        #     # # if self.scene and self.scene.settings['FF']['show.forces']:
-        #     # if True:
+            # color analysis
+            if self.scene and self.scene.settings['FF']['show.forces']:
+                forces = [self.mesh.edge_attribute(edge, 'f') for edge in edges]
+                if None not in forces:
 
-        # forces = [self.mesh.edge_attribute(*edge, 'f') for edge in edges]
-        # if not None in forces:
+                    fmin = min(forces)
+                    fmax = max(forces)
+                    fabs = max(abs(fmin), abs(fmax))
+                    for edge, force in zip(edges, forces):
+                        if fmin != fmax:
+                            if force > 0.0:
+                                color[edge] = i_to_red((force) / fabs)
 
-        #     #     lmin = min(forces)
-        #     #     lmax = max(forces)
-        #     #     for edge, force in zip(edges, forces):
-        #     #         if lmin != lmax:
-        #     #             color[edge] = i_to_rgb((force - lmin) / (lmax - lmin))
+                            if force < 0.0:
+                                color[edge] = i_to_blue((-force) / fabs)
 
-        #     scale = self.settings['scale.pipes']
-        #     guids = self.artist.draw_pipes(edges, color, scale, tol)
-        #     self.guid_pipe = zip(guids, edges)
+            scale = self.settings['scale.pipes']
+            guids = self.artist.draw_pipes(edges, color, scale, tol)
+            self.guid_pipe = zip(guids, edges)

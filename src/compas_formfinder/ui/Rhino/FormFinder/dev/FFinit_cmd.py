@@ -22,7 +22,7 @@ __commandname__ = "FFinit"
 SETTINGS = {
 
     "FF": {
-        "show.forces": False,
+        'show.forces': False
     },
 
     "Solvers": {
