@@ -80,7 +80,13 @@
                     },
                     {"type": "separator"},
 
-                    {"command": "FFcablemesh_from_mesh"},
+                    {
+                        "name": "Create CableMesh",
+                        "items":
+                        [
+                            {"command": "FFcablemesh_from_mesh"}
+                        ]
+                    },
 
                     {
                         "name": "CableMesh Nodes",
@@ -98,9 +104,24 @@
                             {"command": "FFcablemesh_modify_edges"}
                         ]
                     },
+                    {
+                        "name": "CableMesh Faces",
+                        "items":
+                        [
+                            {"command": "FFcablemesh_modify_faces"}
+                        ]
+                    },
                     {"type": "separator"},
-
-                    {"command": "FFsolve_fd"}
+                    {
+                        "name": "Equilibrium",
+                        "items":
+                        [
+                            {"command": "FFsolve_fd"}
+                        ]
+                    },
+                    {"type": "separator"},
+                    {"command": "FFclear_all"},
+                    {"command": "FFcloud_restart"}
                 ]
             }
         ],
