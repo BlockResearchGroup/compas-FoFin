@@ -96,6 +96,7 @@ def RunCommand(is_interactive):
         # scene.update()
         public = [name for name in cablemesh.datastructure.default_edge_attributes.keys() if not name.startswith('_')]
         if cablemesh.update_edges_attributes(keys, names=public):
+            cablemesh.settings['_is.valid'] = False
             scene.update()
 
 

@@ -87,6 +87,7 @@ def RunCommand(is_interactive):
         select_vertices(cablemesh, keys)
 
         if cablemesh.move_vertices(keys):
+            cablemesh.settings['_is.valid'] = False
             scene.update()
 
 

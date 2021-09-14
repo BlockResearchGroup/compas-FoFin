@@ -93,6 +93,7 @@ def RunCommand(is_interactive):
             keys = cablemesh.select_vertices()
 
         if keys:
+            cablemesh.settings['_is.valid'] = False
             if option1 == "Select":
                 cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=keys)
             else:

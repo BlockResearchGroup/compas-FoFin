@@ -89,6 +89,7 @@ def RunCommand(is_interactive):
         # scene.update()
         public = [name for name in cablemesh.datastructure.default_vertex_attributes.keys() if not name.startswith('_')]
         if cablemesh.update_vertices_attributes(keys, names=public):
+            cablemesh.settings['_is.valid'] = False
             scene.update()
 
 
