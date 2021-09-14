@@ -16,7 +16,7 @@ __all__ = ["CablenetObject"]
 
 
 class CablenetObject(MeshObject):
-    """Scene object for RV2 force diagrams.
+    """Scene object for FF CableNet.
     """
 
     SETTINGS = {

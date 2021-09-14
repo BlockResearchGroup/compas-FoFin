@@ -71,7 +71,7 @@ def activate():
     register_json = get_register_json()
     plugin_info = register_json["Plugins"][PLUGIN_NAME]
 
-    out, err, code = run("%s -m compas_rv2.install" % plugin_info["python"])
+    out, err, code = run("%s -m compas_formfinder.install" % plugin_info["python"])
 
     if code == 0:
         print(out.decode())

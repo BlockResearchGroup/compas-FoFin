@@ -14,15 +14,6 @@ Functions
 
     equilibrium_fd_numpy
 
-Proxies
--------
-
-.. autosummary::
-    :toctree: generated/
-    :nosignatures:
-
-    equilibrium_fd_numpy_proxy
-
 """
 
 

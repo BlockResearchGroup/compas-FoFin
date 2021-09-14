@@ -10,24 +10,17 @@ from scipy.sparse.linalg import spsolve
 from compas.numerical import connectivity_matrix
 from compas.numerical import normrow
 
-from compas_formfinder.datastructures import CableMesh
+# from compas_formfinder.datastructures import CableMesh
 
 # from compas_fofin.loads import SelfweightCalculator
 
 
 __all__ = [
-    'fd_xyz_numpy',
-    'fd_xyz_numpy_proxy'
+    'fd_xyz_numpy'
     ]
 
 
-def fd_xyz_numpy_proxy(data, *args, **kwargs):
-    cablemesh = CableMesh.from_data(data)
-    fd_xyz_numpy(cablemesh, *args, **kwargs)
-    return cablemesh.to_data()
-
-
-def fd_xyz_numpy(mesh):
+def fd_xyz_numpy(mesh, *args, **kwargs):
     """Find the equilibrium shape of a mesh for the given force densities.
 
     Parameters
@@ -41,6 +34,7 @@ def fd_xyz_numpy(mesh):
         The function updates the input mesh and returns nothing.
 
     """
+
     # how to deal with it if it's a network instead?
     k_i = mesh.key_index()
     fixed = mesh.vertices_where({'is_anchor': True})
@@ -92,10 +86,4 @@ def fd_xyz_numpy(mesh):
         attr['f'] = f[index, 0]
         attr['l'] = l[index, 0]
 
-
-# ==============================================================================
-# Main
-# ==============================================================================
-
-if __name__ == '__main__':
-    pass
+    return mesh
