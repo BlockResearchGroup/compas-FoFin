@@ -231,5 +231,5 @@ class SettingsForm(forms.Dialog[bool]):
 if __name__ == "__main__":
 
     scene = get_scene()
-    SettingsForm.from_scene(scene, object_types=["CablenetObject"], global_settings=["FF", "Solvers"])
+    SettingsForm.from_scene(scene, object_types=["CableMeshObject"], global_settings=["FF", "Solvers"])
     scene.update()

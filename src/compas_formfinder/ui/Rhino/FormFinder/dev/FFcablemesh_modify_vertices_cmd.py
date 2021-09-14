@@ -9,7 +9,6 @@ import compas_rhino
 from compas_formfinder.rhino import get_scene
 from compas_formfinder.rhino import FF_undo
 from compas_formfinder.rhino import FF_error
-# from compas_formfinder.rhino import ModifyAttributesForm
 
 
 __commandname__ = "FFcablemesh_modify_vertices"
