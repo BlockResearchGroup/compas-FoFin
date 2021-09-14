@@ -27,7 +27,7 @@ requirements = read("requirements.txt").split("\n")
 optional_requirements = {}
 
 setup(
-    name="compas_formfinder",
+    name="compas_fofin",
     version='0.1.3',
     description="Form Finding bundle for COMPAS",
     long_description=long_description,
@@ -53,7 +53,7 @@ setup(
     ],
     keywords=[],
     project_urls={},
-    packages=["compas_formfinder"],
+    packages=["compas_fofin"],
     package_dir={"": "src"},
     package_data={},
     data_files=[],

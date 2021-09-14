@@ -1,6 +1,6 @@
-import compas_formfinder
+import compas_fofin
 
 
 def test_trivial():
-    print(compas_formfinder.__version__)
+    print(compas_fofin.__version__)
     assert True
