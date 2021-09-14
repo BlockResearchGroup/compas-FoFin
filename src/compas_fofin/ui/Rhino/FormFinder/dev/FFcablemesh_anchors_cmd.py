@@ -44,19 +44,19 @@ def RunCommand(is_interactive):
     anchors = list(set(fixed) | set(leaves))
     if anchors:
         cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=anchors)
-        print("Fixed vertices of the CableMesh have automatically been defined as supports.")
+        print("Fixed nodes of the CableMesh have automatically been defined as supports.")
         scene.update()
 
     # manually Select or Unselect
     # should this not be included in the while loop?
 
     options = ["Select", "Unselect"]
-    option1 = compas_rhino.rs.GetString("Select or unselect vertices as supports:", strings=options)
+    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options)
 
     if not option1:
         return
 
-    options = ["AllBoundaryVertices", "Corners", "ByContinuousEdges", "Manual"]
+    options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     while True:
         option2 = compas_rhino.rs.GetString("Selection mode:", strings=options)
@@ -64,7 +64,7 @@ def RunCommand(is_interactive):
         if not option2:
             return
 
-        if option2 == "AllBoundaryVertices":
+        if option2 == "AllBoundaryNodes":
             keys = list(set(flatten(cablemesh.datastructure.vertices_on_boundaries())))
 
         elif option2 == "Corners":
@@ -93,6 +93,7 @@ def RunCommand(is_interactive):
             keys = cablemesh.select_vertices()
 
         if keys:
+            cablemesh.settings['_is.valid'] = False
             if option1 == "Select":
                 cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=keys)
             else:

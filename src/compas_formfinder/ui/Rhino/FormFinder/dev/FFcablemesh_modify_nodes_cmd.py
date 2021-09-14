@@ -6,13 +6,12 @@ from compas.utilities import flatten
 
 import compas_rhino
 
-from compas_fofin.rhino import get_scene
-from compas_fofin.rhino import FF_undo
-from compas_fofin.rhino import FF_error
-from compas_fofin.rhino import select_vertices
+from compas_formfinder.rhino import get_scene
+from compas_formfinder.rhino import FF_undo
+from compas_formfinder.rhino import FF_error
 
 
-__commandname__ = "FFcablemesh_move_vertices"
+__commandname__ = "FFcablemesh_modify_nodes"
 
 
 @FF_error()
@@ -28,12 +27,21 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["ByContinuousEdges", "Manual"]
-    option = compas_rhino.rs.GetString("Selection Type.", strings=options)
+    options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
+
+    option = compas_rhino.rs.GetString("Selection mode:", strings=options)
+
     if not option:
         return
 
-    if option == "ByContinuousEdges":
+    if option == "AllBoundaryNodes":
+        keys = cablemesh.datastructure.vertices_on_boundary()
+
+    elif option == "Corners":
+        angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
+        keys = cablemesh.datastructure.corner_vertices(tol=angle)
+
+    elif option == "ByContinuousEdges":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
 
@@ -61,19 +69,12 @@ def RunCommand(is_interactive):
     #     if not constraints:
     #         return
 
-    #     def if_constraints(datastructure, key, guid):
-    #         constraints = datastructure.vertex_attribute(key, 'constraints')
-    #         if constraints:
-    #             if str(guid) in constraints:
-    #                 return True
-    #         return False
-
     #     keys = []
     #     for guid in constraints:
-    #         for key in pattern.datastructure.vertices():
-    #             if if_constraints(pattern.datastructure, key, guid):
-    #                 keys.append(key)
-
+    #         for key, attr in pattern.datastructure.vertices(data=True):
+    #             if attr['constraints']:
+    #                 if str(guid) in attr['constraints']:
+    #                     keys.append(key)
     #     keys = list(set(keys))
 
     #     compas_rhino.rs.HideObjects(guids)
@@ -83,10 +84,11 @@ def RunCommand(is_interactive):
         keys = cablemesh.select_vertices()
 
     if keys:
-        compas_rhino.rs.UnselectAllObjects()
-        select_vertices(cablemesh, keys)
-
-        if cablemesh.move_vertices(keys):
+        # ModifyAttributesForm.from_sceneNode(pattern, 'vertices', keys)
+        # scene.update()
+        public = [name for name in cablemesh.datastructure.default_vertex_attributes.keys() if not name.startswith('_')]
+        if cablemesh.update_vertices_attributes(keys, names=public):
+            cablemesh.settings['_is.valid'] = False
             scene.update()
 
 

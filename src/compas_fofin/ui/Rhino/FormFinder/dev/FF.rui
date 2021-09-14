@@ -1,112 +1,151 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RhinoUI major_ver="3" minor_ver="0" guid="534eb2fc-3fba-4d98-9274-e885a7eec148" localize="False" default_language_id="1033" dpi_scale="200">
+<RhinoUI major_ver="3" minor_ver="0" guid="220fbcbd-bf25-44f5-834f-cb34323327ab" localize="False" default_language_id="1033" dpi_scale="200">
   <extend_rhino_menus>
-    <menu guid="214d9021-98dc-4ac3-8918-7eaf2f294541">
+    <menu guid="8c471d4f-0b37-4f36-80d0-08a653a67de2">
       <text>
         <locale_1033>Extend Rhino Menus</locale_1033>
       </text>
     </menu>
   </extend_rhino_menus>
   <menus>
-    <menu guid="9a7f093d-225e-457c-9b3f-132161ec58e9">
+    <menu guid="405a0fdc-8ad3-450b-8dc8-92011a91633c">
       <text>
         <locale_1033>FormFinder</locale_1033>
       </text>
-      <menu_item guid="7705e6b3-883a-463d-9bf1-03ff8953b0ed">
-        <macro_id>673a8cef-d049-4adf-82a0-87a0df60f80a</macro_id>
+      <menu_item guid="16eab587-1b0c-4ea5-9de0-4aca2f6b17d2">
+        <macro_id>bb81f9cf-ee2b-4743-8db6-2d194a6caaaf</macro_id>
       </menu_item>
-      <menu_item guid="f741da2e-fb42-4463-a5b4-aa16a78af445" item_type="separator" />
-      <menu guid="2d2c30eb-c2b9-4fb6-a96d-75093906be30">
+      <menu_item guid="ab858c27-c1bc-4408-b329-bec46877c946" item_type="separator" />
+      <menu guid="1486b91a-7222-4a57-a459-e7411ea1a93a">
         <text>
           <locale_1033>File</locale_1033>
         </text>
-        <menu_item guid="20da6027-9c4f-43bb-9ce9-9ff37c51c6fb">
-          <macro_id>fee63e77-8dc8-47c6-a119-4c0210da3bec</macro_id>
+        <menu_item guid="0d4fb420-5ae1-421d-9c4c-4281f8d070d4">
+          <macro_id>7ad37259-ac67-4eb8-a9b1-0dffa50c3b0c</macro_id>
         </menu_item>
-        <menu_item guid="67ecbed7-23cb-4a00-8487-f5dab3b0935b">
-          <macro_id>82786eec-ec87-44d8-8bb7-d338377fe829</macro_id>
+        <menu_item guid="dfcb3631-4e1a-4f7d-bde6-52af9d566443">
+          <macro_id>4470d18e-01ce-4ddc-96b7-57aca983b892</macro_id>
         </menu_item>
       </menu>
-      <menu_item guid="ebb65953-bd83-48f2-b75c-12f748c49b2b" item_type="separator" />
-      <menu_item guid="bcd46379-99d0-4182-8d40-3a8ea60d6f62">
-        <macro_id>b3a66fcb-1945-42d3-9e99-5426973acc5c</macro_id>
+      <menu_item guid="b4ddf4cd-0811-4c38-a447-feb68afbe74e" item_type="separator" />
+      <menu_item guid="2b148043-d61d-4b85-8a6f-582162da10da">
+        <macro_id>c9ad75ea-03d3-4f1f-b26a-a9f855d3fe3e</macro_id>
       </menu_item>
-      <menu guid="de1b4466-21e3-4db5-afdf-45d460b52b83">
+      <menu_item guid="01071ac7-ced8-4fd0-84d4-503bf642a9ff" item_type="separator" />
+      <menu guid="ed361e83-0463-4831-8235-40a589763c6b">
         <text>
-          <locale_1033>CableMesh Vertices</locale_1033>
+          <locale_1033>Create CableMesh</locale_1033>
         </text>
-        <menu_item guid="bdc2da6d-55ce-41f6-bcd5-333bd302a3a7">
-          <macro_id>99ff8285-e755-46da-9e90-1e05a732e27e</macro_id>
-        </menu_item>
-        <menu_item guid="c2d32102-7bb9-4456-8a46-25553764043b">
-          <macro_id>ccb27ef9-9f5f-4398-93af-b89da90fccc0</macro_id>
-        </menu_item>
-        <menu_item guid="3b2c96de-b220-4d5f-a3f4-e322e8a18531">
-          <macro_id>77e0a8d9-8dfa-42ba-af68-995ecbb66544</macro_id>
+        <menu_item guid="4ad53efa-e46b-41f5-a7d3-30c783ad5471">
+          <macro_id>036ffcc2-3b13-4aa1-924c-aecb584a0dab</macro_id>
         </menu_item>
       </menu>
-      <menu guid="8176b095-3a9b-412d-b87c-b3d505161da4">
+      <menu guid="05a4f6c9-0e32-4054-bb80-038e39b12b8f">
+        <text>
+          <locale_1033>CableMesh Nodes</locale_1033>
+        </text>
+        <menu_item guid="017bf296-f086-4d60-b3f9-e99c4950aca2">
+          <macro_id>1639f76c-0a7d-4119-be64-0f100e4a842d</macro_id>
+        </menu_item>
+        <menu_item guid="3a1845e1-988c-49ef-9699-99ba80efb077">
+          <macro_id>70591ee1-6d0c-4ede-af00-8329444c9475</macro_id>
+        </menu_item>
+        <menu_item guid="1e9cb8dc-0ee7-4e86-8c85-ec9020e12e5f">
+          <macro_id>94bc4a21-0a0a-443e-a971-819a7c4bd805</macro_id>
+        </menu_item>
+      </menu>
+      <menu guid="1afc57f1-c7e2-441b-bb19-9e707fe9322d">
         <text>
           <locale_1033>CableMesh Edges</locale_1033>
         </text>
-        <menu_item guid="d83650d1-0cbd-4ada-96bd-8f1aecd7a42a">
-          <macro_id>21801176-e8eb-4579-a8a2-d22c992d96a2</macro_id>
+        <menu_item guid="e3a9134f-5852-4979-ad4e-b3a245d32203">
+          <macro_id>a894de2a-96fa-467b-9617-28aa66af61f3</macro_id>
         </menu_item>
       </menu>
-      <menu_item guid="d1ea8b6e-6520-4f99-bfd4-273777d78b14" item_type="separator" />
-      <menu_item guid="f19617e6-9b49-4b8b-9aa4-2d80999f19fd">
-        <macro_id>1c874359-d52e-4c41-9022-b830ee1e5ff5</macro_id>
+      <menu guid="2ce41366-5f9f-4157-b3b3-ed9558ab776e">
+        <text>
+          <locale_1033>CableMesh Faces</locale_1033>
+        </text>
+        <menu_item guid="c5dd82ea-1b11-4014-b082-262c0855cdad">
+          <macro_id>61047d36-1357-41c0-94da-362db14e4ca0</macro_id>
+        </menu_item>
+      </menu>
+      <menu_item guid="f0e85909-e029-4a9a-9069-fcb88049c37a" item_type="separator" />
+      <menu guid="6cb3cf9d-53f7-4153-a312-8febec9915d6">
+        <text>
+          <locale_1033>Equilibrium</locale_1033>
+        </text>
+        <menu_item guid="a6d373b1-f513-4ab0-a31a-33e1bf8728a9">
+          <macro_id>7d7612c4-dc9e-4291-a02e-4446d8145242</macro_id>
+        </menu_item>
+      </menu>
+      <menu_item guid="39610eac-b212-4ec1-b853-10b71a307ecc" item_type="separator" />
+      <menu_item guid="6b9605a0-adcb-4fa8-8c57-5a0be40499dc">
+        <macro_id>664ef90d-2786-4215-a93e-7ba196c2b437</macro_id>
+      </menu_item>
+      <menu_item guid="18d4ae67-58a3-49e4-bc67-a45275a928fe">
+        <macro_id>c6a65baa-c807-4031-8fc9-ad9785a09d4c</macro_id>
       </menu_item>
     </menu>
   </menus>
   <tool_bar_groups>
-    <tool_bar_group guid="e402dd84-2ae6-457f-ba23-c67401cf1983" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="5df34f3f-d0c3-4ede-9cda-5ce981e092bc" active_tool_bar_group="8b5907bb-ad56-448b-ab90-1d21021e2b4f" single_file="False" hide_single_tab="False" point_floating="-2147483648,0">
+    <tool_bar_group guid="40284eac-540c-4b6b-b532-ae5ef2aee5f4" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="e1d7da1b-ac1f-4dfb-9b72-92d1dfd7ba69" active_tool_bar_group="621d63c0-201c-422f-9f3c-cb69b28770b1" single_file="False" hide_single_tab="False" point_floating="-2147483648,0">
       <text>
         <locale_1033>FF</locale_1033>
       </text>
-      <tool_bar_group_item guid="8b5907bb-ad56-448b-ab90-1d21021e2b4f" major_version="1" minor_version="1">
+      <tool_bar_group_item guid="621d63c0-201c-422f-9f3c-cb69b28770b1" major_version="1" minor_version="1">
         <text>
           <locale_1033>FormFinder</locale_1033>
         </text>
-        <tool_bar_id>169e3c77-6569-4cb4-80d7-6d726039c3e3</tool_bar_id>
+        <tool_bar_id>9543d643-bfbb-4e1a-b0f8-1734f3d2b3e6</tool_bar_id>
       </tool_bar_group_item>
       <dock_bar_info dpi_scale="200" dock_bar="False" docking="True" horz="False" visible="True" floating="False" mru_float_style="4096" bar_id="59467" mru_width="32767" point_pos="0,0" float_point="-2147483648,0" rect_mru_dock_pos="0,0,58,1161" dock_location_u="59420" dock_location="left" float_size="90,66" />
     </tool_bar_group>
   </tool_bar_groups>
   <tool_bars>
-    <tool_bar guid="169e3c77-6569-4cb4-80d7-6d726039c3e3">
+    <tool_bar guid="9543d643-bfbb-4e1a-b0f8-1734f3d2b3e6">
       <text>
         <locale_1033>FormFinder</locale_1033>
       </text>
-      <tool_bar_item guid="22f62221-0438-4afc-8be4-4f756d11e4b9">
-        <left_macro_id>673a8cef-d049-4adf-82a0-87a0df60f80a</left_macro_id>
+      <tool_bar_item guid="46514011-0ca7-4745-aee0-5f8bb4afa508">
+        <left_macro_id>bb81f9cf-ee2b-4743-8db6-2d194a6caaaf</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="9a1f3809-3d36-4291-9c14-ef3f3c859196" button_style="spacer" />
-      <tool_bar_item guid="c9653599-9af9-4548-940e-ec4c727d3b91">
-        <left_macro_id>fee63e77-8dc8-47c6-a119-4c0210da3bec</left_macro_id>
+      <tool_bar_item guid="37a3d00a-1d1b-4f15-a989-4806fb8fef67" button_style="spacer" />
+      <tool_bar_item guid="d9c95ab7-b1a3-4228-976d-032975969f8d">
+        <left_macro_id>7ad37259-ac67-4eb8-a9b1-0dffa50c3b0c</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="4b83831a-e525-4ca7-ae32-c18c69a11256">
-        <left_macro_id>82786eec-ec87-44d8-8bb7-d338377fe829</left_macro_id>
+      <tool_bar_item guid="30f0a458-cfce-4180-8fa2-d85f64665d48">
+        <left_macro_id>4470d18e-01ce-4ddc-96b7-57aca983b892</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="6d83232c-af22-40bf-8dd1-cc3d8843f220" button_style="spacer" />
-      <tool_bar_item guid="2cec2059-d3d5-4769-a9f1-6af252046ecf">
-        <left_macro_id>b3a66fcb-1945-42d3-9e99-5426973acc5c</left_macro_id>
+      <tool_bar_item guid="1f2e5cc9-8961-4aaf-a934-3723d19de5e9" button_style="spacer" />
+      <tool_bar_item guid="bf32bbea-6b54-4e95-bae0-a8d8bc90868c">
+        <left_macro_id>78c6c47f-eb80-4248-a0ee-03db822acc1b</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="50b5f22f-fed3-49a7-b036-21f21b9ed8a8" button_style="spacer" />
-      <tool_bar_item guid="aa1e2b13-38d1-4dec-a5c7-1244e51fbfbc">
-        <left_macro_id>acde37c2-969e-4b33-8664-771fc9317cef</left_macro_id>
+      <tool_bar_item guid="f24400a0-3132-4ef3-be0a-999202b5ab91" button_style="spacer" />
+      <tool_bar_item guid="c8a1310a-47e2-484f-8a4d-9f3458196331">
+        <left_macro_id>f2a9fe7d-55e5-4aca-b647-a20fa51692f5</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="3231c805-5260-4f0b-b488-399c63cfec25">
-        <left_macro_id>84ffcd06-114b-44b4-ae47-78a0e093d972</left_macro_id>
+      <tool_bar_item guid="7495ab82-bde6-4b28-8f2e-e965d6f633da">
+        <left_macro_id>4525fe97-977d-48a7-b07d-ac0f1e16a3b4</left_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="4272db82-5714-49fd-8723-bd90bf085b22" button_style="spacer" />
-      <tool_bar_item guid="b7f400c7-324c-4c6f-b676-9c0e2f1d7723">
-        <left_macro_id>1c874359-d52e-4c41-9022-b830ee1e5ff5</left_macro_id>
+      <tool_bar_item guid="34cff74a-b065-46c2-9674-445fccbc976a">
+        <left_macro_id>126aa5f3-45bd-4a02-9654-4c61a8bcfbe7</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="0de6bc5d-ec8d-4644-817d-5e266b738d50" button_style="spacer" />
+      <tool_bar_item guid="770d7807-34e0-4444-a58c-0323ae70adb4">
+        <left_macro_id>26db08b0-339d-4d62-989f-2bcb813e7cb6</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="df910b8e-17b8-4e32-8d80-b3eca60c08ad" button_style="spacer" />
+      <tool_bar_item guid="0d05a398-ab0a-4892-b07a-71841f234670">
+        <left_macro_id>3549a06a-312a-4d34-bd68-ed8b1892246a</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="072998ce-59a1-47d2-9a73-c5c1373a34d9">
+        <left_macro_id>664ef90d-2786-4215-a93e-7ba196c2b437</left_macro_id>
       </tool_bar_item>
     </tool_bar>
   </tool_bars>
   <macros>
-    <macro_item guid="673a8cef-d049-4adf-82a0-87a0df60f80a" bitmap_id="394f627a-7c1d-49bf-9026-482d8020af4c">
+    <macro_item guid="bb81f9cf-ee2b-4743-8db6-2d194a6caaaf" bitmap_id="a3c97544-3b98-4f06-a317-1c31e4a17799">
       <text>
         <locale_1033>FFinit</locale_1033>
       </text>
@@ -124,7 +163,7 @@
       </menu_text>
       <script>-_FFinit</script>
     </macro_item>
-    <macro_item guid="fee63e77-8dc8-47c6-a119-4c0210da3bec" bitmap_id="59710b40-e1b9-4a90-b3bd-95c6f33a47d3">
+    <macro_item guid="7ad37259-ac67-4eb8-a9b1-0dffa50c3b0c" bitmap_id="444a057d-682b-4775-bafd-9e333d11ae7b">
       <text>
         <locale_1033>FFfile_open</locale_1033>
       </text>
@@ -142,7 +181,7 @@
       </menu_text>
       <script>-_FFfile_open</script>
     </macro_item>
-    <macro_item guid="82786eec-ec87-44d8-8bb7-d338377fe829" bitmap_id="393be3c8-03fd-4e89-a1c5-d634bf31ba5c">
+    <macro_item guid="4470d18e-01ce-4ddc-96b7-57aca983b892" bitmap_id="f7d98c25-f94f-42c7-b875-41954cdd6cf8">
       <text>
         <locale_1033>FFfile_save</locale_1033>
       </text>
@@ -160,7 +199,25 @@
       </menu_text>
       <script>-_FFfile_save</script>
     </macro_item>
-    <macro_item guid="b3a66fcb-1945-42d3-9e99-5426973acc5c" bitmap_id="a5776cc7-567b-47db-aa1b-905699a162d7">
+    <macro_item guid="c9ad75ea-03d3-4f1f-b26a-a9f855d3fe3e" bitmap_id="27ebfc5a-b122-421d-a0d5-64f3f331f154">
+      <text>
+        <locale_1033>FFsettings</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>None</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Settings</locale_1033>
+      </menu_text>
+      <script>-_FFsettings</script>
+    </macro_item>
+    <macro_item guid="036ffcc2-3b13-4aa1-924c-aecb584a0dab" bitmap_id="64bb78d3-d5cc-4172-99b2-d13230edd446">
       <text>
         <locale_1033>FFcablemesh_from_mesh</locale_1033>
       </text>
@@ -178,7 +235,7 @@
       </menu_text>
       <script>-_FFcablemesh_from_mesh</script>
     </macro_item>
-    <macro_item guid="99ff8285-e755-46da-9e90-1e05a732e27e" bitmap_id="7961d717-c1b7-4124-b78f-fd683e79af40">
+    <macro_item guid="1639f76c-0a7d-4119-be64-0f100e4a842d" bitmap_id="6db72b2d-8138-40b1-b0b1-b2da84f94430">
       <text>
         <locale_1033>FFcablemesh_anchors</locale_1033>
       </text>
@@ -196,12 +253,12 @@
       </menu_text>
       <script>-_FFcablemesh_anchors</script>
     </macro_item>
-    <macro_item guid="ccb27ef9-9f5f-4398-93af-b89da90fccc0" bitmap_id="d19d6972-d0d2-47b6-92cc-53b26ce9e587">
+    <macro_item guid="70591ee1-6d0c-4ede-af00-8329444c9475" bitmap_id="990734bf-170b-4774-8ea6-c06e0d0440a2">
       <text>
-        <locale_1033>FFcablemesh_move_vertices</locale_1033>
+        <locale_1033>FFcablemesh_move_nodes</locale_1033>
       </text>
       <tooltip>
-        <locale_1033>Move Vertices</locale_1033>
+        <locale_1033>Move Nodes</locale_1033>
       </tooltip>
       <help_text>
         <locale_1033>None</locale_1033>
@@ -210,16 +267,16 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Move Vertices</locale_1033>
+        <locale_1033>Move Nodes</locale_1033>
       </menu_text>
-      <script>-_FFcablemesh_move_vertices</script>
+      <script>-_FFcablemesh_move_nodes</script>
     </macro_item>
-    <macro_item guid="77e0a8d9-8dfa-42ba-af68-995ecbb66544" bitmap_id="c4e27134-494e-4548-b5f0-4655081c23e7">
+    <macro_item guid="94bc4a21-0a0a-443e-a971-819a7c4bd805" bitmap_id="35248436-f46d-42b0-933d-6fd21faae5e9">
       <text>
-        <locale_1033>FFcablemesh_modify_vertices</locale_1033>
+        <locale_1033>FFcablemesh_modify_nodes</locale_1033>
       </text>
       <tooltip>
-        <locale_1033>Vertices Attributes</locale_1033>
+        <locale_1033>Nodes Attributes</locale_1033>
       </tooltip>
       <help_text>
         <locale_1033>None</locale_1033>
@@ -228,11 +285,11 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Vertices Attributes</locale_1033>
+        <locale_1033>Nodes Attributes</locale_1033>
       </menu_text>
-      <script>-_FFcablemesh_modify_vertices</script>
+      <script>-_FFcablemesh_modify_nodes</script>
     </macro_item>
-    <macro_item guid="21801176-e8eb-4579-a8a2-d22c992d96a2" bitmap_id="8c679bba-846e-4040-9665-d0e4a98f86f0">
+    <macro_item guid="a894de2a-96fa-467b-9617-28aa66af61f3" bitmap_id="0aba6438-ed5c-4aa5-99df-2561011c2cd0">
       <text>
         <locale_1033>FFcablemesh_modify_edges</locale_1033>
       </text>
@@ -250,7 +307,25 @@
       </menu_text>
       <script>-_FFcablemesh_modify_edges</script>
     </macro_item>
-    <macro_item guid="1c874359-d52e-4c41-9022-b830ee1e5ff5" bitmap_id="6a06a03a-65ce-4f35-a220-779a663efef4">
+    <macro_item guid="61047d36-1357-41c0-94da-362db14e4ca0" bitmap_id="26e6a85e-66bf-414c-9a1f-b35c1212e011">
+      <text>
+        <locale_1033>FFcablemesh_modify_faces</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Faces Attributes</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Faces Attributes</locale_1033>
+      </menu_text>
+      <script>-_FFcablemesh_modify_faces</script>
+    </macro_item>
+    <macro_item guid="7d7612c4-dc9e-4291-a02e-4446d8145242" bitmap_id="4a9566cd-0f11-46d8-b3f6-b87203c8c71f">
       <text>
         <locale_1033>FFsolve_fd</locale_1033>
       </text>
@@ -264,16 +339,16 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Equilibrium</locale_1033>
+        <locale_1033>Equilibrium FD</locale_1033>
       </menu_text>
       <script>-_FFsolve_fd</script>
     </macro_item>
-    <macro_item guid="acde37c2-969e-4b33-8664-771fc9317cef" bitmap_id="97b2c644-6c33-41c6-bf9a-590a65edca68">
+    <macro_item guid="78c6c47f-eb80-4248-a0ee-03db822acc1b" bitmap_id="8aeb5622-777b-41a0-8b04-807899bb2ff5">
       <text>
-        <locale_1033>FFtoolbar_cablemesh_modify_vertices</locale_1033>
+        <locale_1033>FFtoolbar_cablemesh</locale_1033>
       </text>
       <tooltip>
-        <locale_1033>Modify Vertices</locale_1033>
+        <locale_1033>Create CableMesh</locale_1033>
       </tooltip>
       <help_text>
         <locale_1033>None</locale_1033>
@@ -282,11 +357,29 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Modify Vertices</locale_1033>
+        <locale_1033>Create CableMesh</locale_1033>
       </menu_text>
-      <script>-_FFtoolbar_cablemesh_modify_vertices</script>
+      <script>-_FFtoolbar_cablemesh</script>
     </macro_item>
-    <macro_item guid="84ffcd06-114b-44b4-ae47-78a0e093d972" bitmap_id="6581a451-84da-4852-85bc-bb8a03011308">
+    <macro_item guid="f2a9fe7d-55e5-4aca-b647-a20fa51692f5" bitmap_id="3c6060ed-bc25-426e-a98f-26adc0482c54">
+      <text>
+        <locale_1033>FFtoolbar_cablemesh_modify_nodes</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Modify Nodes</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Modify Nodes</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh_modify_nodes</script>
+    </macro_item>
+    <macro_item guid="4525fe97-977d-48a7-b07d-ac0f1e16a3b4" bitmap_id="e1964cea-ed3f-4651-a80f-82ce00c5d861">
       <text>
         <locale_1033>FFtoolbar_cablemesh_modify_edges</locale_1033>
       </text>
@@ -304,7 +397,61 @@
       </menu_text>
       <script>-_FFtoolbar_cablemesh_modify_edges</script>
     </macro_item>
-    <macro_item guid="e43aebd8-e610-4fd9-8987-9ff03099a9a5" bitmap_id="c27d8775-8955-4d88-8d14-f26deaa1861d">
+    <macro_item guid="126aa5f3-45bd-4a02-9654-4c61a8bcfbe7" bitmap_id="cc58656e-cde0-478a-abb5-3a09b01a6d57">
+      <text>
+        <locale_1033>FFtoolbar_cablemesh_modify_faces</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Modify Faces</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Modify Faces</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh_modify_faces</script>
+    </macro_item>
+    <macro_item guid="26db08b0-339d-4d62-989f-2bcb813e7cb6" bitmap_id="745c129f-9fcf-4c22-b575-4216e8105b0f">
+      <text>
+        <locale_1033>FFtoolbar_solve</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Equilibrium</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Equilibrium</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_solve</script>
+    </macro_item>
+    <macro_item guid="3549a06a-312a-4d34-bd68-ed8b1892246a" bitmap_id="27ebfc5a-b122-421d-a0d5-64f3f331f154">
+      <text>
+        <locale_1033>FFtoolbar_settings</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>FF settings</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Settings</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_settings</script>
+    </macro_item>
+    <macro_item guid="c6a65baa-c807-4031-8fc9-ad9785a09d4c" bitmap_id="2c6d3fce-e395-4872-aeeb-1093efd31552">
       <text>
         <locale_1033>FFcloud_restart</locale_1033>
       </text>
@@ -322,21 +469,45 @@
       </menu_text>
       <script>-_FFcloud_restart</script>
     </macro_item>
+    <macro_item guid="664ef90d-2786-4215-a93e-7ba196c2b437" bitmap_id="8e9ef35b-7c08-4b4d-8ec2-4374034be0b6">
+      <text>
+        <locale_1033>FFclear_all</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Clear Scene</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Clear All</locale_1033>
+      </menu_text>
+      <script>-_FFclear_all</script>
+    </macro_item>
   </macros>
   <bitmaps>
     <small_bitmap item_width="16" item_height="16">
-      <bitmap_item guid="394f627a-7c1d-49bf-9026-482d8020af4c" index="0" />
-      <bitmap_item guid="59710b40-e1b9-4a90-b3bd-95c6f33a47d3" index="1" />
-      <bitmap_item guid="393be3c8-03fd-4e89-a1c5-d634bf31ba5c" index="2" />
-      <bitmap_item guid="a5776cc7-567b-47db-aa1b-905699a162d7" index="3" />
-      <bitmap_item guid="7961d717-c1b7-4124-b78f-fd683e79af40" index="4" />
-      <bitmap_item guid="d19d6972-d0d2-47b6-92cc-53b26ce9e587" index="5" />
-      <bitmap_item guid="c4e27134-494e-4548-b5f0-4655081c23e7" index="6" />
-      <bitmap_item guid="8c679bba-846e-4040-9665-d0e4a98f86f0" index="7" />
-      <bitmap_item guid="6a06a03a-65ce-4f35-a220-779a663efef4" index="8" />
-      <bitmap_item guid="97b2c644-6c33-41c6-bf9a-590a65edca68" index="9" />
-      <bitmap_item guid="6581a451-84da-4852-85bc-bb8a03011308" index="10" />
-      <bitmap_item guid="c27d8775-8955-4d88-8d14-f26deaa1861d" index="11" />
+      <bitmap_item guid="a3c97544-3b98-4f06-a317-1c31e4a17799" index="0" />
+      <bitmap_item guid="444a057d-682b-4775-bafd-9e333d11ae7b" index="1" />
+      <bitmap_item guid="f7d98c25-f94f-42c7-b875-41954cdd6cf8" index="2" />
+      <bitmap_item guid="64bb78d3-d5cc-4172-99b2-d13230edd446" index="3" />
+      <bitmap_item guid="6db72b2d-8138-40b1-b0b1-b2da84f94430" index="4" />
+      <bitmap_item guid="990734bf-170b-4774-8ea6-c06e0d0440a2" index="5" />
+      <bitmap_item guid="35248436-f46d-42b0-933d-6fd21faae5e9" index="6" />
+      <bitmap_item guid="0aba6438-ed5c-4aa5-99df-2561011c2cd0" index="7" />
+      <bitmap_item guid="26e6a85e-66bf-414c-9a1f-b35c1212e011" index="8" />
+      <bitmap_item guid="4a9566cd-0f11-46d8-b3f6-b87203c8c71f" index="9" />
+      <bitmap_item guid="8aeb5622-777b-41a0-8b04-807899bb2ff5" index="10" />
+      <bitmap_item guid="3c6060ed-bc25-426e-a98f-26adc0482c54" index="11" />
+      <bitmap_item guid="e1964cea-ed3f-4651-a80f-82ce00c5d861" index="12" />
+      <bitmap_item guid="cc58656e-cde0-478a-abb5-3a09b01a6d57" index="13" />
+      <bitmap_item guid="745c129f-9fcf-4c22-b575-4216e8105b0f" index="14" />
+      <bitmap_item guid="2c6d3fce-e395-4872-aeeb-1093efd31552" index="15" />
+      <bitmap_item guid="8e9ef35b-7c08-4b4d-8ec2-4374034be0b6" index="16" />
+      <bitmap_item guid="27ebfc5a-b122-421d-a0d5-64f3f331f154" index="17" />
       <bitmap>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
 AAAOvAAADrwBlbxySQAAABNJREFUOE9jGAWjYBSMAjBgYAAABBAAAadEfGMAAAAASUVORK5CYIIA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -344,18 +515,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</bitmap>
     </small_bitmap>
     <normal_bitmap item_width="24" item_height="24">
-      <bitmap_item guid="394f627a-7c1d-49bf-9026-482d8020af4c" index="0" />
-      <bitmap_item guid="59710b40-e1b9-4a90-b3bd-95c6f33a47d3" index="1" />
-      <bitmap_item guid="393be3c8-03fd-4e89-a1c5-d634bf31ba5c" index="2" />
-      <bitmap_item guid="a5776cc7-567b-47db-aa1b-905699a162d7" index="3" />
-      <bitmap_item guid="7961d717-c1b7-4124-b78f-fd683e79af40" index="4" />
-      <bitmap_item guid="d19d6972-d0d2-47b6-92cc-53b26ce9e587" index="5" />
-      <bitmap_item guid="c4e27134-494e-4548-b5f0-4655081c23e7" index="6" />
-      <bitmap_item guid="8c679bba-846e-4040-9665-d0e4a98f86f0" index="7" />
-      <bitmap_item guid="6a06a03a-65ce-4f35-a220-779a663efef4" index="8" />
-      <bitmap_item guid="97b2c644-6c33-41c6-bf9a-590a65edca68" index="9" />
-      <bitmap_item guid="6581a451-84da-4852-85bc-bb8a03011308" index="10" />
-      <bitmap_item guid="c27d8775-8955-4d88-8d14-f26deaa1861d" index="11" />
+      <bitmap_item guid="a3c97544-3b98-4f06-a317-1c31e4a17799" index="0" />
+      <bitmap_item guid="444a057d-682b-4775-bafd-9e333d11ae7b" index="1" />
+      <bitmap_item guid="f7d98c25-f94f-42c7-b875-41954cdd6cf8" index="2" />
+      <bitmap_item guid="64bb78d3-d5cc-4172-99b2-d13230edd446" index="3" />
+      <bitmap_item guid="6db72b2d-8138-40b1-b0b1-b2da84f94430" index="4" />
+      <bitmap_item guid="990734bf-170b-4774-8ea6-c06e0d0440a2" index="5" />
+      <bitmap_item guid="35248436-f46d-42b0-933d-6fd21faae5e9" index="6" />
+      <bitmap_item guid="0aba6438-ed5c-4aa5-99df-2561011c2cd0" index="7" />
+      <bitmap_item guid="26e6a85e-66bf-414c-9a1f-b35c1212e011" index="8" />
+      <bitmap_item guid="4a9566cd-0f11-46d8-b3f6-b87203c8c71f" index="9" />
+      <bitmap_item guid="8aeb5622-777b-41a0-8b04-807899bb2ff5" index="10" />
+      <bitmap_item guid="3c6060ed-bc25-426e-a98f-26adc0482c54" index="11" />
+      <bitmap_item guid="e1964cea-ed3f-4651-a80f-82ce00c5d861" index="12" />
+      <bitmap_item guid="cc58656e-cde0-478a-abb5-3a09b01a6d57" index="13" />
+      <bitmap_item guid="745c129f-9fcf-4c22-b575-4216e8105b0f" index="14" />
+      <bitmap_item guid="2c6d3fce-e395-4872-aeeb-1093efd31552" index="15" />
+      <bitmap_item guid="8e9ef35b-7c08-4b4d-8ec2-4374034be0b6" index="16" />
+      <bitmap_item guid="27ebfc5a-b122-421d-a0d5-64f3f331f154" index="17" />
       <bitmap>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
 AAAOvAAADrwBlbxySQAAABNJREFUOE9jGAWjYBSMAjBgYAAABBAAAadEfGMAAAAASUVORK5CYIIA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -363,18 +540,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</bitmap>
     </normal_bitmap>
     <large_bitmap item_width="32" item_height="32">
-      <bitmap_item guid="394f627a-7c1d-49bf-9026-482d8020af4c" index="0" />
-      <bitmap_item guid="59710b40-e1b9-4a90-b3bd-95c6f33a47d3" index="1" />
-      <bitmap_item guid="393be3c8-03fd-4e89-a1c5-d634bf31ba5c" index="2" />
-      <bitmap_item guid="a5776cc7-567b-47db-aa1b-905699a162d7" index="3" />
-      <bitmap_item guid="7961d717-c1b7-4124-b78f-fd683e79af40" index="4" />
-      <bitmap_item guid="d19d6972-d0d2-47b6-92cc-53b26ce9e587" index="5" />
-      <bitmap_item guid="c4e27134-494e-4548-b5f0-4655081c23e7" index="6" />
-      <bitmap_item guid="8c679bba-846e-4040-9665-d0e4a98f86f0" index="7" />
-      <bitmap_item guid="6a06a03a-65ce-4f35-a220-779a663efef4" index="8" />
-      <bitmap_item guid="97b2c644-6c33-41c6-bf9a-590a65edca68" index="9" />
-      <bitmap_item guid="6581a451-84da-4852-85bc-bb8a03011308" index="10" />
-      <bitmap_item guid="c27d8775-8955-4d88-8d14-f26deaa1861d" index="11" />
+      <bitmap_item guid="a3c97544-3b98-4f06-a317-1c31e4a17799" index="0" />
+      <bitmap_item guid="444a057d-682b-4775-bafd-9e333d11ae7b" index="1" />
+      <bitmap_item guid="f7d98c25-f94f-42c7-b875-41954cdd6cf8" index="2" />
+      <bitmap_item guid="64bb78d3-d5cc-4172-99b2-d13230edd446" index="3" />
+      <bitmap_item guid="6db72b2d-8138-40b1-b0b1-b2da84f94430" index="4" />
+      <bitmap_item guid="990734bf-170b-4774-8ea6-c06e0d0440a2" index="5" />
+      <bitmap_item guid="35248436-f46d-42b0-933d-6fd21faae5e9" index="6" />
+      <bitmap_item guid="0aba6438-ed5c-4aa5-99df-2561011c2cd0" index="7" />
+      <bitmap_item guid="26e6a85e-66bf-414c-9a1f-b35c1212e011" index="8" />
+      <bitmap_item guid="4a9566cd-0f11-46d8-b3f6-b87203c8c71f" index="9" />
+      <bitmap_item guid="8aeb5622-777b-41a0-8b04-807899bb2ff5" index="10" />
+      <bitmap_item guid="3c6060ed-bc25-426e-a98f-26adc0482c54" index="11" />
+      <bitmap_item guid="e1964cea-ed3f-4651-a80f-82ce00c5d861" index="12" />
+      <bitmap_item guid="cc58656e-cde0-478a-abb5-3a09b01a6d57" index="13" />
+      <bitmap_item guid="745c129f-9fcf-4c22-b575-4216e8105b0f" index="14" />
+      <bitmap_item guid="2c6d3fce-e395-4872-aeeb-1093efd31552" index="15" />
+      <bitmap_item guid="8e9ef35b-7c08-4b4d-8ec2-4374034be0b6" index="16" />
+      <bitmap_item guid="27ebfc5a-b122-421d-a0d5-64f3f331f154" index="17" />
       <bitmap>iVBORw0KGgoAAAANSUhEUgAABMAAAAAgCAYAAAD0QQQHAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAACxEAAAsRAX9kX5EAAIsqSURBVHhe7Z0HeFRF18dXahIgCZ0QegdRUBRp
 goqABQQsWMEuCGL35bWg2FABRelIl957L6FJryIgRXpHpQcISeY7v9k7y93N3WSTbMDv1fM8/2R2

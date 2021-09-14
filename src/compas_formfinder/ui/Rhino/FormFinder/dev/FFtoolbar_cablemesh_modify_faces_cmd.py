@@ -2,47 +2,37 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_fofin.rhino import get_scene
-from compas_fofin.rhino import get_proxy
-from compas_fofin.rhino import FF_undo
-from compas_fofin.rhino import FF_error
+import compas_rhino
+
+from compas_formfinder.rhino import get_scene
+from compas_formfinder.rhino import FF_error
+
+import FFcablemesh_modify_faces_cmd
 
 
-__commandname__ = "FFsolve_fd"
+__commandname__ = "FFtoolbar_cablemesh_modify_faces"
 
 
 @FF_error()
-@FF_undo
 def RunCommand(is_interactive):
 
     scene = get_scene()
     if not scene:
         return
 
-    proxy = get_proxy()
-    if not proxy:
-        return
-
-    mesh_fd = proxy.function('compas_fd.fd.mesh_fd_numpy')
-
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:
         print("There is no CableMesh in the scene.")
         return
 
-    result = mesh_fd(cablemesh.datastructure)
+    options = ["FacesAttributes"]
+    option = compas_rhino.rs.GetString("Modify CableMesh faces:", strings=options)
 
-    if not result:
-        print("Force-density method equilibrium failed!")
+    if not option:
         return
 
-    cablemesh.datastructure = result
-
-    cablemesh.settings['_is.valid'] = True
-
-    scene.update()
-
-    print('Equilibrium found!')
+    elif option == "FacesAttributes":
+        FFcablemesh_modify_faces_cmd.RunCommand(True)
 
 
 # ==============================================================================

@@ -4,15 +4,15 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_fofin.rhino import get_scene
-from compas_fofin.rhino import FF_error
+from compas_formfinder.rhino import get_scene
+from compas_formfinder.rhino import FF_error
 
 import FFcablemesh_anchors_cmd
-import FFcablemesh_move_vertices_cmd
-import FFcablemesh_modify_vertices_cmd
+import FFcablemesh_move_nodes_cmd
+import FFcablemesh_modify_nodes_cmd
 
 
-__commandname__ = "FFtoolbar_cablemesh_modify_vertices"
+__commandname__ = "FFtoolbar_cablemesh_modify_nodes"
 
 
 @FF_error()
@@ -27,8 +27,8 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["IdentifyAnchors", "MoveVertices", "VerticesAttributes"]
-    option = compas_rhino.rs.GetString("Modify CableMesh vertices:", strings=options)
+    options = ["IdentifyAnchors", "MoveNodes", "NodesAttributes"]
+    option = compas_rhino.rs.GetString("Modify CableMesh nodes:", strings=options)
 
     if not option:
         return
@@ -36,11 +36,11 @@ def RunCommand(is_interactive):
     if option == "IdentifyAnchors":
         FFcablemesh_anchors_cmd.RunCommand(True)
 
-    elif option == "MoveVertices":
-        FFcablemesh_move_vertices_cmd.RunCommand(True)
+    elif option == "MoveNodes":
+        FFcablemesh_move_nodes_cmd.RunCommand(True)
 
-    elif option == "VerticesAttributes":
-        FFcablemesh_modify_vertices_cmd.RunCommand(True)
+    elif option == "NodesAttributes":
+        FFcablemesh_modify_nodes_cmd.RunCommand(True)
 
 
 # ==============================================================================
