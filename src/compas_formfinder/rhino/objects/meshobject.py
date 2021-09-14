@@ -16,9 +16,9 @@ from compas_rhino.objects import mesh_update_vertex_attributes
 from compas_rhino.objects import mesh_update_edge_attributes
 from compas_rhino.objects import mesh_update_face_attributes
 
-from compas_formfinder.rhino import select_vertices as ff_select_vertices
-from compas_formfinder.rhino import select_faces as ff_select_faces
-from compas_formfinder.rhino import select_edges as ff_select_edges
+from compas_formfinder.rhino import select_vertices
+from compas_formfinder.rhino import select_faces
+from compas_formfinder.rhino import select_edges
 
 
 __all__ = ['MeshObject']
@@ -87,7 +87,7 @@ class MeshObject(MeshObject):
         """
         if keys:
             compas_rhino.rs.UnselectAllObjects()
-            ff_select_vertices(self.datastructure, keys)
+            select_vertices(self.datastructure, keys)
             return mesh_update_vertex_attributes(self.datastructure, keys, names)
 
     def update_edges_attributes(self, keys, names=None):
@@ -109,7 +109,7 @@ class MeshObject(MeshObject):
         """
         if keys:
             compas_rhino.rs.UnselectAllObjects()
-            ff_select_edges(self.datastructure, keys)
+            select_edges(self.datastructure, keys)
             return mesh_update_edge_attributes(self.datastructure, keys, names)
 
     def update_faces_attributes(self, keys, names=None):
@@ -131,7 +131,7 @@ class MeshObject(MeshObject):
         """
         if keys:
             compas_rhino.rs.UnselectAllObjects()
-            ff_select_faces(self.datastructure, keys)
+            select_faces(self.datastructure, keys)
             return mesh_update_face_attributes(self.datastructure, keys, names)
 
     def move_vertices_vertical(self, keys):

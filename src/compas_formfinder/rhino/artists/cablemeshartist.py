@@ -11,14 +11,14 @@ from compas.geometry import add_vectors
 from compas.geometry import scale_vector
 from compas.geometry import length_vector
 
-from .meshartist import MeshArtist
+from compas_rhino.artists import MeshArtist
 
 
 __all__ = ['CableMeshArtist']
 
 
 class CableMeshArtist(MeshArtist):
-    """Artist for visualizing form diagrams in the Rhino model space."""
+    """Artist for visualizing a CableMesh in the Rhino model space."""
 
     @property
     def vertex_xyz(self):

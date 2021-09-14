@@ -2,14 +2,14 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_fofin.datastructures import CableMesh as FdMesh
+from compas_fofin.datastructures import CableMesh as BaseCableMesh
 from compas.geometry import angle_vectors
 
 
 __all__ = ['CableMesh']
 
 
-class CableMesh(FdMesh):
+class CableMesh(BaseCableMesh):
     """The FF CableMesh.
     """
 

@@ -83,7 +83,7 @@ class CableMeshObject(MeshObject):
         # Groups
         # ------
         # Create groups for vertices, edges, and faces.
-        # These groups will be turned on/off based on the visibility settings of the diagram
+        # These groups will be turned on/off based on the visibility settings of the mesh
         # ======================================================================
 
         group_vertices = "{}::vertices".format(layer)
