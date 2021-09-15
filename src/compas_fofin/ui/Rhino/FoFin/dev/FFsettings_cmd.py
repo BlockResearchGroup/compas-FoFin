@@ -2,31 +2,24 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-import compas_rhino
-
-from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import FF_undo
-from compas_formfinder.rhino import FF_error
+from compas_fofin.rhino import get_scene
+from compas_fofin.rhino import SettingsForm
+from compas_fofin.rhino import FF_error
 
 
-__commandname__ = "FFclear_all"
+__commandname__ = "FFsettings"
 
 
 @FF_error()
-@FF_undo
 def RunCommand(is_interactive):
 
     scene = get_scene()
     if not scene:
         return
 
-    options = ["Yes", "No"]
-    option = compas_rhino.rs.GetString("Clear all FF objects?", strings=options, defaultString="No")
-    if not option:
-        return
+    SettingsForm.from_scene(scene, object_types=["CableMeshObject"], global_settings=["FF", "Solvers"])
 
-    if option == "Yes":
-        scene.clear()
+    scene.update()
 
 
 # ==============================================================================

@@ -6,10 +6,10 @@ from compas.utilities import flatten
 
 import compas_rhino
 
-from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import FF_undo
-from compas_formfinder.rhino import FF_error
-from compas_formfinder.rhino import select_vertices
+from compas_fofin.rhino import get_scene
+from compas_fofin.rhino import FF_undo
+from compas_fofin.rhino import FF_error
+from compas_fofin.rhino import select_vertices
 
 
 __commandname__ = "FFcablemesh_move_nodes"

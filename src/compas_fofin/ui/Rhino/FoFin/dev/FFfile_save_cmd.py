@@ -8,11 +8,11 @@ import json
 from compas.utilities import DataEncoder
 
 import compas_rhino
-from compas_formfinder.rhino import get_system
-from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import select_filepath_save
-from compas_formfinder.rhino import FF_error
-from compas_formfinder.rhino import save_session
+from compas_fofin.rhino import get_system
+from compas_fofin.rhino import get_scene
+from compas_fofin.rhino import select_filepath_save
+from compas_fofin.rhino import FF_error
+from compas_fofin.rhino import save_session
 
 
 __commandname__ = "FFfile_save"

@@ -4,8 +4,8 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_formfinder.rhino import get_scene
-from compas_formfinder.rhino import FF_error
+from compas_fofin.rhino import get_scene
+from compas_fofin.rhino import FF_error
 
 import FFcablemesh_anchors_cmd
 import FFcablemesh_move_nodes_cmd
