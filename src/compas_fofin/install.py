@@ -11,8 +11,8 @@ import sys
 import importlib
 
 
-PLUGIN_NAME = "FormFinder"
-PACKAGES = ['compas', 'compas_rhino', 'compas_fofin', 'compas_fofin']
+PLUGIN_NAME = "FoFin"
+PACKAGES = ['compas', 'compas_rhino', 'compas_fofin', 'compas_fd']
 
 
 def is_editable(project_name):
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         else:
             print('   {} {}'.format(p.ljust(20), "OK"))
 
-    is_dev = is_editable("compas-formfinder")
+    is_dev = is_editable("compas-fofin")
     print("compas_fofin is editable install: ", is_dev)
 
     if args.remove_plugins:
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     print("\n", "-"*10, "Installing compas_fofin python plugin", "-"*10)
 
     plugin_path = os.path.dirname(__file__)
-    plugin_path = os.path.join(plugin_path, 'ui/Rhino/FormFinder')
+    plugin_path = os.path.join(plugin_path, 'ui/Rhino/FoFin')
     plugin_path = os.path.abspath(plugin_path)
 
     if os.path.exists(plugin_path):
