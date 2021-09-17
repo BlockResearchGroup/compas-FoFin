@@ -19,7 +19,14 @@ from compas_fofin.rhino import Browser
 __commandname__ = "FFinit"
 
 
-SETTINGS = {}
+SETTINGS = {
+
+    "FF": {
+    },
+
+    "Solvers": {
+    }
+}
 
 
 HERE = compas_rhino.get_document_dirname()

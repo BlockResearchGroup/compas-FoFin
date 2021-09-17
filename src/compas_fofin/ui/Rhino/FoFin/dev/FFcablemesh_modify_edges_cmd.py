@@ -11,7 +11,7 @@ from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
 
-__commandname__ = "FFcablemesh_modify_vertices"
+__commandname__ = "FFcablemesh_modify_edges"
 
 
 @FF_error()
@@ -27,23 +27,25 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["AllBoundaryVertices", "Corners", "ByContinuousEdges", "Manual"]
-
-    option = compas_rhino.rs.GetString("Selection mode:", strings=options)
+    options = ["All", "AllBoundaryEdges", "Continuous", "Parallel", "Manual"]
+    option = compas_rhino.rs.GetString("Selection Type", strings=options)
 
     if not option:
         return
 
-    if option == "AllBoundaryVertices":
-        keys = cablemesh.datastructure.vertices_on_boundary()
+    if option == "All":
+        keys = keys = list(cablemesh.datastructure.edges())
 
-    elif option == "Corners":
-        angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
-        keys = cablemesh.datastructure.corner_vertices(tol=angle)
+    elif option == "AllBoundaryEdges":
+        keys = cablemesh.datastructure.edges_on_boundary()
 
-    elif option == "ByContinuousEdges":
+    elif option == "Continuous":
         temp = cablemesh.select_edges()
-        keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
+        keys = list(set(flatten([cablemesh.datastructure.edge_loop(key) for key in temp])))
+
+    elif option == "Parallel":
+        temp = cablemesh.select_edges()
+        keys = list(set(flatten([cablemesh.datastructure.edge_strip(key) for key in temp])))
 
     # elif option == "ByConstraints":
     #     guids = pattern.datastructure.vertices_attribute('constraints')
@@ -69,25 +71,31 @@ def RunCommand(is_interactive):
     #     if not constraints:
     #         return
 
+    #     def if_constraints(datastructure, key, guid):
+    #         constraints = datastructure.vertex_attribute(key, 'constraints')
+    #         if constraints:
+    #             if str(guid) in constraints:
+    #                 return True
+    #         return False
+
     #     keys = []
     #     for guid in constraints:
-    #         for key, attr in pattern.datastructure.vertices(data=True):
-    #             if attr['constraints']:
-    #                 if str(guid) in attr['constraints']:
-    #                     keys.append(key)
-    #     keys = list(set(keys))
+    #         for (u, v) in pattern.datastructure.edges():
+    #             if if_constraints(pattern.datastructure, u, guid) and if_constraints(pattern.datastructure, v, guid):
+    #                 keys.append((u, v))
 
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
     elif option == "Manual":
-        keys = cablemesh.select_vertices()
+        keys = cablemesh.select_edges()
 
     if keys:
-        # ModifyAttributesForm.from_sceneNode(pattern, 'vertices', keys)
+        # ModifyAttributesForm.from_sceneNode(pattern, 'edges', keys)
         # scene.update()
-        public = [name for name in cablemesh.datastructure.default_vertex_attributes.keys() if not name.startswith('_')]
-        if cablemesh.update_vertices_attributes(keys, names=public):
+        public = [name for name in cablemesh.datastructure.default_edge_attributes.keys() if not name.startswith('_')]
+        if cablemesh.update_edges_attributes(keys, names=public):
+            cablemesh.settings['_is.valid'] = False
             scene.update()
 
 

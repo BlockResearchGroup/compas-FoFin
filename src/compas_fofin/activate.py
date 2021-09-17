@@ -4,7 +4,7 @@ import compas
 import importlib
 import subprocess
 
-PLUGIN_NAME = "FormFinder"
+PLUGIN_NAME = "FoFin"
 
 
 def run(cmd):
