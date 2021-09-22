@@ -31,7 +31,7 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    elif option == "FacesAttributes":
+    if option == "FacesAttributes":
         FFcablemesh_modify_faces_cmd.RunCommand(True)
 
 

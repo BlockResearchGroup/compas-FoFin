@@ -31,7 +31,7 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    elif option == "EdgesAttributes":
+    if option == "EdgesAttributes":
         FFcablemesh_modify_edges_cmd.RunCommand(True)
 
 
