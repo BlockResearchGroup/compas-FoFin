@@ -14,9 +14,6 @@ from compas.geometry import length_vector
 from compas_rhino.artists import MeshArtist
 
 
-__all__ = ['CableMeshArtist']
-
-
 class CableMeshArtist(MeshArtist):
     """Artist for visualizing a CableMesh in the Rhino model space."""
 

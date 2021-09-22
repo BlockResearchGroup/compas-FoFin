@@ -10,9 +10,6 @@ from compas_fofin.rhino import SettingsForm
 from compas_fofin.rhino import MeshObject
 
 
-__all__ = ['Scene']
-
-
 class Scene(object):
     """"""
 

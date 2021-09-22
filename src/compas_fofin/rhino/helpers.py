@@ -14,23 +14,6 @@ from compas_rhino.forms import TextForm
 from compas_fofin.datastructures import CableMesh
 
 
-__all__ = [
-    "is_valid_file",
-    "select_filepath_open",
-    "select_filepath_save",
-    "get_FF",
-    "get_scene",
-    "get_proxy",
-    "get_system",
-    "select_vertices",
-    "select_edges",
-    "select_faces",
-    "FF_undo",
-    "save_session",
-    "load_session",
-]
-
-
 def match_vertices(cablemesh, keys):
     temp = compas_rhino.get_objects(name="{}.vertex.*".format(cablemesh.name))
     names = compas_rhino.get_object_names(temp)

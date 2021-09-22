@@ -12,8 +12,6 @@ import importlib
 import sys
 
 
-__all__ = ["MenuForm"]
-
 HERE = os.path.dirname(__file__)
 UI_FOLDER = os.path.join(HERE, "..", "..", "ui/Rhino/FF/dev")
 sys.path.append(UI_FOLDER)

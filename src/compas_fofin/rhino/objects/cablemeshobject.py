@@ -12,9 +12,6 @@ import compas_rhino
 from .meshobject import MeshObject
 
 
-__all__ = ["CableMeshObject"]
-
-
 class CableMeshObject(MeshObject):
     """Scene object for FF CableMeshes.
     """
