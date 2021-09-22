@@ -10,9 +10,6 @@ import Eto.Forms as forms
 import Rhino.UI
 
 
-__all__ = ["SettingsForm", "Settings_Tab"]
-
-
 class Settings_Tab(forms.TabPage):
 
     @classmethod

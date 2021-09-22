@@ -17,9 +17,6 @@ import Rhino
 find_object = sc.doc.Objects.Find
 
 
-__all__ = ["AttributesForm"]
-
-
 class Tree_Table(forms.TreeGridView):
 
     def __init__(self, ShowHeader=True, sceneNode=None, table_type=None):

@@ -8,7 +8,3 @@ from compas_rhino.artists import BaseArtist
 from .cablemeshartist import CableMeshArtist
 
 BaseArtist.register(CableMesh, CableMeshArtist)
-
-__all__ = [
-    'CableMeshArtist'
-]

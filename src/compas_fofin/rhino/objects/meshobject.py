@@ -21,9 +21,6 @@ from compas_fofin.rhino import select_faces
 from compas_fofin.rhino import select_edges
 
 
-__all__ = ['MeshObject']
-
-
 class MeshObject(MeshObject):
     """Scene object for mesh-based data structures in FF.
     """
