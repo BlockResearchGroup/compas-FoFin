@@ -66,7 +66,7 @@ If applicable, add screenshots or video record to help explain your problem.
 **Desktop (please complete the following information):**
  - OS: %s
  - Rhino version %s
- - FormFinder version %s
+ - FoFin version %s
 
 **Additional context**
 Add any other context about the problem here.
@@ -129,7 +129,7 @@ class ErrorForm(forms.Dialog):
             _os = "OSX"
 
         body = ISSUE_TEMPLATE % (self.m_textarea.Text, _os, Rhino.RhinoApp.Version, compas_fofin.__version__)
-        url = "https://github.com/BlockResearchGroup/FormFinder/issues/new?title=%s&body=%s" % (title, body)
+        url = "https://github.com/BlockResearchGroup/compas-FoFin/issues/new?title=%s&body=%s" % (title, body)
         url = url.replace("\n", "%0A")
         webbrowser.open_new_tab(url)
 

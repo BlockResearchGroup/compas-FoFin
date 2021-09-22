@@ -32,7 +32,7 @@ setup(
     description="Form Finding bundle for COMPAS",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/BlockResearchGroup/FormFinder",
+    url="https://github.com/BlockResearchGroup/compas-FoFin",
     author="tom van mele",
     author_email="van.mele@arch.ethz.ch",
     license="MIT license",

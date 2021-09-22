@@ -36,7 +36,7 @@ def RunCommand(is_interactive):
         print("Force-density method equilibrium failed!")
         return
 
-    cablemesh.datastructure = result
+    cablemesh.datastructure.data = result.data
 
     cablemesh.settings['_is.valid'] = True
 

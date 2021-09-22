@@ -12,7 +12,7 @@ import importlib
 
 
 PLUGIN_NAME = "FoFin"
-PACKAGES = ['compas', 'compas_rhino', 'compas_fofin', 'compas_fd']
+PACKAGES = ['compas', 'compas_rhino', 'compas_fofin', 'compas_fd', 'compas_cloud']
 
 
 def is_editable(project_name):

@@ -15,7 +15,7 @@ class BrowserForm(forms.Form):
 
     def __init__(self, url=None, width=800, height=400):
         self.Owner = Rhino.UI.RhinoEtoApp.MainWindow
-        self.Title = 'FormFinder'
+        self.Title = 'FoFin'
         self.Padding = drawing.Padding(0)
         self.Resizable = False
 
