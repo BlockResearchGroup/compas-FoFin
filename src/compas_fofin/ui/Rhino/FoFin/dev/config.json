@@ -3,7 +3,7 @@
     {
         "id": "{18a65b9c-1a08-43ef-a1fd-ef458f0a1fa0}",
         "version": "0.0.1.0",
-        "title": "FormFinder"
+        "title": "FoFin"
     },
     "ui":
     {
@@ -68,7 +68,7 @@
         "menus":
         [
             {
-                "name" : "FormFinder",
+                "name" : "FoFin",
                 "items":
                 [
                     {"command": "FFinit"},
@@ -135,7 +135,7 @@
         "toolbars":
         [
             {
-                "name": "FormFinder",
+                "name": "FoFin",
                 "items":
                 [
                     {"left": "FFinit"},
@@ -172,7 +172,7 @@
                 "name": "FF",
                 "toolbars":
                 [
-                    "FormFinder"
+                    "FoFin"
                 ]
             }
         ]
