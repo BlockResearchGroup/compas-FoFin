@@ -182,7 +182,7 @@ class CableMeshObject(MeshObject):
 
             edges = list(self.mesh.edges_where({'_is_edge': True}))
             color = {edge: self.settings['color.pipes'] for edge in edges}
-            forces = {edge: self.mesh.edge_attribute(edge, 'f') for edge in edges}
+            forces = {edge: self.mesh.edge_attribute(edge, '_f') for edge in edges}
 
             fmin = min(forces.values())
             fmax = max(forces.values())
