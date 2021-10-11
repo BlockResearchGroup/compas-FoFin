@@ -36,6 +36,7 @@ class CableMeshObject(MeshObject):
         'color.reactions': [0, 200, 0],
         'color.loads': [0, 255, 0],
         'color.pipes': [100, 100, 100],
+        'color.invalid': [100, 255, 100],
 
         'scale.externalforces': 1,
         'scale.pipes': 0.01,
@@ -79,16 +80,21 @@ class CableMeshObject(MeshObject):
         # ======================================================================
         # Groups
         # ------
-        # Create groups for vertices, edges, and faces.
+        # Create groups for free and anchored vertices, edges, and faces.
         # These groups will be turned on/off based on the visibility settings of the mesh
         # ======================================================================
 
-        group_vertices = "{}::vertices".format(layer)
+        group_free = "{}::vertices_free".format(layer)
+        group_anchor = "{}::vertices_anchor".format(layer)
+
         group_edges = "{}::edges".format(layer)
         group_faces = "{}::faces".format(layer)
 
-        if not compas_rhino.rs.IsGroup(group_vertices):
-            compas_rhino.rs.AddGroup(group_vertices)
+        if not compas_rhino.rs.IsGroup(group_free):
+            compas_rhino.rs.AddGroup(group_free)
+
+        if not compas_rhino.rs.IsGroup(group_anchor):
+            compas_rhino.rs.AddGroup(group_anchor)
 
         if not compas_rhino.rs.IsGroup(group_edges):
             compas_rhino.rs.AddGroup(group_edges)
@@ -100,23 +106,30 @@ class CableMeshObject(MeshObject):
         # Vertices
         # --------
         # Draw the vertices and add them to the vertex group.
+        # Free vertices and anchored vertices are drawn separately.
         # ======================================================================
 
-        vertices = list(self.mesh.vertices())
-        color = {vertex: self.settings['color.vertices'] for vertex in vertices}
+        free = list(self.mesh.vertices_where({'is_anchor': False}))
+        anchors = list(self.mesh.vertices_where({'is_anchor': True}))
+        color_free = self.settings['color.vertices'] if self.settings['_is.valid'] else self.settings['color.invalid']
         color_fixed = self.settings['color.vertices:is_fixed']
         color_anchor = self.settings['color.vertices:is_anchor']
+        color = {vertex: color_free for vertex in free}
         color.update({vertex: color_fixed for vertex in self.mesh.vertices_where({'is_fixed': True})})
-        color.update({vertex: color_anchor for vertex in self.mesh.vertices_where({'is_anchor': True})})
+        color.update({vertex: color_anchor for vertex in anchors})
 
-        guids = self.artist.draw_vertices(vertices, color)
-        self.guid_vertex = zip(guids, vertices)
-        compas_rhino.rs.AddObjectsToGroup(guids, group_vertices)
+        guids_free = self.artist.draw_vertices(free, color)
+        guids_anchor = self.artist.draw_vertices(anchors, color)
+        self.guid_vertex = zip(guids_free + guids_anchor, free + anchors)
+        compas_rhino.rs.AddObjectsToGroup(guids_free, group_free)
+        compas_rhino.rs.AddObjectsToGroup(guids_anchor, group_anchor)
 
         if self.settings['show.vertices']:
-            compas_rhino.rs.ShowGroup(group_vertices)
+            compas_rhino.rs.ShowGroup(group_free)
+            compas_rhino.rs.ShowGroup(group_anchor)
         else:
-            compas_rhino.rs.HideGroup(group_vertices)
+            compas_rhino.rs.HideGroup(group_free)
+            compas_rhino.rs.HideGroup(group_anchor)
 
         # ======================================================================
         # Edges
