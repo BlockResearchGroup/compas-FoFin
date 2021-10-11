@@ -34,15 +34,21 @@
       <menu_item guid="de1112b6-6108-4243-a31b-a3df7b970217" item_type="separator" />
       <menu guid="110716ca-ffb4-4177-b86f-a145496f08d5">
         <text>
-          <locale_1033>Create CableMesh</locale_1033>
+          <locale_1033>Cloud</locale_1033>
         </text>
         <menu_item guid="85c04acd-6317-4e85-9def-528f7286d97c">
           <macro_id>6d5e9f83-4324-440f-8208-eda8d1d47246</macro_id>
         </menu_item>
+        <menu_item guid="172dc9d6-6e3a-4de5-b718-f7a887abfa17">
+          <macro_id>c92d98a4-e779-4957-b49e-f6d7e7ab1fc1</macro_id>
+        </menu_item>
+        <menu_item guid="78fa771f-b079-4696-a74c-2831807f54ce">
+          <macro_id>bce715b2-2669-4310-9c78-0eb273a68e88</macro_id>
+        </menu_item>
       </menu>
       <menu guid="c0cc4825-acad-4480-86db-d937a057fd27">
         <text>
-          <locale_1033>CableMesh Nodes</locale_1033>
+          <locale_1033>Create Pattern</locale_1033>
         </text>
         <menu_item guid="fcba8ad3-8e83-426e-b027-01f8c8e502f3">
           <macro_id>9c42ed36-2029-4ca1-bff3-9161b56e3c06</macro_id>
@@ -56,27 +62,48 @@
       </menu>
       <menu guid="390fd875-88fd-47a8-b4cb-95d53f777687">
         <text>
-          <locale_1033>CableMesh Edges</locale_1033>
+          <locale_1033>Define Boundary Conditions</locale_1033>
         </text>
         <menu_item guid="904745ae-5097-4d10-8c47-da8f67cdcc06">
           <macro_id>d1177386-cf37-49e5-a120-087fe02e2b06</macro_id>
         </menu_item>
+        <menu_item guid="3016b859-bb5c-4419-8b16-83c1649fb970">
+          <macro_id>32c02b8b-0d8e-4b99-b120-155d95547b54</macro_id>
+        </menu_item>
+        <menu_item guid="af459514-bb5b-4103-af40-756dcdb698fb">
+          <macro_id>dd2ecdfa-a3b2-4f48-9370-b155ba1fae24</macro_id>
+        </menu_item>
+        <menu_item guid="fb608e62-09f1-4d8e-982f-ef7af96babee">
+          <macro_id>b886a48e-c03c-4332-afa7-f02d893cd4ef</macro_id>
+        </menu_item>
       </menu>
       <menu guid="b759a6cf-1e00-4ad4-bfa9-fd986d4c5072">
         <text>
-          <locale_1033>CableMesh Faces</locale_1033>
+          <locale_1033>Solve</locale_1033>
         </text>
         <menu_item guid="fb179926-1971-4ff7-827b-9f1f9806a855">
           <macro_id>eb532590-6acc-449d-899d-61e4c3573abd</macro_id>
+        </menu_item>
+        <menu_item guid="c0634db5-d196-4965-a244-86e5a72da640">
+          <macro_id>0d25db6f-8126-417f-b081-9a217678620c</macro_id>
         </menu_item>
       </menu>
       <menu_item guid="be25ddbb-1de6-4e05-abf1-af3e082ee99a" item_type="separator" />
       <menu guid="e1cd5630-1419-4a70-b1f6-289adbb8fbcb">
         <text>
-          <locale_1033>Equilibrium</locale_1033>
+          <locale_1033>Modify</locale_1033>
         </text>
         <menu_item guid="96401c70-31c2-4e72-be90-89981a1bb77e">
           <macro_id>e2034ccf-8950-4522-b94b-aee70797eca7</macro_id>
+        </menu_item>
+        <menu_item guid="994ef28f-86bd-4b02-9566-53c0149a29c3">
+          <macro_id>abc59691-1c5e-4b29-a2e1-ae5171e6d840</macro_id>
+        </menu_item>
+        <menu_item guid="9bfa848e-4bd0-4abb-853d-6b99deed3a9b">
+          <macro_id>19141bb2-ac6b-4a28-8481-9b4c569d5da8</macro_id>
+        </menu_item>
+        <menu_item guid="35864a9c-0eb6-40d9-a02f-a3b051db81c8">
+          <macro_id>5d72cc0c-9c87-4781-8d4d-cb5ddfc691a5</macro_id>
         </menu_item>
       </menu>
       <menu_item guid="0f638a2e-9eeb-41c5-9dfe-421156e0f9c0" item_type="separator" />
@@ -85,6 +112,9 @@
       </menu_item>
       <menu_item guid="13365db2-2c44-483c-ae63-cb7802cb2073">
         <macro_id>d5ff81bc-93c4-4b36-8c6f-434878bfa362</macro_id>
+      </menu_item>
+      <menu_item guid="41acd1eb-9971-4415-94e8-67c6d82e8629">
+        <macro_id>845bc14d-8d80-464a-8751-c8649bd3f100</macro_id>
       </menu_item>
     </menu>
   </menus>
@@ -141,6 +171,29 @@
       </tool_bar_item>
       <tool_bar_item guid="51f36f11-a12e-487b-850d-ba3d67bbe43e">
         <left_macro_id>46660117-2f42-42c9-86d6-37eb393c724b</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="61c77292-d34d-4ea5-82a0-34f8bbd54946" button_style="spacer" />
+      <tool_bar_item guid="3f6b1051-7e10-4bf6-9320-03aa3157dc07">
+        <left_macro_id>40d3e87f-2805-4058-8c82-dc00ff3666dc</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="6c8ec208-12f5-4f6f-989c-daab8dbbedfa">
+        <left_macro_id>6a1a0661-6201-401b-be8b-bf0d249d3ea6</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="417f08f4-849f-4767-93d3-ecd16c889479">
+        <left_macro_id>537c3f0d-ceb8-48dd-8afa-2479155ea231</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="a1a3c25e-bc79-4f00-aa53-e7a4349c6ffe">
+        <left_macro_id>1a8084e1-3c27-4b42-bd61-7aaab296ae7f</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="ab778496-f40d-421b-ba78-5c3c07518d4b" button_style="spacer" />
+      <tool_bar_item guid="cfd77818-02d8-47ba-b12b-10189a059b5e">
+        <left_macro_id>90ad5ec5-1315-42a9-a08a-2fb38d608093</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="8a298a4a-8ff0-4ba9-a962-3c12627a0bfc">
+        <left_macro_id>2fbed319-1d04-42b5-bf18-808bc0a830f6</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="c8dd0dc2-fe86-4f77-b3ca-c960b035e823">
+        <left_macro_id>845bc14d-8d80-464a-8751-c8649bd3f100</left_macro_id>
       </tool_bar_item>
     </tool_bar>
   </tool_bars>
@@ -201,24 +254,6 @@
     </macro_item>
     <macro_item guid="6db0c04f-3987-4eb6-89fc-bca7b14cdefb" bitmap_id="1bf7fe61-c10c-4edd-9664-668007ba89c1">
       <text>
-        <locale_1033>FFsettings</locale_1033>
-      </text>
-      <tooltip>
-        <locale_1033>None</locale_1033>
-      </tooltip>
-      <help_text>
-        <locale_1033>None</locale_1033>
-      </help_text>
-      <button_text>
-        <locale_1033>None</locale_1033>
-      </button_text>
-      <menu_text>
-        <locale_1033>Settings</locale_1033>
-      </menu_text>
-      <script>-_FFsettings</script>
-    </macro_item>
-    <macro_item guid="6d5e9f83-4324-440f-8208-eda8d1d47246" bitmap_id="709ec4f0-f2ec-4bcf-9c21-5efe4d835cab">
-      <text>
         <locale_1033>FFcablemesh_from_mesh</locale_1033>
       </text>
       <tooltip>
@@ -235,7 +270,7 @@
       </menu_text>
       <script>-_FFcablemesh_from_mesh</script>
     </macro_item>
-    <macro_item guid="9c42ed36-2029-4ca1-bff3-9161b56e3c06" bitmap_id="77c7c44d-cd59-4ba4-beca-221d46add24b">
+    <macro_item guid="447938bf-9224-4823-b4db-47700b508def" bitmap_id="3f4b8ba2-9b92-4c0b-be42-d9c200e90124">
       <text>
         <locale_1033>FFcablemesh_anchors</locale_1033>
       </text>
@@ -251,9 +286,99 @@
       <menu_text>
         <locale_1033>Identify Anchors</locale_1033>
       </menu_text>
+      <script>-_FFsettings</script>
+    </macro_item>
+    <macro_item guid="6d5e9f83-4324-440f-8208-eda8d1d47246" bitmap_id="709ec4f0-f2ec-4bcf-9c21-5efe4d835cab">
+      <text>
+        <locale_1033>FFconstraints_node</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Set Node Constraints</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Node Constraints</locale_1033>
+      </menu_text>
+      <script>-_FFcablemesh_from_mesh</script>
+    </macro_item>
+    <macro_item guid="9c42ed36-2029-4ca1-bff3-9161b56e3c06" bitmap_id="77c7c44d-cd59-4ba4-beca-221d46add24b">
+      <text>
+        <locale_1033>FFconstraints_edge</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Set Edge Constraints</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Edge Constraints</locale_1033>
+      </menu_text>
       <script>-_FFcablemesh_anchors</script>
     </macro_item>
     <macro_item guid="8ccabc71-f650-42fa-8e73-9ffe5f3ced76" bitmap_id="951e8dcb-d4de-4a6d-ab88-1ce8bc92edd5">
+      <text>
+        <locale_1033>FFloads</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Define Loads</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Define Loads</locale_1033>
+      </menu_text>
+      <script>-_FFloads</script>
+    </macro_item>
+    <macro_item guid="0566e168-d956-4157-8f0a-188a17b4f66a" bitmap_id="001f2ebc-0071-4b0f-a245-a1ed67d0563c">
+      <text>
+        <locale_1033>FFsolve_fd</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Force Density Method</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Force Density Method</locale_1033>
+      </menu_text>
+      <script>-_FFsolve_fd</script>
+    </macro_item>
+    <macro_item guid="0d25db6f-8126-417f-b081-9a217678620c" bitmap_id="41ddf0f8-fd7f-424c-bece-36deb2a1b25a">
+      <text>
+        <locale_1033>FFsolve_dr</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Dynamic Relaxation</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Dynamic Relaxation</locale_1033>
+      </menu_text>
+      <script>-_FFsolve_dr</script>
+    </macro_item>
+    <macro_item guid="40d3e87f-2805-4058-8c82-dc00ff3666dc" bitmap_id="07e8eba9-3944-47d8-9df8-44c1795e6e2d">
       <text>
         <locale_1033>FFcablemesh_move_nodes</locale_1033>
       </text>
@@ -327,10 +452,10 @@
     </macro_item>
     <macro_item guid="e2034ccf-8950-4522-b94b-aee70797eca7" bitmap_id="36802571-5ab5-4d36-9f9b-cca775d931be">
       <text>
-        <locale_1033>FFsolve_fd</locale_1033>
+        <locale_1033>FFcloud_check</locale_1033>
       </text>
       <tooltip>
-        <locale_1033>Equilibrium FD</locale_1033>
+        <locale_1033>None</locale_1033>
       </tooltip>
       <help_text>
         <locale_1033>None</locale_1033>
@@ -339,11 +464,101 @@
         <locale_1033>None</locale_1033>
       </button_text>
       <menu_text>
-        <locale_1033>Equilibrium FD</locale_1033>
+        <locale_1033>Check Cloud</locale_1033>
       </menu_text>
       <script>-_FFsolve_fd</script>
     </macro_item>
     <macro_item guid="a843d2e2-fe5e-44ad-ac37-0d9bf319f0a1" bitmap_id="81b4d77e-1bb9-4a10-8074-c6c085bb2ff0">
+      <text>
+        <locale_1033>FFcloud_restart</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>None</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Restart Cloud</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh</script>
+    </macro_item>
+    <macro_item guid="c844d465-1a5f-4e34-8790-d9ce54ee336b" bitmap_id="6515c434-64fb-42db-af52-9d689541a9ca">
+      <text>
+        <locale_1033>FFcloud_shutdown</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>None</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Shut down Cloud</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh_modify_nodes</script>
+    </macro_item>
+    <macro_item guid="452021aa-c94f-4bff-a3f6-4a2f9e5e6f34" bitmap_id="b61987c0-cf77-4c8e-82e7-90ee48090179">
+      <text>
+        <locale_1033>FFsettings</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Settings</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Settings</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh_modify_edges</script>
+    </macro_item>
+    <macro_item guid="5efdd15d-45d2-4b5d-a377-58ff119618e3" bitmap_id="8b161bcf-cc6c-4724-ac80-2a4226b4b2d6">
+      <text>
+        <locale_1033>FFredraw</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Redraw Scene</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Redraw Scene</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_cablemesh_modify_faces</script>
+    </macro_item>
+    <macro_item guid="d0adccfd-82c3-4e04-bdb1-d9b4a7f1ce73" bitmap_id="155daf98-a8cd-4e5a-ba12-69bc532a8166">
+      <text>
+        <locale_1033>FFclear_all</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Clear Scene</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>None</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>None</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Clear All</locale_1033>
+      </menu_text>
+      <script>-_FFtoolbar_solve</script>
+    </macro_item>
+    <macro_item guid="ef6293ce-22f3-4619-b4a5-905734bd6d57" bitmap_id="1bf7fe61-c10c-4edd-9664-668007ba89c1">
       <text>
         <locale_1033>FFtoolbar_cablemesh</locale_1033>
       </text>
@@ -359,9 +574,9 @@
       <menu_text>
         <locale_1033>Create CableMesh</locale_1033>
       </menu_text>
-      <script>-_FFtoolbar_cablemesh</script>
+      <script>-_FFtoolbar_settings</script>
     </macro_item>
-    <macro_item guid="c844d465-1a5f-4e34-8790-d9ce54ee336b" bitmap_id="6515c434-64fb-42db-af52-9d689541a9ca">
+    <macro_item guid="d5ff81bc-93c4-4b36-8c6f-434878bfa362" bitmap_id="28fd44f5-f1f4-49f9-92e5-ab8283111ab1">
       <text>
         <locale_1033>FFtoolbar_cablemesh_modify_nodes</locale_1033>
       </text>
@@ -379,7 +594,7 @@
       </menu_text>
       <script>-_FFtoolbar_cablemesh_modify_nodes</script>
     </macro_item>
-    <macro_item guid="452021aa-c94f-4bff-a3f6-4a2f9e5e6f34" bitmap_id="b61987c0-cf77-4c8e-82e7-90ee48090179">
+    <macro_item guid="537c3f0d-ceb8-48dd-8afa-2479155ea231" bitmap_id="5e635eb3-9d26-4c92-aa0a-54dec6ba8b4b">
       <text>
         <locale_1033>FFtoolbar_cablemesh_modify_edges</locale_1033>
       </text>
@@ -395,9 +610,9 @@
       <menu_text>
         <locale_1033>Modify Edges</locale_1033>
       </menu_text>
-      <script>-_FFtoolbar_cablemesh_modify_edges</script>
+      <script>-_FFcloud_restart</script>
     </macro_item>
-    <macro_item guid="5efdd15d-45d2-4b5d-a377-58ff119618e3" bitmap_id="8b161bcf-cc6c-4724-ac80-2a4226b4b2d6">
+    <macro_item guid="46660117-2f42-42c9-86d6-37eb393c724b" bitmap_id="f080860a-ff20-4549-9b79-acc669f6eabf">
       <text>
         <locale_1033>FFtoolbar_cablemesh_modify_faces</locale_1033>
       </text>
@@ -413,9 +628,9 @@
       <menu_text>
         <locale_1033>Modify Faces</locale_1033>
       </menu_text>
-      <script>-_FFtoolbar_cablemesh_modify_faces</script>
+      <script>-_FFclear_all</script>
     </macro_item>
-    <macro_item guid="d0adccfd-82c3-4e04-bdb1-d9b4a7f1ce73" bitmap_id="155daf98-a8cd-4e5a-ba12-69bc532a8166">
+    <macro_item guid="e8ef5226-1764-45c0-8214-f5a1e1a81b15" bitmap_id="a35900af-97d1-4ca3-98f7-9221313b0cb2">
       <text>
         <locale_1033>FFtoolbar_solve</locale_1033>
       </text>
@@ -433,7 +648,7 @@
       </menu_text>
       <script>-_FFtoolbar_solve</script>
     </macro_item>
-    <macro_item guid="ef6293ce-22f3-4619-b4a5-905734bd6d57" bitmap_id="1bf7fe61-c10c-4edd-9664-668007ba89c1">
+    <macro_item guid="90ad5ec5-1315-42a9-a08a-2fb38d608093" bitmap_id="71841f17-89c7-44ea-90ca-bfc58778bd27">
       <text>
         <locale_1033>FFtoolbar_settings</locale_1033>
       </text>
@@ -450,42 +665,6 @@
         <locale_1033>Settings</locale_1033>
       </menu_text>
       <script>-_FFtoolbar_settings</script>
-    </macro_item>
-    <macro_item guid="d5ff81bc-93c4-4b36-8c6f-434878bfa362" bitmap_id="28fd44f5-f1f4-49f9-92e5-ab8283111ab1">
-      <text>
-        <locale_1033>FFcloud_restart</locale_1033>
-      </text>
-      <tooltip>
-        <locale_1033>None</locale_1033>
-      </tooltip>
-      <help_text>
-        <locale_1033>None</locale_1033>
-      </help_text>
-      <button_text>
-        <locale_1033>None</locale_1033>
-      </button_text>
-      <menu_text>
-        <locale_1033>Restart Cloud</locale_1033>
-      </menu_text>
-      <script>-_FFcloud_restart</script>
-    </macro_item>
-    <macro_item guid="46660117-2f42-42c9-86d6-37eb393c724b" bitmap_id="f080860a-ff20-4549-9b79-acc669f6eabf">
-      <text>
-        <locale_1033>FFclear_all</locale_1033>
-      </text>
-      <tooltip>
-        <locale_1033>Clear Scene</locale_1033>
-      </tooltip>
-      <help_text>
-        <locale_1033>None</locale_1033>
-      </help_text>
-      <button_text>
-        <locale_1033>None</locale_1033>
-      </button_text>
-      <menu_text>
-        <locale_1033>Clear All</locale_1033>
-      </menu_text>
-      <script>-_FFclear_all</script>
     </macro_item>
   </macros>
   <bitmaps>
