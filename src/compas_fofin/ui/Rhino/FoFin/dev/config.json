@@ -73,9 +73,6 @@
             {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 19,     "tooltip": "Clear Scene"},
 
             {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 10,     "tooltip": "Create CableMesh"},
-            {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 11,     "tooltip": "Modify Nodes"},
-            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 12,     "tooltip": "Modify Edges"},
-            {"name": "FFtoolbar_cablemesh_modify_faces",    "menu_text": "Modify Faces",        "icon": 13,     "tooltip": "Modify Faces"},
             {"name": "FFtoolbar_solve",                     "menu_text": "Equilibrium",         "icon": 14,     "tooltip": "Equilibrium"},
             {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 17,     "tooltip": "FF settings"}
 
@@ -188,9 +185,9 @@
                     {"type": "separator"},
 
                     {"left": "FFcablemesh_move_nodes"},
-                    {"left": "FFtoolbar_cablemesh_modify_nodes"},
-                    {"left": "FFtoolbar_cablemesh_modify_edges"},
-                    {"left": "FFtoolbar_cablemesh_modify_faces"},
+                    {"left": "FFcablemesh_modify_nodes"},
+                    {"left": "FFcablemesh_modify_edges"},
+                    {"left": "FFcablemesh_modify_faces"},
 
                     {"type": "separator"},
 
