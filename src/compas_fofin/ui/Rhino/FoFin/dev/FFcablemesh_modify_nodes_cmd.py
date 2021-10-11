@@ -27,6 +27,10 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
+    # show also free vertices
+    cablemesh.settings['show.vertices:free'] = True
+    scene.update()
+
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     option = compas_rhino.rs.GetString("Selection mode:", strings=options)
@@ -89,6 +93,7 @@ def RunCommand(is_interactive):
         public = [name for name in cablemesh.datastructure.default_vertex_attributes.keys() if not name.startswith('_')]
         if cablemesh.update_vertices_attributes(keys, names=public):
             cablemesh.settings['_is.valid'] = False
+            cablemesh.settings['show.vertices:free'] = False
             scene.update()
 
 

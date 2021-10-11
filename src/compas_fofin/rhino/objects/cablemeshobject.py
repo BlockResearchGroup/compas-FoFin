@@ -19,7 +19,8 @@ class CableMeshObject(MeshObject):
     SETTINGS = {
         '_is.valid': False,
         'layer': "FF::CableMesh",
-        'show.vertices': True,
+        'show.vertices:is_anchor': True,
+        'show.vertices:free': False,
         'show.edges': True,
         'show.faces': True,
         'show.reactions': True,
@@ -124,12 +125,15 @@ class CableMeshObject(MeshObject):
         compas_rhino.rs.AddObjectsToGroup(guids_free, group_free)
         compas_rhino.rs.AddObjectsToGroup(guids_anchor, group_anchor)
 
-        if self.settings['show.vertices']:
-            compas_rhino.rs.ShowGroup(group_free)
+        if self.settings['show.vertices:is_anchor']:
             compas_rhino.rs.ShowGroup(group_anchor)
         else:
-            compas_rhino.rs.HideGroup(group_free)
             compas_rhino.rs.HideGroup(group_anchor)
+
+        if self.settings['show.vertices:free']:
+            compas_rhino.rs.ShowGroup(group_free)
+        else:
+            compas_rhino.rs.HideGroup(group_free)
 
         # ======================================================================
         # Edges
