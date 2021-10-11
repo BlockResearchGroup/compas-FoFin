@@ -73,7 +73,6 @@
             {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 19,     "tooltip": "Clear Scene"},
 
             {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 10,     "tooltip": "Create CableMesh"},
-            {"name": "FFtoolbar_solve",                     "menu_text": "Equilibrium",         "icon": 14,     "tooltip": "Equilibrium"},
             {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 17,     "tooltip": "FF settings"}
 
         ],
