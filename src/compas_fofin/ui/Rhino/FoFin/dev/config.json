@@ -32,13 +32,9 @@
                 "12_edge_attributes",
                 "13_face_attributes",
 
-                "14_cloud_check",
-                "15_cloud_restart",
-                "16_cloud_shutdown",
-
-                "17_settings",
-                "18_redraw",
-                "19_clear"
+                "14_settings",
+                "15_redraw",
+                "16_clear"
             ]
         },
 
@@ -64,20 +60,20 @@
             {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 12,     "tooltip": "Edges Attributes"},
             {"name": "FFcablemesh_modify_faces",            "menu_text": "Faces Attributes",    "icon": 13,     "tooltip": "Faces Attributes"},
 
-            {"name": "FFcloud_check",                       "menu_text": "Check Cloud",         "icon": 14},
-            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud",       "icon": 15},
-            {"name": "FFcloud_shutdown",                    "menu_text": "Shut down Cloud",     "icon": 16},
+            {"name": "FFcloud_check",                       "menu_text": "Check Cloud"      },
+            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud"    },
+            {"name": "FFcloud_shutdown",                    "menu_text": "Shut down Cloud"  },
 
-            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 17,     "tooltip": "Settings"},
-            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 18,     "tooltip": "Redraw Scene"},
-            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 19,     "tooltip": "Clear Scene"},
+            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 14,     "tooltip": "Settings"},
+            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 15,     "tooltip": "Redraw Scene"},
+            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
 
-            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 10,     "tooltip": "Create CableMesh"},
+            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,     "tooltip": "Create CableMesh"},
             {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 11,     "tooltip": "Modify Nodes"},
             {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 12,     "tooltip": "Modify Edges"},
             {"name": "FFtoolbar_cablemesh_modify_faces",    "menu_text": "Modify Faces",        "icon": 13,     "tooltip": "Modify Faces"},
-            {"name": "FFtoolbar_solve",                     "menu_text": "Equilibrium",         "icon": 14,     "tooltip": "Equilibrium"},
-            {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 17,     "tooltip": "FF settings"}
+            {"name": "FFtoolbar_solve",                     "menu_text": "Equilibrium"      },
+            {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 14,     "tooltip": "FF settings"}
 
         ],
 
