@@ -42,9 +42,9 @@ def check():
         print("register json not found")
         return False
 
-    print("Current plugin: ", register_json["Current"])
-    if PLUGIN_NAME != register_json["Current"]:
-        return False
+    # print("Current plugin: ", register_json["Current"])
+    # if PLUGIN_NAME != register_json["Current"]:
+    #     return False
 
     plugin_info = register_json["Plugins"][PLUGIN_NAME]
 
