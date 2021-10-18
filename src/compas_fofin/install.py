@@ -9,6 +9,8 @@ import os
 import json
 import sys
 import importlib
+from subprocess import call
+from shutil import copyfile
 
 
 PLUGIN_NAME = "FoFin"
@@ -31,7 +33,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--remove_plugins', action='store_true', help="remove all existing plugins")
     parser.add_argument('--remove_packages', action='store_true', help="remove all existing compas packages")
-    parser.add_argument('--rhino_version', default='6.0', choices=['6.0', '7.0'], help="remove all existing compas packages")
+    parser.add_argument('--rhino_version', default='7.0', choices=['6.0', '7.0'], help="remove all existing compas packages")
     args = parser.parse_args()
 
     print("\n", "-"*10, "Checking packages", "-"*10)
@@ -76,6 +78,10 @@ if __name__ == '__main__':
     print("\n", "-"*10, "Installing COMPAS packages", "-"*10)
 
     install(packages=PACKAGES, version=args.rhino_version)
+
+    if compas.WINDOWS:
+        call(sys.executable + " " + os.path.join(plugin_path, 'dev', 'rui.py'), shell=True)
+        copyfile(os.path.join(plugin_path, 'dev', 'FF.rui'), os.path.join(python_plugins_path, '..', '..', 'UI', 'FF.rui'))
 
     print("\n", "-"*10, "Installation is successful", "-"*10)
 
