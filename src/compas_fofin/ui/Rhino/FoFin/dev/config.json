@@ -48,7 +48,9 @@
             {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
 
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
-            {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
+            {"name": "FFconstraints_node_direction",        "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Direction Constraints"},
+            {"name": "FFconstraints_node_line",             "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Line Constraints"},
+            {"name": "FFconstraints_node_plane",            "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Plane Constraints"},
             {"name": "FFconstraints_edge",                  "menu_text": "Edge Constraints",    "icon": 6,      "tooltip": "Set Edge Constraints"},
             {"name": "FFloads",                             "menu_text": "Define Loads",        "icon": 7,      "tooltip": "Define Loads"},
 
@@ -68,8 +70,8 @@
             {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 15,     "tooltip": "Redraw Scene"},
             {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
 
-            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 10,     "tooltip": "Create CableMesh"},
-            {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 17,     "tooltip": "FF settings"}
+            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"},
+            {"name": "FFtoolbar_constraints_node",          "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"}
 
         ],
 
@@ -115,7 +117,7 @@
                         "items":
                         [
                             {"command": "FFcablemesh_anchors"},
-                            {"command": "FFconstraints_node"},
+                            {"command": "FFtoolbar_constraints_node"},
                             {"command": "FFconstraints_edge"},
                             {"command": "FFloads"}
                         ]
@@ -168,7 +170,7 @@
                     {"type": "separator"},
 
                     {"left": "FFcablemesh_anchors"},
-                    {"left": "FFconstraints_node"},
+                    {"left": "FFtoolbar_constraints_node"},
                     {"left": "FFconstraints_edge"},
                     {"left": "FFloads"},
 
@@ -186,7 +188,7 @@
 
                     {"type": "separator"},
 
-                    {"left": "FFtoolbar_settings"},
+                    {"left": "FFsettings"},
                     {"left": "FFredraw"},
                     {"left": "FFclear_all"}
                 ]
