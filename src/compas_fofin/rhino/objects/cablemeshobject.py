@@ -32,7 +32,7 @@ class CableMeshObject(MeshObject):
         'color.vertices:is_anchor': [255, 0, 0],
         'color.vertices:is_fixed': [0, 0, 255],
         'color.vertices:is_constrained': [0, 255, 255],
-        'color.edges': [0, 0, 255],
+        'color.edges': [255, 0, 0],
         'color.faces': [200, 200, 200],
         'color.reactions': [0, 200, 0],
         'color.loads': [0, 255, 0],
@@ -183,7 +183,14 @@ class CableMeshObject(MeshObject):
         # ======================================================================
 
         edges = list(self.mesh.edges_where({'_is_edge': True}))
-        color = {edge: self.settings['color.edges'] for edge in edges}
+        if self.settings['_is.valid']:
+            qs = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
+            color = {edge: self.settings['color.edges'] for edge in edges}
+            for edge in edges:
+                if qs[edge] < 0.0:
+                    color[edge] = [0, 0, 255]
+        else:
+            color = {edge: self.settings['color.invalid'] for edge in edges}
 
         guids = self.artist.draw_edges(edges, color)
         self.guid_edge = zip(guids, edges)
