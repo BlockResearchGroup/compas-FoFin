@@ -46,6 +46,12 @@ class CableMeshObject(MeshObject):
         'tol.pipes': 1e-3
     }
 
+    def __init__(self, diagram, *args, **kwargs):
+        super(CableMeshObject, self).__init__(diagram, *args, **kwargs)
+        self._guid_reaction = {}
+        self._guid_loads = {}
+        self._guid_pipes = {}
+
     @property
     def vertex_xyz(self):
         """dict : The view coordinates of the mesh object."""
@@ -66,6 +72,41 @@ class CableMeshObject(MeshObject):
         mesh = self.mesh.transformed(X)
         vertex_xyz = {vertex: mesh.vertex_attributes(vertex, 'xyz') for vertex in mesh.vertices()}
         return vertex_xyz
+
+    @property
+    def guids(self):
+        guids = super(MeshObject, self).guids
+        guids += list(self.guid_reaction.keys())
+        guids += list(self.guid_loads.keys())
+        guids += list(self.guid_pipes.keys())
+        return guids
+
+    @property
+    def guid_reaction(self):
+        """Map between Rhino object GUIDs and reaction identifiers."""
+        return self._guid_reaction
+
+    @guid_reaction.setter
+    def guid_reaction(self, values):
+        self._guid_reaction = dict(values)
+
+    @property
+    def guid_loads(self):
+        """Map between Rhino object GUIDs and reaction identifiers."""
+        return self._guid_loads
+
+    @guid_loads.setter
+    def guid_loads(self, values):
+        self._guid_loads = dict(values)
+
+    @property
+    def guid_pipes(self):
+        """Map between Rhino object GUIDs and reaction identifiers."""
+        return self._guid_pipes
+
+    @guid_pipes.setter
+    def guid_pipes(self, values):
+        self._guid_pipes = dict(values)
 
     def draw(self):
         """Draw the objects representing the cablemesh.
@@ -193,7 +234,7 @@ class CableMeshObject(MeshObject):
             color = self.settings['color.loads']
             scale = self.settings['scale.externalforces']
             guids = self.artist.draw_loads(vertices, color, scale, tol)
-            self.guid_load = zip(guids, vertices)
+            self.guid_loads = zip(guids, vertices)
 
         if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
 
@@ -215,7 +256,9 @@ class CableMeshObject(MeshObject):
             scale = self.settings['scale.pipes']
             tol = self.settings['tol.pipes']
             guids = self.artist.draw_pipes(edges, forces, color, scale, tol)
-            self.guid_pipe = zip(guids, edges)
+            if self.guid_pipes:
+                compas_rhino.delete_objects(self.guid_pipes, purge=True)
+            self.guid_pipes = zip(guids, edges)
 
         if self.settings['show.pipes:forcedensities']:
 
@@ -236,4 +279,6 @@ class CableMeshObject(MeshObject):
             scale = self.settings['scale.pipes']
             tol = self.settings['tol.pipes']
             guids = self.artist.draw_pipes(edges, qs, color, scale, tol)
-            self.guid_pipe = zip(guids, edges)
+            if self.guid_pipes:
+                compas_rhino.delete_objects(self.guid_pipes, purge=True)
+            self.guid_pipes = zip(guids, edges)
