@@ -20,35 +20,16 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    options1 = ["FromGeometry", "FromFile"]
-    option1 = compas_rhino.rs.GetString("Create CableMesh:", strings=options1)
+    options = ["FromMesh", "FromSurface"] 
+    option = compas_rhino.rs.GetString("Create CableMesh:", strings=options)
 
-    if not option1:
+    if not option:
         return
 
-    if option1 == "FromGeometry":
-        options2 = ["FromMesh", "FromSurface", "FromTriangulation", "FromSkeleton", "FromFeatures"]
-        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options2)
+    if option == "FromMesh":
+        FFcablemesh_from_mesh_cmd.RunCommand(True)
 
-        if not option2:
-            return
-
-        if option2 == "FromMesh":
-            FFcablemesh_from_mesh_cmd.RunCommand(True)
-
-        elif option2 == "FromSurface":
-            raise NotImplementedError
-
-        elif option2 == "FromTriangulation":
-            raise NotImplementedError
-
-        elif option2 == "FromSkeleton":
-            raise NotImplementedError
-
-        elif option2 == "FromFeatures":
-            raise NotImplementedError
-
-    elif option1 == "FromFile":
+    elif option == "FromSurface":
         raise NotImplementedError
 
 
