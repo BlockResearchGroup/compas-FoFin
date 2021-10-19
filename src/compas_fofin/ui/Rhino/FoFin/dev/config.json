@@ -50,7 +50,8 @@
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
             {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
             {"name": "FFconstraints_edge",                  "menu_text": "Edge Constraints",    "icon": 6,      "tooltip": "Set Edge Constraints"},
-            {"name": "FFloads",                             "menu_text": "Define Loads",        "icon": 7,      "tooltip": "Define Loads"},
+            {"name": "FFcablemesh_loads_nodes",             "menu_text": "Point Loads",         "icon": 7,      "tooltip": "Set Point Loads"},
+            {"name": "FFcablemesh_loads_faces",             "menu_text": "Area Loads",          "icon": 7,      "tooltip": "Set Area Loads"},
 
             {"name": "FFsolve_fd",                          "menu_text": "Force Density Method","icon": 8,      "tooltip": "Force Density Method"},
             {"name": "FFsolve_dr",                          "menu_text": "Dynamic Relaxation",  "icon": 9,      "tooltip": "Dynamic Relaxation"},
@@ -68,12 +69,8 @@
             {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 15,     "tooltip": "Redraw Scene"},
             {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
 
-            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,     "tooltip": "Create CableMesh"},
-            {"name": "FFtoolbar_cablemesh_modify_nodes",    "menu_text": "Modify Nodes",        "icon": 11,     "tooltip": "Modify Nodes"},
-            {"name": "FFtoolbar_cablemesh_modify_edges",    "menu_text": "Modify Edges",        "icon": 12,     "tooltip": "Modify Edges"},
-            {"name": "FFtoolbar_cablemesh_modify_faces",    "menu_text": "Modify Faces",        "icon": 13,     "tooltip": "Modify Faces"},
-            {"name": "FFtoolbar_solve",                     "menu_text": "Equilibrium"      },
-            {"name": "FFtoolbar_settings",                  "menu_text": "Settings",            "icon": 14,     "tooltip": "FF settings"}
+            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"},
+            {"name": "FFtoolbar_loads",                     "menu_text": "Define Loads",        "icon": 7,      "tooltip": "Define Loads"}
 
         ],
 
@@ -121,7 +118,8 @@
                             {"command": "FFcablemesh_anchors"},
                             {"command": "FFconstraints_node"},
                             {"command": "FFconstraints_edge"},
-                            {"command": "FFloads"}
+                            {"command": "FFcablemesh_loads_nodes"},
+                            {"command": "FFcablemesh_loads_faces"}
                         ]
                     },
                     {"type": "separator"},
@@ -129,8 +127,7 @@
                         "name" : "Solve",
                         "items":
                         [
-                            {"command": "FFsolve_fd"},
-                            {"command": "FFsolve_dr"}
+                            {"command": "FFsolve_fd"}
                         ]
                     },
                     {"type": "separator"},
@@ -174,23 +171,22 @@
                     {"left": "FFcablemesh_anchors"},
                     {"left": "FFconstraints_node"},
                     {"left": "FFconstraints_edge"},
-                    {"left": "FFloads"},
+                    {"left": "FFtoolbar_loads"},
 
                     {"type": "separator"},
 
                     {"left": "FFsolve_fd"},
-                    {"left": "FFsolve_dr"},
 
                     {"type": "separator"},
 
                     {"left": "FFcablemesh_move_nodes"},
-                    {"left": "FFtoolbar_cablemesh_modify_nodes"},
-                    {"left": "FFtoolbar_cablemesh_modify_edges"},
-                    {"left": "FFtoolbar_cablemesh_modify_faces"},
+                    {"left": "FFcablemesh_modify_nodes"},
+                    {"left": "FFcablemesh_modify_edges"},
+                    {"left": "FFcablemesh_modify_faces"},
 
                     {"type": "separator"},
 
-                    {"left": "FFtoolbar_settings"},
+                    {"left": "FFsettings"},
                     {"left": "FFredraw"},
                     {"left": "FFclear_all"}
                 ]

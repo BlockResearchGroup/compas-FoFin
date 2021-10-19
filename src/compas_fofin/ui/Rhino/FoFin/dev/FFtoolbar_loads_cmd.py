@@ -7,10 +7,11 @@ import compas_rhino
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_error
 
-import FFsolve_fd_cmd
+import FFcablemesh_loads_nodes_cmd
+import FFcablemesh_loads_faces_cmd
 
 
-__commandname__ = "FFtoolbar_solve"
+__commandname__ = "FFtoolbar_loads"
 
 
 @FF_error()
@@ -25,20 +26,17 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["ForceDensity", "NaturalForceDensity", "DynamicRelaxation"]
-    option = compas_rhino.rs.GetString("Solver:", strings=options)
+    options = ["PointLoads", "AreaLoads"]
+    option = compas_rhino.rs.GetString("Select load type:", strings=options)
 
     if not option:
         return
 
-    if option == "ForceDensity":
-        FFsolve_fd_cmd.RunCommand(True)
+    if option == "PointLoads":
+        FFcablemesh_loads_nodes_cmd.RunCommand(True)
 
-    elif option == "NaturalForceDensity":
-        raise NotImplementedError
-
-    elif option == "DynamicRelaxation":
-        raise NotImplementedError
+    elif option == "AreaLoads":
+        FFcablemesh_loads_faces_cmd.RunCommand(True)
 
 
 # ==============================================================================

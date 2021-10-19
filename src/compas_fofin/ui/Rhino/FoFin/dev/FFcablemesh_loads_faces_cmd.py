@@ -11,7 +11,7 @@ from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
 
-__commandname__ = "FFcablemesh_modify_faces"
+__commandname__ = "FFcablemesh_loads_faces"
 
 
 @FF_error()
@@ -52,8 +52,9 @@ def RunCommand(is_interactive):
         keys = cablemesh.select_faces()
 
     if keys:
-        public = [name for name in cablemesh.datastructure.default_face_attributes.keys() if not name.startswith('_')]
+        public = ['is_loaded', 't', 'snow', 'wind']
         if cablemesh.update_faces_attributes(keys, names=public):
+            cablemesh.update_attributes()
             cablemesh.settings['_is.valid'] = False
             cablemesh.settings['show.faces:all'] = False
             scene.update()

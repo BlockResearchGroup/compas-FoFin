@@ -27,6 +27,10 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
+    # show also free vertices
+    cablemesh.settings['show.vertices:free'] = True
+    scene.update()
+
     # mark all fixed vertices as anchors
     # mark all leaves as anchors
 
@@ -99,6 +103,8 @@ def RunCommand(is_interactive):
             else:
                 cablemesh.datastructure.vertices_attribute('is_anchor', False, keys=keys)
 
+        # hide free vertices
+        cablemesh.settings['show.vertices:free'] = False
         scene.update()
 
 
