@@ -213,7 +213,7 @@ class CableMeshObject(MeshObject):
         # -----
         # Draw the faces and add them to the face group.
         # ======================================================================
-        
+
         if self.settings['show.faces:all']:
             faces = list(self.mesh.faces())
         else:
