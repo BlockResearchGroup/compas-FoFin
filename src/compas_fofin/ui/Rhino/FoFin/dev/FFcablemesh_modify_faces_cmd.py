@@ -27,6 +27,9 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
+    cablemesh.settings['show.faces:all'] = True
+    scene.update()
+
     options = ["All", "AllBoundaryFaces", "Strip", "Manual"]
     option = compas_rhino.rs.GetString("Selection Type", strings=options)
 
@@ -52,6 +55,7 @@ def RunCommand(is_interactive):
         public = [name for name in cablemesh.datastructure.default_face_attributes.keys() if not name.startswith('_')]
         if cablemesh.update_faces_attributes(keys, names=public):
             cablemesh.settings['_is.valid'] = False
+            cablemesh.settings['show.faces:all'] = False
             scene.update()
 
 

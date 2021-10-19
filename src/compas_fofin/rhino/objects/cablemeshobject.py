@@ -23,6 +23,7 @@ class CableMeshObject(MeshObject):
         'show.vertices:free': False,
         'show.edges': True,
         'show.faces': True,
+        'show.faces:all': False,
         'show.reactions': True,
         'show.loads': True,
         'show.pipes:forcedensities': False,
@@ -206,8 +207,11 @@ class CableMeshObject(MeshObject):
         # -----
         # Draw the faces and add them to the face group.
         # ======================================================================
-
-        faces = list(self.mesh.faces())
+        
+        if self.settings['show.faces:all']:
+            faces = list(self.mesh.faces())
+        else:
+            faces = list(self.mesh.faces_where({'is_loaded': True}))
         color = {face: self.settings['color.faces'] for face in faces}
 
         guids = self.artist.draw_faces(faces, color)
