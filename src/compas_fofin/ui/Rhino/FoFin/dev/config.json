@@ -48,9 +48,7 @@
             {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
 
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
-            {"name": "FFconstraints_node_direction",        "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Direction Constraints"},
-            {"name": "FFconstraints_node_line",             "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Line Constraints"},
-            {"name": "FFconstraints_node_plane",            "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Plane Constraints"},
+            {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
             {"name": "FFconstraints_edge",                  "menu_text": "Edge Constraints",    "icon": 6,      "tooltip": "Set Edge Constraints"},
             {"name": "FFcablemesh_loads_nodes",             "menu_text": "Point Loads",         "icon": 7,      "tooltip": "Set Point Loads"},
             {"name": "FFcablemesh_loads_faces",             "menu_text": "Area Loads",          "icon": 7,      "tooltip": "Set Area Loads"},
@@ -72,7 +70,6 @@
             {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
 
             {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"},
-            {"name": "FFtoolbar_constraints_node",          "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
             {"name": "FFtoolbar_loads",                     "menu_text": "Define Loads",        "icon": 7,      "tooltip": "Define Loads"}
 
         ],
@@ -119,7 +116,7 @@
                         "items":
                         [
                             {"command": "FFcablemesh_anchors"},
-                            {"command": "FFtoolbar_constraints_node"},
+                            {"command": "FFconstraints_node"},
                             {"command": "FFconstraints_edge"},
                             {"command": "FFcablemesh_loads_nodes"},
                             {"command": "FFcablemesh_loads_faces"}
@@ -130,8 +127,7 @@
                         "name" : "Solve",
                         "items":
                         [
-                            {"command": "FFsolve_fd"},
-                            {"command": "FFsolve_dr"}
+                            {"command": "FFsolve_fd"}
                         ]
                     },
                     {"type": "separator"},
@@ -173,14 +169,13 @@
                     {"type": "separator"},
 
                     {"left": "FFcablemesh_anchors"},
-                    {"left": "FFtoolbar_constraints_node"},
+                    {"left": "FFconstraints_node"},
                     {"left": "FFconstraints_edge"},
                     {"left": "FFtoolbar_loads"},
 
                     {"type": "separator"},
 
                     {"left": "FFsolve_fd"},
-                    {"left": "FFsolve_dr"},
 
                     {"type": "separator"},
 
