@@ -11,6 +11,8 @@ import compas_rhino
 
 from .meshobject import MeshObject
 
+from compas_fofin.rhino import CableMeshConduit
+
 
 class CableMeshObject(MeshObject):
     """Scene object for FF CableMeshes.
@@ -238,13 +240,26 @@ class CableMeshObject(MeshObject):
         # # Color overlays for various display modes.
         # # ======================================================================
 
+
+        reaction_conduit = CableMeshConduit(self.mesh,
+                                            scale=self.settings['scale.externalforces'],
+                                            tol=self.settings['tol.externalforces'])
+
         if self.settings['_is.valid'] and self.settings['show.reactions']:
-            tol = self.settings['tol.externalforces']
-            anchors = list(self.mesh.vertices_where({'is_anchor': True}))
-            color = self.settings['color.reactions']
-            scale = self.settings['scale.externalforces']
-            guids = self.artist.draw_reactions(anchors, color, scale, tol)
-            self.guid_reaction = zip(guids, anchors)
+            print('draw_reactions')
+            # tol = self.settings['tol.externalforces']
+            # anchors = list(self.mesh.vertices_where({'is_anchor': True}))
+            # color = self.settings['color.reactions']
+            # scale = self.settings['scale.externalforces']
+            # guids = self.artist.draw_reactions(anchors, color, scale, tol)
+            # self.guid_reaction = zip(guids, anchors)
+            reaction_conduit.enable()
+        else:
+            reaction_conduit.disable()
+
+
+
+
 
         if self.settings['_is.valid'] and self.settings['show.loads']:
             tol = self.settings['tol.externalforces']

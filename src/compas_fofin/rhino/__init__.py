@@ -11,6 +11,8 @@ from .objects import *  # noqa: F401 F403
 __all__ = [  # noqa: F405
     'CableMeshArtist',
 
+    'CableMeshConduit',
+
     'AttributesForm',
     'BrowserForm',
     'FF_error',
