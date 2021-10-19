@@ -161,8 +161,14 @@ class CableMeshObject(MeshObject):
         color.update({vertex: color_fixed for vertex in self.mesh.vertices_where({'is_fixed': True})})
         color.update({vertex: color_anchor for vertex in anchors})
 
-        guids_free = self.artist.draw_vertices(free, color)
-        guids_anchor = self.artist.draw_vertices(anchors, color)
+        if free:
+            guids_free = self.artist.draw_vertices(free, color)
+        else:
+            guids_free = []
+        if anchors:
+            guids_anchor = self.artist.draw_vertices(anchors, color)
+        else:
+            guids_anchor = []
         self.guid_vertex = zip(guids_free + guids_anchor, free + anchors)
         compas_rhino.rs.AddObjectsToGroup(guids_free, group_free)
         compas_rhino.rs.AddObjectsToGroup(guids_anchor, group_anchor)
@@ -214,14 +220,15 @@ class CableMeshObject(MeshObject):
             faces = list(self.mesh.faces_where({'is_loaded': True}))
         color = {face: self.settings['color.faces'] for face in faces}
 
-        guids = self.artist.draw_faces(faces, color)
-        self.guid_face = zip(guids, faces)
-        compas_rhino.rs.AddObjectsToGroup(guids, group_faces)
+        if faces:
+            guids = self.artist.draw_faces(faces, color)
+            self.guid_face = zip(guids, faces)
+            compas_rhino.rs.AddObjectsToGroup(guids, group_faces)
 
-        if self.settings['show.faces']:
-            compas_rhino.rs.ShowGroup(group_faces)
-        else:
-            compas_rhino.rs.HideGroup(group_faces)
+            if self.settings['show.faces']:
+                compas_rhino.rs.ShowGroup(group_faces)
+            else:
+                compas_rhino.rs.HideGroup(group_faces)
 
         # self.redraw()
 
