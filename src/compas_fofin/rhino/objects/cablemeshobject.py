@@ -120,75 +120,73 @@ class CableMeshObject(MeshObject):
             return
         self.artist.vertex_xyz = self.vertex_xyz
 
-        # ======================================================================
-        # Groups
-        # ------
-        # Create groups for free and anchored vertices, edges, and faces.
-        # These groups will be turned on/off based on the visibility settings of the mesh
-        # ======================================================================
+        # draw geometry
+        groups = self._make_drawing_groups()
+        self._draw_vertices(groups['free'], groups['anchor'])
+        self._draw_edges(groups['edges'])
+        self._draw_faces(groups['faces'])
+        # self.redraw()
 
-        group_free = "{}::vertices_free".format(layer)
-        group_anchor = "{}::vertices_anchor".format(layer)
+        # draw overlays for various display modes
+        if not self.settings['_is.valid']:
+            return
+        self._draw_reactions()
+        self._draw_loads()
+        self._draw_pipes('show.pipes:forces', '_f')
+        self._draw_pipes('show.pipes:forcedensities', 'q')
 
-        group_edges = "{}::edges".format(layer)
-        group_faces = "{}::faces".format(layer)
+    def _make_drawing_groups(self):
+        """Create drawing groups for free and anchored vertices, edges, and faces.
+        These groups will be turned on/off based on the visibility settings of the mesh.
+        """
+        groups = {}
+        layer = self.artist.layer
+        groups['free'] = "{}::vertices_free".format(layer)
+        groups['anchor'] = "{}::vertices_anchor".format(layer)
+        groups['edges'] = "{}::edges".format(layer)
+        groups['faces'] = "{}::faces".format(layer)
 
-        if not compas_rhino.rs.IsGroup(group_free):
-            compas_rhino.rs.AddGroup(group_free)
+        for group in groups.values():
+            if not compas_rhino.rs.IsGroup(group):
+                compas_rhino.rs.AddGroup(group)
+        return groups
 
-        if not compas_rhino.rs.IsGroup(group_anchor):
-            compas_rhino.rs.AddGroup(group_anchor)
+    def _show_group(self, group, show_flag):
+        """Show drawing group if flag in settings is set to True.
+        """
+        if self.settings[show_flag]:
+            compas_rhino.rs.ShowGroup(group)
+        else:
+            compas_rhino.rs.HideGroup(group)
 
-        if not compas_rhino.rs.IsGroup(group_edges):
-            compas_rhino.rs.AddGroup(group_edges)
-
-        if not compas_rhino.rs.IsGroup(group_faces):
-            compas_rhino.rs.AddGroup(group_faces)
-
-        # ======================================================================
-        # Vertices
-        # --------
-        # Draw the vertices and add them to the vertex group.
-        # Free vertices and anchored vertices are drawn separately.
-        # ======================================================================
-
+    def _draw_vertices(self, group_free, group_anchor):
+        """Draw the vertices and add them to the vertex group.
+        Free vertices and anchored vertices are drawn separately.
+        """
         free = list(self.mesh.vertices_where({'is_anchor': False}))
         anchors = list(self.mesh.vertices_where({'is_anchor': True}))
-        color_free = self.settings['color.vertices'] if self.settings['_is.valid'] else self.settings['color.invalid']
+        color_free = (self.settings['color.vertices'] if self.settings['_is.valid']
+                      else self.settings['color.invalid'])
         color_fixed = self.settings['color.vertices:is_fixed']
         color_anchor = self.settings['color.vertices:is_anchor']
         color = {vertex: color_free for vertex in free}
-        color.update({vertex: color_fixed for vertex in self.mesh.vertices_where({'is_fixed': True})})
+        color.update({vertex: color_fixed for vertex in
+                      self.mesh.vertices_where({'is_fixed': True})})
         color.update({vertex: color_anchor for vertex in anchors})
 
-        if free:
-            guids_free = self.artist.draw_vertices(free, color)
-        else:
-            guids_free = []
-        if anchors:
-            guids_anchor = self.artist.draw_vertices(anchors, color)
-        else:
-            guids_anchor = []
+        guids_free = self.artist.draw_vertices(free, color) if free else []
+        guids_anchor = self.artist.draw_vertices(anchors, color) if guids_free else []
+
         self.guid_vertex = zip(guids_free + guids_anchor, free + anchors)
         compas_rhino.rs.AddObjectsToGroup(guids_free, group_free)
         compas_rhino.rs.AddObjectsToGroup(guids_anchor, group_anchor)
 
-        if self.settings['show.vertices:is_anchor']:
-            compas_rhino.rs.ShowGroup(group_anchor)
-        else:
-            compas_rhino.rs.HideGroup(group_anchor)
+        self._show_group(group_free, 'show.vertices:free')
+        self._show_group(group_anchor, 'show.vertices:is_anchor')
 
-        if self.settings['show.vertices:free']:
-            compas_rhino.rs.ShowGroup(group_free)
-        else:
-            compas_rhino.rs.HideGroup(group_free)
-
-        # ======================================================================
-        # Edges
-        # -----
-        # Draw the edges and add them to the edge group.
-        # ======================================================================
-
+    def _draw_edges(self, group_edges):
+        """Draw the edges and add them to the edge group.
+        """
         edges = list(self.mesh.edges_where({'_is_edge': True}))
         if self.settings['_is.valid']:
             qs = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
@@ -202,18 +200,11 @@ class CableMeshObject(MeshObject):
         guids = self.artist.draw_edges(edges, color)
         self.guid_edge = zip(guids, edges)
         compas_rhino.rs.AddObjectsToGroup(guids, group_edges)
+        self._show_group(group_edges, 'show.edges')
 
-        if self.settings['show.edges']:
-            compas_rhino.rs.ShowGroup(group_edges)
-        else:
-            compas_rhino.rs.HideGroup(group_edges)
-
-        # ======================================================================
-        # Faces
-        # -----
-        # Draw the faces and add them to the face group.
-        # ======================================================================
-
+    def _draw_faces(self, group_faces):
+        """Draw the faces and add them to the face group.
+        """
         if self.settings['show.faces:all']:
             faces = list(self.mesh.faces())
         else:
@@ -224,79 +215,57 @@ class CableMeshObject(MeshObject):
             guids = self.artist.draw_faces(faces, color)
             self.guid_face = zip(guids, faces)
             compas_rhino.rs.AddObjectsToGroup(guids, group_faces)
+        self._show_group(group_faces, 'show.faces')
 
-            if self.settings['show.faces']:
-                compas_rhino.rs.ShowGroup(group_faces)
-            else:
-                compas_rhino.rs.HideGroup(group_faces)
+    def _draw_reactions(self):
+        """Draw the reaction forces at the vertices.
+        """
+        if not self.settings['show.reactions']:
+            return
 
-        # self.redraw()
+        tol = self.settings['tol.externalforces']
+        anchors = list(self.mesh.vertices_where({'is_anchor': True}))
+        color = self.settings['color.reactions']
+        scale = self.settings['scale.externalforces']
+        guids = self.artist.draw_reactions(anchors, color, scale, tol)
+        self.guid_reaction = zip(guids, anchors)
 
-        # # ======================================================================
-        # # Overlays
-        # # --------
-        # # Color overlays for various display modes.
-        # # ======================================================================
+    # update to display face loads also?
+    def _draw_loads(self):
+        """Draw the input loads at the vertices.
+        """
+        if not self.settings['show.loads']:
+            return
 
-        if self.settings['_is.valid'] and self.settings['show.reactions']:
-            tol = self.settings['tol.externalforces']
-            anchors = list(self.mesh.vertices_where({'is_anchor': True}))
-            color = self.settings['color.reactions']
-            scale = self.settings['scale.externalforces']
-            guids = self.artist.draw_reactions(anchors, color, scale, tol)
-            self.guid_reaction = zip(guids, anchors)
+        tol = self.settings['tol.externalforces']
+        vertices = list(self.mesh.vertices())
+        color = self.settings['color.loads']
+        scale = self.settings['scale.externalforces']
+        guids = self.artist.draw_loads(vertices, color, scale, tol)
+        self.guid_loads = zip(guids, vertices)
 
-        if self.settings['_is.valid'] and self.settings['show.loads']:
-            tol = self.settings['tol.externalforces']
-            vertices = list(self.mesh.vertices())
-            color = self.settings['color.loads']
-            scale = self.settings['scale.externalforces']
-            guids = self.artist.draw_loads(vertices, color, scale, tol)
-            self.guid_loads = zip(guids, vertices)
+    def _draw_pipes(self, show_flag, attr):
+        """Draw edge attribute values as pipes.
+        """
+        if not self.settings[show_flag]:
+            return
 
-        if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
+        edges = list(self.mesh.edges_where({'_is_edge': True}))
+        color = {edge: self.settings['color.pipes'] for edge in edges}
+        atts = {edge: self.mesh.edge_attribute(edge, attr) for edge in edges}
+        pmin = min(atts.values())
+        pmax = max(atts.values())
 
-            edges = list(self.mesh.edges_where({'_is_edge': True}))
-            color = {edge: self.settings['color.pipes'] for edge in edges}
-            forces = {edge: self.mesh.edge_attribute(edge, '_f') for edge in edges}
+        for edge in edges:
+            if pmin != pmax:
+                if atts[edge] >= 0.0:
+                    color[edge] = i_to_red((atts[edge]) / pmax)
+                elif atts[edge] < 0.0:
+                    color[edge] = i_to_blue((atts[edge]) / pmin)
 
-            fmin = min(forces.values())
-            fmax = max(forces.values())
-
-            for edge in edges:
-                if fmin != fmax:
-                    if forces[edge] >= 0.0:
-                        color[edge] = i_to_red((forces[edge]) / fmax)
-
-                    elif forces[edge] < 0.0:
-                        color[edge] = i_to_blue((forces[edge]) / fmin)
-
-            scale = self.settings['scale.pipes']
-            tol = self.settings['tol.pipes']
-            guids = self.artist.draw_pipes(edges, forces, color, scale, tol)
-            if self.guid_pipes:
-                compas_rhino.delete_objects(self.guid_pipes, purge=True)
-            self.guid_pipes = zip(guids, edges)
-
-        if self.settings['show.pipes:forcedensities']:
-
-            edges = list(self.mesh.edges_where({'_is_edge': True}))
-            color = {edge: self.settings['color.pipes'] for edge in edges}
-            qs = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
-
-            qmin = min(qs.values())
-            qmax = max(qs.values())
-
-            for edge in edges:
-                if qs[edge] >= 0.0:
-                    color[edge] = i_to_red((qs[edge]) / qmax)
-
-                elif qs[edge] < 0.0:
-                    color[edge] = i_to_blue((qs[edge]) / qmin)
-
-            scale = self.settings['scale.pipes']
-            tol = self.settings['tol.pipes']
-            guids = self.artist.draw_pipes(edges, qs, color, scale, tol)
-            if self.guid_pipes:
-                compas_rhino.delete_objects(self.guid_pipes, purge=True)
-            self.guid_pipes = zip(guids, edges)
+        scale = self.settings['scale.pipes']
+        tol = self.settings['tol.pipes']
+        guids = self.artist.draw_pipes(edges, atts, color, scale, tol)
+        if self.guid_pipes:
+            compas_rhino.delete_objects(self.guid_pipes, purge=True)
+        self.guid_pipes = zip(guids, edges)
