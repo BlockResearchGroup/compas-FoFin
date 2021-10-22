@@ -13,7 +13,7 @@ import sys
 
 
 HERE = os.path.dirname(__file__)
-UI_FOLDER = os.path.join(HERE, "..", "..", "ui/Rhino/FF/dev")
+UI_FOLDER = os.path.join(HERE, "..", "..", "ui/Rhino/FoFin/dev")
 sys.path.append(UI_FOLDER)
 
 
@@ -21,7 +21,7 @@ class MenuForm(forms.Form):
 
     def setup(self):
         self.Owner = Rhino.UI.RhinoEtoApp.MainWindow
-        self.Title = "RhinoVault2"
+        self.Title = "FoFin"
         layout = forms.StackLayout()
         layout.Spacing = 5
         layout.Padding = drawing.Padding(5)
@@ -89,5 +89,3 @@ if __name__ == "__main__":
     m = MenuForm()
     m.setup()
     m.Show()
-
-    # m.show()
