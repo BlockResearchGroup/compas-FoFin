@@ -215,7 +215,7 @@ class CableMeshObject(MeshObject):
             guids = self.artist.draw_faces(faces, color)
             self.guid_face = zip(guids, faces)
             compas_rhino.rs.AddObjectsToGroup(guids, group_faces)
-        self._show_group(group_faces, 'show.faces')
+            self._show_group(group_faces, 'show.faces')
 
     def _draw_reactions(self):
         """Draw the reaction forces at the vertices.
