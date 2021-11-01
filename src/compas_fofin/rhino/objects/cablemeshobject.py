@@ -2,6 +2,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+import scriptcontext as sc
+
 from compas.geometry import Point
 from compas.geometry import Scale
 from compas.geometry import Translation
@@ -11,7 +13,9 @@ import compas_rhino
 
 from .meshobject import MeshObject
 
-from compas_fofin.rhino import CableMeshConduit
+from compas_fofin.rhino import ReactionConduit
+from compas_fofin.rhino import LoadConduit
+
 
 
 class CableMeshObject(MeshObject):
@@ -38,7 +42,7 @@ class CableMeshObject(MeshObject):
         'color.edges': [255, 0, 0],
         'color.faces': [200, 200, 200],
         'color.reactions': [0, 200, 0],
-        'color.loads': [0, 255, 0],
+        'color.loads': [0, 80, 0],
         'color.pipes': [100, 100, 100],
         'color.invalid': [100, 255, 100],
 
@@ -51,9 +55,9 @@ class CableMeshObject(MeshObject):
 
     def __init__(self, diagram, *args, **kwargs):
         super(CableMeshObject, self).__init__(diagram, *args, **kwargs)
-        self._guid_reaction = {}
-        self._guid_loads = {}
         self._guid_pipes = {}
+        self._conduit_reactions = None
+        self._conduit_loads = None
 
     @property
     def vertex_xyz(self):
@@ -79,28 +83,8 @@ class CableMeshObject(MeshObject):
     @property
     def guids(self):
         guids = super(MeshObject, self).guids
-        guids += list(self.guid_reaction.keys())
-        guids += list(self.guid_loads.keys())
         guids += list(self.guid_pipes.keys())
         return guids
-
-    @property
-    def guid_reaction(self):
-        """Map between Rhino object GUIDs and reaction identifiers."""
-        return self._guid_reaction
-
-    @guid_reaction.setter
-    def guid_reaction(self, values):
-        self._guid_reaction = dict(values)
-
-    @property
-    def guid_loads(self):
-        """Map between Rhino object GUIDs and reaction identifiers."""
-        return self._guid_loads
-
-    @guid_loads.setter
-    def guid_loads(self, values):
-        self._guid_loads = dict(values)
 
     @property
     def guid_pipes(self):
@@ -110,6 +94,36 @@ class CableMeshObject(MeshObject):
     @guid_pipes.setter
     def guid_pipes(self, values):
         self._guid_pipes = dict(values)
+
+    @property
+    def conduit_reactions(self):
+        if self._conduit_reactions is None:
+            conduit_reactions = ReactionConduit(self.mesh,
+                                                color=self.settings['color.reactions'],
+                                                scale=self.settings['scale.externalforces'],
+                                                tol=self.settings['tol.externalforces'])
+            self._conduit_reactions = conduit_reactions
+        return self._conduit_reactions
+
+    @property
+    def conduit_loads(self):
+        if self._conduit_loads is None:
+            conduit_loads = LoadConduit(self.mesh,
+                                        color=self.settings['color.loads'],
+                                        scale=self.settings['scale.externalforces'],
+                                        tol=self.settings['tol.externalforces'])
+            self._conduit_loads = conduit_loads
+        return self._conduit_loads
+
+    def clear_conduits(self):
+        try:
+            self.conduit_reactions.disable()
+            self.conduit_loads.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_reactions
+            del self._conduit_loads
 
     def draw(self):
         """Draw the objects representing the cablemesh.
@@ -234,40 +248,25 @@ class CableMeshObject(MeshObject):
 
         # self.redraw()
 
-        # # ======================================================================
-        # # Overlays
-        # # --------
-        # # Color overlays for various display modes.
-        # # ======================================================================
+        # ======================================================================
+        # Overlays
+        # --------
+        # Color overlays for various display modes.
+        # ======================================================================
 
-
-        reaction_conduit = CableMeshConduit(self.mesh,
-                                            scale=self.settings['scale.externalforces'],
-                                            tol=self.settings['tol.externalforces'])
-
+        # draw reactions
         if self.settings['_is.valid'] and self.settings['show.reactions']:
-            print('draw_reactions')
-            # tol = self.settings['tol.externalforces']
-            # anchors = list(self.mesh.vertices_where({'is_anchor': True}))
-            # color = self.settings['color.reactions']
-            # scale = self.settings['scale.externalforces']
-            # guids = self.artist.draw_reactions(anchors, color, scale, tol)
-            # self.guid_reaction = zip(guids, anchors)
-            reaction_conduit.enable()
+            self.conduit_reactions.enable()
         else:
-            reaction_conduit.disable()
+            if self.conduit_reactions:
+                self.conduit_reactions.disable()
 
-
-
-
-
-        if self.settings['_is.valid'] and self.settings['show.loads']:
-            tol = self.settings['tol.externalforces']
-            vertices = list(self.mesh.vertices())
-            color = self.settings['color.loads']
-            scale = self.settings['scale.externalforces']
-            guids = self.artist.draw_loads(vertices, color, scale, tol)
-            self.guid_loads = zip(guids, vertices)
+        # draw loads
+        if self.settings['show.loads']:
+            self.conduit_loads.enable()
+        else:
+            if self.conduit_loads:
+                self.conduit_loads.disable()
 
         if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
 

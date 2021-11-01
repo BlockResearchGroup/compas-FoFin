@@ -2,6 +2,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+import scriptcontext as sc
+
 import compas_rhino
 
 from compas_fofin.rhino import get_scene
@@ -27,6 +29,7 @@ def RunCommand(is_interactive):
 
     if option == "Yes":
         scene.clear()
+        sc.doc.Views.Redraw()
 
 
 # ==============================================================================
