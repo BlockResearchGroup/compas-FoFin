@@ -4,20 +4,15 @@ from __future__ import division
 
 from compas_rhino.conduits import BaseConduit
 
-from Rhino.Geometry import Point3d
-from Rhino.Geometry import Line
-
 from compas.geometry import add_vectors
 from compas.geometry import scale_vector
 from compas.geometry import length_vector
 
-from System.Collections.Generic import List
 from System.Drawing.Color import FromArgb
 
 try:
     import Rhino
 
-    from Rhino.ApplicationSettings import ModelAidSettings
     from Rhino.Geometry import Line
     from Rhino.Geometry import Point3d
 

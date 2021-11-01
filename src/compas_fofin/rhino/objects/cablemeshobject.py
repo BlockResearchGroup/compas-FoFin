@@ -2,8 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-import scriptcontext as sc
-
 from compas.geometry import Point
 from compas.geometry import Scale
 from compas.geometry import Translation
@@ -15,7 +13,6 @@ from .meshobject import MeshObject
 
 from compas_fofin.rhino import ReactionConduit
 from compas_fofin.rhino import LoadConduit
-
 
 
 class CableMeshObject(MeshObject):

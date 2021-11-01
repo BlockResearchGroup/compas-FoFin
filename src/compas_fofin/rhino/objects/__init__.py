@@ -8,4 +8,3 @@ from .cablemeshobject import CableMeshObject
 from .meshobject import MeshObject
 
 MeshObject.register(CableMesh, CableMeshObject)
-

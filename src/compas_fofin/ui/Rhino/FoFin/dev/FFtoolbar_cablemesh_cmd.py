@@ -20,7 +20,7 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    options = ["FromMesh", "FromSurface"] 
+    options = ["FromMesh", "FromSurface"]
     option = compas_rhino.rs.GetString("Create CableMesh:", strings=options)
 
     if not option:
