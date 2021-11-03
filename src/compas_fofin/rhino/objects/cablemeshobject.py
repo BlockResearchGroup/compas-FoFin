@@ -115,11 +115,16 @@ class CableMeshObject(MeshObject):
     def clear_conduits(self):
         try:
             self.conduit_reactions.disable()
-            self.conduit_loads.disable()
         except Exception:
             pass
         finally:
             del self._conduit_reactions
+
+        try:
+            self.conduit_loads.disable()
+        except Exception:
+            pass
+        finally:
             del self._conduit_loads
 
     def draw(self):
