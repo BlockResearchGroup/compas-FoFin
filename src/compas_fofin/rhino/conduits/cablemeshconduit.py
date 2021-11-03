@@ -38,7 +38,6 @@ class ReactionConduit(BaseConduit):
         e.IncludeBoundingBox(bbox)
 
     def DrawForeground(self, e):
-
         for vertex in self.cablemesh.vertices():
             ep = self.cablemesh.vertex_coordinates(vertex)
             r = self.cablemesh.vertex_attributes(vertex, ['_rx', '_ry', '_rz'])
