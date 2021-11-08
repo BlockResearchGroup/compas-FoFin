@@ -88,50 +88,23 @@ class LoadConduit(BaseConduit):
 
 
 class PipeConduit(BaseConduit):
-    """Display conduit for CableMesh loads.
+    """Display conduit for CableMesh pipes as thickened lines.
     """
 
-    def __init__(self, xyz, edges, values, color, scale, tol, **kwargs):
+    def __init__(self, xyz, edges, values, color, **kwargs):
         super(PipeConduit, self).__init__(**kwargs)
         self.xyz = xyz or {}
         self.edges = edges or []
         self.values = values or {}
         self.color = color or {}
-        self.scale = scale
-        self.tol = tol
 
     def DrawForeground(self, e):
-
         for edge in self.edges:
             u, v = edge
             sp = self.xyz[u]
             ep = self.xyz[v]
-
-            normal = subtract_vectors(ep, sp)
-            length = distance_point_point(ep, sp)
-
-            pipe_size = self.values[edge]
-
-            if pipe_size < 0:
-                pipe_size = -pipe_size
-            pipe_size = self.scale * self.values[edge]
-            if pipe_size < self.tol:
-                continue
-            radius = sqrt(pipe_size / pi)
-
-            plane = Plane(Point3d(*sp), Vector3d(*normal))
-            circle = Circle(plane, radius)
-            cylinder = Cylinder(circle, length)
-
-            brep = Brep.CreateFromCylinder(cylinder, True, True)
-
-            material = DisplayMaterial(FromArgb(*self.color[edge]))
-            # e.Display.DrawLine(Point3d(*sp),
-            #                    Point3d(*ep),
-            #                    FromArgb(*self.color[edge]),
-            #                    pipe_size)
-
-            # e.Display.DrawCylinder(cylinder, FromArgb(*self.color[edge]))
-
-            e.Display.DrawBrepShaded(brep, material)
-
+            thickness = int(abs(self.values[edge]))
+            e.Display.DrawLine(Point3d(*sp),
+                               Point3d(*ep),
+                               FromArgb(*self.color[edge]),
+                               thickness)
