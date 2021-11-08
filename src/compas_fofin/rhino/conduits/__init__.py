@@ -4,3 +4,4 @@ from __future__ import division
 
 from .cablemeshconduit import ReactionConduit  # noqa: F401 F403
 from .cablemeshconduit import LoadConduit  # noqa: F401 F403
+from .cablemeshconduit import PipeConduit  # noqa: F401 F403

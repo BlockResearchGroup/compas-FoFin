@@ -13,6 +13,7 @@ from .meshobject import MeshObject
 
 from compas_fofin.rhino import ReactionConduit
 from compas_fofin.rhino import LoadConduit
+from compas_fofin.rhino import PipeConduit
 
 
 class CableMeshObject(MeshObject):
@@ -55,6 +56,8 @@ class CableMeshObject(MeshObject):
         self._guid_pipes = {}
         self._conduit_reactions = None
         self._conduit_loads = None
+        self._conduit_pipes_f = None
+        self._conduit_pipes_q = None
 
     @property
     def vertex_xyz(self):
@@ -112,6 +115,18 @@ class CableMeshObject(MeshObject):
             self._conduit_loads = conduit_loads
         return self._conduit_loads
 
+    @property
+    def conduit_pipes_f(self):
+        if self._conduit_pipes_f is None:
+            conduit_pipes_f = PipeConduit(xyz={},
+                                          edges=[],
+                                          values={},
+                                          color={},
+                                          scale=self.settings['scale.pipes'],
+                                          tol=self.settings['tol.pipes'])
+            self._conduit_pipes_f = conduit_pipes_f
+        return self._conduit_pipes_f
+
     def clear_conduits(self):
         try:
             self.conduit_reactions.disable()
@@ -127,6 +142,12 @@ class CableMeshObject(MeshObject):
         finally:
             del self._conduit_loads
 
+        try:
+            self.conduit_pipes_f.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_pipes_f
 
     def draw(self):
         """Draw the objects representing the cablemesh.
@@ -277,14 +298,18 @@ class CableMeshObject(MeshObject):
                 except Exception:
                     pass
 
+        # draw force pipes
         if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
 
+            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
             edges = list(self.mesh.edges_where({'_is_edge': True}))
             color = {edge: self.settings['color.pipes'] for edge in edges}
             forces = {edge: self.mesh.edge_attribute(edge, '_f') for edge in edges}
 
             fmin = min(forces.values())
             fmax = max(forces.values())
+
+            # forces_rel = {edge: f / fmin for edge, f in forces.iteritems()}
 
             for edge in edges:
                 if fmin != fmax:
@@ -294,13 +319,20 @@ class CableMeshObject(MeshObject):
                     elif forces[edge] < 0.0:
                         color[edge] = i_to_blue((forces[edge]) / fmin)
 
-            scale = self.settings['scale.pipes']
-            tol = self.settings['tol.pipes']
-            guids = self.artist.draw_pipes(edges, forces, color, scale, tol)
-            if self.guid_pipes:
-                compas_rhino.delete_objects(self.guid_pipes, purge=True)
-            self.guid_pipes = zip(guids, edges)
+            self.conduit_pipes_f.xyz = xyz
+            self.conduit_pipes_f.edges = edges
+            self.conduit_pipes_f.values = forces
+            self.conduit_pipes_f.color = color
+            self.conduit_pipes_f.enable()
 
+        else:
+            if self.conduit_pipes_f:
+                try:
+                    self.conduit_pipes_f.disable()
+                except Exception:
+                    pass
+
+        # draw q pipes
         if self.settings['show.pipes:forcedensities']:
 
             edges = list(self.mesh.edges_where({'_is_edge': True}))
