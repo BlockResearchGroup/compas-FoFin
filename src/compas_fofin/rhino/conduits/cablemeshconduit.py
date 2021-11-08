@@ -2,19 +2,31 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+from math import pi
+from math import sqrt
+
 from compas_rhino.conduits import BaseConduit
 
 from compas.geometry import add_vectors
+from compas.geometry import subtract_vectors
 from compas.geometry import scale_vector
 from compas.geometry import length_vector_sqrd
+from compas.geometry import distance_point_point
 
 from System.Drawing.Color import FromArgb
 
 try:
     import Rhino
 
+    from Rhino.Display import DisplayMaterial
+
+    from Rhino.Geometry import Brep
+    from Rhino.Geometry import Cylinder
+    from Rhino.Geometry import Circle
     from Rhino.Geometry import Line
+    from Rhino.Geometry import Plane
     from Rhino.Geometry import Point3d
+    from Rhino.Geometry import Vector3d
 
     basestring
 except NameError:
@@ -32,10 +44,6 @@ class ReactionConduit(BaseConduit):
         self.scale = scale
         self.tol = tol
         self.arrow_size = 0.1
-
-    def CalculateBoundingBox(self, e):
-        bbox = Rhino.Geometry.BoundingBox(-1000, -1000, -1000, 1000, 1000, 1000)
-        e.IncludeBoundingBox(bbox)
 
     def DrawForeground(self, e):
         for vertex in self.cablemesh.vertices():
@@ -64,10 +72,6 @@ class LoadConduit(BaseConduit):
         self.tol = tol
         self.arrow_size = 0.1
 
-    def CalculateBoundingBox(self, e):
-        bbox = Rhino.Geometry.BoundingBox(-1000, -1000, -1000, 1000, 1000, 1000)
-        e.IncludeBoundingBox(bbox)
-
     def DrawForeground(self, e):
         for vertex in self.cablemesh.vertices():
             ep = self.cablemesh.vertex_coordinates(vertex)
@@ -81,3 +85,26 @@ class LoadConduit(BaseConduit):
                                 FromArgb(*self.color),
                                 0,
                                 self.arrow_size)
+
+
+class PipeConduit(BaseConduit):
+    """Display conduit for CableMesh pipes as thickened lines.
+    """
+
+    def __init__(self, xyz, edges, values, color, **kwargs):
+        super(PipeConduit, self).__init__(**kwargs)
+        self.xyz = xyz or {}
+        self.edges = edges or []
+        self.values = values or {}
+        self.color = color or {}
+
+    def DrawForeground(self, e):
+        for edge in self.edges:
+            u, v = edge
+            sp = self.xyz[u]
+            ep = self.xyz[v]
+            thickness = int(abs(self.values[edge]))
+            e.Display.DrawLine(Point3d(*sp),
+                               Point3d(*ep),
+                               FromArgb(*self.color[edge]),
+                               thickness)

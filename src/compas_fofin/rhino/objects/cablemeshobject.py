@@ -6,13 +6,14 @@ from compas.geometry import Point
 from compas.geometry import Scale
 from compas.geometry import Translation
 from compas.geometry import Rotation
-from compas.utilities import i_to_red, i_to_blue
+from compas.utilities import i_to_red, i_to_blue, normalize_values
 import compas_rhino
 
 from .meshobject import MeshObject
 
 from compas_fofin.rhino import ReactionConduit
 from compas_fofin.rhino import LoadConduit
+from compas_fofin.rhino import PipeConduit
 
 
 class CableMeshObject(MeshObject):
@@ -40,14 +41,16 @@ class CableMeshObject(MeshObject):
         'color.faces': [200, 200, 200],
         'color.reactions': [0, 200, 0],
         'color.loads': [0, 80, 0],
-        'color.pipes': [100, 100, 100],
         'color.invalid': [100, 255, 100],
+        'color.pipes': [100, 100, 100],
 
         'scale.externalforces': 1,
-        'scale.pipes': 0.01,
+
+        'pipe_thickness.min': 0,
+        'pipe_thickness.max': 10,
 
         'tol.externalforces': 1e-3,
-        'tol.pipes': 1e-3
+
     }
 
     def __init__(self, diagram, *args, **kwargs):
@@ -55,6 +58,8 @@ class CableMeshObject(MeshObject):
         self._guid_pipes = {}
         self._conduit_reactions = None
         self._conduit_loads = None
+        self._conduit_pipes_f = None
+        self._conduit_pipes_q = None
 
     @property
     def vertex_xyz(self):
@@ -112,6 +117,20 @@ class CableMeshObject(MeshObject):
             self._conduit_loads = conduit_loads
         return self._conduit_loads
 
+    @property
+    def conduit_pipes_f(self):
+        if self._conduit_pipes_f is None:
+            conduit_pipes_f = PipeConduit(xyz={}, edges=[], values={}, color={})
+            self._conduit_pipes_f = conduit_pipes_f
+        return self._conduit_pipes_f
+
+    @property
+    def conduit_pipes_q(self):
+        if self._conduit_pipes_q is None:
+            conduit_pipes_q = PipeConduit(xyz={}, edges=[], values={}, color={})
+            self._conduit_pipes_q = conduit_pipes_q
+        return self._conduit_pipes_q
+
     def clear_conduits(self):
         try:
             self.conduit_reactions.disable()
@@ -127,6 +146,19 @@ class CableMeshObject(MeshObject):
         finally:
             del self._conduit_loads
 
+        try:
+            self.conduit_pipes_f.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_pipes_f
+
+        try:
+            self.conduit_pipes_q.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_pipes_q
 
     def draw(self):
         """Draw the objects representing the cablemesh.
@@ -277,49 +309,77 @@ class CableMeshObject(MeshObject):
                 except Exception:
                     pass
 
+        # draw force pipes
         if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
 
+            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
             edges = list(self.mesh.edges_where({'_is_edge': True}))
             color = {edge: self.settings['color.pipes'] for edge in edges}
             forces = {edge: self.mesh.edge_attribute(edge, '_f') for edge in edges}
 
             fmin = min(forces.values())
             fmax = max(forces.values())
+            f_range = fmax - fmin or 1
+
+            tmin = self.settings['pipe_thickness.min']
+            tmax = self.settings['pipe_thickness.max']
+            t_range = tmax - tmin
+
+            forces_remapped = {edge: (((f - fmin) * t_range) / f_range) + tmin for edge, f in forces.iteritems()}
 
             for edge in edges:
                 if fmin != fmax:
                     if forces[edge] >= 0.0:
                         color[edge] = i_to_red((forces[edge]) / fmax)
-
                     elif forces[edge] < 0.0:
                         color[edge] = i_to_blue((forces[edge]) / fmin)
 
-            scale = self.settings['scale.pipes']
-            tol = self.settings['tol.pipes']
-            guids = self.artist.draw_pipes(edges, forces, color, scale, tol)
-            if self.guid_pipes:
-                compas_rhino.delete_objects(self.guid_pipes, purge=True)
-            self.guid_pipes = zip(guids, edges)
+            self.conduit_pipes_f.xyz = xyz
+            self.conduit_pipes_f.edges = edges
+            self.conduit_pipes_f.values = forces_remapped
+            self.conduit_pipes_f.color = color
+            self.conduit_pipes_f.enable()
 
-        if self.settings['show.pipes:forcedensities']:
+        else:
+            if self.conduit_pipes_f:
+                try:
+                    self.conduit_pipes_f.disable()
+                except Exception:
+                    pass
 
+        # draw q pipes
+        if self.settings['_is.valid'] and self.settings['show.pipes:forcedensities']:
+
+            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
             edges = list(self.mesh.edges_where({'_is_edge': True}))
             color = {edge: self.settings['color.pipes'] for edge in edges}
             qs = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
 
             qmin = min(qs.values())
             qmax = max(qs.values())
+            q_range = qmax - qmin or 1
+
+            tmin = self.settings['pipe_thickness.min']
+            tmax = self.settings['pipe_thickness.max']
+            t_range = tmax - tmin
+
+            qs_remapped = {edge: (((q - qmin) * t_range) / q_range) + tmin for edge, q in qs.iteritems()}
 
             for edge in edges:
                 if qs[edge] >= 0.0:
                     color[edge] = i_to_red((qs[edge]) / qmax)
-
                 elif qs[edge] < 0.0:
                     color[edge] = i_to_blue((qs[edge]) / qmin)
 
-            scale = self.settings['scale.pipes']
-            tol = self.settings['tol.pipes']
-            guids = self.artist.draw_pipes(edges, qs, color, scale, tol)
-            if self.guid_pipes:
-                compas_rhino.delete_objects(self.guid_pipes, purge=True)
-            self.guid_pipes = zip(guids, edges)
+            self.conduit_pipes_q.xyz = xyz
+            self.conduit_pipes_q.edges = edges
+            self.conduit_pipes_q.values = qs_remapped
+            self.conduit_pipes_q.color = color
+            self.conduit_pipes_q.enable()
+
+        else:
+            if self.conduit_pipes_q:
+                try:
+                    self.conduit_pipes_q.disable()
+                except Exception:
+                    pass
