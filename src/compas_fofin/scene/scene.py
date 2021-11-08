@@ -46,6 +46,7 @@ class Scene(object):
         compas_rhino.rs.EnableRedraw(False)
         for guid in list(self.nodes):
             node = self.nodes[guid]
+            node.clear_conduits()
             node.clear()
             del self.nodes[guid]
         self.nodes = {}
