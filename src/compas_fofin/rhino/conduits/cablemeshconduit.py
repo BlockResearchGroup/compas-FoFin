@@ -6,7 +6,7 @@ from compas_rhino.conduits import BaseConduit
 
 from compas.geometry import add_vectors
 from compas.geometry import scale_vector
-from compas.geometry import length_vector
+from compas.geometry import length_vector_sqrd
 
 from System.Drawing.Color import FromArgb
 
@@ -42,7 +42,7 @@ class ReactionConduit(BaseConduit):
             ep = self.cablemesh.vertex_coordinates(vertex)
             r = self.cablemesh.vertex_attributes(vertex, ['_rx', '_ry', '_rz'])
             r = scale_vector(r, -self.scale)
-            if length_vector(r) < self.tol:
+            if length_vector_sqrd(r) < self.tol ** 2:
                 continue
             sp = add_vectors(ep, r)
             line = Line(Point3d(*ep), Point3d(*sp))
@@ -73,7 +73,7 @@ class LoadConduit(BaseConduit):
             ep = self.cablemesh.vertex_coordinates(vertex)
             p = self.cablemesh.vertex_attributes(vertex, ['px', 'py', 'pz'])
             p = scale_vector(p, self.scale)
-            if length_vector(p) < self.tol:
+            if length_vector_sqrd(p) < self.tol ** 2:
                 continue
             sp = add_vectors(ep, p)
             line = Line(Point3d(*ep), Point3d(*sp))

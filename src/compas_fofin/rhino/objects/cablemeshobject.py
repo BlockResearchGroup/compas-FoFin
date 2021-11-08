@@ -127,6 +127,7 @@ class CableMeshObject(MeshObject):
         finally:
             del self._conduit_loads
 
+
     def draw(self):
         """Draw the objects representing the cablemesh.
         """
@@ -261,14 +262,20 @@ class CableMeshObject(MeshObject):
             self.conduit_reactions.enable()
         else:
             if self.conduit_reactions:
-                self.conduit_reactions.disable()
+                try:
+                    self.conduit_reactions.disable()
+                except Exception:
+                    pass
 
         # draw loads
         if self.settings['show.loads']:
             self.conduit_loads.enable()
         else:
             if self.conduit_loads:
-                self.conduit_loads.disable()
+                try:
+                    self.conduit_loads.disable()
+                except Exception:
+                    pass
 
         if self.settings['_is.valid'] and self.settings['show.pipes:forces']:
 
