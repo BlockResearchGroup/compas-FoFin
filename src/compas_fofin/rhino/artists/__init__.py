@@ -4,7 +4,7 @@ from __future__ import division
 
 from compas_fofin.datastructures import CableMesh
 
-from compas_rhino.artists import BaseArtist
+from compas_rhino.artists import RhinoArtist
 from .cablemeshartist import CableMeshArtist
 
-BaseArtist.register(CableMesh, CableMeshArtist)
+RhinoArtist.register(CableMesh, CableMeshArtist)
