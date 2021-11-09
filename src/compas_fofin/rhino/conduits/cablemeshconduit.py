@@ -15,26 +15,30 @@ from compas.geometry import distance_point_point
 
 from System.Drawing.Color import FromArgb
 
-try:
-    import Rhino
-
-    from Rhino.Display import DisplayMaterial
-
-    from Rhino.Geometry import Brep
-    from Rhino.Geometry import Cylinder
-    from Rhino.Geometry import Circle
-    from Rhino.Geometry import Line
-    from Rhino.Geometry import Plane
-    from Rhino.Geometry import Point3d
-    from Rhino.Geometry import Vector3d
-
-    basestring
-except NameError:
-    basestring = str
+import Rhino
+from Rhino.Display import DisplayMaterial
+from Rhino.Geometry import Brep
+from Rhino.Geometry import Cylinder
+from Rhino.Geometry import Circle
+from Rhino.Geometry import Line
+from Rhino.Geometry import Plane
+from Rhino.Geometry import Point3d
+from Rhino.Geometry import Vector3d
 
 
 class ReactionConduit(BaseConduit):
     """Display conduit for CableMesh reactions
+
+    Parameters
+    ----------
+    cablemesh : :class:`compas_fofin.datastructures.CableMesh`
+        The cablemesh.
+    color : rgb tuple
+        The color of the reaction forces.
+    scale : float
+        The scale factor.
+    tol : float
+        Minimum length of a reaction force vector.
     """
 
     def __init__(self, cablemesh, color, scale, tol, **kwargs):
@@ -62,6 +66,17 @@ class ReactionConduit(BaseConduit):
 
 class LoadConduit(BaseConduit):
     """Display conduit for CableMesh loads.
+
+    Parameters
+    ----------
+    cablemesh : :class:`compas_fofin.datastructures.CableMesh`
+        The cablemesh.
+    color : rgb tuple
+        The color of the loads.
+    scale : float
+        The scale factor.
+    tol : float
+        Minimum length of a load vector.
     """
 
     def __init__(self, cablemesh, color, scale, tol, **kwargs):
@@ -89,6 +104,17 @@ class LoadConduit(BaseConduit):
 
 class PipeConduit(BaseConduit):
     """Display conduit for CableMesh pipes as thickened lines.
+
+    Parameters
+    ----------
+    xyz : list of list of float
+        The vertex coordinates.
+    edges : list of tuple of int
+        List of pairs of indices into the list of vertex coordinates.
+    values : dict
+        Mapping between edges and thicknesses.
+    color : dict
+        Mapping between edges and colors.
     """
 
     def __init__(self, xyz, edges, values, color, **kwargs):
