@@ -97,6 +97,7 @@ def RunCommand(is_interactive):
         if cablemesh.update_edges_attributes(keys, names=public):
             cablemesh.settings['_is.valid'] = False
             scene.update()
+        compas_rhino.rs.UnselectAllObjects()
 
 
 # ==============================================================================
