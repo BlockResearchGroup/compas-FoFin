@@ -40,15 +40,15 @@ a:visited{
 #links{
     position: absolute;
     top: 60%;
-    left: 8%;
+    left: 7%;
     line-height: 1.5;
     /* margin-top: 30%; */
 }
 
 #terms{
     position: absolute;
-    bottom: 15%;
-    left: 8%;
+    bottom: 11.5%;
+    left: 7%;
     font-size: xx-small;
 }
 
@@ -78,6 +78,6 @@ a:visited{
 
 #version{
     position: fixed;
-    left: 29.1%;
-    top: 53%;
+    left: 23.8%;
+    top: 52%;
 }
