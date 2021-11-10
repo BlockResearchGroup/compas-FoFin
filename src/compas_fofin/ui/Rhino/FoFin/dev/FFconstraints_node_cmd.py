@@ -7,6 +7,8 @@ from compas.geometry import Vector
 from compas.geometry import Plane
 from compas.geometry import add_vectors, scale_vector
 
+from compas_fd.constraints import Constraint
+
 import compas_rhino
 from compas_rhino.utilities import select_line
 
@@ -15,6 +17,8 @@ from compas_fofin.rhino import FF_error
 
 
 __commandname__ = "FFconstraints_node"
+
+scale = 1  # placeholder
 
 
 @FF_error()
@@ -32,8 +36,10 @@ def RunCommand(is_interactive):
     keys = cablemesh.select_vertices()
     if keys:
 
-        options = ["Direction", "Line", "Plane"]
+        options = ["Direction", "Line", "Plane", "Curve", "Surface"]
         option = compas_rhino.rs.GetString("Select node constraints:", strings=options)
+
+        constraints = []
 
         if not option:
             return
@@ -45,9 +51,6 @@ def RunCommand(is_interactive):
             if not option2:
                 return
 
-            key = keys[0]  # placeholder
-            scale = 1  # placeholder
-
             if option2 == "x" or option2 == "y" or option2 == "z":
 
                 if option2 == "x":
@@ -57,9 +60,12 @@ def RunCommand(is_interactive):
                 elif option2 == "z":
                     vector = Vector.Zaxis()
 
-                start = cablemesh.datastructure.vertex_coordinates(key)
-                end = add_vectors(start, scale_vector(vector, scale))
-                constraint = Line(start, end)
+                for key in keys:
+                    start = cablemesh.datastructure.vertex_coordinates(key)
+                    end = add_vectors(start, scale_vector(vector, scale))
+                    line = Line(start, end)
+                    constraint = Constraint(line)
+                    constraints.append(constraint.to_data())
 
             elif option2 == "XY" or option2 == "YZ" or option2 == "ZX":
 
@@ -70,22 +76,45 @@ def RunCommand(is_interactive):
                 elif option2 == "ZX":
                     vector = Vector.Yaxis()
 
-                origin = cablemesh.datastructure.vertex_coordinates(key)
-                constraint = Plane(origin, vector)
+                for key in keys:
+                    origin = cablemesh.datastructure.vertex_coordinates(key)
+                    plane = Plane(origin, vector)
+                    constraint = Constraint(plane)
+                    constraints.append(constraint.to_data())
 
         elif option == "Line":
             guid = select_line(message="Select line constraint")
             obj = compas_rhino.find_object(guid)
-            constraint = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)  # to be reaplced by constraint object
+            line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
+            constraint = Constraint(line)
+            for key in keys:
+                constraint.location = cablemesh.datastructure.vertex_attribute(key, 'xyz')
+                constraint.project()
+                cablemesh.datastructure.vertex_attribute(key, 'xyz', constraint.location)
+                constraints.append(constraint.to_data())
 
         elif option == "Plane":
+            guid = select_line(message="Select line constraint")
+            obj = compas_rhino.find_object(guid)
+            line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
+            plane = Plane(line.start, line.vector)
+            constraint = Constraint(plane)
+            for key in keys:
+                constraint.location = cablemesh.datastructure.vertex_attribute(key, 'xyz')
+                constraint.project()
+                cablemesh.datastructure.vertex_attribute(key, 'xyz', constraint.location)
+                constraints.append(constraint.to_data())
+
+        elif option == "Curve":
             raise NotImplementedError
 
-        # store constraint as attribute to the cablemesh, to_data to be removed for latest compas dev
-        cablemesh.datastructure.vertices_attribute('constraint', constraint.to_data(), keys=keys)
+        elif option == "Surface":
+            raise NotImplementedError
+
+        cablemesh.datastructure.vertices_attribute('constraint', constraints, keys=keys)
 
         # visualise constraint
-        print(constraint)
+        print(constraints)
 
         cablemesh.settings['_is.valid'] = False
         scene.update()

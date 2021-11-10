@@ -26,7 +26,7 @@ class CableMeshObject(MeshObject):
         'show.vertices:is_anchor': True,
         'show.vertices:free': False,
         'show.edges': True,
-        'show.faces': True,
+        'show.faces': False,
         'show.faces:all': False,
         'show.reactions': True,
         'show.loads': True,
@@ -64,22 +64,22 @@ class CableMeshObject(MeshObject):
     @property
     def vertex_xyz(self):
         """dict : The view coordinates of the mesh object."""
-        origin = Point(0, 0, 0)
-        if self.anchor is not None:
-            xyz = self.mesh.vertex_attributes(self.anchor, 'xyz')
-            point = Point(* xyz)
-            T1 = Translation.from_vector(origin - point)
-            S = Scale.from_factors([self.scale] * 3)
-            R = Rotation.from_euler_angles(self.rotation)
-            T2 = Translation.from_vector(self.location)
-            X = T2 * R * S * T1
-        else:
-            S = Scale.from_factors([self.scale] * 3)
-            R = Rotation.from_euler_angles(self.rotation)
-            T = Translation.from_vector(self.location)
-            X = T * R * S
-        mesh = self.mesh.transformed(X)
-        vertex_xyz = {vertex: mesh.vertex_attributes(vertex, 'xyz') for vertex in mesh.vertices()}
+        # origin = Point(0, 0, 0)
+        # if self.anchor is not None:
+        #     xyz = self.mesh.vertex_attributes(self.anchor, 'xyz')
+        #     point = Point(* xyz)
+        #     T1 = Translation.from_vector(origin - point)
+        #     S = Scale.from_factors([self.scale] * 3)
+        #     R = Rotation.from_euler_angles(self.rotation)
+        #     T2 = Translation.from_vector(self.location)
+        #     X = T2 * R * S * T1
+        # else:
+        #     S = Scale.from_factors([self.scale] * 3)
+        #     R = Rotation.from_euler_angles(self.rotation)
+        #     T = Translation.from_vector(self.location)
+        #     X = T * R * S
+        # mesh = self.mesh.transformed(X)
+        vertex_xyz = {vertex: self.mesh.vertex_attributes(vertex, 'xyz') for vertex in self.mesh.vertices()}
         return vertex_xyz
 
     @property

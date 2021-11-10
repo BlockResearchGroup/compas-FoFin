@@ -131,7 +131,7 @@ class MeshObject(MeshObject):
             select_faces(self.datastructure, keys)
             return mesh_update_face_attributes(self.datastructure, keys, names)
 
-    def move_vertices_vertical(self, keys):
+    def move_vertices_direction(self, keys, direction=None):
         """Move selected vertices along the Z axis.
 
         Parameters
@@ -175,77 +175,23 @@ class MeshObject(MeshObject):
             return False
 
         start = gp.Point()
-        vector = Vector3d(0, 0, 1)
+        if not direction:
+            vector = Vector3d(0, 0, 1)
+        elif direction == 'x' or direction == 'yz':
+            vector = Vector3d(1, 0, 0)
+        elif direction == 'y' or direction == 'zx':
+            vector = Vector3d(0, 1, 0)
+        elif direction == 'z' or direction == 'xy':
+            vector = Vector3d(0, 0, 1)
 
         gp.SetCommandPrompt('Point to move to?')
         gp.SetBasePoint(start, False)
         gp.DrawLineFromPoint(start, True)
         gp.DynamicDraw += OnDynamicDraw
-        gp.Constrain(Rhino.Geometry.Line(start, start + vector))
-        gp.Get()
-
-        if gp.CommandResult() != Rhino.Commands.Result.Success:
-            return False
-
-        end = gp.Point()
-        vector = list(end - start)
-        for key in keys:
-            xyz = self.datastructure.vertex_attributes(key, 'xyz')
-            self.datastructure.vertex_attributes(key, 'xyz', add_vectors(xyz, vector))
-
-        return True
-
-    def move_vertices_horizontal(self, keys):
-        """Move selected vertices in a horizontal plane.
-
-        Parameters
-        ----------
-        keys : list
-            The identifiers of the vertices.
-        """
-        def OnDynamicDraw(sender, e):
-            end = e.CurrentPoint
-            vector = end - start
-            for a, b in lines:
-                a = a + vector
-                b = b + vector
-                e.Display.DrawDottedLine(a, b, color)
-            for a, b in connectors:
-                a = a + vector
-                e.Display.DrawDottedLine(a, b, color)
-
-        Point3d = Rhino.Geometry.Point3d
-        Vector3d = Rhino.Geometry.Vector3d
-        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
-        lines = []
-        connectors = []
-
-        for key in keys:
-            a = self.datastructure.vertex_coordinates(key)
-            nbrs = self.datastructure.vertex_neighbors(key)
-            for nbr in nbrs:
-                b = self.datastructure.vertex_coordinates(nbr)
-                line = [Point3d(a[0], a[1], 0), Point3d(b[0], b[1], 0)]
-                if nbr in keys:
-                    lines.append(line)
-                else:
-                    connectors.append(line)
-
-        gp = Rhino.Input.Custom.GetPoint()
-        gp.SetCommandPrompt('Point to move from?')
-        gp.Get()
-
-        if gp.CommandResult() != Rhino.Commands.Result.Success:
-            return False
-
-        start = gp.Point()
-        vector = Vector3d(0, 0, 1)
-
-        gp.SetCommandPrompt('Point to move to?')
-        gp.SetBasePoint(start, False)
-        gp.DrawLineFromPoint(start, True)
-        gp.DynamicDraw += OnDynamicDraw
-        gp.Constrain(Rhino.Geometry.Plane(start, vector), False)
+        if not direction or direction == 'x' or direction == 'y' or direction == 'z':
+            gp.Constrain(Rhino.Geometry.Line(start, start + vector))
+        else:
+            gp.Constrain(Rhino.Geometry.Plane(start, vector), False)
         gp.Get()
 
         if gp.CommandResult() != Rhino.Commands.Result.Success:
