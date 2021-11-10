@@ -45,13 +45,13 @@ def RunCommand(is_interactive):
             return
 
         if option == "Direction":
-            options2 = ["x", "y", "z", "XY", "YZ", "ZX"]
+            options2 = ["x", "y", "z", "xy", "yz", "zx"]
             option2 = compas_rhino.rs.GetString("Select direction constraint:", strings=options2)
 
             if not option2:
                 return
 
-            if option2 == "x" or option2 == "y" or option2 == "z":
+            if option2 in ["x", "y", "z"]:
 
                 if option2 == "x":
                     vector = Vector.Xaxis()
@@ -67,13 +67,13 @@ def RunCommand(is_interactive):
                     constraint = Constraint(line)
                     constraints.append(constraint.to_data())
 
-            elif option2 == "XY" or option2 == "YZ" or option2 == "ZX":
+            elif option2 in ["xy", "yz", "zx"]:
 
-                if option2 == "XY":
+                if option2 == "xy":
                     vector = Vector.Zaxis()
-                elif option2 == "YZ":
+                elif option2 == "yz":
                     vector = Vector.Xaxis()
-                elif option2 == "ZX":
+                elif option2 == "zx":
                     vector = Vector.Yaxis()
 
                 for key in keys:
@@ -88,21 +88,21 @@ def RunCommand(is_interactive):
             line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
             constraint = Constraint(line)
             for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attribute(key, 'xyz')
+                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
                 constraint.project()
-                cablemesh.datastructure.vertex_attribute(key, 'xyz', constraint.location)
+                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
                 constraints.append(constraint.to_data())
 
         elif option == "Plane":
-            guid = select_line(message="Select line constraint")
+            guid = select_line(message="Select plane constraint")
             obj = compas_rhino.find_object(guid)
             line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
             plane = Plane(line.start, line.vector)
             constraint = Constraint(plane)
             for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attribute(key, 'xyz')
+                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
                 constraint.project()
-                cablemesh.datastructure.vertex_attribute(key, 'xyz', constraint.location)
+                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
                 constraints.append(constraint.to_data())
 
         elif option == "Curve":
@@ -114,7 +114,7 @@ def RunCommand(is_interactive):
         cablemesh.datastructure.vertices_attribute('constraint', constraints, keys=keys)
 
         # visualise constraint
-        print(constraints)
+        print(cablemesh.datastructure.data)
 
         cablemesh.settings['_is.valid'] = False
         scene.update()
