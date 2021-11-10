@@ -33,8 +33,6 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    direction = option
-
     options1 = ["ByContinuousEdges", "Manual"]
     option1 = compas_rhino.rs.GetString("Selection Type.", strings=options1)
     if not option1:
@@ -93,14 +91,15 @@ def RunCommand(is_interactive):
         compas_rhino.rs.UnselectAllObjects()
         select_vertices(cablemesh, keys)
 
-        if direction == 'free':
+        if option == 'free':
             move = cablemesh.move_vertices(keys)
         else:
-            move = cablemesh.move_vertices_direction(keys, direction=direction)
-        
+            move = cablemesh.move_vertices_direction(keys, direction=option)
+
         if move:
             cablemesh.settings['_is.valid'] = False
             scene.update()
+        compas_rhino.rs.UnselectAllObjects()
 
 
 # ==============================================================================

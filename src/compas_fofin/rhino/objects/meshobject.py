@@ -188,7 +188,7 @@ class MeshObject(MeshObject):
         gp.SetBasePoint(start, False)
         gp.DrawLineFromPoint(start, True)
         gp.DynamicDraw += OnDynamicDraw
-        if not direction or direction == 'x' or direction == 'y' or direction == 'z':
+        if not direction or direction in ['x', 'y', 'z']:
             gp.Constrain(Rhino.Geometry.Line(start, start + vector))
         else:
             gp.Constrain(Rhino.Geometry.Plane(start, vector), False)
