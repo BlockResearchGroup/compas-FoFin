@@ -46,7 +46,9 @@
             {"name": "FFfile_save",                         "menu_text": "Save File",           "icon": 2,      "tooltip": "Save FF session"},
 
             {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
+            {"name": "FFcablemesh_from_meshgrid",           "menu_text": "From Meshgrid",       "icon": 3,      "tooltip": "CableMesh from Meshgrid"},
 
+        
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
             {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
 
