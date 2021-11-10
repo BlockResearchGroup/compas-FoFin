@@ -291,6 +291,9 @@ class CableMeshObject(MeshObject):
 
         # draw reactions
         if self.settings['_is.valid'] and self.settings['show.reactions']:
+            self.conduit_reactions.color = self.settings['color.reactions']
+            self.conduit_reactions.scale = self.settings['scale.externalforces']
+            self.conduit_reactions.tol = self.settings['tol.externalforces']
             self.conduit_reactions.enable()
         else:
             if self.conduit_reactions:
@@ -301,6 +304,9 @@ class CableMeshObject(MeshObject):
 
         # draw loads
         if self.settings['show.loads']:
+            self.conduit_loads.color = self.settings['color.loads']
+            self.conduit_loads.scale = self.settings['scale.externalforces']
+            self.conduit_loads.tol = self.settings['tol.externalforces']
             self.conduit_loads.enable()
         else:
             if self.conduit_loads:
