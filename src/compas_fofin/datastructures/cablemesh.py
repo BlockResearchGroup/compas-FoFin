@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas_fd.datastructures import CableMesh as BaseCableMesh
-from compas.geometry import angle_vectors
 
 
 class CableMesh(BaseCableMesh):
@@ -19,7 +18,7 @@ class CableMesh(BaseCableMesh):
             vertices.append(edges[-1][1])
         return vertices
 
-    def corner_vertices(self, tol=160):
+    def corner_vertices(self):
         vkeys = []
         if self.is_closed():
             for key in self.vertices():
@@ -29,13 +28,4 @@ class CableMesh(BaseCableMesh):
             for key in self.vertices_on_boundary():
                 if self.vertex_degree(key) == 2:
                     vkeys.append(key)
-                else:
-                    nbrs = []
-                    for nkey in self.vertex_neighbors(key):
-                        if self.is_edge_on_boundary(key, nkey):
-                            nbrs.append(nkey)
-                    u = (self.edge_vector(key, nbrs[0]))
-                    v = (self.edge_vector(key, nbrs[1]))
-                    if angle_vectors(u, v, deg=True) < tol:
-                        vkeys.append(key)
         return vkeys

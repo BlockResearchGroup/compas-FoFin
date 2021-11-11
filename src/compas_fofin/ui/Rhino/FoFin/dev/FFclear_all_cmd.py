@@ -23,11 +23,11 @@ def RunCommand(is_interactive):
         return
 
     options = ["Yes", "No"]
-    option = compas_rhino.rs.GetString("Clear all FF objects?", strings=options, defaultString="No")
+    option = compas_rhino.rs.GetString("Clear all FF objects?", strings=options, defaultString="No").lower()
     if not option:
         return
 
-    if option == "Yes":
+    if option == "yes":
         scene.clear()
         sc.doc.Views.Redraw()
 

@@ -25,9 +25,11 @@ def RunCommand(is_interactive):
     if not guid:
         return
 
+    sub = compas_rhino.rs.GetInteger("Number of levels of subdivision:", 2, 0, 20)
+
     box = RhinoBox.from_guid(guid).to_compas()
     mesh = CableMesh.from_shape(box)
-    cablemesh = mesh.subdivide(scheme='quad', k=2)
+    cablemesh = mesh.subdivide(scheme='quad', k=sub)
 
     compas_rhino.rs.HideObject(guid)
 

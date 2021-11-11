@@ -2,10 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-# from compas.geometry import Point
-# from compas.geometry import Scale
-# from compas.geometry import Translation
-# from compas.geometry import Rotation
 from compas.utilities import i_to_red, i_to_blue
 import compas_rhino
 
@@ -60,27 +56,6 @@ class CableMeshObject(MeshObject):
         self._conduit_loads = None
         self._conduit_pipes_f = None
         self._conduit_pipes_q = None
-
-    @property
-    def vertex_xyz(self):
-        """dict : The view coordinates of the mesh object."""
-        # origin = Point(0, 0, 0)
-        # if self.anchor is not None:
-        #     xyz = self.mesh.vertex_attributes(self.anchor, 'xyz')
-        #     point = Point(* xyz)
-        #     T1 = Translation.from_vector(origin - point)
-        #     S = Scale.from_factors([self.scale] * 3)
-        #     R = Rotation.from_euler_angles(self.rotation)
-        #     T2 = Translation.from_vector(self.location)
-        #     X = T2 * R * S * T1
-        # else:
-        #     S = Scale.from_factors([self.scale] * 3)
-        #     R = Rotation.from_euler_angles(self.rotation)
-        #     T = Translation.from_vector(self.location)
-        #     X = T * R * S
-        # mesh = self.mesh.transformed(X)
-        vertex_xyz = {vertex: self.mesh.vertex_attributes(vertex, 'xyz') for vertex in self.mesh.vertices()}
-        return vertex_xyz
 
     @property
     def guids(self):

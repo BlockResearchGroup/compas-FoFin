@@ -22,32 +22,34 @@ def RunCommand(is_interactive):
         return
 
     guid = compas_rhino.select_object(message='Select cylinder.')
-    u = compas_rhino.rs.GetInteger("Number of faces along perimeter:", 32, 3, 100)
-    sub = compas_rhino.rs.GetInteger("Number of face subdivisions along height:", 3, 0, 20)
+
     if not guid:
         return
+
+    u = compas_rhino.rs.GetInteger("Number of faces along perimeter:", 32, 3, 100)
+    sub = compas_rhino.rs.GetInteger("Number of face subdivisions along height:", 3, 0, 20)
 
     cylinder = RhinoCylinder.from_guid(guid).to_compas()
     cablemesh = CableMesh.from_shape(cylinder, u=u)
 
-    # Remove top/bottom
+    # remove top/bottom
     cablemesh.delete_vertex((u*2)+1)
     cablemesh.delete_vertex(u*2)
-    cablemesh.remove_unused_vertices()
 
-    # Split for subdivison along length
+    # split for subdivison along length
     start = None
     for edge in cablemesh.edges():
         if not cablemesh.is_edge_on_boundary(*edge):
             start = edge
             break
 
-    vertices = cablemesh.split_strip(start)
-
     for i in range(sub):
-        parallel = cablemesh.edge_strip((vertices[0], vertices[1]))
-        for edge in parallel[:-1]:
-            cablemesh.split_strip(cablemesh.halfedge_after(*edge))
+        if i == 0:
+            vertices = cablemesh.split_strip(start)
+        else:
+            parallel = cablemesh.edge_strip((vertices[0], vertices[1]))
+            for edge in parallel[:-1]:
+                cablemesh.split_strip(cablemesh.halfedge_after(*edge))
 
     compas_rhino.rs.HideObject(guid)
 

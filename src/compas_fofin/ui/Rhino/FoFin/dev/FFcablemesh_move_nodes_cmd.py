@@ -28,17 +28,17 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    mdir_options = ["free", "x", "y", "z", "xy", "yz", "zx"]
+    mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
     mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
     if not mdir:
         return
 
-    stype_options = ["ByEdgeLoop", "Manual"]
-    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options)
+    stype_options = ["ByContinuousEdges", "Manual"]
+    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options).lower()
     if not stype:
         return
 
-    if stype == "ByEdgeLoop":
+    if stype == "bycontinuousedges":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
         select_vertices(cablemesh, keys)
@@ -85,7 +85,7 @@ def RunCommand(is_interactive):
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
-    elif stype == "Manual":
+    elif stype == "manual":
         keys = cablemesh.select_vertices()
 
     if keys:
