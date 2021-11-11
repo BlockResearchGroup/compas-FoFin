@@ -6,6 +6,8 @@ import os
 import json
 from ast import literal_eval
 
+import compas
+
 import scriptcontext as sc
 
 import compas_rhino
@@ -164,7 +166,7 @@ def get_system():
     return sc.sticky["FF.system"]
 
 
-def save_session():
+def compile_session():
     scene = get_scene()
     session = {
         "data": {"cablemesh": None},
@@ -172,12 +174,13 @@ def save_session():
     }
     cablemesh = scene.get('cablemesh')[0]
     if cablemesh:
-        session['data']['cablemesh'] = cablemesh.datastructure.to_data()
+        session['data']['cablemesh'] = cablemesh.datastructure
     return session
 
 
 def load_session(session):
     print("loading session")
+    session = compas.json_loads(session)
     scene = get_scene()
     scene.clear()
     if 'settings' in session:
@@ -185,13 +188,12 @@ def load_session(session):
     if 'data' in session:
         data = session['data']
         if 'cablemesh' in data and data['cablemesh']:
-            cablemesh = CableMesh.from_data(data['cablemesh'])
-            scene.add(cablemesh, name="cablemesh")
+            scene.add(data['cablemesh'], name="cablemesh")
     scene.update()
 
 
 def record():
-    session = json.loads(json.dumps(save_session()))
+    session = compas.json_dumps(compile_session())
     sc.sticky["FF.sessions"] = sc.sticky["FF.sessions"][:sc.sticky["FF.sessions.current"]+1]
     sc.sticky["FF.sessions"].append(session)
     if len(sc.sticky["FF.sessions"]) > 10:
