@@ -19,13 +19,13 @@ class CableMesh(BaseCableMesh):
         return vertices
 
     def corner_vertices(self):
-        vkeys = []
+        vertices = []
         if self.is_closed():
-            for key in self.vertices():
-                if self.vertex_degree(key) == 3:
-                    vkeys.append(key)
+            for vertex in self.vertices():
+                if self.vertex_degree(vertex) == 3:
+                    vertices.append(vertex)
         else:
-            for key in self.vertices_on_boundary():
-                if self.vertex_degree(key) == 2:
-                    vkeys.append(key)
-        return vkeys
+            for vertex in self.vertices_on_boundary():
+                if self.vertex_degree(vertex) == 2:
+                    vertices.append(vertex)
+        return vertices
