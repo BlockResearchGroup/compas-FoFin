@@ -132,12 +132,15 @@ class MeshObject(MeshObject):
             return mesh_update_face_attributes(self.datastructure, keys, names)
 
     def move_vertices_direction(self, keys, direction=None):
-        """Move selected vertices along the Z axis.
+        """Move selected vertices along specified direction.
+
 
         Parameters
         ----------
         keys : list
             The identifiers of the vertices.
+        direction: string, optional
+            The name of axis or plane to move on. Defaut is the 'z'-axis.
         """
         def OnDynamicDraw(sender, e):
             end = e.CurrentPoint
@@ -150,6 +153,7 @@ class MeshObject(MeshObject):
                 a = a + vector
                 e.Display.DrawDottedLine(a, b, color)
 
+        direction = direction or 'z'
         Point3d = Rhino.Geometry.Point3d
         Vector3d = Rhino.Geometry.Vector3d
         color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
@@ -175,20 +179,18 @@ class MeshObject(MeshObject):
             return False
 
         start = gp.Point()
-        if not direction:
-            vector = Vector3d(0, 0, 1)
-        elif direction == 'x' or direction == 'yz':
+        if direction in ['x', 'yz']:
             vector = Vector3d(1, 0, 0)
-        elif direction == 'y' or direction == 'zx':
+        elif direction in ['y', 'zx']:
             vector = Vector3d(0, 1, 0)
-        elif direction == 'z' or direction == 'xy':
+        elif direction in ['z', 'xy']:
             vector = Vector3d(0, 0, 1)
 
         gp.SetCommandPrompt('Point to move to?')
         gp.SetBasePoint(start, False)
         gp.DrawLineFromPoint(start, True)
         gp.DynamicDraw += OnDynamicDraw
-        if not direction or direction in ['x', 'y', 'z']:
+        if direction in ['x', 'y', 'z']:
             gp.Constrain(Rhino.Geometry.Line(start, start + vector))
         else:
             gp.Constrain(Rhino.Geometry.Plane(start, vector), False)

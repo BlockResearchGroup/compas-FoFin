@@ -31,7 +31,7 @@ def RunCommand(is_interactive):
     cablemesh.settings['show.vertices:free'] = True
     scene.update()
 
-    options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
+    options = ["AllBoundaryNodes", "Corners", "ByEdgeLoop", "Manual"]
 
     option = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
@@ -45,7 +45,7 @@ def RunCommand(is_interactive):
         angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
         keys = cablemesh.datastructure.corner_vertices(tol=angle)
 
-    elif option == "ByContinuousEdges":
+    elif option == "ByEdgeLoop":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
 

@@ -23,7 +23,7 @@ def RunCommand(is_interactive):
     if not proxy:
         return
 
-    mesh_fd = proxy.function('compas_fd.fd.mesh_fd_iter_numpy')
+    mesh_fd = proxy.function('compas_fd.fd.mesh_fd_constrained_numpy')
 
     cablemesh = scene.get("cablemesh")[0]
     if not cablemesh:

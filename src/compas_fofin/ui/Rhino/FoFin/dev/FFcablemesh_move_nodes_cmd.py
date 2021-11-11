@@ -28,19 +28,20 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    options = ["free", "x", "y", "z", "xy", "yz", "zx"]
-    option = compas_rhino.rs.GetString("Set Direction.", strings=options)
-    if not option:
+    mdir_options = ["free", "x", "y", "z", "xy", "yz", "zx"]
+    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
+    if not mdir:
         return
 
-    options1 = ["ByContinuousEdges", "Manual"]
-    option1 = compas_rhino.rs.GetString("Selection Type.", strings=options1)
-    if not option1:
+    stype_options = ["ByEdgeLoop", "Manual"]
+    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options)
+    if not stype:
         return
 
-    if option1 == "ByContinuousEdges":
+    if stype == "ByEdgeLoop":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
+        select_vertices(cablemesh, keys)
 
     # elif option == "ByConstraints":
     #     guids = pattern.datastructure.vertices_attribute('constraints')
@@ -84,17 +85,14 @@ def RunCommand(is_interactive):
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
-    elif option1 == "Manual":
+    elif stype == "Manual":
         keys = cablemesh.select_vertices()
 
     if keys:
-        compas_rhino.rs.UnselectAllObjects()
-        select_vertices(cablemesh, keys)
-
-        if option == 'free':
+        if mdir == 'free':
             move = cablemesh.move_vertices(keys)
         else:
-            move = cablemesh.move_vertices_direction(keys, direction=option)
+            move = cablemesh.move_vertices_direction(keys, direction=mdir)
 
         if move:
             cablemesh.settings['_is.valid'] = False

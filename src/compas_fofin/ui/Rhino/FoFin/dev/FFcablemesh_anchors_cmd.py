@@ -58,14 +58,20 @@ def RunCommand(is_interactive):
     option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options)
 
     if not option1:
+        compas_rhino.rs.UnselectAllObjects()
+        cablemesh.settings['show.vertices:free'] = False
+        scene.update()
         return
 
-    options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
+    options = ["AllBoundaryNodes", "Corners", "ByEdgeLoop", "Manual"]
 
     while True:
         option2 = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
         if not option2:
+            compas_rhino.rs.UnselectAllObjects()
+            cablemesh.settings['show.vertices:free'] = False
+            scene.update()
             return
 
         if option2 == "AllBoundaryNodes":
@@ -75,7 +81,7 @@ def RunCommand(is_interactive):
             angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
             keys = cablemesh.datastructure.corner_vertices(tol=angle)
 
-        elif option2 == "ByContinuousEdges":
+        elif option2 == "ByEdgeLoop":
             edges = cablemesh.select_edges()
             keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(edge) for edge in edges])))
 

@@ -101,10 +101,11 @@
                     },
                     {"type": "separator"},
                     {
-                        "name" : "Create Pattern",
+                        "name" : "Create CableMesh",
                         "items":
                         [
-                            {"command": "FFcablemesh_from_mesh"}
+                            {"command": "FFcablemesh_from_mesh"},
+                            {"command": "FFcablemesh_from_meshgrid"}
                         ]
                     },
                     {"type": "separator"},

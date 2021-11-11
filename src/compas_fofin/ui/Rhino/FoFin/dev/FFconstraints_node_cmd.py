@@ -5,7 +5,7 @@ from __future__ import division
 from compas.geometry import Line
 from compas.geometry import Vector
 from compas.geometry import Plane
-from compas.geometry import add_vectors, scale_vector
+from compas.geometry import add_vectors
 
 from compas_fd.constraints import Constraint
 
@@ -17,8 +17,6 @@ from compas_fofin.rhino import FF_error
 
 
 __commandname__ = "FFconstraints_node"
-
-scale = 1  # placeholder
 
 
 @FF_error()
@@ -36,53 +34,51 @@ def RunCommand(is_interactive):
     keys = cablemesh.select_vertices()
     if keys:
 
-        options = ["Direction", "Line", "Plane", "Curve", "Surface"]
-        option = compas_rhino.rs.GetString("Select node constraints:", strings=options)
+        ctype_options = ["Direction", "Line", "Plane", "Curve", "Surface"]
+        ctype = compas_rhino.rs.GetString("Select node constraints:", strings=ctype_options)
 
-        constraints = []
-
-        if not option:
+        if not ctype:
             return
 
-        if option == "Direction":
-            options2 = ["x", "y", "z", "xy", "yz", "zx"]
-            option2 = compas_rhino.rs.GetString("Select direction constraint:", strings=options2)
+        if ctype == "Direction":
+            cdir_options = ["x", "y", "z", "xy", "yz", "zx"]
+            cdir = compas_rhino.rs.GetString("Select cdir constraint:", strings=cdir_options).lower()
 
-            if not option2:
+            if not cdir:
                 return
 
-            if option2 in ["x", "y", "z"]:
+            if cdir in ["x", "y", "z"]:
 
-                if option2 == "x":
+                if cdir == "x":
                     vector = Vector.Xaxis()
-                elif option2 == "y":
+                elif cdir == "y":
                     vector = Vector.Yaxis()
-                elif option2 == "z":
+                elif cdir == "z":
                     vector = Vector.Zaxis()
 
                 for key in keys:
                     start = cablemesh.datastructure.vertex_coordinates(key)
-                    end = add_vectors(start, scale_vector(vector, scale))
+                    end = add_vectors(start, vector)
                     line = Line(start, end)
                     constraint = Constraint(line)
-                    constraints.append(constraint.to_data())
+                    cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-            elif option2 in ["xy", "yz", "zx"]:
+            elif cdir in ["xy", "yz", "zx"]:
 
-                if option2 == "xy":
+                if cdir == "xy":
                     vector = Vector.Zaxis()
-                elif option2 == "yz":
+                elif cdir == "yz":
                     vector = Vector.Xaxis()
-                elif option2 == "zx":
+                elif cdir == "zx":
                     vector = Vector.Yaxis()
 
                 for key in keys:
                     origin = cablemesh.datastructure.vertex_coordinates(key)
                     plane = Plane(origin, vector)
                     constraint = Constraint(plane)
-                    constraints.append(constraint.to_data())
+                    cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif option == "Line":
+        elif ctype == "Line":
             guid = select_line(message="Select line constraint")
             obj = compas_rhino.find_object(guid)
             line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
@@ -91,9 +87,9 @@ def RunCommand(is_interactive):
                 constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
                 constraint.project()
                 cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                constraints.append(constraint.to_data())
+                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif option == "Plane":
+        elif ctype == "Plane":
             guid = select_line(message="Select plane constraint")
             obj = compas_rhino.find_object(guid)
             line = Line(obj.Geometry.PointAtStart, obj.Geometry.PointAtEnd)
@@ -103,18 +99,13 @@ def RunCommand(is_interactive):
                 constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
                 constraint.project()
                 cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                constraints.append(constraint.to_data())
+                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif option == "Curve":
+        elif ctype == "Curve":
             raise NotImplementedError
 
-        elif option == "Surface":
+        elif ctype == "Surface":
             raise NotImplementedError
-
-        cablemesh.datastructure.vertices_attribute('constraint', constraints, keys=keys)
-
-        # visualise constraint
-        print(cablemesh.datastructure.data)
 
         cablemesh.settings['_is.valid'] = False
         scene.update()

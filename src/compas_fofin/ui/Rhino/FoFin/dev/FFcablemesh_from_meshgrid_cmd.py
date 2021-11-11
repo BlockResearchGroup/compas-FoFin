@@ -20,10 +20,10 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    dx = compas_rhino.rs.GetReal("Select dx:", 10.0, 1.0, 100.0)
-    nx = compas_rhino.rs.GetInteger("Select nx:", 10, 2, 100)
-    dy = compas_rhino.rs.GetReal("Select dy:", dx, 1.0, 100.0)
-    ny = compas_rhino.rs.GetInteger("Select ny:", nx, 2, 100)
+    dx = compas_rhino.rs.GetReal("Dimension in X direction:", 10.0, 1.0, 100.0)
+    nx = compas_rhino.rs.GetInteger("Number of faces in X direction:", 10, 2, 100)
+    dy = compas_rhino.rs.GetReal("Dimension in the Y direction:", dx, 1.0, 100.0)
+    ny = compas_rhino.rs.GetInteger("Number of faces in Y direction:", nx, 2, 100)
 
     cablemesh = CableMesh.from_meshgrid(dx, nx, dy, ny)
 
