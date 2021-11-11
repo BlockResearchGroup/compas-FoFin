@@ -2,28 +2,16 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from math import pi
-from math import sqrt
-
 from compas_rhino.conduits import BaseConduit
 
 from compas.geometry import add_vectors
-from compas.geometry import subtract_vectors
 from compas.geometry import scale_vector
 from compas.geometry import length_vector_sqrd
-from compas.geometry import distance_point_point
 
 from System.Drawing.Color import FromArgb
 
-import Rhino
-from Rhino.Display import DisplayMaterial
-from Rhino.Geometry import Brep
-from Rhino.Geometry import Cylinder
-from Rhino.Geometry import Circle
 from Rhino.Geometry import Line
-from Rhino.Geometry import Plane
 from Rhino.Geometry import Point3d
-from Rhino.Geometry import Vector3d
 
 
 class ReactionConduit(BaseConduit):
