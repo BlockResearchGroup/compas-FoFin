@@ -8,6 +8,9 @@ from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_error
 
 import FFcablemesh_from_mesh_cmd
+import FFcablemesh_from_meshgrid_cmd
+import FFcablemesh_from_box_cmd
+import FFcablemesh_from_cylinder_cmd
 
 
 __commandname__ = "FFtoolbar_cablemesh"
@@ -20,17 +23,23 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    options = ["FromMesh", "FromSurface"]
-    option = compas_rhino.rs.GetString("Create CableMesh:", strings=options)
+    options = ["FromMesh", "FromMeshgrid", "FromBox", "FromCylinder"]
+    option = compas_rhino.rs.GetString("Create CableMesh:", strings=options).lower()
 
     if not option:
         return
 
-    if option == "FromMesh":
+    if option == "frommesh":
         FFcablemesh_from_mesh_cmd.RunCommand(True)
 
-    elif option == "FromSurface":
-        raise NotImplementedError
+    elif option == "frommeshgrid":
+        FFcablemesh_from_meshgrid_cmd.RunCommand(True)
+
+    elif option == "frombox":
+        FFcablemesh_from_box_cmd.RunCommand(True)
+
+    elif option == "fromcylinder":
+        FFcablemesh_from_cylinder_cmd.RunCommand(True)
 
 
 # ==============================================================================

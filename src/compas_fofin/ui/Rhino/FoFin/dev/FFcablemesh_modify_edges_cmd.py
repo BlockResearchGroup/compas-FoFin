@@ -28,22 +28,22 @@ def RunCommand(is_interactive):
         return
 
     options = ["All", "AllBoundaryEdges", "Continuous", "Parallel", "Manual"]
-    option = compas_rhino.rs.GetString("Selection Type", strings=options)
+    option = compas_rhino.rs.GetString("Selection Type", strings=options).lower()
 
     if not option:
         return
 
-    if option == "All":
+    if option == "all":
         keys = keys = list(cablemesh.datastructure.edges())
 
-    elif option == "AllBoundaryEdges":
+    elif option == "allboundaryedges":
         keys = cablemesh.datastructure.edges_on_boundary()
 
-    elif option == "Continuous":
+    elif option == "continuous":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.edge_loop(key) for key in temp])))
 
-    elif option == "Parallel":
+    elif option == "parallel":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.edge_strip(key) for key in temp])))
 
@@ -87,7 +87,7 @@ def RunCommand(is_interactive):
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
-    elif option == "Manual":
+    elif option == "manual":
         keys = cablemesh.select_edges()
 
     if keys:
@@ -97,6 +97,7 @@ def RunCommand(is_interactive):
         if cablemesh.update_edges_attributes(keys, names=public):
             cablemesh.settings['_is.valid'] = False
             scene.update()
+        compas_rhino.rs.UnselectAllObjects()
 
 
 # ==============================================================================

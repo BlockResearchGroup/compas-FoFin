@@ -27,10 +27,6 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    # show also free vertices
-    cablemesh.settings['show.vertices:free'] = True
-    scene.update()
-
     # mark all fixed vertices as anchors
     # mark all leaves as anchors
 
@@ -55,7 +51,7 @@ def RunCommand(is_interactive):
     # should this not be included in the while loop?
 
     options = ["Select", "Unselect"]
-    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options)
+    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options).lower()
 
     if not option1:
         return
@@ -63,19 +59,25 @@ def RunCommand(is_interactive):
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     while True:
-        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options)
+        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
+
+        # show also free vertices
+        cablemesh.settings['show.vertices:free'] = True
+        scene.update()
 
         if not option2:
+            compas_rhino.rs.UnselectAllObjects()
+            cablemesh.settings['show.vertices:free'] = False
+            scene.update()
             return
 
-        if option2 == "AllBoundaryNodes":
+        if option2 == "allboundarynodes":
             keys = list(set(flatten(cablemesh.datastructure.vertices_on_boundaries())))
 
-        elif option2 == "Corners":
-            angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
-            keys = cablemesh.datastructure.corner_vertices(tol=angle)
+        elif option2 == "corners":
+            keys = cablemesh.datastructure.corner_vertices()
 
-        elif option2 == "ByContinuousEdges":
+        elif option2 == "bycontinuousedges":
             edges = cablemesh.select_edges()
             keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(edge) for edge in edges])))
 
@@ -93,17 +95,18 @@ def RunCommand(is_interactive):
         #         [cablemesh.datastructure.vertices_where_predicate(
         #             partial(predicate, cablemesh.datastructure.vertex_attribute(vertex, 'constraints'))) for vertex in temp])))
 
-        elif option2 == "Manual":
+        elif option2 == "manual":
             keys = cablemesh.select_vertices()
 
         if keys:
             cablemesh.settings['_is.valid'] = False
-            if option1 == "Select":
+            if option1 == "select":
                 cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=keys)
             else:
                 cablemesh.datastructure.vertices_attribute('is_anchor', False, keys=keys)
 
         # hide free vertices
+        compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = False
         scene.update()
 
