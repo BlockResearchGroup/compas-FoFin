@@ -180,7 +180,6 @@ def compile_session():
 
 def load_session(session):
     print("loading session")
-    session = compas.json_loads(session)
     scene = get_scene()
     scene.clear()
     if 'settings' in session:
@@ -208,6 +207,7 @@ def undo(sender, e):
             return
         sc.sticky["FF.sessions.current"] -= 1
         session = sc.sticky["FF.sessions"][sc.sticky["FF.sessions.current"]]
+        session = compas.json_loads(session)
         load_session(session)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "redo")
     if e.Tag == "redo":
@@ -216,6 +216,7 @@ def undo(sender, e):
             return
         sc.sticky["FF.sessions.current"] += 1
         session = sc.sticky["FF.sessions"][sc.sticky["FF.sessions.current"]]
+        session = compas.json_loads(session)
         load_session(session)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
     print("current sessions:", sc.sticky["FF.sessions.current"]+1)

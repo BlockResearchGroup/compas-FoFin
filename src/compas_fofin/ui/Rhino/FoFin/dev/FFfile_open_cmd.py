@@ -4,8 +4,7 @@ from __future__ import division
 
 import os
 import json
-
-from compas.utilities import DataDecoder
+import compas
 
 import compas_rhino
 from compas_fofin.rhino import get_system
@@ -44,9 +43,7 @@ def RunCommand(is_interactive):
     system['session.dirname'] = dirname
     system['session.filename'] = filename
 
-    with open(filepath, "r") as f:
-        session = json.load(f, cls=DataDecoder)
-
+    session = compas.json_load(filepath)
     load_session(session)
 
 

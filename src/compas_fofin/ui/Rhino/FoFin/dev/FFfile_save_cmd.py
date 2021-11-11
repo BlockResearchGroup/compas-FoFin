@@ -4,15 +4,14 @@ from __future__ import division
 
 import os
 import json
-
-from compas.utilities import DataEncoder
+import compas
 
 import compas_rhino
 from compas_fofin.rhino import get_system
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import select_filepath_save
 from compas_fofin.rhino import FF_error
-from compas_fofin.rhino import save_session
+from compas_fofin.rhino import compile_session
 
 
 __commandname__ = "FFfile_save"
@@ -47,10 +46,9 @@ def RunCommand(is_interactive):
     # this should be templated somewhere
     # perhaps there should be a Session class/object/singleton
 
-    session = save_session()
+    session = compile_session()
 
-    with open(filepath, 'w+') as f:
-        json.dump(session, f, cls=DataEncoder)
+    compas.json_dump(session, filepath)
 
 
 # ==============================================================================sc
