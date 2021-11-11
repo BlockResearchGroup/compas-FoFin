@@ -21,16 +21,21 @@ class CableMesh(BaseCableMesh):
 
     def corner_vertices(self, tol=160):
         vkeys = []
-        for key in self.vertices_on_boundary():
-            if self.vertex_degree(key) == 2:
-                vkeys.append(key)
-            else:
-                nbrs = []
-                for nkey in self.vertex_neighbors(key):
-                    if self.is_edge_on_boundary(key, nkey):
-                        nbrs.append(nkey)
-                u = (self.edge_vector(key, nbrs[0]))
-                v = (self.edge_vector(key, nbrs[1]))
-                if angle_vectors(u, v, deg=True) < tol:
+        if self.is_closed():
+            for key in self.vertices():
+                if self.vertex_degree(key) == 3:
                     vkeys.append(key)
+        else:
+            for key in self.vertices_on_boundary():
+                if self.vertex_degree(key) == 2:
+                    vkeys.append(key)
+                else:
+                    nbrs = []
+                    for nkey in self.vertex_neighbors(key):
+                        if self.is_edge_on_boundary(key, nkey):
+                            nbrs.append(nkey)
+                    u = (self.edge_vector(key, nbrs[0]))
+                    v = (self.edge_vector(key, nbrs[1]))
+                    if angle_vectors(u, v, deg=True) < tol:
+                        vkeys.append(key)
         return vkeys
