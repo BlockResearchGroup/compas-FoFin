@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     print(" "*4, plugin_path, "is registered")
 
-    for name in register_json["Plugins"]:
+    for name in dict(register_json["Plugins"]):
         plugin = register_json["Plugins"][name]
         if not os.path.exists(plugin["path"]):
             del register_json["Plugins"][name]
