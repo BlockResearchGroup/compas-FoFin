@@ -9,6 +9,8 @@ from compas_fofin.rhino import FF_error
 
 import FFcablemesh_from_mesh_cmd
 import FFcablemesh_from_meshgrid_cmd
+import FFcablemesh_from_box_cmd
+import FFcablemesh_from_cylinder_cmd
 
 
 __commandname__ = "FFtoolbar_cablemesh"
@@ -34,10 +36,10 @@ def RunCommand(is_interactive):
         FFcablemesh_from_meshgrid_cmd.RunCommand(True)
 
     elif option == "FromBox":
-        raise NotImplementedError
+        FFcablemesh_from_box_cmd.RunCommand(True)
 
     elif option == "FromCylinder":
-        raise NotImplementedError
+        FFcablemesh_from_cylinder_cmd.RunCommand(True)
 
 
 # ==============================================================================

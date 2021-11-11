@@ -4,12 +4,13 @@ from __future__ import division
 
 import compas_rhino
 from compas_fofin.datastructures import CableMesh
+from compas_rhino.geometry import RhinoBox
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
 
-__commandname__ = "FFcablemesh_from_meshgrid"
+__commandname__ = "FFcablemesh_from_box"
 
 
 @FF_error()
@@ -20,18 +21,21 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    dx = compas_rhino.rs.GetReal("Dimension in X direction:", 10.0, 1.0, 100.0)
-    nx = compas_rhino.rs.GetInteger("Number of faces in X direction:", 10, 2, 100)
-    dy = compas_rhino.rs.GetReal("Dimension in the Y direction:", dx, 1.0, 100.0)
-    ny = compas_rhino.rs.GetInteger("Number of faces in Y direction:", nx, 2, 100)
+    guid = compas_rhino.select_object('Select a box.')
+    if not guid:
+        return
 
-    cablemesh = CableMesh.from_meshgrid(dx, nx, dy, ny)
+    box = RhinoBox.from_guid(guid).to_compas()
+    mesh = CableMesh.from_shape(box)
+    cablemesh = mesh.subdivide(scheme='quad', k=2)
+
+    compas_rhino.rs.HideObject(guid)
 
     scene.clear()
     scene.add(cablemesh, name='cablemesh')
     scene.update()
 
-    print("CableMesh object successfully created.")
+    print("CableMesh object successfully created. Input box has been hidden.")
 
 
 # ==============================================================================

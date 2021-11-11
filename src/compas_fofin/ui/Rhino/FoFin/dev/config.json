@@ -47,8 +47,9 @@
 
             {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
             {"name": "FFcablemesh_from_meshgrid",           "menu_text": "From Meshgrid",       "icon": 3,      "tooltip": "CableMesh from Meshgrid"},
+            {"name": "FFcablemesh_from_box",                "menu_text": "From Box",            "icon": 3,      "tooltip": "CableMesh from Box"},
+            {"name": "FFcablemesh_from_cylinder",           "menu_text": "From Cylinder",       "icon": 3,      "tooltip": "CableMesh from Cylinder"},
 
-        
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
             {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
 
@@ -105,7 +106,9 @@
                         "items":
                         [
                             {"command": "FFcablemesh_from_mesh"},
-                            {"command": "FFcablemesh_from_meshgrid"}
+                            {"command": "FFcablemesh_from_meshgrid"},
+                            {"command": "FFcablemesh_from_box"},
+                            {"command": "FFcablemesh_from_cylinder"}
                         ]
                     },
                     {"type": "separator"},
