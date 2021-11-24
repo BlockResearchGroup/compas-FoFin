@@ -10,6 +10,8 @@ from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
+import FFsolve_fd_cmd
+
 
 __commandname__ = "FFcablemesh_anchors"
 
@@ -61,10 +63,6 @@ def RunCommand(is_interactive):
     while True:
         option2 = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
 
-        # show also free vertices
-        cablemesh.settings['show.vertices:free'] = True
-        scene.update()
-
         if not option2:
             compas_rhino.rs.UnselectAllObjects()
             cablemesh.settings['show.vertices:free'] = False
@@ -96,6 +94,8 @@ def RunCommand(is_interactive):
         #             partial(predicate, cablemesh.datastructure.vertex_attribute(vertex, 'constraints'))) for vertex in temp])))
 
         elif option2 == "manual":
+            cablemesh.settings['show.vertices:free'] = True
+            scene.update()
             keys = cablemesh.select_vertices()
 
         if keys:
@@ -108,7 +108,10 @@ def RunCommand(is_interactive):
         # hide free vertices
         compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = False
-        scene.update()
+        if scene.settings['FF']['autoupdate']:
+            FFsolve_fd_cmd.RunCommand(True)
+        else:
+            scene.update()
 
 
 # ==============================================================================

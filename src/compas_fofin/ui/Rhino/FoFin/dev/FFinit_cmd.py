@@ -22,6 +22,7 @@ __commandname__ = "FFinit"
 SETTINGS = {
 
     "FF": {
+        "autoupdate": False
     },
 
     "Solvers": {

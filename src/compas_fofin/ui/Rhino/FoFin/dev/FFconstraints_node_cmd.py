@@ -19,6 +19,8 @@ from compas_rhino.utilities.objects import select_curve
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_error
 
+import FFsolve_fd_cmd
+
 
 __commandname__ = "FFconstraints_node"
 
@@ -121,7 +123,10 @@ def RunCommand(is_interactive):
             raise NotImplementedError
 
         cablemesh.settings['_is.valid'] = False
-        scene.update()
+        if scene.settings['FF']['autoupdate']:
+            FFsolve_fd_cmd.RunCommand(True)
+        else:
+            scene.update()
 
 
 # ==============================================================================

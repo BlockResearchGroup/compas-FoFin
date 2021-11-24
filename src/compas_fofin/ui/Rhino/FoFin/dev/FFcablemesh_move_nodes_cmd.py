@@ -11,6 +11,8 @@ from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 from compas_fofin.rhino import select_vertices
 
+import FFsolve_fd_cmd
+
 
 __commandname__ = "FFcablemesh_move_nodes"
 
@@ -96,7 +98,10 @@ def RunCommand(is_interactive):
 
         if move:
             cablemesh.settings['_is.valid'] = False
-            scene.update()
+            if scene.settings['FF']['autoupdate']:
+                FFsolve_fd_cmd.RunCommand(True)
+            else:
+                scene.update()
         compas_rhino.rs.UnselectAllObjects()
 
 

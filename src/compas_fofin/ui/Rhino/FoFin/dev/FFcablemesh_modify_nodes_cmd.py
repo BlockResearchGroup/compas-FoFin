@@ -10,6 +10,8 @@ from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
+import FFsolve_fd_cmd
+
 
 __commandname__ = "FFcablemesh_modify_nodes"
 
@@ -95,7 +97,10 @@ def RunCommand(is_interactive):
             cablemesh.settings['_is.valid'] = False
         compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = False
-        scene.update()
+        if scene.settings['FF']['autoupdate']:
+            FFsolve_fd_cmd.RunCommand(True)
+        else:
+            scene.update()
 
 
 # ==============================================================================

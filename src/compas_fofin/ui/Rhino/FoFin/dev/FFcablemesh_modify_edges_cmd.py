@@ -10,6 +10,8 @@ from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
+import FFsolve_fd_cmd
+
 
 __commandname__ = "FFcablemesh_modify_edges"
 
@@ -96,7 +98,10 @@ def RunCommand(is_interactive):
         public = [name for name in cablemesh.datastructure.default_edge_attributes.keys() if not name.startswith('_')]
         if cablemesh.update_edges_attributes(keys, names=public):
             cablemesh.settings['_is.valid'] = False
-            scene.update()
+            if scene.settings['FF']['autoupdate']:
+                FFsolve_fd_cmd.RunCommand(True)
+            else:
+                scene.update()
         compas_rhino.rs.UnselectAllObjects()
 
 
