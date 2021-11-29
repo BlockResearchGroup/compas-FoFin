@@ -11,10 +11,10 @@ from compas_fd.constraints import Constraint
 import compas_rhino
 from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
-# from compas_rhino.geometry import RhinoSurface
+from compas_rhino.geometry import RhinoSurface
 from compas_rhino.utilities import select_line
 from compas_rhino.utilities.objects import select_curve
-# from compas_rhino.utilities.objects import select_surface
+from compas_rhino.utilities.objects import select_surface
 
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_error
@@ -112,15 +112,14 @@ def RunCommand(is_interactive):
                 cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
         elif ctype == "surface":
-            # guid = select_surface(message="Select surface constraint")
-            # curve = RhinoSurface.from_guid(guid).to_compas()
-            # constraint = Constraint(curve)
-            # for key in keys:
-            #     constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
-            #     constraint.project()
-            #     cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-            #     cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
-            raise NotImplementedError
+            guid = select_surface(message="Select surface constraint")
+            surface = RhinoSurface.from_guid(guid).to_compas()
+            constraint = Constraint(surface)
+            for key in keys:
+                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
+                constraint.project()
+                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
+                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
         cablemesh.settings['_is.valid'] = False
         if scene.settings['FF']['autoupdate']:
