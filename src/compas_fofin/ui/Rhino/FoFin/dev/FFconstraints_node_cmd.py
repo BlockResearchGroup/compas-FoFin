@@ -122,6 +122,7 @@ def RunCommand(is_interactive):
                 cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
         cablemesh.settings['_is.valid'] = False
+        compas_rhino.rs.UnselectAllObjects()
         if scene.settings['FF']['autoupdate']:
             FFsolve_fd_cmd.RunCommand(True)
         else:
