@@ -4,6 +4,9 @@ from __future__ import division
 
 from compas.utilities import flatten
 
+from compas.geometry import Line, Plane
+from compas_rhino.geometry import RhinoNurbsCurve
+
 import compas_rhino
 
 from compas_fofin.rhino import get_scene
@@ -30,71 +33,25 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
-    if not mdir:
-        return
+    key = cablemesh.select_vertex()
 
-    stype_options = ["ByContinuousEdges", "Manual"]
-    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options).lower()
-    if not stype:
-        return
+    if key is not None:
 
-    if stype == "bycontinuousedges":
-        temp = cablemesh.select_edges()
-        keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
-        select_vertices(cablemesh, keys)
+        if cablemesh.datastructure.vertex_attribute(key, 'constraint'):
+            geometry = cablemesh.datastructure.vertex_attribute(key, 'constraint').geometry
+            move = cablemesh.move_vertices_geometry([key], geometry=geometry)
 
-    # elif option == "ByConstraints":
-    #     guids = pattern.datastructure.vertices_attribute('constraints')
-    #     guids = list(set(list(flatten(list(filter(None, guids))))))
-
-    #     if not guids:
-    #         print('there are no constraints in this pattern')
-    #         return
-
-    #     current = pattern.settings['color.edges']
-    #     pattern.settings['color.edges'] = [120, 120, 120]
-    #     scene.update()
-
-    #     compas_rhino.rs.ShowObjects(guids)
-
-    #     def custom_filter(rhino_object, geometry, component_index):
-    #         if str(rhino_object.Id) in guids:
-    #             return True
-    #         return False
-
-    #     constraints = compas_rhino.rs.GetObjects('select constraints', custom_filter=custom_filter)
-
-    #     if not constraints:
-    #         return
-
-    #     def if_constraints(datastructure, key, guid):
-    #         constraints = datastructure.vertex_attribute(key, 'constraints')
-    #         if constraints:
-    #             if str(guid) in constraints:
-    #                 return True
-    #         return False
-
-    #     keys = []
-    #     for guid in constraints:
-    #         for key in pattern.datastructure.vertices():
-    #             if if_constraints(pattern.datastructure, key, guid):
-    #                 keys.append(key)
-
-    #     keys = list(set(keys))
-
-    #     compas_rhino.rs.HideObjects(guids)
-    #     pattern.settings['color.edges'] = current
-
-    elif stype == "manual":
-        keys = cablemesh.select_vertices()
-
-    if keys:
-        if mdir == 'free':
-            move = cablemesh.move_vertices(keys)
         else:
-            move = cablemesh.move_vertices_direction(keys, direction=mdir)
+
+            mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
+            mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
+            if not mdir:
+                return
+
+            if mdir == 'free':
+                move = cablemesh.move_vertices(key)
+            else:
+                move = cablemesh.move_vertices_direction([key], direction=mdir)
 
         if move:
             cablemesh.settings['_is.valid'] = False

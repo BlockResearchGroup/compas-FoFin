@@ -5,6 +5,9 @@ from __future__ import division
 import Rhino
 
 from compas.geometry import add_vectors
+from compas.geometry import Line, Plane, Point
+from compas_rhino.geometry import RhinoNurbsCurve
+# from compas_rhino.geometry import RhinoNurbsSurface
 
 import compas_rhino
 from compas_rhino.objects import MeshObject
@@ -175,6 +178,95 @@ class MeshObject(MeshObject):
             gp.Constrain(Rhino.Geometry.Line(start, start + vector))
         else:
             gp.Constrain(Rhino.Geometry.Plane(start, vector), False)
+        gp.Get()
+
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        end = gp.Point()
+        vector = list(end - start)
+        for key in keys:
+            xyz = self.datastructure.vertex_attributes(key, 'xyz')
+            self.datastructure.vertex_attributes(key, 'xyz', add_vectors(xyz, vector))
+
+        return True
+
+    def move_vertex_geometry(self, keys, geometry):
+        """Move selected vertices along specified direction.
+
+
+        Parameters
+        ----------
+        keys : list
+            The identifiers of the vertices.
+        direction: string, optional
+            The name of axis or plane to move on. Defaut is the 'z'-axis.
+        """
+
+        def OnDynamicDraw(sender, e):
+            end = e.CurrentPoint
+            vector = end - start
+            for a, b in lines:
+                a = a + vector
+                b = b + vector
+                e.Display.DrawDottedLine(a, b, color)
+            for a, b in connectors:
+                a = a + vector
+                e.Display.DrawDottedLine(a, b, color)
+
+        Point3d = Rhino.Geometry.Point3d
+        # Vector3d = Rhino.Geometry.Vector3d
+        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
+        lines = []
+        connectors = []
+
+        for key in keys:
+            a = self.datastructure.vertex_coordinates(key)
+            nbrs = self.datastructure.vertex_neighbors(key)
+            for nbr in nbrs:
+                b = self.datastructure.vertex_coordinates(nbr)
+                line = [Point3d(*a), Point3d(*b)]
+                if nbr in keys:
+                    lines.append(line)
+                else:
+                    connectors.append(line)
+
+        gp = Rhino.Input.Custom.GetPoint()
+        gp.SetCommandPrompt('Point to move from?')
+        if type(geometry) == RhinoNurbsCurve:
+            pt = Point(*self.datastructure.vertex_coordinates(key))
+            start = Rhino.Geometry.Point3d(pt.x, pt.y, pt.z)
+        else:
+            gp.Get()
+            if gp.CommandResult() != Rhino.Commands.Result.Success:
+                return False
+            start = gp.Point()
+
+        gp.SetCommandPrompt('Point to move to?')
+        gp.SetBasePoint(start, False)
+        gp.DrawLineFromPoint(start, True)
+        gp.DynamicDraw += OnDynamicDraw
+
+        if type(geometry) == Line:
+            start = Rhino.Geometry.Point3d(geometry.start.x, geometry.start.y, geometry.start.z)
+            end = Rhino.Geometry.Point3d(geometry.end.x, geometry.end.y, geometry.end.z)
+            gp.Constrain(Rhino.Geometry.Line(start, end))
+        elif type(geometry) == Plane:
+            origin = Rhino.Geometry.Point3d(geometry.point.x, geometry.point.y, geometry.point.z)
+            normal = Rhino.Geometry.Vector3d(geometry.normal.x, geometry.normal.y, geometry.normal.z)
+            gp.Constrain(Rhino.Geometry.Plane(origin, normal), False)
+        elif type(geometry) == RhinoNurbsCurve:
+            control_points = geometry.points
+            rhino_points = []
+            for pt in control_points:
+                rhino_pt = Rhino.Geometry.Point3d(pt.x, pt.y, pt.z)
+                rhino_points.append(rhino_pt)
+            degree = geometry.degree
+            gp.Constrain(Rhino.Geometry.Curve.CreateControlPointCurve(rhino_points, degree), False)
+            # gp.Constrain(Rhino.Geometry.Curve(geometry), False)
+        # elif type(geometry) == RhinoNurbsSurface:
+        #     gp.Constrain(Rhino.Geometry.Surface(geometry), False)
+
         gp.Get()
 
         if gp.CommandResult() != Rhino.Commands.Result.Success:

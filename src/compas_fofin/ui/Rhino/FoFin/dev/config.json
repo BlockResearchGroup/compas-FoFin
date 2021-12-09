@@ -56,7 +56,7 @@
             {"name": "FFsolve_fd",                          "menu_text": "Force Density Method","icon": 8,      "tooltip": "Force Density Method"},
             {"name": "FFsolve_dr",                          "menu_text": "Dynamic Relaxation",  "icon": 9,      "tooltip": "Dynamic Relaxation"},
 
-            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Nodes",          "icon": 10,     "tooltip": "Move Nodes"},
+            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Node",           "icon": 10,     "tooltip": "Move Node"},
             {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 11,     "tooltip": "Nodes Attributes"},
             {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 12,     "tooltip": "Edges Attributes"},
 
