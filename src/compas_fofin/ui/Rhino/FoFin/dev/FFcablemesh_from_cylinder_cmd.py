@@ -26,8 +26,10 @@ def RunCommand(is_interactive):
     if not guid:
         return
 
-    u = compas_rhino.rs.GetInteger("Number of faces along perimeter:", 32, 3, 100)
-    sub = compas_rhino.rs.GetInteger("Number of face subdivisions along height:", 3, 0, 20)
+    # u = compas_rhino.rs.GetInteger("Number of faces along perimeter:", 32, 3, 100)
+    sub_perimeter = compas_rhino.rs.GetInteger("Number of levels of subdivision along perimeter:", 3, 2, 20)
+    sub_height = compas_rhino.rs.GetInteger("Number of levels of subdivision along height:", 3, 0, 20)
+    u = 2**(sub_perimeter)
 
     cylinder = RhinoCylinder.from_guid(guid).to_compas()
     cablemesh = CableMesh.from_shape(cylinder, u=u)
@@ -43,7 +45,7 @@ def RunCommand(is_interactive):
             start = edge
             break
 
-    for i in range(sub):
+    for i in range(sub_height):
         if i == 0:
             vertices = cablemesh.split_strip(start)
         else:
