@@ -2,22 +2,33 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas.utilities import flatten
-
-from compas.geometry import Line, Plane
-from compas_rhino.geometry import RhinoNurbsCurve
+from compas.geometry import Vector, Frame
 
 import compas_rhino
 
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
-from compas_fofin.rhino import select_vertices
+
 
 import FFsolve_fd_cmd
 
 
 __commandname__ = "FFcablemesh_move_nodes"
+
+
+def move_set_direction(cablemesh, key):
+
+    mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
+    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
+    if not mdir:
+        mdir = 'free'
+
+    if mdir == 'free':
+        move = cablemesh.move_vertices([key])
+    else:
+        move = cablemesh.move_vertices_direction([key], direction=mdir)
+    return move
 
 
 @FF_error()
@@ -39,19 +50,13 @@ def RunCommand(is_interactive):
 
         if cablemesh.datastructure.vertex_attribute(key, 'constraint'):
             geometry = cablemesh.datastructure.vertex_attribute(key, 'constraint').geometry
-            move = cablemesh.move_vertices_geometry([key], geometry=geometry)
+            if not type(geometry) in [Vector, Frame]:
+                move = cablemesh.move_vertices_geometry([key], geometry=geometry)
+            else:
+                move = move_set_direction(cablemesh, key)
 
         else:
-
-            mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-            mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
-            if not mdir:
-                return
-
-            if mdir == 'free':
-                move = cablemesh.move_vertices(key)
-            else:
-                move = cablemesh.move_vertices_direction([key], direction=mdir)
+            move = move_set_direction(cablemesh, key)
 
         if move:
             cablemesh.settings['_is.valid'] = False

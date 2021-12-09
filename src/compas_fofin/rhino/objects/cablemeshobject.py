@@ -2,7 +2,10 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+from compas.geometry import Vector, Frame, Line, Plane
+from compas_rhino.geometry import RhinoNurbsCurve
 from compas.utilities import i_to_red, i_to_blue
+
 import compas_rhino
 
 from .meshobject import MeshObject
@@ -28,6 +31,7 @@ class CableMeshObject(MeshObject):
         'show.loads': True,
         'show.pipes:forcedensities': False,
         'show.pipes:forces': False,
+        'show.constraints': True,
 
         'color.vertices': [255, 255, 255],
         'color.vertices:is_anchor': [255, 0, 0],
@@ -180,12 +184,17 @@ class CableMeshObject(MeshObject):
 
         free = list(self.mesh.vertices_where({'is_anchor': False}))
         anchors = list(self.mesh.vertices_where({'is_anchor': True}))
+        constrained = list(set(list(self.mesh.vertices())) - set(list(self.mesh.vertices_where({'constraint': None}))))
+
         color_free = self.settings['color.vertices'] if self.settings['_is.valid'] else self.settings['color.invalid']
         color_fixed = self.settings['color.vertices:is_fixed']
         color_anchor = self.settings['color.vertices:is_anchor']
+        color_constrained = self.settings['color.vertices:is_constrained']
+
         color = {vertex: color_free for vertex in free}
         color.update({vertex: color_fixed for vertex in self.mesh.vertices_where({'is_fixed': True})})
         color.update({vertex: color_anchor for vertex in anchors})
+        color.update({vertex: color_constrained for vertex in constrained})
 
         if free:
             guids_free = self.artist.draw_vertices(free, color)
@@ -208,6 +217,33 @@ class CableMeshObject(MeshObject):
             compas_rhino.rs.ShowGroup(group_free)
         else:
             compas_rhino.rs.HideGroup(group_free)
+
+        # ======================================================================
+        # Constraint Dots
+        # ======================================================================
+
+        if self.scene and self.settings['show.constraints']:
+
+            if constrained:
+                text = {}
+                color = self.settings['color.vertices:is_constrained']
+
+                for vertex in constrained:
+                    constraint = self.mesh.vertex_attribute(vertex, 'constraint')
+
+                    if type(constraint.geometry) == Vector:
+                        text[vertex] = constraint.direction
+                    elif type(constraint.geometry) == Frame:
+                        text[vertex] = constraint.direction
+                    elif type(constraint.geometry) == Line:
+                        text[vertex] = 'line'
+                    elif type(constraint.geometry) == Plane:
+                        text[vertex] = 'plane'
+                    elif type(constraint.geometry) == RhinoNurbsCurve:
+                        text[vertex] = 'curve'
+
+                guids = self.artist.draw_vertexlabels(text, color)
+                self.guid_vertexlabel = zip(guids, constrained)
 
         # ======================================================================
         # Edges
