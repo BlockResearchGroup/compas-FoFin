@@ -84,49 +84,28 @@ def RunCommand(is_interactive):
 
         elif ctype == "line":
             guid = select_line(message="Select line constraint")
-            line = RhinoLine.from_guid(guid).to_compas()
-            constraint = Constraint(line)
-            constraint.guid = guid
-            for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
-                constraint.project()
-                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
+            geometry = RhinoLine.from_guid(guid).to_compas()
 
         elif ctype == "plane":
             guid = select_line(message="Select plane constraint")
             line = RhinoLine.from_guid(guid).to_compas()
-            plane = Plane(line.start, line.vector)
-            constraint = Constraint(plane)
-            constraint.guid = guid
-            for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
-                constraint.project()
-                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
+            geometry = Plane(line.start, line.vector)
 
         elif ctype == "curve":
             guid = select_curve(message="Select curve constraint")
-            curve = RhinoCurve.from_guid(guid).to_compas()
-            constraint = Constraint(curve)
-            constraint.guid = guid
-            for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
-                constraint.project()
-                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
-                print(constraint.guid)
+            geometry = RhinoCurve.from_guid(guid).to_compas()
 
         elif ctype == "surface":
             guid = select_surface(message="Select surface constraint")
-            surface = RhinoSurface.from_guid(guid).to_compas()
-            constraint = Constraint(surface)
-            constraint.guid = guid
-            for key in keys:
-                constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
-                constraint.project()
-                cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
-                cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
+            geometry = RhinoSurface.from_guid(guid).to_compas()
+
+        constraint = Constraint(geometry)
+        constraint.guid = guid
+        for key in keys:
+            constraint.location = cablemesh.datastructure.vertex_attributes(key, 'xyz')
+            constraint.project()
+            cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
+            cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
         cablemesh.settings['_is.valid'] = False
         compas_rhino.rs.UnselectAllObjects()
