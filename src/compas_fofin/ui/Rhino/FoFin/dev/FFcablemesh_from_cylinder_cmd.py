@@ -26,7 +26,6 @@ def RunCommand(is_interactive):
     if not guid:
         return
 
-    # u = compas_rhino.rs.GetInteger("Number of faces along perimeter:", 32, 3, 100)
     sub_perimeter = compas_rhino.rs.GetInteger("Number of levels of subdivision along perimeter:", 3, 2, 20)
     sub_height = compas_rhino.rs.GetInteger("Number of levels of subdivision along height:", 3, 0, 20)
     u = 2**(sub_perimeter)
