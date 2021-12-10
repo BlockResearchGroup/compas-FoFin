@@ -23,22 +23,22 @@ def RunCommand(is_interactive):
     if not scene:
         return
 
-    options = ["FromMesh", "FromMeshgrid", "FromBox", "FromCylinder"]
+    options = ["Mesh", "Meshgrid", "Box", "Cylinder"]
     option = compas_rhino.rs.GetString("Create CableMesh:", strings=options).lower()
 
     if not option:
         return
 
-    if option == "frommesh":
+    if option == "mesh":
         FFcablemesh_from_mesh_cmd.RunCommand(True)
 
-    elif option == "frommeshgrid":
+    elif option == "meshgrid":
         FFcablemesh_from_meshgrid_cmd.RunCommand(True)
 
-    elif option == "frombox":
+    elif option == "box":
         FFcablemesh_from_box_cmd.RunCommand(True)
 
-    elif option == "fromcylinder":
+    elif option == "cylinder":
         FFcablemesh_from_cylinder_cmd.RunCommand(True)
 
 
