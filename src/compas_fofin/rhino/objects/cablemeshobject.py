@@ -35,7 +35,7 @@ class CableMeshObject(MeshObject):
         'color.vertices:is_constrained': [0, 255, 255],
         'color.edges': [255, 0, 0],
         'color.faces': [200, 200, 200],
-        'color.reactions': [0, 200, 0],
+        'color.reactions': [0, 150, 0],
         'color.loads': [0, 80, 0],
         'color.invalid': [100, 255, 100],
         'color.pipes': [100, 100, 100],
