@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas.utilities import flatten
+from compas.utilities import i_to_blue
+from compas.utilities import i_to_red
 
 import compas_rhino
 
@@ -74,9 +76,26 @@ def RunCommand(is_interactive):
 
         if keys:
 
-            text = {edge: cablemesh.datastructure.edge_attribute(edge, 'q') for edge in keys}
+            color = {}
+            edges = list(cablemesh.datastructure.edges())
+            qs = {edge: cablemesh.datastructure.edge_attribute(edge, 'q') for edge in edges}
+            qmin = min(qs.values())
+            qmax = max(qs.values())
 
-            cablemesh.artist.draw_edgelabels(text=text)
+            for edge in edges:
+                if qs[edge] >= 0.0:
+                    color[edge] = i_to_red((qs[edge]) / qmax)
+                elif qs[edge] < 0.0:
+                    color[edge] = i_to_blue((qs[edge]) / qmin)
+
+            text = {}
+            for u, v  in keys:
+                if (u, v) not in qs:
+                    u, v = v, u
+                text[(u, v)] = qs[(u, v)]
+
+            cablemesh.artist.draw_edgelabels(text=text, color=color)
+
             compas_rhino.rs.EnableRedraw()
 
             options2 = ["Interactive", "ScaleCurrent", "AssignNew"]
