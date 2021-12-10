@@ -21,20 +21,21 @@
 
                 "4_select_anchors",
                 "5_node_constraints",
-                "6_edge_constraints",
-                "7_loads",
+                "6_update_constraints",
+                "7_edge_contraints",
+                "8_loads",
 
-                "8_solve_fd",
-                "9_solve_dr",
+                "9_solve_fd",
+                "10_solve_dr",
 
-                "10_move_anchors",
-                "11_node_attributes",
-                "12_edge_attributes",
-                "13_face_attributes",
+                "11_move_anchors",
+                "12_node_attributes",
+                "13_edge_attributes",
+                "14_face_attributes",
 
-                "14_settings",
-                "15_redraw",
-                "16_clear"
+                "15_settings",
+                "16_redraw",
+                "17_clear"
             ]
         },
 
@@ -52,22 +53,22 @@
 
             {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
             {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
+            {"name": "FFconstraints_update",                "menu_text": "Update Constraints",  "icon": 6,      "tooltip": "Update Node Constraints"},
 
-            {"name": "FFsolve_fd",                          "menu_text": "Force Density Method","icon": 8,      "tooltip": "Force Density Method"},
-            {"name": "FFsolve_dr",                          "menu_text": "Dynamic Relaxation",  "icon": 9,      "tooltip": "Dynamic Relaxation"},
+            {"name": "FFsolve_fd",                          "menu_text": "Force Density Method","icon": 9,      "tooltip": "Force Density Method"},
+            {"name": "FFsolve_dr",                          "menu_text": "Dynamic Relaxation",  "icon": 10,      "tooltip": "Dynamic Relaxation"},
 
-            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Node",           "icon": 10,     "tooltip": "Move Node"},
-            {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 11,     "tooltip": "Nodes Attributes"},
-            {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 12,     "tooltip": "Edges Attributes"},
-            {"name": "FFconstraints_update",                "menu_text": "Update Constraints",  "icon": 5,      "tooltip": "Update Constraints"},
+            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Nodes",          "icon": 11,     "tooltip": "Move Nodes"},
+            {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 12,     "tooltip": "Nodes Attributes"},
+            {"name": "FFcablemesh_modify_edges_qs",         "menu_text": "Modify Edge qs",      "icon": 13,     "tooltip": "Modify Edges qs"},
 
             {"name": "FFcloud_check",                       "menu_text": "Check Cloud"      },
             {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud"    },
             {"name": "FFcloud_shutdown",                    "menu_text": "Shut down Cloud"  },
 
-            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 14,     "tooltip": "Settings"},
-            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 15,     "tooltip": "Redraw Scene"},
-            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
+            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 15,     "tooltip": "Settings"},
+            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 16,     "tooltip": "Redraw Scene"},
+            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 17,     "tooltip": "Clear Scene"},
 
             {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"}
 
@@ -118,7 +119,8 @@
                         "items":
                         [
                             {"command": "FFcablemesh_anchors"},
-                            {"command": "FFconstraints_node"}
+                            {"command": "FFconstraints_node"},
+                            {"command": "FFconstraints_update"}
                         ]
                     },
                     {"type": "separator"},
@@ -136,8 +138,8 @@
                         [
                             {"command": "FFcablemesh_move_nodes"},
                             {"command": "FFcablemesh_modify_nodes"},
-                            {"command": "FFcablemesh_modify_edges"},
-                            {"command": "FFconstraints_update"}
+                            {"command": "FFcablemesh_modify_edges_qs"}
+
                         ]
                     },
                     {"type": "separator"},
@@ -169,6 +171,7 @@
 
                     {"left": "FFcablemesh_anchors"},
                     {"left": "FFconstraints_node"},
+                    {"left": "FFconstraints_update"},
 
                     {"type": "separator"},
 
@@ -178,9 +181,8 @@
 
                     {"left": "FFcablemesh_move_nodes"},
                     {"left": "FFcablemesh_modify_nodes"},
-                    {"left": "FFcablemesh_modify_edges"},
-                    {"left": "FFconstraints_update"},
-                    
+                    {"left": "FFcablemesh_modify_edges_qs"},
+
                     {"type": "separator"},
 
                     {"left": "FFsettings"},
