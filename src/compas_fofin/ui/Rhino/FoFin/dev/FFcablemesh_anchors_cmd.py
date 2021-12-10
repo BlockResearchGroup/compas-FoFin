@@ -49,9 +49,6 @@ def RunCommand(is_interactive):
         print("Fixed nodes of the CableMesh have automatically been defined as supports.")
         scene.update()
 
-    # manually Select or Unselect
-    # should this not be included in the while loop?
-
     options = ["Select", "Unselect"]
     option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options).lower()
 
@@ -78,20 +75,6 @@ def RunCommand(is_interactive):
         elif option2 == "bycontinuousedges":
             edges = cablemesh.select_edges()
             keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(edge) for edge in edges])))
-
-        # elif option2 == "ByConstraint":
-
-        #     def predicate(constraints, key, attr):
-        #         if not constraints:
-        #             return False
-        #         if not attr['constraints']:
-        #             return False
-        #         return any(constraint in attr['constraints'] for constraint in constraints)
-
-        #     temp = cablemesh.select_vertices()
-        #     keys = list(set(flatten(
-        #         [cablemesh.datastructure.vertices_where_predicate(
-        #             partial(predicate, cablemesh.datastructure.vertex_attribute(vertex, 'constraints'))) for vertex in temp])))
 
         elif option2 == "manual":
             cablemesh.settings['show.vertices:free'] = True
