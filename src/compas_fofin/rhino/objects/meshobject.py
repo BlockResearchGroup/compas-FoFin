@@ -7,7 +7,6 @@ import Rhino
 from compas.geometry import add_vectors
 from compas.geometry import Line, Plane, Point
 from compas_rhino.geometry import RhinoNurbsCurve
-# from compas_rhino.geometry import RhinoNurbsSurface
 
 import compas_rhino
 from compas_rhino.objects import MeshObject
@@ -191,7 +190,7 @@ class MeshObject(MeshObject):
 
         return True
 
-    def move_vertex_geometry(self, keys, geometry):
+    def move_vertices_geometry(self, keys, geometry):
         """Move selected vertices along specified direction.
 
 
@@ -215,7 +214,6 @@ class MeshObject(MeshObject):
                 e.Display.DrawDottedLine(a, b, color)
 
         Point3d = Rhino.Geometry.Point3d
-        # Vector3d = Rhino.Geometry.Vector3d
         color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
         lines = []
         connectors = []
@@ -263,9 +261,6 @@ class MeshObject(MeshObject):
                 rhino_points.append(rhino_pt)
             degree = geometry.degree
             gp.Constrain(Rhino.Geometry.Curve.CreateControlPointCurve(rhino_points, degree), False)
-            # gp.Constrain(Rhino.Geometry.Curve(geometry), False)
-        # elif type(geometry) == RhinoNurbsSurface:
-        #     gp.Constrain(Rhino.Geometry.Surface(geometry), False)
 
         gp.Get()
 

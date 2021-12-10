@@ -59,6 +59,7 @@
             {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Node",           "icon": 10,     "tooltip": "Move Node"},
             {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 11,     "tooltip": "Nodes Attributes"},
             {"name": "FFcablemesh_modify_edges",            "menu_text": "Edges Attributes",    "icon": 12,     "tooltip": "Edges Attributes"},
+            {"name": "FFconstraints_update",                "menu_text": "Update Constraints",  "icon": 5,      "tooltip": "Update Constraints"},
 
             {"name": "FFcloud_check",                       "menu_text": "Check Cloud"      },
             {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud"    },
@@ -135,7 +136,8 @@
                         [
                             {"command": "FFcablemesh_move_nodes"},
                             {"command": "FFcablemesh_modify_nodes"},
-                            {"command": "FFcablemesh_modify_edges"}
+                            {"command": "FFcablemesh_modify_edges"},
+                            {"command": "FFconstraints_update"}
                         ]
                     },
                     {"type": "separator"},
@@ -177,7 +179,8 @@
                     {"left": "FFcablemesh_move_nodes"},
                     {"left": "FFcablemesh_modify_nodes"},
                     {"left": "FFcablemesh_modify_edges"},
-
+                    {"left": "FFconstraints_update"},
+                    
                     {"type": "separator"},
 
                     {"left": "FFsettings"},
