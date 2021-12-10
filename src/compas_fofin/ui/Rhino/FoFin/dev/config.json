@@ -119,8 +119,7 @@
                         "items":
                         [
                             {"command": "FFcablemesh_anchors"},
-                            {"command": "FFconstraints_node"},
-                            {"command": "FFconstraints_update"}
+                            {"command": "FFconstraints_node"}
                         ]
                     },
                     {"type": "separator"},
@@ -137,6 +136,7 @@
                         "items":
                         [
                             {"command": "FFcablemesh_move_nodes"},
+                            {"command": "FFconstraints_update"},
                             {"command": "FFcablemesh_modify_nodes"},
                             {"command": "FFcablemesh_modify_edges_qs"}
 
@@ -171,7 +171,6 @@
 
                     {"left": "FFcablemesh_anchors"},
                     {"left": "FFconstraints_node"},
-                    {"left": "FFconstraints_update"},
 
                     {"type": "separator"},
 
@@ -180,6 +179,7 @@
                     {"type": "separator"},
 
                     {"left": "FFcablemesh_move_nodes"},
+                    {"left": "FFconstraints_update"},
                     {"left": "FFcablemesh_modify_nodes"},
                     {"left": "FFcablemesh_modify_edges_qs"},
 

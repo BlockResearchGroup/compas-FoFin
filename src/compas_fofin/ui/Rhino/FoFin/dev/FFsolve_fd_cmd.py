@@ -7,6 +7,8 @@ from compas_fofin.rhino import get_proxy
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
+import System
+
 
 __commandname__ = "FFsolve_fd"
 
@@ -37,6 +39,11 @@ def RunCommand(is_interactive):
         return
 
     cablemesh.datastructure.data = result.data
+
+    for key in cablemesh.datastructure.vertices():
+        if cablemesh.datastructure.vertex_attribute(key, 'constraint'):
+            constraint = cablemesh.datastructure.vertex_attribute(key, 'constraint')
+            constraint.guid = System.Guid(constraint.guid)
 
     cablemesh.settings['_is.valid'] = True
 
