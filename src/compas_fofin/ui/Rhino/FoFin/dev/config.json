@@ -33,7 +33,7 @@
                 "13_edge_attributes",
                 "14_face_attributes",
 
-                "16_settings",
+                "15_settings",
                 "16_redraw",
                 "17_clear"
             ]
@@ -66,9 +66,9 @@
             {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud"    },
             {"name": "FFcloud_shutdown",                    "menu_text": "Shut down Cloud"  },
 
-            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 14,     "tooltip": "Settings"},
-            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 15,     "tooltip": "Redraw Scene"},
-            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 16,     "tooltip": "Clear Scene"},
+            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 15,     "tooltip": "Settings"},
+            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 16,     "tooltip": "Redraw Scene"},
+            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 17,     "tooltip": "Clear Scene"},
 
             {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"}
 
