@@ -41,35 +41,35 @@ def RunCommand(is_interactive):
         ctype_options = ["Direction", "Line", "Plane", "Curve", "Surface"]
         ctype = compas_rhino.rs.GetString("Select node constraints:", strings=ctype_options).lower()
 
-        if not ctype:
+        if not ctype or ctype is None:
             return
 
-        if ctype == "direction":
+        if ctype == "Eirection":
             cdir_options = ["X", "Y", "Z", "XY", "YZ", "ZX"]
             cdir = compas_rhino.rs.GetString("Select direction constraint:", strings=cdir_options).lower()
 
-            if not cdir:
+            if not cdir or cdir is None:
                 return
 
-            if cdir in ["x", "y", "z"]:
+            if cdir in ["X", "Y", "Z"]:
 
-                if cdir == "x":
+                if cdir == "X":
                     vector = Vector.Xaxis()
-                elif cdir == "y":
+                elif cdir == "Y":
                     vector = Vector.Yaxis()
-                elif cdir == "z":
+                elif cdir == "Z":
                     vector = Vector.Zaxis()
 
                 constraint = Constraint(vector)
                 cablemesh.datastructure.vertices_attribute('constraint', constraint, keys=keys)
 
-            elif cdir in ["xy", "yz", "zx"]:
+            elif cdir in ["XY", "YZ", "ZX"]:
 
-                if cdir == "xy":
+                if cdir == "XY":
                     vectors = Vector.Xaxis(), Vector.Yaxis()
-                elif cdir == "yz":
+                elif cdir == "YZ":
                     vectors = Vector.Yaxis(), Vector.Zaxis()
-                elif cdir == "zx":
+                elif cdir == "ZX":
                     vectors = Vector.Zaxis(), Vector.Xaxis()
 
                 for key in keys:
@@ -78,7 +78,7 @@ def RunCommand(is_interactive):
                     constraint = Constraint(frame)
                     cablemesh.datastructure.vertices_attribute('constraint', constraint, keys=keys)
 
-        elif ctype == "line":
+        elif ctype == "Line":
             guid = select_line(message="Select line constraint")
             line = RhinoLine.from_guid(guid).to_compas()
             constraint = Constraint(line)
@@ -88,7 +88,7 @@ def RunCommand(is_interactive):
                 cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
                 cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif ctype == "plane":
+        elif ctype == "Plane":
             guid = select_line(message="Select plane constraint")
             line = RhinoLine.from_guid(guid).to_compas()
             plane = Plane(line.start, line.vector)
@@ -99,7 +99,7 @@ def RunCommand(is_interactive):
                 cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
                 cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif ctype == "curve":
+        elif ctype == "Curve":
             guid = select_curve(message="Select curve constraint")
             curve = RhinoCurve.from_guid(guid).to_compas()
             constraint = Constraint(curve)
@@ -109,7 +109,7 @@ def RunCommand(is_interactive):
                 cablemesh.datastructure.vertex_attributes(key, 'xyz', constraint.location)
                 cablemesh.datastructure.vertex_attribute(key, 'constraint', constraint)
 
-        elif ctype == "surface":
+        elif ctype == "Surface":
             # guid = select_surface(message="Select surface constraint")
             # curve = RhinoSurface.from_guid(guid).to_compas()
             # constraint = Constraint(curve)
