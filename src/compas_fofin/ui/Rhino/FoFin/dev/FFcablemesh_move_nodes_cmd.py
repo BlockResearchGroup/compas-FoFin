@@ -30,12 +30,12 @@ def RunCommand(is_interactive):
 
     mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
     mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options)
-    if not mdir:
+    if not mdir or mdir is None:
         return
 
     stype_options = ["ByContinuousEdges", "Manual"]
     stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options)
-    if not stype:
+    if not stype or stype is None:
         return
 
     if stype == "ByContinuousEdges":
