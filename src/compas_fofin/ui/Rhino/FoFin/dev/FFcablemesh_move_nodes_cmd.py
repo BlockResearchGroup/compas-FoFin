@@ -29,16 +29,16 @@ def RunCommand(is_interactive):
         return
 
     mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
+    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options)
     if not mdir:
         return
 
     stype_options = ["ByContinuousEdges", "Manual"]
-    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options).lower()
+    stype = compas_rhino.rs.GetString("Selection Type.", strings=stype_options)
     if not stype:
         return
 
-    if stype == "bycontinuousedges":
+    if stype == "ByContinuousEdges":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
         select_vertices(cablemesh, keys)
@@ -85,11 +85,11 @@ def RunCommand(is_interactive):
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
-    elif stype == "manual":
+    elif stype == "Manual":
         keys = cablemesh.select_vertices()
 
     if keys:
-        if mdir == 'free':
+        if mdir == 'Free':
             move = cablemesh.move_vertices(keys)
         else:
             move = cablemesh.move_vertices_direction(keys, direction=mdir)
