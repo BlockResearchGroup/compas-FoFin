@@ -43,8 +43,7 @@ def RunCommand(is_interactive):
         keys = cablemesh.datastructure.vertices_on_boundary()
 
     elif option == "corners":
-        angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
-        keys = cablemesh.datastructure.corner_vertices(tol=angle)
+        keys = cablemesh.datastructure.corner_vertices()
 
     elif option == "bycontinuousedges":
         temp = cablemesh.select_edges()
