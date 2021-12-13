@@ -30,8 +30,8 @@ def RunCommand(is_interactive):
         print("There is no CableMesh in the scene.")
         return
 
-    constraints = cablemesh.datastructure.vertices_attribute('constraints')
-    constraints = list(set(list(flatten(list(filter(None, constraints))))))
+    constraints = cablemesh.datastructure.vertices_attribute('constraint')
+    constraints = list(filter(None, constraints))
     if not constraints:
         print('There are no constraints in this CableMesh.')
         return

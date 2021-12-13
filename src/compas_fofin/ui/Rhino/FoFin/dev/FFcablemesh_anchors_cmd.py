@@ -88,7 +88,6 @@ def RunCommand(is_interactive):
             else:
                 cablemesh.datastructure.vertices_attribute('is_anchor', False, keys=keys)
 
-        # hide free vertices
         compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = False
         if scene.settings['FF']['autoupdate']:
