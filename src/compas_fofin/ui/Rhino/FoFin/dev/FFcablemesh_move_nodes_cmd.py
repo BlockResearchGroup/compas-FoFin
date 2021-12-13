@@ -2,7 +2,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas.geometry import Vector, Frame
+from compas.geometry import Frame
 
 import compas_rhino
 
@@ -15,20 +15,6 @@ import FFsolve_fd_cmd
 
 
 __commandname__ = "FFcablemesh_move_nodes"
-
-
-def move_set_direction(cablemesh, key):
-
-    mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
-    if not mdir:
-        mdir = 'free'
-
-    if mdir == 'free':
-        move = cablemesh.move_vertices([key])
-    else:
-        move = cablemesh.move_vertices_direction([key], direction=mdir)
-    return move
 
 
 @FF_error()
@@ -47,16 +33,25 @@ def RunCommand(is_interactive):
     key = cablemesh.select_vertex()
 
     if key is not None:
-
         if cablemesh.datastructure.vertex_attribute(key, 'constraint'):
-            geometry = cablemesh.datastructure.vertex_attribute(key, 'constraint').geometry
-            if not type(geometry) in [Vector, Frame]:
-                move = cablemesh.move_vertices_geometry([key], geometry=geometry)
+            constraint = cablemesh.datastructure.vertex_attribute(key, 'constraint')
+
+            if type(constraint.geometry) == Frame:
+                # either on constraint or other options
+                raise NotImplementedError
             else:
-                move = move_set_direction(cablemesh, key)
+                move = cablemesh.move_vertex_constraint(key, constraint)
 
         else:
-            move = move_set_direction(cablemesh, key)
+            mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
+            mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
+            if not mdir:
+                mdir = 'free'
+
+            if mdir == 'free':
+                move = cablemesh.move_vertices([key])
+            else:
+                move = cablemesh.move_vertices_direction([key], direction=mdir)
 
         if move:
             cablemesh.settings['_is.valid'] = False

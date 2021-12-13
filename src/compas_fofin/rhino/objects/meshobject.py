@@ -5,7 +5,7 @@ from __future__ import division
 import Rhino
 
 from compas.geometry import add_vectors
-from compas.geometry import Line, Plane, Point
+from compas.geometry import Line
 
 import compas_rhino
 from compas_rhino.objects import MeshObject
@@ -217,11 +217,10 @@ class MeshObject(MeshObject):
         gp.SetCommandPrompt('Point to move to?')
         gp.DynamicDraw += OnDynamicDraw
 
-        geometry = constraint.rhinogeometry()
         if type(constraint.geometry) == Line:
-            gp.Constrain(geometry)
+            gp.Constrain(constraint.rhinogeometry)
         else:
-            gp.Constrain(geometry, allow_off)
+            gp.Constrain(constraint.rhinogeometry, allow_off)
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:
