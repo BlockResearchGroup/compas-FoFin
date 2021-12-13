@@ -33,19 +33,19 @@ def RunCommand(is_interactive):
 
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
-    option = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
+    option = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
-    if not option:
+    if not option or option is None:
         return
 
-    if option == "allboundarynodes":
+    if option == "AllVoundaryNodes":
         keys = cablemesh.datastructure.vertices_on_boundary()
 
-    elif option == "corners":
+    elif option == "Corners":
         angle = compas_rhino.rs.GetInteger('Angle tolerance for non-quad face corners:', 170, 1, 180)
         keys = cablemesh.datastructure.corner_vertices(tol=angle)
 
-    elif option == "bycontinuousedges":
+    elif option == "ByContinuousEdges":
         temp = cablemesh.select_edges()
         keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(key) for key in temp])))
 
@@ -84,7 +84,7 @@ def RunCommand(is_interactive):
     #     compas_rhino.rs.HideObjects(guids)
     #     pattern.settings['color.edges'] = current
 
-    elif option == "manual":
+    elif option == "Manual":
         keys = cablemesh.select_vertices()
 
     if keys:
