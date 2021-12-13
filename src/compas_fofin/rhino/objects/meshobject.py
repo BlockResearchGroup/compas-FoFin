@@ -6,7 +6,6 @@ import Rhino
 
 from compas.geometry import add_vectors
 from compas.geometry import Line, Plane, Point
-from compas_rhino.geometry import RhinoNurbsCurve
 
 import compas_rhino
 from compas_rhino.objects import MeshObject
@@ -190,87 +189,43 @@ class MeshObject(MeshObject):
 
         return True
 
-    def move_vertices_geometry(self, keys, geometry):
-        """Move selected vertices along specified direction.
-
+    def move_vertex_constraint(self, key, constraint, allow_off=False):
+        """Move one vertex of the mesh on its constraint.
 
         Parameters
         ----------
-        keys : list
-            The identifiers of the vertices.
-        direction: string, optional
-            The name of axis or plane to move on. Defaut is the 'z'-axis.
+        mesh : :class:`compas.datastructures.Mesh`
+        key : int
+        constraint : :class:`compas_fd.Constraint`
+            A compas_fd Constraint object to constrain the movement to.
+        allow_off : bool, optional (True)
+            Allow the vertex to move off the constraint, if constraint is not a LineConstraint.
+
         """
 
-        def OnDynamicDraw(sender, e):
-            end = e.CurrentPoint
-            vector = end - start
-            for a, b in lines:
-                a = a + vector
-                b = b + vector
-                e.Display.DrawDottedLine(a, b, color)
-            for a, b in connectors:
-                a = a + vector
-                e.Display.DrawDottedLine(a, b, color)
-
-        Point3d = Rhino.Geometry.Point3d
         color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
-        lines = []
-        connectors = []
+        nbrs = [self.datastructure.vertex_coordinates(nbr) for nbr in self.datastructure.vertex_neighbors(key)]
+        nbrs = [Rhino.Geometry.Point3d(*xyz) for xyz in nbrs]
 
-        for key in keys:
-            a = self.datastructure.vertex_coordinates(key)
-            nbrs = self.datastructure.vertex_neighbors(key)
-            for nbr in nbrs:
-                b = self.datastructure.vertex_coordinates(nbr)
-                line = [Point3d(*a), Point3d(*b)]
-                if nbr in keys:
-                    lines.append(line)
-                else:
-                    connectors.append(line)
+        def OnDynamicDraw(sender, e):
+            for ep in nbrs:
+                sp = e.CurrentPoint
+                e.Display.DrawDottedLine(sp, ep, color)
 
         gp = Rhino.Input.Custom.GetPoint()
-        gp.SetCommandPrompt('Point to move from?')
-        if type(geometry) == RhinoNurbsCurve:
-            pt = Point(*self.datastructure.vertex_coordinates(key))
-            start = Rhino.Geometry.Point3d(pt.x, pt.y, pt.z)
-        else:
-            gp.Get()
-            if gp.CommandResult() != Rhino.Commands.Result.Success:
-                return False
-            start = gp.Point()
 
         gp.SetCommandPrompt('Point to move to?')
-        gp.SetBasePoint(start, False)
-        gp.DrawLineFromPoint(start, True)
         gp.DynamicDraw += OnDynamicDraw
 
-        if type(geometry) == Line:
-            start = Rhino.Geometry.Point3d(geometry.start.x, geometry.start.y, geometry.start.z)
-            end = Rhino.Geometry.Point3d(geometry.end.x, geometry.end.y, geometry.end.z)
-            gp.Constrain(Rhino.Geometry.Line(start, end))
-        elif type(geometry) == Plane:
-            origin = Rhino.Geometry.Point3d(geometry.point.x, geometry.point.y, geometry.point.z)
-            normal = Rhino.Geometry.Vector3d(geometry.normal.x, geometry.normal.y, geometry.normal.z)
-            gp.Constrain(Rhino.Geometry.Plane(origin, normal), False)
-        elif type(geometry) == RhinoNurbsCurve:
-            control_points = geometry.points
-            rhino_points = []
-            for pt in control_points:
-                rhino_pt = Rhino.Geometry.Point3d(pt.x, pt.y, pt.z)
-                rhino_points.append(rhino_pt)
-            degree = geometry.degree
-            gp.Constrain(Rhino.Geometry.Curve.CreateControlPointCurve(rhino_points, degree), False)
+        geometry = constraint.rhinogeometry()
+        if type(constraint.geometry) == Line:
+            gp.Constrain(geometry)
+        else:
+            gp.Constrain(geometry, allow_off)
 
         gp.Get()
-
         if gp.CommandResult() != Rhino.Commands.Result.Success:
             return False
 
-        end = gp.Point()
-        vector = list(end - start)
-        for key in keys:
-            xyz = self.datastructure.vertex_attributes(key, 'xyz')
-            self.datastructure.vertex_attributes(key, 'xyz', add_vectors(xyz, vector))
-
+        self.datastructure.vertex_attributes(key, 'xyz', list(gp.Point()))
         return True
