@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 import os
-import json
 from ast import literal_eval
 
 import compas
@@ -12,8 +11,6 @@ import scriptcontext as sc
 
 import compas_rhino
 from compas_rhino.forms import TextForm
-
-from compas_fofin.datastructures import CableMesh
 
 
 def match_vertices(cablemesh, keys):
