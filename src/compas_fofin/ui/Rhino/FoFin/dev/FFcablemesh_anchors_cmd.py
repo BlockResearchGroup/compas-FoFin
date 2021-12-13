@@ -51,15 +51,15 @@ def RunCommand(is_interactive):
     # should this not be included in the while loop?
 
     options = ["Select", "Unselect"]
-    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options).lower()
+    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options)
 
-    if not option1:
+    if not option1 or option1 is None:
         return
 
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     while True:
-        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
+        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
         # show also free vertices
         cablemesh.settings['show.vertices:free'] = True
@@ -71,13 +71,13 @@ def RunCommand(is_interactive):
             scene.update()
             return
 
-        if option2 == "allboundarynodes":
+        if option2 == "AllBoundaryNodes":
             keys = list(set(flatten(cablemesh.datastructure.vertices_on_boundaries())))
 
-        elif option2 == "corners":
+        elif option2 == "Corners":
             keys = cablemesh.datastructure.corner_vertices()
 
-        elif option2 == "bycontinuousedges":
+        elif option2 == "ByContinuousEdges":
             edges = cablemesh.select_edges()
             keys = list(set(flatten([cablemesh.datastructure.vertices_on_edge_loop(edge) for edge in edges])))
 
@@ -95,12 +95,12 @@ def RunCommand(is_interactive):
         #         [cablemesh.datastructure.vertices_where_predicate(
         #             partial(predicate, cablemesh.datastructure.vertex_attribute(vertex, 'constraints'))) for vertex in temp])))
 
-        elif option2 == "manual":
+        elif option2 == "Manual":
             keys = cablemesh.select_vertices()
 
         if keys:
             cablemesh.settings['_is.valid'] = False
-            if option1 == "select":
+            if option1 == "Select":
                 cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=keys)
             else:
                 cablemesh.datastructure.vertices_attribute('is_anchor', False, keys=keys)
