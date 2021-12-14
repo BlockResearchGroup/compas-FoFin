@@ -36,16 +36,13 @@ def RunCommand(is_interactive):
     keys = cablemesh.select_vertices()
     if keys:
 
-        ctype_options = ["Frame", "Line", "Curve", "Surface"]
+        ctype_options = ["Line", "Curve", "Surface"]
         ctype = compas_rhino.rs.GetString("Select node constraints:", strings=ctype_options).lower()
 
         if not ctype:
             return
 
-        if ctype == "frame":
-            raise NotImplementedError
-
-        elif ctype == "line":
+        if ctype == "line":
             guid = select_line(message="Select line constraint")
             geometry = RhinoLine.from_guid(guid).to_compas()
 
