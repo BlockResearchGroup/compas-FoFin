@@ -5,7 +5,6 @@ from __future__ import division
 import Rhino
 
 from compas.geometry import add_vectors
-from compas.geometry import Line
 
 import compas_rhino
 from compas_rhino.objects import MeshObject
