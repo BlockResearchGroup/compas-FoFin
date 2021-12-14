@@ -35,12 +35,7 @@ def RunCommand(is_interactive):
     if key is not None:
         if cablemesh.datastructure.vertex_attribute(key, 'constraint'):
             constraint = cablemesh.datastructure.vertex_attribute(key, 'constraint')
-
-            if type(constraint.geometry) == Frame:
-                # either on constraint or other options
-                raise NotImplementedError
-            else:
-                move = cablemesh.move_vertex_constraint(key, constraint)
+            move = cablemesh.move_vertex_constraint(key, constraint)
 
         else:
             mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
