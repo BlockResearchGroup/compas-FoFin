@@ -217,10 +217,7 @@ class MeshObject(MeshObject):
         gp.SetCommandPrompt('Point to move to?')
         gp.DynamicDraw += OnDynamicDraw
 
-        if type(constraint.geometry) == Line:
-            gp.Constrain(constraint.rhinogeometry)
-        else:
-            gp.Constrain(constraint.rhinogeometry, allow_off)
+        gp.Constrain(constraint.rhinogeometry, allow_off)
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:
