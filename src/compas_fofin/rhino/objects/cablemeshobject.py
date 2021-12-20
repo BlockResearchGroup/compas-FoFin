@@ -2,8 +2,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas.geometry import Vector, Frame, Line, Plane
-from compas_rhino.geometry import RhinoNurbsCurve
+from compas.geometry import Vector, Frame, Line
+from compas_rhino.geometry import RhinoNurbsCurve, RhinoNurbsSurface
 from compas.utilities import i_to_red, i_to_blue
 
 import compas_rhino
@@ -231,16 +231,12 @@ class CableMeshObject(MeshObject):
                 for vertex in constrained:
                     constraint = self.mesh.vertex_attribute(vertex, 'constraint')
 
-                    if type(constraint.geometry) == Vector:
-                        text[vertex] = constraint.direction
-                    elif type(constraint.geometry) == Frame:
-                        text[vertex] = constraint.direction
-                    elif type(constraint.geometry) == Line:
-                        text[vertex] = 'line'
-                    elif type(constraint.geometry) == Plane:
-                        text[vertex] = 'plane'
+                    if type(constraint.geometry) == Line:
+                        text[vertex] = 'l'
                     elif type(constraint.geometry) == RhinoNurbsCurve:
-                        text[vertex] = 'curve'
+                        text[vertex] = 'c'
+                    elif type(constraint.geometry) == RhinoNurbsSurface:
+                        text[vertex] = 's'
 
                 guids = self.artist.draw_vertexlabels(text, color)
                 self.guid_vertexlabel = zip(guids, constrained)

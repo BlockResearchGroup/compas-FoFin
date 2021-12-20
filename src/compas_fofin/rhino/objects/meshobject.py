@@ -216,7 +216,13 @@ class MeshObject(MeshObject):
         gp.SetCommandPrompt('Point to move to?')
         gp.DynamicDraw += OnDynamicDraw
 
-        gp.Constrain(constraint.rhinogeometry, allow_off)
+        try:
+            gp.Constrain(constraint.rhinogeometry, allow_off)
+        except TypeError as e:
+            if e.args[0].startswith('expected Curve, got Brep'):
+                gp.Constrain(constraint.rhinogeometry, -1, -1, allow_off)
+            else:
+                raise
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:

@@ -9,8 +9,8 @@ from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
 from compas_rhino.geometry import RhinoSurface
 from compas_rhino.utilities import select_line
-from compas_rhino.utilities.objects import select_curve
-from compas_rhino.utilities.objects import select_surface
+from compas_rhino.utilities import select_curve
+from compas_rhino.utilities import select_surface
 
 from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_error
