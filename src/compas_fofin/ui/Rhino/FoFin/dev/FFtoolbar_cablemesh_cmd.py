@@ -24,10 +24,12 @@ def RunCommand(is_interactive):
         return
 
     options = ["Mesh", "Meshgrid", "Box", "Cylinder"]
-    option = compas_rhino.rs.GetString("Create CableMesh:", strings=options).lower()
+    option = compas_rhino.rs.GetString("Create CableMesh:", strings=options)
 
-    if not option:
+    if not option or option is None:
+        scene.update()
         return
+    option = option.lower()
 
     if option == "mesh":
         FFcablemesh_from_mesh_cmd.RunCommand(True)

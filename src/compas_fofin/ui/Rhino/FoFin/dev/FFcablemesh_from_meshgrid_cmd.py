@@ -21,9 +21,24 @@ def RunCommand(is_interactive):
         return
 
     dx = compas_rhino.rs.GetReal("Dimension in X direction:", 10.0, 1.0, 100.0)
+    if not dx or dx is None:
+        scene.update()
+        return
+
     nx = compas_rhino.rs.GetInteger("Number of faces in X direction:", 10, 2, 100)
+    if not nx or nx is None:
+        scene.update()
+        return
+
     dy = compas_rhino.rs.GetReal("Dimension in the Y direction:", dx, 1.0, 100.0)
+    if not dy or dy is None:
+        scene.update()
+        return
+
     ny = compas_rhino.rs.GetInteger("Number of faces in Y direction:", nx, 2, 100)
+    if not ny or ny is None:
+        scene.update()
+        return
 
     cablemesh = CableMesh.from_meshgrid(dx, nx, dy, ny)
 

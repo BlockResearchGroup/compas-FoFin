@@ -26,6 +26,9 @@ def RunCommand(is_interactive):
         return
 
     sub = compas_rhino.rs.GetInteger("Number of levels of subdivision:", 2, 0, 20)
+    if not sub or sub is None:
+        scene.update()
+        return
 
     box = RhinoBox.from_guid(guid).to_compas()
     mesh = CableMesh.from_shape(box)

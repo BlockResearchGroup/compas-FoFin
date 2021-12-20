@@ -37,10 +37,11 @@ def RunCommand(is_interactive):
 
         else:
             mdir_options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-            mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options).lower()
-            if not mdir:
+            mdir = compas_rhino.rs.GetString("Set Direction.", strings=mdir_options)
+            if not mdir or mdir is None:
                 mdir = 'free'
 
+            mdir = mdir.lower()
             if mdir == 'free':
                 move = cablemesh.move_vertices([key])
             else:

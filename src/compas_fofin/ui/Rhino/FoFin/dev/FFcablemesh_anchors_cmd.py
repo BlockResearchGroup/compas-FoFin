@@ -50,21 +50,23 @@ def RunCommand(is_interactive):
         scene.update()
 
     options = ["Select", "Unselect"]
-    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options).lower()
-
-    if not option1:
+    option1 = compas_rhino.rs.GetString("Select or unselect nodes as supports:", strings=options)
+    if not option1 or option1 is None:
+        scene.update()
         return
+    option1 = option1.lower()
 
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
     while True:
-        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
+        option2 = compas_rhino.rs.GetString("Selection mode:", strings=options)
 
-        if not option2:
+        if not option2 or option2 is None:
             compas_rhino.rs.UnselectAllObjects()
             cablemesh.settings['show.vertices:free'] = False
             scene.update()
             return
+        option2 = option2.lower()
 
         if option2 == "allboundarynodes":
             keys = list(set(flatten(cablemesh.datastructure.vertices_on_boundaries())))

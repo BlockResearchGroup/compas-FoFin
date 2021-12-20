@@ -37,10 +37,12 @@ def RunCommand(is_interactive):
     if keys:
 
         ctype_options = ["Line", "Curve", "Surface"]
-        ctype = compas_rhino.rs.GetString("Select node constraints:", strings=ctype_options).lower()
+        ctype = compas_rhino.rs.GetString("Select node constraints:", strings=ctype_options)
 
-        if not ctype:
+        if not ctype or ctype is None:
+            scene.update()
             return
+        ctype = ctype.lower()
 
         if ctype == "line":
             guid = select_line(message="Select line constraint")

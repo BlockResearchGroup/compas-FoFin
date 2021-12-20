@@ -27,7 +27,14 @@ def RunCommand(is_interactive):
         return
 
     sub_perimeter = compas_rhino.rs.GetInteger("Number of levels of subdivision along perimeter:", 3, 2, 20)
+    if not sub_perimeter or sub_perimeter is None:
+        scene.update()
+        return
+
     sub_height = compas_rhino.rs.GetInteger("Number of levels of subdivision along height:", 3, 0, 20)
+    if not sub_height or sub_height is None:
+        scene.update()
+        return
     u = 2**(sub_perimeter)
 
     cylinder = RhinoCylinder.from_guid(guid).to_compas()

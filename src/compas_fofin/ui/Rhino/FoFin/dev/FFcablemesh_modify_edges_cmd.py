@@ -30,10 +30,12 @@ def RunCommand(is_interactive):
         return
 
     options = ["All", "AllBoundaryEdges", "Continuous", "Parallel", "Manual"]
-    option = compas_rhino.rs.GetString("Selection Type", strings=options).lower()
+    option = compas_rhino.rs.GetString("Selection Type", strings=options)
 
-    if not option:
+    if not option or option is None:
+        scene.update()
         return
+    option = option.lower()
 
     if option == "all":
         keys = keys = list(cablemesh.datastructure.edges())

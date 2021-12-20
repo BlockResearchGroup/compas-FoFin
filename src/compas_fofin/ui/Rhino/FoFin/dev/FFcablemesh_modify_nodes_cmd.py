@@ -34,10 +34,12 @@ def RunCommand(is_interactive):
 
     options = ["AllBoundaryNodes", "Corners", "ByContinuousEdges", "Manual"]
 
-    option = compas_rhino.rs.GetString("Selection mode:", strings=options).lower()
-
-    if not option:
+    option = compas_rhino.rs.GetString("Selection mode:", strings=options)
+    if not option or option is None:
+        cablemesh.settings['show.vertices:free'] = False
+        scene.update()
         return
+    option = option.lower()
 
     if option == "allboundarynodes":
         keys = cablemesh.datastructure.vertices_on_boundary()
