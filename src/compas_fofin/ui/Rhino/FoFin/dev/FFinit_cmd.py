@@ -14,7 +14,7 @@ from compas_fofin.rhino import FF_error  # noqa: E402
 from compas_fofin.activate import check
 from compas_fofin.activate import activate
 from compas_fofin.rhino import Browser
-
+from compas_ui.session import Session
 
 __commandname__ = "FFinit"
 
@@ -52,9 +52,12 @@ def RunCommand(is_interactive):
     Browser()
 
     errorHandler = FF_error(title="Server side Error", showLocalTraceback=False)
-    sc.sticky["FF.proxy"] = Proxy(errorHandler=errorHandler, port=9009)
 
-    sc.sticky["FF.system"] = {
+    session = Session()
+
+    session["FF.proxy"] = Proxy(errorHandler=errorHandler, port=9009)
+
+    session["FF.system"] = {
         "session.dirname": CWD,
         "session.filename": None,
         "session.extension": 'FF'
@@ -63,9 +66,9 @@ def RunCommand(is_interactive):
     scene = Scene(SETTINGS)
     scene.clear()
 
-    sc.sticky["FF"] = {"scene": scene}
+    session["FF"] = {"scene": scene}
 
-    sc.sticky["FF.sessions"] = []
+    session["FF.sessions"] = []
 
 
 # ==============================================================================

@@ -3,17 +3,13 @@ from __future__ import absolute_import
 from __future__ import division
 
 import os
-import json
 from ast import literal_eval
-
-import compas
 
 import scriptcontext as sc
 
 import compas_rhino
 from compas_rhino.forms import TextForm
-
-from compas_fofin.datastructures import CableMesh
+from compas_ui.session import Session
 
 
 def match_vertices(cablemesh, keys):
@@ -137,11 +133,12 @@ def select_filepath_save(root, ext):
 
 
 def get_FF():
-    if "FF" not in sc.sticky:
+    session = Session()
+    if "FF" not in session:
         form = TextForm('Initialise the plugin first!', 'FF')
         form.show()
         return None
-    return sc.sticky["FF"]
+    return session["FF"]
 
 
 def get_scene():
@@ -151,19 +148,21 @@ def get_scene():
 
 
 def get_proxy():
-    if "FF.proxy" not in sc.sticky:
+    session = Session()
+    if "FF.proxy" not in session:
         form = TextForm('Initialise the plugin first!', 'FF')
         form.show()
         return None
-    return sc.sticky["FF.proxy"]
+    return session["FF.proxy"]
 
 
 def get_system():
-    if "FF.system" not in sc.sticky:
+    session = Session()
+    if "FF.system" not in session:
         form = TextForm('Initialise the plugin first!', 'FF')
         form.show()
         return None
-    return sc.sticky["FF.system"]
+    return session["FF.system"]
 
 
 def compile_session():
@@ -178,53 +177,39 @@ def compile_session():
     return session
 
 
-def load_session(session):
+def load_session(session_data):
     print("loading session")
     scene = get_scene()
     scene.clear()
-    if 'settings' in session:
-        scene.settings = session['settings']
-    if 'data' in session:
-        data = session['data']
+    if 'settings' in session_data:
+        scene.settings = session_data['settings']
+    if 'data' in session_data:
+        data = session_data['data']
         if 'cablemesh' in data and data['cablemesh']:
             scene.add(data['cablemesh'], name="cablemesh")
     scene.update()
 
 
 def record():
-    session = compas.json_dumps(compile_session())
-    sc.sticky["FF.sessions"] = sc.sticky["FF.sessions"][:sc.sticky["FF.sessions.current"]+1]
-    sc.sticky["FF.sessions"].append(session)
-    if len(sc.sticky["FF.sessions"]) > 10:
-        sc.sticky["FF.sessions"] = sc.sticky["FF.sessions"][-10:]
-    sc.sticky["FF.sessions.current"] = len(sc.sticky["FF.sessions"]) - 1
+    session = Session()
+    session.record()
 
 
 def undo(sender, e):
+    session = Session()
     if e.Tag == "undo":
-        if sc.sticky["FF.sessions.current"] - 1 < 0:
-            print("no more recorded sessions to undo")
-            return
-        sc.sticky["FF.sessions.current"] -= 1
-        session = sc.sticky["FF.sessions"][sc.sticky["FF.sessions.current"]]
-        session = compas.json_loads(session)
-        load_session(session)
+        session.undo()
+        load_session(session.data)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "redo")
     if e.Tag == "redo":
-        if sc.sticky["FF.sessions.current"] + 1 >= len(sc.sticky["FF.sessions"]):
-            print("no more recorded sessions to redo")
-            return
-        sc.sticky["FF.sessions.current"] += 1
-        session = sc.sticky["FF.sessions"][sc.sticky["FF.sessions.current"]]
-        session = compas.json_loads(session)
-        load_session(session)
+        session.redo()
+        load_session(session.data)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
-    print("current sessions:", sc.sticky["FF.sessions.current"]+1)
-    print("total sessions:", len(sc.sticky["FF.sessions"]))
 
 
 def FF_undo(command):
     def wrapper(*args, **kwargs):
+        session = Session()
         sc.doc.EndUndoRecord(sc.doc.CurrentUndoRecordSerialNumber)
         undoRecord = sc.doc.BeginUndoRecord("FF Undo")
         if undoRecord == 0:
@@ -232,8 +217,7 @@ def FF_undo(command):
         else:
             print("Custom undo recording", undoRecord)
 
-        if len(sc.sticky["FF.sessions"]) == 0:
-            sc.sticky["FF.sessions.current"] = 0
+        if len(session.history) == 0:
             record()
         command(*args, **kwargs)
         record()
