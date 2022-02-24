@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 import os
-import scriptcontext as sc
 
 import compas
 import compas_rhino
@@ -14,7 +13,7 @@ from compas_fofin.rhino import FF_error  # noqa: E402
 from compas_fofin.activate import check
 from compas_fofin.activate import activate
 from compas_fofin.rhino import Browser
-from compas_ui.session import Session
+from compas_fofin.session import Session
 
 __commandname__ = "FFinit"
 
@@ -52,23 +51,12 @@ def RunCommand(is_interactive):
     Browser()
 
     errorHandler = FF_error(title="Server side Error", showLocalTraceback=False)
-
-    session = Session()
-
-    session["FF.proxy"] = Proxy(errorHandler=errorHandler, port=9009)
-
-    session["FF.system"] = {
-        "session.dirname": CWD,
-        "session.filename": None,
-        "session.extension": 'FF'
-    }
+    proxy = Proxy(errorHandler=errorHandler, port=9009)
 
     scene = Scene(SETTINGS)
     scene.clear()
 
-    session["FF"] = {"scene": scene}
-
-    session["FF.sessions"] = []
+    Session(directory=CWD, extension='FF', proxy=proxy, scene=scene)
 
 
 # ==============================================================================

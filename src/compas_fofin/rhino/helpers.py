@@ -9,7 +9,7 @@ import scriptcontext as sc
 
 import compas_rhino
 from compas_rhino.forms import TextForm
-from compas_ui.session import Session
+from compas_fofin.session import Session
 
 
 def match_vertices(cablemesh, keys):
@@ -132,78 +132,32 @@ def select_filepath_save(root, ext):
     return filepath
 
 
-def get_FF():
-    session = Session()
-    if "FF" not in session:
+def get_FF_session():
+    if not Session.initialized:
         form = TextForm('Initialise the plugin first!', 'FF')
         form.show()
         return None
-    return session["FF"]
+    return Session()
 
 
 def get_scene():
-    FF = get_FF()
-    if FF:
-        return FF['scene']
+    session = get_FF_session()
+    if session:
+        return session.scene
 
 
 def get_proxy():
-    session = Session()
-    if "FF.proxy" not in session:
-        form = TextForm('Initialise the plugin first!', 'FF')
-        form.show()
-        return None
-    return session["FF.proxy"]
-
-
-def get_system():
-    session = Session()
-    if "FF.system" not in session:
-        form = TextForm('Initialise the plugin first!', 'FF')
-        form.show()
-        return None
-    return session["FF.system"]
-
-
-def compile_session():
-    scene = get_scene()
-    session = {
-        "data": {"cablemesh": None},
-        "settings": scene.settings,
-    }
-    cablemesh = scene.get('cablemesh')[0]
-    if cablemesh:
-        session['data']['cablemesh'] = cablemesh.datastructure
-    return session
-
-
-def load_session(session_data):
-    print("loading session")
-    scene = get_scene()
-    scene.clear()
-    if 'settings' in session_data:
-        scene.settings = session_data['settings']
-    if 'data' in session_data:
-        data = session_data['data']
-        if 'cablemesh' in data and data['cablemesh']:
-            scene.add(data['cablemesh'], name="cablemesh")
-    scene.update()
-
-
-def record():
-    session = Session()
-    session.record()
+    session = get_FF_session()
+    return session.proxy
 
 
 def undo(sender, e):
     session = Session()
     if e.Tag == "undo":
         session.undo()
-        load_session(session.data)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "redo")
     if e.Tag == "redo":
         session.redo()
-        load_session(session.data)
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
 
 
@@ -218,9 +172,9 @@ def FF_undo(command):
             print("Custom undo recording", undoRecord)
 
         if len(session.history) == 0:
-            record()
+            session.record()
         command(*args, **kwargs)
-        record()
+        session.record()
         sc.doc.AddCustomUndoEvent("FF Undo", undo, "undo")
         if undoRecord > 0:
             sc.doc.EndUndoRecord(undoRecord)
