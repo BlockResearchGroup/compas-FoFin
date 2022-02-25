@@ -7,7 +7,7 @@ import ast
 import compas_rhino
 from compas_rhino import delete_objects
 from compas.utilities import i_to_rgb
-from compas_fofin.rhino import get_scene
+from compas_fofin.app import App
 
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
@@ -465,7 +465,7 @@ class ModifyAttributesForm(forms.Dialog[bool]):
                 if hasattr(page, 'apply'):
                     page.apply()
                 page.clear_label()
-            get_scene().update()
+            App().scene.update()
         except Exception as e:
             print(e)
         self.Close()
@@ -475,7 +475,7 @@ class ModifyAttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            get_scene().update()
+            App().scene.update()
         except Exception as e:
             print(e)
 
@@ -490,7 +490,7 @@ class ModifyAttributesForm(forms.Dialog[bool]):
 
 if __name__ == "__main__":
 
-    scene = get_scene()
+    scene = App().scene
 
     node = scene.get("form")[0]
     ModifyAttributesForm.from_sceneNode(node, edges=None)

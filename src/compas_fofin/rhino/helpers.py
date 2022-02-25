@@ -8,8 +8,7 @@ from ast import literal_eval
 import scriptcontext as sc
 
 import compas_rhino
-from compas_rhino.forms import TextForm
-from compas_fofin.session import Session
+from compas_fofin.app import App
 
 
 def match_vertices(cablemesh, keys):
@@ -132,38 +131,19 @@ def select_filepath_save(root, ext):
     return filepath
 
 
-def get_FF_session():
-    if not Session.initialized:
-        form = TextForm('Initialise the plugin first!', 'FF')
-        form.show()
-        return None
-    return Session()
-
-
-def get_scene():
-    session = get_FF_session()
-    if session:
-        return session.scene
-
-
-def get_proxy():
-    session = get_FF_session()
-    return session.proxy
-
-
 def undo(sender, e):
-    session = Session()
+    app = App()
     if e.Tag == "undo":
-        session.undo()
+        app.undo()
         e.Document.AddCustomUndoEvent("FF Redo", undo, "redo")
     if e.Tag == "redo":
-        session.redo()
+        app.redo()
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
 
 
 def FF_undo(command):
     def wrapper(*args, **kwargs):
-        session = Session()
+        app = App()
         sc.doc.EndUndoRecord(sc.doc.CurrentUndoRecordSerialNumber)
         undoRecord = sc.doc.BeginUndoRecord("FF Undo")
         if undoRecord == 0:
@@ -171,11 +151,16 @@ def FF_undo(command):
         else:
             print("Custom undo recording", undoRecord)
 
-        if len(session.history) == 0:
-            session.record()
+        if len(app.session.history) == 0:
+            app.record()
         command(*args, **kwargs)
-        session.record()
+        app.record()
         sc.doc.AddCustomUndoEvent("FF Undo", undo, "undo")
         if undoRecord > 0:
             sc.doc.EndUndoRecord(undoRecord)
     return wrapper
+
+
+def get_scene():
+    """Get the current scene."""
+    return App().scene

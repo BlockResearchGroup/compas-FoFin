@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_fofin.rhino import get_FF_session
+from compas_fofin.app import App
 from compas_fofin.rhino import select_filepath_open
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
@@ -19,9 +19,7 @@ HERE = compas_rhino.get_document_dirname()
 @FF_undo
 def RunCommand(is_interactive):
 
-    session = get_FF_session()
-    if not session:
-        return
+    session = App().session
 
     filepath = select_filepath_open(session.directory, session.extension)
     if filepath:

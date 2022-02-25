@@ -4,7 +4,7 @@ from __future__ import division
 
 import ast
 
-from compas_fofin.rhino import get_scene
+from compas_fofin.app import App
 from compas_fofin.rhino.forms.settings import Settings_Tab
 
 import rhinoscriptsyntax as rs
@@ -366,7 +366,7 @@ class AttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            get_scene().update()
+            App().secne.update()
         except Exception as e:
             print(e)
         self.Close()
@@ -376,17 +376,9 @@ class AttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            get_scene().update()
+            App().secne.update()
         except Exception as e:
             print(e)
 
     def on_cancel(self, sender, event):
         self.Close()
-
-
-if __name__ == "__main__":
-
-    scene = get_scene()
-
-    node = scene.get("form")[0]
-    AttributesForm.from_sceneNode(node)

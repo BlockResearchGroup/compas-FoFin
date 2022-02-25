@@ -2,41 +2,26 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from .conduits import *  # noqa: F401 F403
-from .helpers import *  # noqa: F401 F403
-from .forms import *  # noqa: F401 F403
-from .artists import *  # noqa: F401 F403
-from .objects import *  # noqa: F401 F403
+from .forms import SettingsForm  # noqa: F401
+from .forms import Browser  # noqa: F401
+from .forms import AttributesForm  # noqa: F401
+from .forms import FF_error  # noqa: F401
+from .forms import ModifyAttributesForm  # noqa: F401
+from .forms import MenuForm
 
-__all__ = [  # noqa: F405
-    'CableMeshArtist',
+from .helpers import select_filepath_open  # noqa: F401
+from .helpers import select_filepath_save  # noqa: F401
+from .helpers import select_vertices  # noqa: F401
+from .helpers import select_edges  # noqa: F401
+from .helpers import select_faces  # noqa: F401
+from .helpers import FF_undo  # noqa: F401
+from .helpers import get_scene  # noqa: F401
 
-    'CableMeshConduit',
+from .conduits import ReactionConduit  # noqa: F401
+from .conduits import LoadConduit  # noqa: F401
+from .conduits import PipeConduit  # noqa: F401
 
-    'AttributesForm',
-    'BrowserForm',
-    'FF_error',
-    'MenuForm',
-    'ModifyAttributesForm',
-    'SettingsForm',
-    'Settings_Tab',
+from .artists import CableMeshArtist  # noqa: F401
 
-    'CableMeshObject',
-    'MeshObject',
-
-    'is_valid_file',
-    'select_filepath_open',
-    'select_filepath_save',
-    'get_FF',
-    'get_scene',
-    'get_proxy',
-    'get_system',
-    'select_vertices',
-    'select_edges',
-    'select_faces',
-    'FF_undo',
-    'save_session',
-    'load_session',
-
-    'Scene',
-]
+from .objects import MeshObject  # noqa: F401
+from .objects import CableMeshObject  # noqa: F401

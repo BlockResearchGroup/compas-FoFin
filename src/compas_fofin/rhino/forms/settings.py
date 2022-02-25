@@ -2,7 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_fofin.rhino import get_scene
 from collections import OrderedDict
 
 import Eto.Drawing as drawing
@@ -223,10 +222,3 @@ class SettingsForm(forms.Dialog[bool]):
 
     def on_cancel(self, sender, event):
         self.Close()
-
-
-if __name__ == "__main__":
-
-    scene = get_scene()
-    SettingsForm.from_scene(scene, object_types=["CableMeshObject"], global_settings=["FF", "Solvers"])
-    scene.update()

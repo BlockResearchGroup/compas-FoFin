@@ -7,25 +7,13 @@ import os
 import compas
 import compas_rhino
 
-from compas_cloud import Proxy  # noqa: E402
-from compas_fofin.scene import Scene  # noqa: E402
-from compas_fofin.rhino import FF_error  # noqa: E402
+from compas_fofin.rhino import FF_error
 from compas_fofin.activate import check
 from compas_fofin.activate import activate
 from compas_fofin.rhino import Browser
-from compas_fofin.session import Session
+from compas_fofin.app import App
 
 __commandname__ = "FFinit"
-
-
-SETTINGS = {
-
-    "FF": {
-    },
-
-    "Solvers": {
-    }
-}
 
 
 HERE = compas_rhino.get_document_dirname()
@@ -49,14 +37,7 @@ def RunCommand(is_interactive):
         return
 
     Browser()
-
-    errorHandler = FF_error(title="Server side Error", showLocalTraceback=False)
-    proxy = Proxy(errorHandler=errorHandler, port=9009)
-
-    scene = Scene(SETTINGS)
-    scene.clear()
-
-    Session(directory=CWD, extension='FF', proxy=proxy, scene=scene)
+    App()
 
 
 # ==============================================================================
