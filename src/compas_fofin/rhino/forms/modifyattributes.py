@@ -7,7 +7,7 @@ import ast
 import compas_rhino
 from compas_rhino import delete_objects
 from compas.utilities import i_to_rgb
-from compas_fofin.app import App
+# from compas_fofin.app import App
 
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
@@ -398,12 +398,17 @@ class Tree_Tab(forms.TabPage):
 
 class ModifyAttributesForm(forms.Dialog[bool]):
 
+    def __init__(self, app, *args, **kwargs):
+        super(ModifyAttributesForm, self).__init__(*args, **kwargs)
+        self.app = app
+        # self.setup()
+
     @classmethod
-    def from_sceneNode(cls, sceneNode, tab_type, keys):
-        attributesForm = cls()
-        attributesForm.setup(sceneNode, tab_type, keys)
-        Rhino.UI.EtoExtensions.ShowSemiModal(attributesForm, Rhino.RhinoDoc.ActiveDoc, Rhino.UI.RhinoEtoApp.MainWindow)
-        return attributesForm
+    def from_sceneNode(cls, app, sceneNode, tab_type, keys):
+        form = cls(app)
+        form.setup(sceneNode, tab_type, keys)
+        Rhino.UI.EtoExtensions.ShowSemiModal(form, Rhino.RhinoDoc.ActiveDoc, Rhino.UI.RhinoEtoApp.MainWindow)
+        return form
 
     def setup(self, sceneNode, tab_type, keys):
         self.Title = "Property - " + sceneNode.name
@@ -465,7 +470,7 @@ class ModifyAttributesForm(forms.Dialog[bool]):
                 if hasattr(page, 'apply'):
                     page.apply()
                 page.clear_label()
-            App().scene.update()
+            self.app.scene.update()
         except Exception as e:
             print(e)
         self.Close()
@@ -475,7 +480,7 @@ class ModifyAttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            App().scene.update()
+            self.app.scene.update()
         except Exception as e:
             print(e)
 
@@ -490,7 +495,14 @@ class ModifyAttributesForm(forms.Dialog[bool]):
 
 if __name__ == "__main__":
 
-    scene = App().scene
+    from compas_fofin.app import App
 
-    node = scene.get("form")[0]
-    ModifyAttributesForm.from_sceneNode(node, edges=None)
+    app = App()
+
+    # the data is the data
+    # a scene only contains information about how the data is staged
+    # formfinding data structure should be stored in app.data
+
+    # node = app.data['form']
+    node = app.scene.get("form")[0]
+    ModifyAttributesForm.from_sceneNode(app, node, edges=None)

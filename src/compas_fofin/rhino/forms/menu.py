@@ -19,6 +19,10 @@ sys.path.append(UI_FOLDER)
 
 class MenuForm(forms.Form):
 
+    def __init__(self, *args, **kwargs):
+        super(MenuForm, self).__init__(*args, **kwargs)
+        self.setup()
+
     def setup(self):
         self.Owner = Rhino.UI.RhinoEtoApp.MainWindow
         self.Title = "RhinoVault2"
@@ -87,7 +91,7 @@ class MenuForm(forms.Form):
 if __name__ == "__main__":
 
     m = MenuForm()
-    m.setup()
+    # m.setup()
     m.Show()
 
     # m.show()

@@ -4,8 +4,8 @@ from __future__ import division
 
 import ast
 
-from compas_fofin.app import App
-from compas_fofin.rhino.forms.settings import Settings_Tab
+# from compas_fofin.app import App
+from .settings import Settings_Tab
 
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
@@ -304,6 +304,11 @@ class AttributesForm(forms.Dialog[bool]):
         Rhino.UI.EtoExtensions.ShowSemiModal(attributesForm, Rhino.RhinoDoc.ActiveDoc, Rhino.UI.RhinoEtoApp.MainWindow)
         return attributesForm
 
+    def __init__(self, app, *args, **kwargs):
+        super(AttributesForm, self).__init__(*args, **kwargs)
+        self.app = app
+        self.setup()
+
     def setup(self, sceneNode):
         self.Title = "Property - " + sceneNode.name
         self.sceneNode = sceneNode
@@ -366,7 +371,7 @@ class AttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            App().secne.update()
+            self.app.scene.update()
         except Exception as e:
             print(e)
         self.Close()
@@ -376,7 +381,7 @@ class AttributesForm(forms.Dialog[bool]):
             for page in self.TabControl.Pages:
                 if hasattr(page, 'apply'):
                     page.apply()
-            App().secne.update()
+            self.app.scene.update()
         except Exception as e:
             print(e)
 

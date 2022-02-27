@@ -8,7 +8,7 @@ from ast import literal_eval
 import scriptcontext as sc
 
 import compas_rhino
-from compas_fofin.app import App
+# from compas_fofin.app import App
 
 
 def match_vertices(cablemesh, keys):
@@ -131,6 +131,7 @@ def select_filepath_save(root, ext):
     return filepath
 
 
+# add to app as pluggable
 def undo(sender, e):
     app = App()
     if e.Tag == "undo":
@@ -141,6 +142,7 @@ def undo(sender, e):
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
 
 
+# add to app as pluggable
 def FF_undo(command):
     def wrapper(*args, **kwargs):
         app = App()
@@ -161,6 +163,7 @@ def FF_undo(command):
     return wrapper
 
 
+# no linger needed
 def get_scene():
     """Get the current scene."""
     return App().scene
