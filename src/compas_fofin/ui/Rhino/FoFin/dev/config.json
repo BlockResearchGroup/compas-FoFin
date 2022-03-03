@@ -204,6 +204,14 @@
     },
     "settings":
     {
+        "cloud": {
+            "host": "localhost",
+            "port": 9009
+        },
+
+        "scene": {
+            
+        }
 
     }
 }

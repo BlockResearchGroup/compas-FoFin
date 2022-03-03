@@ -7,10 +7,10 @@ import Rhino
 from compas.geometry import add_vectors
 
 import compas_rhino
-from compas_rhino.objects import MeshObject
-from compas_rhino.objects import mesh_update_vertex_attributes
-from compas_rhino.objects import mesh_update_edge_attributes
-from compas_rhino.objects import mesh_update_face_attributes
+from compas_ui.rhino.objects import MeshObject
+from compas_ui.rhino.objects import mesh_update_vertex_attributes
+from compas_ui.rhino.objects import mesh_update_edge_attributes
+from compas_ui.rhino.objects import mesh_update_face_attributes
 
 from compas_fofin.rhino import select_vertices
 from compas_fofin.rhino import select_faces

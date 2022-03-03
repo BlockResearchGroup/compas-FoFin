@@ -7,4 +7,4 @@ from compas_fofin.datastructures import CableMesh
 from compas_rhino.artists import RhinoArtist
 from .cablemeshartist import CableMeshArtist
 
-RhinoArtist.register(CableMesh, CableMeshArtist)
+RhinoArtist.register(CableMesh, CableMeshArtist, context='Rhino')

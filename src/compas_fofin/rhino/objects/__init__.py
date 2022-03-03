@@ -7,4 +7,4 @@ from compas_fofin.datastructures import CableMesh
 from .cablemeshobject import CableMeshObject
 from .meshobject import MeshObject
 
-MeshObject.register(CableMesh, CableMeshObject)
+MeshObject.register(CableMesh, CableMeshObject, context='Rhino')

@@ -15,7 +15,6 @@ from .helpers import select_vertices  # noqa: F401
 from .helpers import select_edges  # noqa: F401
 from .helpers import select_faces  # noqa: F401
 from .helpers import FF_undo  # noqa: F401
-from .helpers import get_scene  # noqa: F401
 
 from .conduits import ReactionConduit  # noqa: F401
 from .conduits import LoadConduit  # noqa: F401

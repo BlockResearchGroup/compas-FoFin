@@ -5,9 +5,9 @@ from __future__ import division
 import compas_rhino
 from compas_rhino.geometry import RhinoMesh
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino import get_scene
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
+from compas_ui.app import App
 
 
 __commandname__ = "FFcablemesh_from_mesh"
@@ -17,10 +17,6 @@ __commandname__ = "FFcablemesh_from_mesh"
 @FF_undo
 def RunCommand(is_interactive):
 
-    scene = get_scene()
-    if not scene:
-        return
-
     guid = compas_rhino.select_mesh()
     if not guid:
         return
@@ -29,9 +25,10 @@ def RunCommand(is_interactive):
 
     compas_rhino.rs.HideObject(guid)
 
-    scene.clear()
-    scene.add(cablemesh, name='cablemesh')
-    scene.update()
+    app = App()
+    app.scene.clear()
+    app.scene.add(cablemesh, name='cablemesh')
+    app.scene.update()
 
     print("CableMesh object successfully created. Input mesh has been hidden.")
 

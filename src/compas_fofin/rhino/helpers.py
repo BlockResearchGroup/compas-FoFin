@@ -8,7 +8,7 @@ from ast import literal_eval
 import scriptcontext as sc
 
 import compas_rhino
-# from compas_fofin.app import App
+from compas_ui.app import App
 
 
 def match_vertices(cablemesh, keys):
@@ -135,10 +135,10 @@ def select_filepath_save(root, ext):
 def undo(sender, e):
     app = App()
     if e.Tag == "undo":
-        app.undo()
+        app.session.undo()
         e.Document.AddCustomUndoEvent("FF Redo", undo, "redo")
     if e.Tag == "redo":
-        app.redo()
+        app.session.redo()
         e.Document.AddCustomUndoEvent("FF Redo", undo, "undo")
 
 
@@ -154,16 +154,10 @@ def FF_undo(command):
             print("Custom undo recording", undoRecord)
 
         if len(app.session.history) == 0:
-            app.record()
+            app.session.record()
         command(*args, **kwargs)
-        app.record()
+        app.session.record()
         sc.doc.AddCustomUndoEvent("FF Undo", undo, "undo")
         if undoRecord > 0:
             sc.doc.EndUndoRecord(undoRecord)
     return wrapper
-
-
-# no linger needed
-def get_scene():
-    """Get the current scene."""
-    return App().scene

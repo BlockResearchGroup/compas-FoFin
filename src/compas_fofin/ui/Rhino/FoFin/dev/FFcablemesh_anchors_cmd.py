@@ -5,8 +5,7 @@ from __future__ import division
 from compas.utilities import flatten
 
 import compas_rhino
-
-from compas_fofin.rhino import get_scene
+from compas_ui.app import App
 from compas_fofin.rhino import FF_undo
 from compas_fofin.rhino import FF_error
 
@@ -18,13 +17,11 @@ __commandname__ = "FFcablemesh_anchors"
 @FF_undo
 def RunCommand(is_interactive):
 
-    scene = get_scene()
-    if not scene:
-        return
+    app = App()
 
-    cablemesh = scene.get("cablemesh")[0]
+    cablemesh = app.scene.get("cablemesh")[0]
     if not cablemesh:
-        print("There is no CableMesh in the scene.")
+        print("There is no CableMesh in the app.scene.")
         return
 
     # mark all fixed vertices as anchors
@@ -45,7 +42,7 @@ def RunCommand(is_interactive):
     if anchors:
         cablemesh.datastructure.vertices_attribute('is_anchor', True, keys=anchors)
         print("Fixed nodes of the CableMesh have automatically been defined as supports.")
-        scene.update()
+        app.scene.update()
 
     # manually Select or Unselect
     # should this not be included in the while loop?
@@ -63,12 +60,12 @@ def RunCommand(is_interactive):
 
         # show also free vertices
         cablemesh.settings['show.vertices:free'] = True
-        scene.update()
+        app.scene.update()
 
         if not option2:
             compas_rhino.rs.UnselectAllObjects()
             cablemesh.settings['show.vertices:free'] = False
-            scene.update()
+            app.scene.update()
             return
 
         if option2 == "AllBoundaryNodes":
@@ -108,7 +105,7 @@ def RunCommand(is_interactive):
         # hide free vertices
         compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = False
-        scene.update()
+        app.scene.update()
 
 
 # ==============================================================================

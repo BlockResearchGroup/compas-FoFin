@@ -34,7 +34,7 @@ class BrowserForm(forms.Form):
         layout.EndVertical()
         self.Content = layout
 
-        self.WindowStyle = None
+        self.WindowStyle = getattr(forms.WindowStyle, 'None')
         self.m_webview.DocumentLoading += self.action
         if compas.WINDOWS:
             self.Location = drawing.Point(self.Owner.Location.X + self.Owner.Size.Width / 2 - 400, self.Owner.Location.Y + self.Owner.Size.Height / 2 - 200)
