@@ -4,7 +4,7 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.rhino.forms.error import error
+from compas_ui.rhino.forms import error
 from compas_ui.app import App
 
 

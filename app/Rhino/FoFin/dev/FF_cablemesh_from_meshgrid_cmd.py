@@ -2,8 +2,9 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_ui.rhino.forms.error import error
+from compas_ui.rhino.forms import error
 from compas_ui.app import App
+
 from compas_fofin.datastructures import CableMesh
 
 
@@ -15,11 +16,34 @@ def RunCommand(is_interactive):
 
     app = App()
 
-    mesh = CableMesh.from_meshgrid(10, 10)
+    dx = app.get_real("Dimension in the X direction?", minval=1, maxval=100, default=10)
+    if not dx:
+        return
+
+    dy = app.get_real("Dimension in the Y direction?", minval=1, maxval=100, default=dx)
+    if not dy:
+        return
+
+    nx = app.get_integer("Number of faces in the X direction?", minval=1, maxval=1000, default=10)
+    if not nx:
+        return
+
+    ny = app.get_integer("Number of faces in the Y direction?", minval=1, maxval=1000, default=nx)
+    if not ny:
+        return
+
+    mesh = CableMesh.from_meshgrid(dx=dx, nx=nx, dy=dy, ny=ny)
     mesh.name = 'CableMesh'
 
+    fixed = list(mesh.vertices_where(is_fixed=True))
+    leaves = list(mesh.vertices_where(vertex_degree=1))
+    vertices = list(set(fixed + leaves))
+
+    if vertices:
+        mesh.vertices_attribute('is_anchor', True, keys=vertices)
+
     app.scene.clear()
-    app.scene.add(mesh)
+    app.scene.add(mesh, name=mesh.name)
     app.scene.update()
     app.record()
 

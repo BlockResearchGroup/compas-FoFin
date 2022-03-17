@@ -7,8 +7,8 @@ import __plugin__ as PLUGIN
 import os
 import compas_rhino
 
-from compas_ui.rhino.forms.browser import BrowserForm
-from compas_ui.rhino.forms.error import error
+from compas_ui.rhino.forms import BrowserForm
+from compas_ui.rhino.forms import error
 from compas_ui.app import App
 
 
@@ -27,7 +27,7 @@ def RunCommand(is_interactive):
     # if this is not the same as active env in compas_bootstrapper
     # notify the user
 
-    App._instances = {}
+    App.reset()
 
     browser = BrowserForm(title=PLUGIN.title, url=SPLASH)
     browser.show()
