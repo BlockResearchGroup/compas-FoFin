@@ -5,4 +5,6 @@ title = "FoFin"
 env = "compas-dev"
 packages = []
 
-settings = {}
+settings = {
+    'cloud': {}
+}
