@@ -6,7 +6,7 @@ from compas_ui.rhino.forms import error
 from compas_ui.app import App
 
 
-__commandname__ = 'FF_solve_fd'
+__commandname__ = 'FF_cablemesh_solve_fd'
 
 
 @error()

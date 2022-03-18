@@ -10,6 +10,11 @@ from compas.colors import Color
 
 class CableMeshArtist(MeshArtist):
     """Base artist for visualizing a CableMesh.
+
+    Parameters
+    ----------
+    cablemesh : :class:`compas_fofin.datastructures.CableMesh`
+
     """
 
     def __init__(self, *args, **kwargs):
