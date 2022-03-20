@@ -14,6 +14,7 @@ def RunCommand(is_interactive):
 
     app = App()
     app.load()
+    app.record()
 
 
 if __name__ == '__main__':
