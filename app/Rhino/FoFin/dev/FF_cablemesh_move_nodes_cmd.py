@@ -53,7 +53,7 @@ def RunCommand(is_interactive):
             app.scene.update()
             app.record()
 
-        compas_rhino.rs.UnselectAllObjects()
+    compas_rhino.rs.UnselectAllObjects()
 
 
 # ==============================================================================
