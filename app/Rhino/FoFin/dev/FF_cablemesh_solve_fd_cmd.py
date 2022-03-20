@@ -31,7 +31,7 @@ def RunCommand(is_interactive):
         return
 
     mesh.data = result.data
-    cablemesh.settings['_is.valid'] = True
+    cablemesh.is_valid = True
 
     app.scene.update()
     app.record()
