@@ -17,8 +17,7 @@ def RunCommand(is_interactive):
     compas_rhino.clear()
 
     app = App()
-    app.session.reset()
-    app.scene.clear()
+    app.clear()
     app.record()
 
     compas_rhino.redraw()
