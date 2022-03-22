@@ -28,7 +28,7 @@ optional_requirements = {}
 
 setup(
     name="compas_fofin",
-    version='0.1.3',
+    version='0.2.0',
     description="Form Finding bundle for COMPAS",
     long_description=long_description,
     long_description_content_type="text/markdown",
