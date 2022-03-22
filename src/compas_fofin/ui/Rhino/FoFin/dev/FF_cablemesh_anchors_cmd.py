@@ -3,15 +3,13 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas.utilities import flatten
-from compas_ui.rhino.forms import error
 from compas_ui.app import App
 
 
 __commandname__ = 'FF_cablemesh_anchors'
 
 
-@error()
+@App.error()
 def RunCommand(is_interactive):
 
     app = App()
@@ -23,9 +21,14 @@ def RunCommand(is_interactive):
     cablemesh = result[0]
     mesh = cablemesh.mesh
 
-    options = ['Select', 'Unselect']
-    modes = ['AllBoundaryNodes', 'Corners', 'ByContinuousEdges', 'Manual']
+    fixed = list(mesh.vertices_where(is_fixed=True))
+    leaves = list(mesh.vertices_where(vertex_degree=1))
+    vertices = list(set(fixed + leaves))
 
+    if vertices:
+        mesh.vertices_attribute('is_anchor', True, keys=vertices)
+
+    options = ['Select', 'Unselect']
     option = app.get_string('Select/Unselect anchors.', options=options)
     if not option:
         return
@@ -37,26 +40,12 @@ def RunCommand(is_interactive):
         cablemesh.settings['show.vertices:free'] = True
         app.scene.update()
 
-        mode = app.get_string('Selection mode?', options=modes)
-        if not mode:
+        nodes = app.select_mesh_vertices(cablemesh)
+        if not nodes:
             break
 
-        if mode == 'AllBoundaryNodes':
-            vertices = list(set(flatten(mesh.vertices_on_boundaries())))
-
-        elif mode == 'Corners':
-            vertices = mesh.corner_vertices()
-
-        elif mode == 'ByContinuousEdges':
-            edges = cablemesh.select_edges()
-            vertices = list(set(flatten([mesh.vertices_on_edge_loop(edge) for edge in edges])))
-
-        elif mode == 'Manual':
-            vertices = cablemesh.select_vertices()
-
-        if vertices:
-            cablemesh.settings['_is.valid'] = False
-            mesh.vertices_attribute('is_anchor', is_anchor, keys=vertices)
+        cablemesh.is_valid = False
+        mesh.vertices_attribute('is_anchor', is_anchor, keys=nodes)
 
     compas_rhino.rs.UnselectAllObjects()
     cablemesh.settings['show.vertices:free'] = False

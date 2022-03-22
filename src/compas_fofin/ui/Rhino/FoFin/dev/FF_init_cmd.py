@@ -7,8 +7,6 @@ import __plugin__ as PLUGIN
 import os
 import compas_rhino
 
-from compas_ui.rhino.forms import BrowserForm
-from compas_ui.rhino.forms import error
 from compas_ui.app import App
 
 
@@ -20,7 +18,7 @@ CWD = HERE or HOME
 SPLASH = os.path.join(os.path.dirname(__file__), 'splash', 'index.html')
 
 
-@error()
+@App.error()
 def RunCommand(is_interactive):
 
     # check __plugin__ for required env
@@ -29,11 +27,9 @@ def RunCommand(is_interactive):
 
     App.reset()
 
-    browser = BrowserForm(title=PLUGIN.title, url=SPLASH)
-    browser.show()
-
     app = App(name=PLUGIN.title, settings=PLUGIN.settings)
-    app.scene.clear()
+    app.clear()
+    app.splash(url=SPLASH)
 
 
 if __name__ == '__main__':
