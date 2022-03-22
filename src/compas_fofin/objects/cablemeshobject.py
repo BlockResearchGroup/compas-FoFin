@@ -15,8 +15,8 @@ class CableMeshObject(MeshObject):
 
         'layer': "FF::CableMesh",
 
-        'show.vertices:is_anchor': True,
         'show.vertices:free': False,
+        'show.vertices:is_anchor': True,
         'show.edges': True,
         'show.faces': False,
         'show.faces:all': False,
@@ -24,6 +24,7 @@ class CableMeshObject(MeshObject):
         'show.loads': True,
         'show.pipes:forcedensities': False,
         'show.pipes:forces': True,
+        'show.constraints': True,
 
         'color.vertices': Color.white(),
         'color.vertices:is_anchor': Color.red(),
