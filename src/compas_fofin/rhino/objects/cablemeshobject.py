@@ -6,6 +6,9 @@ import compas_rhino
 
 from compas.colors import Color
 from compas.colors import ColorMap
+from compas.geometry import Line
+from compas.geometry import NurbsCurve
+from compas.geometry import NurbsSurface
 
 from compas_ui.rhino.objects import RhinoMeshObject
 
@@ -30,16 +33,13 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self._conduit_pipes_f = None
         self._conduit_pipes_q = None
 
-    # def __getstate__(self):
-    #     dictcopy = self.__dict__.copy()
-    #     dictcopy['_conduit_reactions'] = None
-    #     dictcopy['_conduit_loads'] = None
-    #     dictcopy['_conduit_pipes_f'] = None
-    #     dictcopy['_conduit_pipes_q'] = None
-    #     return {'__dict__': dictcopy}
-
-    # def __setstate__(self, state):
-    #     self.__dict__.update(state['__dict__'])
+    def __getstate__(self):
+        dictcopy = super(RhinoCableMeshObject, self).__getstate__()
+        dictcopy['_conduit_reactions'] = None
+        dictcopy['_conduit_loads'] = None
+        dictcopy['_conduit_pipes_f'] = None
+        dictcopy['_conduit_pipes_q'] = None
+        return dictcopy
 
     @property
     def group_free(self):
@@ -185,6 +185,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self._draw_reaction_overlays()
         self._draw_load_overlays()
         self._draw_force_overlays()
+        self._draw_q_overlays()
 
     # ======================================================================
     # Vertices
@@ -197,23 +198,26 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         free = list(self.mesh.vertices_where(is_anchor=False))
         fixed = list(self.mesh.vertices_where(is_fixed=True))
-        anchors = list(self.mesh.vertices_where(is_anchor=True))
+        anchored = list(self.mesh.vertices_where(is_anchor=True))
+        constrained = list(self.mesh.vertices_where_predicate(lambda key, attr: attr['constraint'] is not None))
 
         color_free = self.settings['color.vertices'] if self.is_valid else self.settings['color.invalid']
         color_fixed = self.settings['color.vertices:is_fixed']
-        color_anchor = self.settings['color.vertices:is_anchor']
+        color_anchored = self.settings['color.vertices:is_anchor']
+        color_constrained = self.settings['color.vertices:is_constrained']
 
         vertex_color = {vertex: color_free for vertex in free}
         vertex_color.update({vertex: color_fixed for vertex in fixed})
-        vertex_color.update({vertex: color_anchor for vertex in anchors})
+        vertex_color.update({vertex: color_anchored for vertex in anchored})
+        vertex_color.update({vertex: color_constrained for vertex in constrained})
 
         guids_free = []
         guids_anchor = []
 
         if free:
             guids_free = self.artist.draw_vertices(vertices=free, color=vertex_color)
-        if anchors:
-            guids_anchor = self.artist.draw_vertices(vertices=anchors, color=vertex_color)
+        if anchored:
+            guids_anchor = self.artist.draw_vertices(vertices=anchored, color=vertex_color)
 
         compas_rhino.rs.AddObjectsToGroup(guids_free, self.group_free)
         compas_rhino.rs.AddObjectsToGroup(guids_anchor, self.group_anchors)
@@ -229,10 +233,23 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             compas_rhino.rs.HideGroup(self.group_free)
 
         guids = guids_free + guids_anchor
-        vertices = free + anchors
+        vertices = free + anchored
 
         self.guids += guids
         self.guid_vertex = zip(guids, vertices)
+
+        if self.settings['show.constraints']:
+            if constrained:
+                text = {}
+                for vertex in constrained:
+                    constraint = self.mesh.vertex_attribute(vertex, 'constraint')
+                    if isinstance(constraint.geometry, Line):
+                        text[vertex] = 'L'
+                    elif isinstance(constraint.geometry, NurbsCurve):
+                        text[vertex] = 'C'
+                    elif isinstance(constraint.geometry, NurbsSurface):
+                        text[vertex] = 'S'
+                self.guids += self.artist.draw_vertexlabels(text)
 
     # ======================================================================
     # Edges
@@ -367,39 +384,49 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
                 except Exception:
                     pass
 
-        # # draw q pipes
-        # if self.settings['_is.valid'] and self.settings['show.pipes:forcedensities']:
+    def _draw_q_overlays(self):
 
-        #     xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
-        #     edges = list(self.mesh.edges_where({'_is_edge': True}))
-        #     color = {edge: self.settings['color.pipes'] for edge in edges}
-        #     qs = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
+        if self.settings['_is.valid'] and self.settings['show.pipes:forcedensities']:
 
-        #     qmin = min(qs.values())
-        #     qmax = max(qs.values())
-        #     q_range = qmax - qmin or 1
+            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
+            edges = list(self.mesh.edges_where(_is_edge=True))
+            edge_color = {edge: self.settings['color.pipes'].rgb255 for edge in edges}
+            edge_q = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
 
-        #     tmin = self.settings['pipe_thickness.min']
-        #     tmax = self.settings['pipe_thickness.max']
-        #     t_range = tmax - tmin
+            qmin = min(edge_q.values())
+            qmax = max(edge_q.values())
+            q_range = (qmax - qmin) or 1
 
-        #     qs_remapped = {edge: (((q - qmin) * t_range) / q_range) + tmin for edge, q in qs.iteritems()}
+            tmin = self.settings['pipe_thickness.min']
+            tmax = self.settings['pipe_thickness.max']
+            t_range = tmax - tmin
 
-        #     for edge in edges:
-        #         if qs[edge] >= 0.0:
-        #             color[edge] = i_to_red((qs[edge]) / qmax)
-        #         elif qs[edge] < 0.0:
-        #             color[edge] = i_to_blue((qs[edge]) / qmin)
+            q_remapped = {edge: (((q - qmin) * t_range) / q_range) + tmin for edge, q in iter(edge_q.items())}
 
-        #     self.conduit_pipes_q.xyz = xyz
-        #     self.conduit_pipes_q.edges = edges
-        #     self.conduit_pipes_q.values = qs_remapped
-        #     self.conduit_pipes_q.color = color
-        #     self.conduit_pipes_q.enable()
+            if qmin != qmax:
+                for edge in edges:
+                    q = edge_q[edge]
+                    if q >= 0.0:
+                        edge_color[edge] = RED(q / qmax).rgb255
+                    elif q < 0.0:
+                        edge_color[edge] = BLUE(q / qmin).rgb255
 
-        # else:
-        #     if self.conduit_pipes_q:
-        #         try:
-        #             self.conduit_pipes_q.disable()
-        #         except Exception:
-        #             pass
+            self.conduit_pipes_q.xyz = xyz
+            self.conduit_pipes_q.edges = edges
+            self.conduit_pipes_q.values = q_remapped
+            self.conduit_pipes_q.color = edge_color
+            self.conduit_pipes_q.enable()
+
+        else:
+            if self.conduit_pipes_q:
+                try:
+                    self.conduit_pipes_q.disable()
+                except Exception:
+                    pass
+
+    # ======================================================================
+    # Constraints
+    # ======================================================================
+
+    def move_vertex_on_constraint(self, vertex):
+        pass
