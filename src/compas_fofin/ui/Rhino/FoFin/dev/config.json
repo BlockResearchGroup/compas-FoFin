@@ -14,63 +14,66 @@
             [
                 "0_init",
 
-                "1_open_file",
-                "2_save_file",
+                "1_load",
+                "2_save",
 
-                "3_make_cablemesh",
+                "3_undo",
+                "4_redo",
 
-                "4_select_anchors",
-                "5_node_constraints",
-                "6_update_constraints",
-                "7_edge_contraints",
-                "8_loads",
+                "5_make_cablemesh",
 
-                "9_solve_fd",
-                "10_solve_dr",
+                "6_define_anchors",
 
-                "11_move_anchors",
-                "12_node_attributes",
-                "13_edge_attributes",
-                "14_face_attributes",
+                "7_solve_fd",
 
-                "15_settings",
-                "16_redraw",
-                "17_clear"
+                "8_node_move",
+                "9_node_constraints",
+                "10_node_modify",
+
+                "11_edge_scale_q",
+                "12_edge_attributes",
+
+                "13_settings",
+                "14_redraw",
+                "15_clear"
             ]
         },
 
         "commands":
         [
-            {"name": "FFinit",                              "menu_text": "Initialise FF",       "icon": 0,      "tooltip": "Initialise FF"},
+            {"name": "FF_init",                             "menu_text": "Initialise FF",               "icon": 0,      "tooltip": "Initialise FF"},
 
-            {"name": "FFfile_open",                         "menu_text": "Open File",           "icon": 1,      "tooltip": "Open FF session"},
-            {"name": "FFfile_save",                         "menu_text": "Save File",           "icon": 2,      "tooltip": "Save FF session"},
+            {"name": "FF_load",                             "menu_text": "Load Session",                "icon": 1,      "tooltip": "Load FF session"},
+            {"name": "FF_toolbar_save",                     "menu_text": "Save",                        "icon": 2,      "tooltip": "Save"},
 
-            {"name": "FFcablemesh_from_mesh",               "menu_text": "From Mesh",           "icon": 3,      "tooltip": "CableMesh from Mesh"},
-            {"name": "FFcablemesh_from_meshgrid",           "menu_text": "From Meshgrid",       "icon": 3,      "tooltip": "CableMesh from Meshgrid"},
-            {"name": "FFcablemesh_from_box",                "menu_text": "From Box",            "icon": 3,      "tooltip": "CableMesh from Box"},
-            {"name": "FFcablemesh_from_cylinder",           "menu_text": "From Cylinder",       "icon": 3,      "tooltip": "CableMesh from Cylinder"},
+            {"name": "FF_save",                             "menu_text": "Save Session"},
+            {"name": "FF_saveas",                           "menu_text": "Save Session as"},
+            {"name": "FF_save_data",                        "menu_text": "Save Cablemesh Data"},
 
-            {"name": "FFcablemesh_anchors",                 "menu_text": "Identify Anchors",    "icon": 4,      "tooltip": "Identify Anchors"},
-            {"name": "FFconstraints_node",                  "menu_text": "Node Constraints",    "icon": 5,      "tooltip": "Set Node Constraints"},
-            {"name": "FFconstraints_update",                "menu_text": "Update Constraints",  "icon": 6,      "tooltip": "Update Node Constraints"},
+            {"name": "FF_undo",                             "menu_text": "Undo",                        "icon": 3,      "tooltip": "Undo"},
+            {"name": "FF_redo",                             "menu_text": "Redo",                        "icon": 4,      "tooltip": "Redo"},
 
-            {"name": "FFsolve_fd",                          "menu_text": "Force Density Method","icon": 9,      "tooltip": "Force Density Method"},
-            {"name": "FFsolve_dr",                          "menu_text": "Dynamic Relaxation",  "icon": 10,      "tooltip": "Dynamic Relaxation"},
+            {"name": "FF_toolbar_cablemesh_create",         "menu_text": "Create Cablemesh",            "icon": 5,      "tooltip": "Create Cablemesh"},
 
-            {"name": "FFcablemesh_move_nodes",              "menu_text": "Move Nodes",          "icon": 11,     "tooltip": "Move Nodes"},
-            {"name": "FFcablemesh_modify_nodes",            "menu_text": "Nodes Attributes",    "icon": 12,     "tooltip": "Nodes Attributes"},
-            {"name": "FFcablemesh_modify_edges_qs",         "menu_text": "Modify Edge qs",      "icon": 13,     "tooltip": "Modify Edges qs"},
+            {"name": "FF_cablemesh_from_meshgrid",          "menu_text": "Cablemesh From Meshgrid"},
+            {"name": "FF_cablemesh_from_mesh",              "menu_text": "Cablemesh From Meshgrid"},
+            {"name": "FF_cablemesh_from_box",               "menu_text": "Cablemesh From Box"},
+            {"name": "FF_cablemesh_from_cylinder",          "menu_text": "Cablemesh From Cylinder"},
 
-            {"name": "FFcloud_check",                       "menu_text": "Check Cloud"      },
-            {"name": "FFcloud_restart",                     "menu_text": "Restart Cloud"    },
-            {"name": "FFcloud_shutdown",                    "menu_text": "Shut down Cloud"  },
+            {"name": "FF_cablemesh_anchors",                "menu_text": "Identify Anchors",            "icon": 6,      "tooltip": "Identify Anchors"},
 
-            {"name": "FFsettings",                          "menu_text": "Settings",            "icon": 15,     "tooltip": "Settings"},
-            {"name": "FFredraw",                            "menu_text": "Redraw Scene",        "icon": 16,     "tooltip": "Redraw Scene"},
-            {"name": "FFclear_all",                         "menu_text": "Clear All",           "icon": 17,     "tooltip": "Clear Scene"},
+            {"name": "FF_solve_fd",                         "menu_text": "Force Density Method",        "icon": 7,      "tooltip": "Force Density Method"},
 
-            {"name": "FFtoolbar_cablemesh",                 "menu_text": "Create CableMesh",    "icon": 3,      "tooltip": "Create CableMesh"}
+            {"name": "FF_cablemesh_move_nodes",             "menu_text": "Move Nodes",                  "icon": 8,      "tooltip": "Move Nodes"},
+            {"name": "FF_cablemesh_constrain_nodes",        "menu_text": "Node Constraints",            "icon": 9,      "tooltip": "Set Node Constraints"},
+            {"name": "FF_cablemesh_modify_nodes",           "menu_text": "Modify Nodes Attributes",     "icon": 10,     "tooltip": "Modify Node Attributes"},
+
+            {"name": "FF_cablemesh_scale_q",                "menu_text": "Scale Force Densities",       "icon": 11,     "tooltip": "Scale Force Densities"},
+            {"name": "FF_cablemesh_modify_edges",           "menu_text": "Edge Attributes",             "icon": 12,     "tooltip": "Modify Node Attributes"},
+
+            {"name": "FF_settings",                          "menu_text": "Settings",                   "icon": 13,     "tooltip": "Settings"},
+            {"name": "FF_redraw",                            "menu_text": "Redraw Scene",               "icon": 14,     "tooltip": "Redraw Scene"},
+            {"name": "FF_clear_all",                         "menu_text": "Clear Scene",                "icon": 15,     "tooltip": "Clear Scene"}
 
         ],
 
@@ -80,73 +83,76 @@
                 "name" : "FoFin",
                 "items":
                 [
-                    {"command": "FFinit"},
+                    {"command": "FF_init"},
 
                     {"type": "separator"},
 
                     {
                         "name": "File",
-                        "items":
-                        [
-                            {"command": "FFfile_open"},
-                            {"command": "FFfile_save"}
+                        "items": [
+                            {"command": "FF_load"},
+                            {"command": "FF_save"},
+                            {"command": "FF_saveas"},
+                            {"command": "FF_save_data"}
                         ]
                     },
+
                     {"type": "separator"},
-                    {
-                        "name" : "Cloud",
-                        "items":
-                        [
-                            {"command": "FFcloud_check"},
-                            {"command": "FFcloud_restart"},
-                            {"command": "FFcloud_shutdown"}
-                        ]
-                    },
+
+                    {"command": "FF_undo"},
+                    {"command": "FF_redo"},
+
                     {"type": "separator"},
+
                     {
                         "name" : "Create CableMesh",
                         "items":
                         [
-                            {"command": "FFcablemesh_from_mesh"},
-                            {"command": "FFcablemesh_from_meshgrid"},
-                            {"command": "FFcablemesh_from_box"},
-                            {"command": "FFcablemesh_from_cylinder"}
+                            {"command": "FF_cablemesh_from_meshgrid"},
+                            {"command": "FF_cablemesh_from_mesh"},
+                            {"command": "FF_cablemesh_from_box"},
+                            {"command": "FF_cablemesh_from_cylinder"}
                         ]
                     },
+
                     {"type": "separator"},
+
+                    {"command": "FF_cablemesh_anchors"},
+
+                    {"type": "separator"},
+
+                    {"command": "FF_solve_fd"},
+
+                    {"type": "separator"},
+
                     {
-                        "name" : "Define Boundary Conditions",
+                        "name" : "Modify Nodes",
                         "items":
                         [
-                            {"command": "FFcablemesh_anchors"},
-                            {"command": "FFconstraints_node"},
-                            {"command": "FFconstraints_update"}
-                        ]
-                    },
-                    {"type": "separator"},
-                    {
-                        "name" : "Solve",
-                        "items":
-                        [
-                            {"command": "FFsolve_fd"}
-                        ]
-                    },
-                    {"type": "separator"},
-                    {
-                        "name" : "Modify",
-                        "items":
-                        [
-                            {"command": "FFcablemesh_move_nodes"},
-                            {"command": "FFcablemesh_modify_nodes"},
-                            {"command": "FFcablemesh_modify_edges_qs"}
+                            {"command": "FF_cablemesh_move_nodes"},
+                            {"command": "FF_cablemesh_constrain_nodes"},
+                            {"command": "FF_cablemesh_modify_nodes"}
 
                         ]
                     },
+
                     {"type": "separator"},
 
-                    {"command": "FFsettings"},
-                    {"command": "FFredraw"},
-                    {"command": "FFclear_all"}
+                    {
+                        "name" : "Modify Edges",
+                        "items":
+                        [
+                            {"command": "FF_cablemesh_scale_q"},
+                            {"command": "FF_cablemesh_modify_edges"}
+
+                        ]
+                    },
+
+                    {"type": "separator"},
+
+                    {"command": "FF_settings"},
+                    {"command": "FF_redraw"},
+                    {"command": "FF_clear_all"}
                 ]
             }
         ],
@@ -156,38 +162,42 @@
                 "name": "FoFin",
                 "items":
                 [
-                    {"left": "FFinit"},
+                    {"left": "FF_init"},
 
                     {"type": "separator"},
 
-                    {"left": "FFfile_open"},
-                    {"left": "FFfile_save"},
+                    {"left": "FF_load"},
+                    {"left": "FF_toolbar_save"},
 
                     {"type": "separator"},
 
-                    {"left": "FFtoolbar_cablemesh"},
+                    {"left": "FF_undo"},
+                    {"left": "FF_redo"},
 
                     {"type": "separator"},
 
-                    {"left": "FFcablemesh_anchors"},
-                    {"left": "FFconstraints_node"},
-                    {"left": "FFconstraints_update"},
+                    {"left": "FF_toolbar_cablemesh_create"},
 
                     {"type": "separator"},
 
-                    {"left": "FFsolve_fd"},
+                    {"left": "FF_solve_fd"},
 
                     {"type": "separator"},
 
-                    {"left": "FFcablemesh_move_nodes"},
-                    {"left": "FFcablemesh_modify_nodes"},
-                    {"left": "FFcablemesh_modify_edges_qs"},
+                    {"left": "FF_cablemesh_move_nodes"},
+                    {"left": "FF_cablemesh_constrain_nodes"},
+                    {"left": "FF_cablemesh_modify_nodes"},
 
                     {"type": "separator"},
 
-                    {"left": "FFsettings"},
-                    {"left": "FFredraw"},
-                    {"left": "FFclear_all"}
+                    {"left": "FF_cablemesh_scale_q"},
+                    {"left": "FF_cablemesh_modify_edges"},
+
+                    {"type": "separator"},
+
+                    {"left": "FF_settings"},
+                    {"left": "FF_redraw"},
+                    {"left": "FF_clear_all"}
                 ]
             }
         ],
