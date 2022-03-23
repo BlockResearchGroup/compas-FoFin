@@ -7,7 +7,7 @@ import compas_rhino
 from compas_ui.app import App
 
 import FF_load_cmd
-import FF_load_data_cmd
+import FF_cablemesh_data_load_cmd
 
 
 __commandname__ = 'FF_toolbar_load'
@@ -26,7 +26,7 @@ def RunCommand(is_interactive):
         FF_load_cmd.RunCommand(True)
 
     elif option == "LoadMeshData":
-        FF_load_data_cmd.RunCommand(True)
+        FF_cablemesh_data_load_cmd.RunCommand(True)
 
 
 if __name__ == '__main__':
