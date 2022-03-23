@@ -9,7 +9,7 @@
     {
         "icons":
         {
-            "bitmap": "grid.png",
+            "bitmap": "FF_ui.png",
             "images":
             [
                 "0_init",
@@ -56,13 +56,13 @@
             {"name": "FF_toolbar_cablemesh_create",         "menu_text": "Create Cablemesh",            "icon": 5,      "tooltip": "Create Cablemesh"},
 
             {"name": "FF_cablemesh_from_meshgrid",          "menu_text": "Cablemesh From Meshgrid"},
-            {"name": "FF_cablemesh_from_mesh",              "menu_text": "Cablemesh From Meshgrid"},
+            {"name": "FF_cablemesh_from_mesh",              "menu_text": "Cablemesh From Mesh"},
             {"name": "FF_cablemesh_from_box",               "menu_text": "Cablemesh From Box"},
             {"name": "FF_cablemesh_from_cylinder",          "menu_text": "Cablemesh From Cylinder"},
 
             {"name": "FF_cablemesh_anchors",                "menu_text": "Identify Anchors",            "icon": 6,      "tooltip": "Identify Anchors"},
 
-            {"name": "FF_solve_fd",                         "menu_text": "Force Density Method",        "icon": 7,      "tooltip": "Force Density Method"},
+            {"name": "FF_cablemesh_solve_fd",               "menu_text": "Force Density Method",        "icon": 7,      "tooltip": "Force Density Method"},
 
             {"name": "FF_cablemesh_move_nodes",             "menu_text": "Move Nodes",                  "icon": 8,      "tooltip": "Move Nodes"},
             {"name": "FF_cablemesh_constrain_nodes",        "menu_text": "Node Constraints",            "icon": 9,      "tooltip": "Set Node Constraints"},
@@ -71,9 +71,9 @@
             {"name": "FF_cablemesh_scale_q",                "menu_text": "Scale Force Densities",       "icon": 11,     "tooltip": "Scale Force Densities"},
             {"name": "FF_cablemesh_modify_edges",           "menu_text": "Edge Attributes",             "icon": 12,     "tooltip": "Modify Node Attributes"},
 
-            {"name": "FF_settings",                          "menu_text": "Settings",                   "icon": 13,     "tooltip": "Settings"},
-            {"name": "FF_redraw",                            "menu_text": "Redraw Scene",               "icon": 14,     "tooltip": "Redraw Scene"},
-            {"name": "FF_clear_all",                         "menu_text": "Clear Scene",                "icon": 15,     "tooltip": "Clear Scene"}
+            {"name": "FF_settings",                         "menu_text": "Settings",                    "icon": 13,     "tooltip": "Settings"},
+            {"name": "FF_redraw",                           "menu_text": "Redraw Scene",                "icon": 14,     "tooltip": "Redraw Scene"},
+            {"name": "FF_clear",                            "menu_text": "Clear Scene",                 "icon": 15,     "tooltip": "Clear Scene"}
 
         ],
 
@@ -121,7 +121,7 @@
 
                     {"type": "separator"},
 
-                    {"command": "FF_solve_fd"},
+                    {"command": "FF_cablemesh_solve_fd"},
 
                     {"type": "separator"},
 
@@ -152,7 +152,7 @@
 
                     {"command": "FF_settings"},
                     {"command": "FF_redraw"},
-                    {"command": "FF_clear_all"}
+                    {"command": "FF_clear"}
                 ]
             }
         ],
@@ -180,7 +180,11 @@
 
                     {"type": "separator"},
 
-                    {"left": "FF_solve_fd"},
+                    {"left": "FF_cablemesh_anchors"},
+
+                    {"type": "separator"},
+
+                    {"left": "FF_cablemesh_solve_fd"},
 
                     {"type": "separator"},
 
@@ -197,7 +201,7 @@
 
                     {"left": "FF_settings"},
                     {"left": "FF_redraw"},
-                    {"left": "FF_clear_all"}
+                    {"left": "FF_clear"}
                 ]
             }
         ],
