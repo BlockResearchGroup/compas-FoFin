@@ -6,9 +6,8 @@ import compas_rhino
 
 from compas_ui.app import App
 
-import FF_save_cmd
-import FF_saveas_cmd
-import FF_save_data_cmd
+import FF_load_cmd
+import FF_load_data_cmd
 
 
 __commandname__ = 'FF_settings'
@@ -19,20 +18,17 @@ def RunCommand(is_interactive):
 
     app = App()
 
-    options = ["SaveSession", "SaveSessionAs", "SaveMeshData"]
+    options = ["LoadSession", "LoadMeshData"]
     option = compas_rhino.rs.GetString("Create Cablemesh:", strings=options)
 
     if not option:
         return
 
-    if option == "SaveSession":
-        FF_save_cmd.RunCommand(True)
+    if option == "LoadSession":
+        FF_load_cmd.RunCommand(True)
 
-    elif option == "SaveSessionAs":
-        FF_saveas_cmd.RunCommand(True)
-
-    elif option == "SaveMeshData":
-        FF_save_data_cmd.RunCommand(True)
+    elif option == "LoadMeshData":
+        FF_load_data_cmd.RunCommand(True)
 
 
 if __name__ == '__main__':
