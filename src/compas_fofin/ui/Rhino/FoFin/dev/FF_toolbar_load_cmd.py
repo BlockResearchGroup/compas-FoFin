@@ -10,13 +10,11 @@ import FF_load_cmd
 import FF_load_data_cmd
 
 
-__commandname__ = 'FF_settings'
+__commandname__ = 'FF_toolbar_load'
 
 
 @App.error()
 def RunCommand(is_interactive):
-
-    app = App()
 
     options = ["LoadSession", "LoadMeshData"]
     option = compas_rhino.rs.GetString("Create Cablemesh:", strings=options)
