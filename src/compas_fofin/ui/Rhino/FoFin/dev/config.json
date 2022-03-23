@@ -54,8 +54,8 @@
             {"name": "FF_save",                             "menu_text": "Save Session"},
             {"name": "FF_saveas",                           "menu_text": "Save Session as"},
 
-            {"name": "FF_load_data",                        "menu_text": "Load Mesh Data"},
-            {"name": "FF_save_data",                        "menu_text": "Save Mesh Data"},
+            {"name": "FF_cablemesh_data_load",              "menu_text": "Load Mesh Data"},
+            {"name": "FF_cablemesh_data_save",              "menu_text": "Save Mesh Data"},
 
             {"name": "FF_cloud_check",                      "menu_text": "Check Cloud",                 "icon": 16},
             {"name": "FF_cloud_restart",                    "menu_text": "Restart Cloud",               "icon": 17},
@@ -112,8 +112,8 @@
                     {
                         "name": "Data",
                         "items": [
-                            {"command": "FF_load_data"},
-                            {"command": "FF_save_data"}
+                            {"command": "FF_cablemesh_data_load"},
+                            {"command": "FF_cablemesh_data_save"}
                         ]
                     },
 
