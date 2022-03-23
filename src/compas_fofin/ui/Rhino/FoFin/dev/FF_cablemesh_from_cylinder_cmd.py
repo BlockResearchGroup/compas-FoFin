@@ -24,7 +24,12 @@ def RunCommand(is_interactive):
         return
 
     U = app.get_integer("Number of faces along perimeter?", minval=4, maxval=64, default=16)
+    if not U:
+        return
+
     V = app.get_integer("Number of faces along height?", minval=2, maxval=32, default=4)
+    if not V:
+        return
 
     cylinder = RhinoCylinder.from_guid(guid).to_compas()
     mesh = CableMesh.from_shape(cylinder, u=U)
