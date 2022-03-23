@@ -22,7 +22,8 @@ def RunCommand(is_interactive):
     mesh = cablemesh.mesh
 
     path = app.pick_file_save('FoFin.data')
-    compas.json_dump(mesh, path)
+    if path:
+        compas.json_dump(mesh, path)
 
 
 if __name__ == '__main__':
