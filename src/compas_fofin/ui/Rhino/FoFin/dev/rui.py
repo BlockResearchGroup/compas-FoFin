@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     HERE = os.path.dirname(__file__)
     FILE_I = os.path.join(HERE, "config.json")
-    FILE_O = os.path.join(HERE, "FF.rui")
+    FILE_O = os.path.join(HERE, "FoFin.rui")
 
     rui = Rui(FILE_O)
 

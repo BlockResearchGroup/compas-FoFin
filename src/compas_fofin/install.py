@@ -39,7 +39,7 @@ def install(version='7.0'):
     if compas.WINDOWS:
         ruipy = os.path.join(plugin_dev, 'rui.py')
         ruiname = '{}.rui'.format(plugin_name)
-        python_plugins_path = compas_rhino._get_python_plugins_path(version)
+        python_plugins_path = compas_rhino._get_rhino_pythonplugins_path(version)
 
         call(sys.executable + " " + ruipy, shell=True)
         copyfile(os.path.join(plugin_dev, ruiname), os.path.join(python_plugins_path, '..', '..', 'UI', ruiname))
