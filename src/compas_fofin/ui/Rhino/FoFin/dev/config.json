@@ -43,12 +43,15 @@
         [
             {"name": "FF_init",                             "menu_text": "Initialise FF",               "icon": 0,      "tooltip": "Initialise FF"},
 
-            {"name": "FF_load",                             "menu_text": "Load Session",                "icon": 1,      "tooltip": "Load FF session"},
+            {"name": "FF_toolbar_load",                     "menu_text": "Load",                        "icon": 1,      "tooltip": "Load"},
             {"name": "FF_toolbar_save",                     "menu_text": "Save",                        "icon": 2,      "tooltip": "Save"},
 
+            {"name": "FF_load",                             "menu_text": "Load Session"},
             {"name": "FF_save",                             "menu_text": "Save Session"},
             {"name": "FF_saveas",                           "menu_text": "Save Session as"},
-            {"name": "FF_save_data",                        "menu_text": "Save Cablemesh Data"},
+
+            {"name": "FF_load_data",                        "menu_text": "Load Mesh Data"},
+            {"name": "FF_save_data",                        "menu_text": "Save Mesh Data"},
 
             {"name": "FF_undo",                             "menu_text": "Undo",                        "icon": 3,      "tooltip": "Undo"},
             {"name": "FF_redo",                             "menu_text": "Redo",                        "icon": 4,      "tooltip": "Redo"},
@@ -69,7 +72,7 @@
             {"name": "FF_cablemesh_modify_nodes",           "menu_text": "Modify Nodes Attributes",     "icon": 10,     "tooltip": "Modify Node Attributes"},
 
             {"name": "FF_cablemesh_scale_q",                "menu_text": "Scale Force Densities",       "icon": 11,     "tooltip": "Scale Force Densities"},
-            {"name": "FF_cablemesh_modify_edges",           "menu_text": "Edge Attributes",             "icon": 12,     "tooltip": "Modify Node Attributes"},
+            {"name": "FF_cablemesh_modify_edges",           "menu_text": "Edge Attributes",             "icon": 12,     "tooltip": "Modify Edge Attributes"},
 
             {"name": "FF_settings",                         "menu_text": "Settings",                    "icon": 13,     "tooltip": "Settings"},
             {"name": "FF_redraw",                           "menu_text": "Redraw Scene",                "icon": 14,     "tooltip": "Redraw Scene"},
@@ -88,11 +91,20 @@
                     {"type": "separator"},
 
                     {
-                        "name": "File",
+                        "name": "Session",
                         "items": [
                             {"command": "FF_load"},
                             {"command": "FF_save"},
-                            {"command": "FF_saveas"},
+                            {"command": "FF_saveas"}
+                        ]
+                    },
+
+                    {"type": "separator"},
+
+                    {
+                        "name": "Data",
+                        "items": [
+                            {"command": "FF_load_data"},
                             {"command": "FF_save_data"}
                         ]
                     },
@@ -166,7 +178,7 @@
 
                     {"type": "separator"},
 
-                    {"left": "FF_load"},
+                    {"left": "FF_toolbar_load"},
                     {"left": "FF_toolbar_save"},
 
                     {"type": "separator"},
