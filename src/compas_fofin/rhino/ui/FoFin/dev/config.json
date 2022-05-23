@@ -1,0 +1,282 @@
+{
+    "plugin": {
+        "id": "{18a65b9c-1a08-43ef-a1fd-ef458f0a1fa0}",
+        "version": "0.0.1.0",
+        "title": "FoFin",
+        "copyright": "ETH Zurich",
+        "designers": [
+            "Juney Lee"
+        ],
+        "developers": [
+            "Juney Lee",
+            "Li Chen",
+            "Tom Van Mele"
+        ],
+        "documenters": [
+            "unknown :)"
+        ],
+        "license": "MIT License",
+        "logo": null,
+        "description": "COMPAS FoFin...",
+        "website": "https://github.com/blockresearchgroup/compas-FoFin"
+    },
+    "packages": [
+        "compas",
+        "compas_rhino",
+        "compas_cloud",
+        "compas_ui",
+        "compas_fd",
+        "compas_fofin"
+    ],
+    "settings": {
+        "cloud": {
+            "background": true
+        },
+        "solver": {
+            "autorun": true,
+            "kmax": 100,
+            "damping": 0.1,
+            "tol": {
+                "residuals": 1e-3,
+                "displacements": 1e-3
+            }
+        }
+    },
+    "ui": {
+        "icons": {
+            "bitmap": "assets/FF_ui.png",
+            "images": [
+                "5_make_cablemesh",
+                "6_define_anchors",
+                "7_solve_fd",
+                "8_node_move",
+                "9_node_constraints",
+                "10_node_modify",
+                "11_edge_scale_q",
+                "12_edge_attributes",
+                "13_settings"
+            ]
+        },
+        "commands": [
+            {
+                "name": "FF_cablemesh_data_load",
+                "menu_text": "Load Mesh Data"
+            },
+            {
+                "name": "FF_cablemesh_data_save",
+                "menu_text": "Save Mesh Data"
+            },
+            {
+                "name": "FF_toolbar_cablemesh_create",
+                "menu_text": "Create Cablemesh",
+                "icon": 0,
+                "tooltip": "Create Cablemesh"
+            },
+            {
+                "name": "FF_cablemesh_from_meshgrid",
+                "menu_text": "Cablemesh From Meshgrid"
+            },
+            {
+                "name": "FF_cablemesh_from_mesh",
+                "menu_text": "Cablemesh From Mesh"
+            },
+            {
+                "name": "FF_cablemesh_from_box",
+                "menu_text": "Cablemesh From Box"
+            },
+            {
+                "name": "FF_cablemesh_from_cylinder",
+                "menu_text": "Cablemesh From Cylinder"
+            },
+            {
+                "name": "FF_cablemesh_anchors",
+                "menu_text": "Identify Anchors",
+                "icon": 1,
+                "tooltip": "Identify Anchors"
+            },
+            {
+                "name": "FF_cablemesh_solve_fd",
+                "menu_text": "Force Density Method",
+                "icon": 2,
+                "tooltip": "Force Density Method"
+            },
+            {
+                "name": "FF_cablemesh_move_nodes",
+                "menu_text": "Move Nodes",
+                "icon": 3,
+                "tooltip": "Move Nodes"
+            },
+            {
+                "name": "FF_cablemesh_constrain_nodes",
+                "menu_text": "Node Constraints",
+                "icon": 4,
+                "tooltip": "Set Node Constraints"
+            },
+            {
+                "name": "FF_cablemesh_modify_nodes",
+                "menu_text": "Modify Nodes Attributes",
+                "icon": 5,
+                "tooltip": "Modify Node Attributes"
+            },
+            {
+                "name": "FF_cablemesh_scale_q",
+                "menu_text": "Scale Force Densities",
+                "icon": 6,
+                "tooltip": "Scale Force Densities"
+            },
+            {
+                "name": "FF_cablemesh_modify_edges",
+                "menu_text": "Edge Attributes",
+                "icon": 7,
+                "tooltip": "Modify Edge Attributes"
+            },
+            {
+                "name": "FF_settings",
+                "menu_text": "Settings",
+                "icon": 8,
+                "tooltip": "Settings"
+            }
+        ],
+        "menus": [
+            {
+                "name": "FoFin",
+                "items": [
+                    {
+                        "name": "Data",
+                        "items": [
+                            {
+                                "command": "FF_cablemesh_data_load"
+                            },
+                            {
+                                "command": "FF_cablemesh_data_save"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Create CableMesh",
+                        "items": [
+                            {
+                                "command": "FF_cablemesh_from_meshgrid"
+                            },
+                            {
+                                "command": "FF_cablemesh_from_mesh"
+                            },
+                            {
+                                "command": "FF_cablemesh_from_box"
+                            },
+                            {
+                                "command": "FF_cablemesh_from_cylinder"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "command": "FF_cablemesh_anchors"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "command": "FF_cablemesh_solve_fd"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "name": "Modify Nodes",
+                        "items": [
+                            {
+                                "command": "FF_cablemesh_move_nodes"
+                            },
+                            {
+                                "command": "FF_cablemesh_constrain_nodes"
+                            },
+                            {
+                                "command": "FF_cablemesh_modify_nodes"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "name": "Modify Edges",
+                        "items": [
+                            {
+                                "command": "FF_cablemesh_scale_q"
+                            },
+                            {
+                                "command": "FF_cablemesh_modify_edges"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "command": "FF_settings"
+                    }
+                ]
+            }
+        ],
+        "toolbars": [
+            {
+                "name": "FoFin",
+                "items": [
+                    {
+                        "left": "FF_toolbar_cablemesh_create"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "left": "FF_cablemesh_anchors"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "left": "FF_cablemesh_solve_fd"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "left": "FF_cablemesh_move_nodes"
+                    },
+                    {
+                        "left": "FF_cablemesh_constrain_nodes"
+                    },
+                    {
+                        "left": "FF_cablemesh_modify_nodes"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "left": "FF_cablemesh_scale_q"
+                    },
+                    {
+                        "left": "FF_cablemesh_modify_edges"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "left": "FF_settings"
+                    }
+                ]
+            }
+        ],
+        "toolbargroups": [
+            {
+                "name": "FF",
+                "toolbars": [
+                    "FoFin"
+                ]
+            }
+        ]
+    }
+}
