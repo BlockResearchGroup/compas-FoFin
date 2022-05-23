@@ -4,20 +4,20 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = 'FF_clear'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
     compas_rhino.clear()
 
-    app = App()
-    app.clear()
-    app.record()
+    ui = UI()
+    ui.clear()
+    # ui.record()
 
     compas_rhino.redraw()
 

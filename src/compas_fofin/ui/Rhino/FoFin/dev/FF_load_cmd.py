@@ -2,18 +2,18 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = 'FF_load'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
-    app.load()
-    app.record()
+    ui = UI()
+    ui.load()
+    # ui.record()
 
 
 if __name__ == '__main__':

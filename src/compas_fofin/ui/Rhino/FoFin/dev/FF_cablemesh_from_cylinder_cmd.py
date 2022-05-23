@@ -6,7 +6,7 @@ import compas_rhino
 from compas.geometry import Point, Vector
 from compas.utilities import pairwise
 from compas_rhino.conversions import RhinoCylinder
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 from compas_fofin.datastructures import CableMesh
 
@@ -14,20 +14,20 @@ from compas_fofin.datastructures import CableMesh
 __commandname__ = 'FF_cablemesh_from_cylinder'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
     guid = compas_rhino.select_object("Select a cylinder.")
     if not guid:
         return
 
-    U = app.get_integer("Number of faces along perimeter?", minval=4, maxval=64, default=16)
+    U = ui.get_integer("Number of faces along perimeter?", minval=4, maxval=64, default=16)
     if not U:
         return
 
-    V = app.get_integer("Number of faces along height?", minval=2, maxval=32, default=4)
+    V = ui.get_integer("Number of faces along height?", minval=2, maxval=32, default=4)
     if not V:
         return
 
@@ -74,10 +74,10 @@ def RunCommand(is_interactive):
             mesh.add_face([a, b, bb, aa])
 
     compas_rhino.rs.HideObject(guid)
-    app.scene.clear()
-    app.scene.add(mesh, name=mesh.name)
-    app.scene.update()
-    app.record()
+    ui.scene.clear()
+    ui.scene.add(mesh, name=mesh.name)
+    ui.scene.update()
+    # ui.record()
 
 
 if __name__ == '__main__':

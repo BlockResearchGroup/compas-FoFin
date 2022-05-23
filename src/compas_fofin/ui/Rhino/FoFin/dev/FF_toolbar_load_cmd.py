@@ -4,7 +4,7 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 import FF_load_cmd
 import FF_cablemesh_data_load_cmd
@@ -13,7 +13,7 @@ import FF_cablemesh_data_load_cmd
 __commandname__ = 'FF_toolbar_load'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
     options = ["LoadSession", "LoadMeshData"]

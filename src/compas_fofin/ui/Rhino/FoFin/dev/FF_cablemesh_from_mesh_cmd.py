@@ -5,17 +5,17 @@ from __future__ import division
 import compas_rhino
 from compas_rhino.conversions import RhinoMesh
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 from compas_fofin.datastructures import CableMesh
 
 
 __commandname__ = 'FF_cablemesh_from_mesh'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
     guid = compas_rhino.select_mesh()
     if not guid:
@@ -24,10 +24,10 @@ def RunCommand(is_interactive):
     mesh = RhinoMesh.from_guid(guid).to_compas(cls=CableMesh)
     mesh.name = 'CableMesh'
 
-    app.scene.clear()
-    app.scene.add(mesh, name=mesh.name)
-    app.scene.update()
-    app.record()
+    ui.scene.clear()
+    ui.scene.add(mesh, name=mesh.name)
+    ui.scene.update()
+    # ui.record()
 
 
 if __name__ == '__main__':

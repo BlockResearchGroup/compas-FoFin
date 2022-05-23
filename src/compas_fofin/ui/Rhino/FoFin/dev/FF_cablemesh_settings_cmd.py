@@ -3,18 +3,18 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas_ui.rhino.forms import SettingsForm
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = "FF_cablemesh_settings"
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
-    result = app.scene.get(name='CableMesh')
+    result = ui.scene.get(name='CableMesh')
     if not result:
         raise Exception('There is no cablemesh in the scene.')
 
@@ -23,7 +23,7 @@ def RunCommand(is_interactive):
     form = SettingsForm(cablemesh.settings)
     if form.show():
         cablemesh.settings.update(form.settings)
-        app.scene.update()
+        ui.scene.update()
 
 
 if __name__ == "__main__":

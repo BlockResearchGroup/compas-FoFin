@@ -4,7 +4,7 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 import FF_cablemesh_from_meshgrid_cmd
 import FF_cablemesh_from_mesh_cmd
@@ -15,7 +15,7 @@ import FF_cablemesh_from_cylinder_cmd
 __commandname__ = 'FF_toolbar_cablemesh_create'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
     options = ["FromMeshgrid", 'FromMesh', "FromBox", "FromCylinder"]

@@ -4,7 +4,7 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 import FF_save_cmd
 import FF_saveas_cmd
@@ -14,7 +14,7 @@ import FF_cablemesh_data_save_cmd
 __commandname__ = 'FF_toolbar_save'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
     options = ["SaveSession", "SaveSessionAs", "SaveMeshData"]

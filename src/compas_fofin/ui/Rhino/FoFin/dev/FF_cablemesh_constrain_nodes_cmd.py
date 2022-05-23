@@ -7,31 +7,31 @@ from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
 from compas_rhino.geometry import RhinoSurface
 
-from compas_ui.app import App
+from compas_ui.ui import UI
 from compas_fd.constraints import Constraint
 
 
 __commandname__ = "FF_cablemesh_constrain_nodes"
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
-    result = app.scene.get(name='CableMesh')
+    result = ui.scene.get(name='CableMesh')
     if not result:
         raise Exception('There is no cablemesh in the scene.')
 
     cablemesh = result[0]
     mesh = cablemesh.mesh
 
-    vertices = app.select_mesh_vertices(cablemesh)
+    vertices = ui.controller.mesh_select_vertices(cablemesh)
     if not vertices:
         return
 
     ctypes = ["Line", "Curve", "Surface"]
-    ctype = app.get_string("Node constraint type?", options=ctypes)
+    ctype = ui.get_string("Node constraint type?", options=ctypes)
     if not ctype:
         return
 
@@ -76,8 +76,8 @@ def RunCommand(is_interactive):
 
     compas_rhino.rs.UnselectAllObjects()
     cablemesh.is_valid = False
-    app.scene.update()
-    app.record()
+    ui.scene.update()
+    # ui.record()
 
 
 if __name__ == "__main__":

@@ -3,29 +3,29 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = "FF_cablemesh_move_nodes"
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
-    result = app.scene.get(name='CableMesh')
+    result = ui.scene.get(name='CableMesh')
     if not result:
         raise Exception('There is no cablemesh in the scene.')
 
     cablemesh = result[0]
 
-    nodes = app.select_mesh_vertices(cablemesh)
+    nodes = ui.controller.mesh_select_vertices(cablemesh)
     if not nodes:
         return
 
     options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    direction = app.get_string(message="Direction.", options=options)
+    direction = ui.get_string(message="Direction.", options=options)
     if not direction:
         return
 
@@ -36,8 +36,8 @@ def RunCommand(is_interactive):
 
     if result:
         cablemesh.is_valid = False
-        app.scene.update()
-        app.record()
+        ui.scene.update()
+        # ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

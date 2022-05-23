@@ -3,18 +3,18 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas_ui.rhino.forms import MeshDataForm
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = "FF_cablemesh_data"
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
-    result = app.scene.get(name='CableMesh')
+    result = ui.scene.get(name='CableMesh')
     if not result:
         raise Exception('There is no cablemesh in the scene.')
 
@@ -27,8 +27,8 @@ def RunCommand(is_interactive):
                         excluded_face_attr=('is_loaded'))
 
     if form.show():
-        app.scene.update()
-        app.record()
+        ui.scene.update()
+        # ui.record()
 
 
 if __name__ == "__main__":

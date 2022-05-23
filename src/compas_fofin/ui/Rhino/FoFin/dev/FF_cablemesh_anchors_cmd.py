@@ -3,18 +3,18 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_ui.app import App
+from compas_ui.ui import UI
 
 
 __commandname__ = 'FF_cablemesh_anchors'
 
 
-@App.error()
+@UI.error()
 def RunCommand(is_interactive):
 
-    app = App()
+    ui = UI()
 
-    result = app.scene.get(name='CableMesh')
+    result = ui.scene.get(name='CableMesh')
     if not result:
         raise Exception('There is no cablemesh in the scene.')
 
@@ -29,7 +29,7 @@ def RunCommand(is_interactive):
         mesh.vertices_attribute('is_anchor', True, keys=vertices)
 
     options = ['Select', 'Unselect']
-    option = app.get_string('Select/Unselect anchors.', options=options)
+    option = ui.get_string('Select/Unselect anchors.', options=options)
     if not option:
         return
 
@@ -38,9 +38,9 @@ def RunCommand(is_interactive):
     while True:
         compas_rhino.rs.UnselectAllObjects()
         cablemesh.settings['show.vertices:free'] = True
-        app.scene.update()
+        ui.scene.update()
 
-        nodes = app.select_mesh_vertices(cablemesh)
+        nodes = ui.controller.mesh_select_vertices(cablemesh)
         if not nodes:
             break
 
@@ -49,8 +49,8 @@ def RunCommand(is_interactive):
 
     compas_rhino.rs.UnselectAllObjects()
     cablemesh.settings['show.vertices:free'] = False
-    app.scene.update()
-    app.record()
+    ui.scene.update()
+    # ui.record()
 
 
 if __name__ == '__main__':
