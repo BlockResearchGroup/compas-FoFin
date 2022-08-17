@@ -129,12 +129,6 @@
                 "menu_text": "Edge Attributes",
                 "icon": 7,
                 "tooltip": "Modify Edge Attributes"
-            },
-            {
-                "name": "FF_settings",
-                "menu_text": "Settings",
-                "icon": 8,
-                "tooltip": "Settings"
             }
         ],
         "menus": [
@@ -211,12 +205,6 @@
                                 "command": "FF_cablemesh_modify_edges"
                             }
                         ]
-                    },
-                    {
-                        "type": "separator"
-                    },
-                    {
-                        "command": "FF_settings"
                     }
                 ]
             }
@@ -260,12 +248,6 @@
                     },
                     {
                         "left": "FF_cablemesh_modify_edges"
-                    },
-                    {
-                        "type": "separator"
-                    },
-                    {
-                        "left": "FF_settings"
                     }
                 ]
             }
