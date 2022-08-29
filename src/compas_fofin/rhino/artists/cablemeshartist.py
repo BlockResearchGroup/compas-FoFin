@@ -20,7 +20,7 @@ from compas_fofin.artists import CableMeshArtist
 class RhinoCableMeshArtist(CableMeshArtist, MeshArtist):
     """Artist for visualizing a CableMesh in the Rhino model space."""
 
-    def draw_reactions(self, color=Color.green(), scale=1e-3, tol=1e-3):
+    def draw_reactions(self, color=Color.green(), scale=1.0, tol=1e-3):
         """Draw the reaction forces at the anchored vertices of the mesh.
 
         Parameters
@@ -48,9 +48,19 @@ class RhinoCableMeshArtist(CableMeshArtist, MeshArtist):
             if length_vector_sqrd(r) < tol2:
                 continue
             b = add_vectors(a, r)
-            lines.append({"start": b, "end": a, "color": color.rgb255, "arrow": "end"})
+            lines.append(
+                {
+                    "start": b,
+                    "end": a,
+                    "color": color.rgb255,
+                    "arrow": "end",
+                }
+            )
         return compas_rhino.draw_lines(
-            lines, layer=self.layer, clear=False, redraw=False
+            lines,
+            layer=self.layer,
+            clear=False,
+            redraw=False,
         )
 
     def draw_loads(self, color=Color.blue(), scale=1.0, tol=1e-3):
@@ -81,12 +91,22 @@ class RhinoCableMeshArtist(CableMeshArtist, MeshArtist):
             if length_vector_sqrd(p) < tol2:
                 continue
             b = add_vectors(a, p)
-            lines.append({"start": b, "end": a, "color": color.rgb255, "arrow": "end"})
+            lines.append(
+                {
+                    "start": b,
+                    "end": a,
+                    "color": color.rgb255,
+                    "arrow": "end",
+                }
+            )
         return compas_rhino.draw_lines(
-            lines, layer=self.layer, clear=False, redraw=False
+            lines,
+            layer=self.layer,
+            clear=False,
+            redraw=False,
         )
 
-    def draw_pipes(self, color, scale=1e-3, tol=1e-3):
+    def draw_pipes(self, color, scale=1.0, tol=1e-3):
         """Draw pipes around the edges with a radius proportional to the axial force.
 
         Parameters

@@ -24,6 +24,28 @@ BLUE = ColorMap.from_two_colors(Color.white(), Color.blue())
 
 class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     """Scene object for FF CableMeshes.
+
+    Attributes
+    ----------
+    group_free : str
+        The name of the group containing all free vertices.
+    group_fixed : str
+        The name of the group containing all fixed vertices.
+    group_anchors : str
+        The name of the group containing all anchored vertices.
+    group_edges : str
+        The name of the group containing all edges.
+    group_faces : str
+        The name of the group containing all faces.
+    conduit_reactions : :class:`compas_fofin.rhino.conduits.ReactionConduit`
+        Conduit for visualizing reaction forces.
+    conduit_loads : :class:`compas_fofin.rhino.conduits.LoadConduit`
+        Conduit for visualizing loads.
+    conduit_pipes_f : :class:`compas_fofin.rhino.conduits.PipeConduit`
+        Conduit for visualizing axial forces.
+    conduit_pipes_q : :class:`compas_fofin.rhino.conduits.PipeConduit`
+        Conduit for visualizing force densities.
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -93,9 +115,9 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if not self._conduit_reactions:
             self._conduit_reactions = ReactionConduit(
                 self.mesh,
-                color=self.settings['color.reactions'].rgb255,
-                scale=self.settings['scale.externalforces'],
-                tol=self.settings['tol.externalforces']
+                color=self.settings["color.reactions"].rgb255,
+                scale=self.settings["scale.externalforces"],
+                tol=self.settings["tol.externalforces"],
             )
         return self._conduit_reactions
 
@@ -104,9 +126,9 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if not self._conduit_loads:
             self._conduit_loads = LoadConduit(
                 self.mesh,
-                color=self.settings['color.loads'].rgb255,
-                scale=self.settings['scale.externalforces'],
-                tol=self.settings['tol.externalforces']
+                color=self.settings["color.loads"].rgb255,
+                scale=self.settings["scale.externalforces"],
+                tol=self.settings["tol.externalforces"],
             )
         return self._conduit_loads
 
@@ -191,12 +213,20 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         free = list(self.mesh.vertices_where(is_anchor=False))
         fixed = list(self.mesh.vertices_where(is_fixed=True))
         anchored = list(self.mesh.vertices_where(is_anchor=True))
-        constrained = list(self.mesh.vertices_where_predicate(lambda key, attr: attr['constraint'] is not None))
+        constrained = list(
+            self.mesh.vertices_where_predicate(
+                lambda key, attr: attr["constraint"] is not None
+            )
+        )
 
-        color_free = self.settings['color.vertices'] if self.is_valid else self.settings['color.invalid']
-        color_fixed = self.settings['color.vertices:is_fixed']
-        color_anchored = self.settings['color.vertices:is_anchor']
-        color_constrained = self.settings['color.vertices:is_constrained']
+        color_free = (
+            self.settings["color.vertices"]
+            if self.is_valid
+            else self.settings["color.invalid"]
+        )
+        color_fixed = self.settings["color.vertices:is_fixed"]
+        color_anchored = self.settings["color.vertices:is_anchor"]
+        color_constrained = self.settings["color.vertices:is_constrained"]
 
         vertex_color = {vertex: color_free for vertex in free}
         vertex_color.update({vertex: color_fixed for vertex in fixed})
@@ -209,17 +239,19 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if free:
             guids_free = self.artist.draw_vertices(vertices=free, color=vertex_color)
         if anchored:
-            guids_anchor = self.artist.draw_vertices(vertices=anchored, color=vertex_color)
+            guids_anchor = self.artist.draw_vertices(
+                vertices=anchored, color=vertex_color
+            )
 
         compas_rhino.rs.AddObjectsToGroup(guids_free, self.group_free)
         compas_rhino.rs.AddObjectsToGroup(guids_anchor, self.group_anchors)
 
-        if self.settings['show.vertices:is_anchor']:
+        if self.settings["show.vertices:is_anchor"]:
             compas_rhino.rs.ShowGroup(self.group_anchors)
         else:
             compas_rhino.rs.HideGroup(self.group_anchors)
 
-        if self.settings['show.vertices:free']:
+        if self.settings["show.vertices:free"]:
             compas_rhino.rs.ShowGroup(self.group_free)
         else:
             compas_rhino.rs.HideGroup(self.group_free)
@@ -230,17 +262,17 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self.guids += guids
         self.guid_vertex = zip(guids, vertices)
 
-        if self.settings['show.constraints']:
+        if self.settings["show.constraints"]:
             if constrained:
                 text = {}
                 for vertex in constrained:
-                    constraint = self.mesh.vertex_attribute(vertex, 'constraint')
+                    constraint = self.mesh.vertex_attribute(vertex, "constraint")
                     if isinstance(constraint.geometry, Line):
-                        text[vertex] = 'L'
+                        text[vertex] = "L"
                     elif isinstance(constraint.geometry, NurbsCurve):
-                        text[vertex] = 'C'
+                        text[vertex] = "C"
                     elif isinstance(constraint.geometry, NurbsSurface):
-                        text[vertex] = 'S'
+                        text[vertex] = "S"
                 self.guids += self.artist.draw_vertexlabels(text)
 
     # ======================================================================
@@ -254,19 +286,23 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         edges = list(self.mesh.edges_where(_is_edge=True))
 
         if not self.is_valid:
-            edge_color = {edge: self.settings['color.invalid'] for edge in edges}
+            edge_color = {edge: self.settings["color.invalid"] for edge in edges}
         else:
-            edge_q = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
+            edge_q = {edge: self.mesh.edge_attribute(edge, "q") for edge in edges}
             edge_color = {}
             for edge in edges:
-                color = self.settings['color.edges:compression'] if edge_q[edge] < 0.0 else self.settings['color.edges:tension']
+                color = (
+                    self.settings["color.compression"]
+                    if edge_q[edge] < 0.0
+                    else self.settings["color.tension"]
+                )
                 edge_color[edge] = color
 
         guids = self.artist.draw_edges(edges, edge_color)
 
         compas_rhino.rs.AddObjectsToGroup(guids, self.group_edges)
 
-        if self.settings['show.edges']:
+        if self.settings["show.edges"]:
             compas_rhino.rs.ShowGroup(self.group_edges)
         else:
             compas_rhino.rs.HideGroup(self.group_edges)
@@ -282,18 +318,18 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def _draw_faces(self):
 
-        if self.settings['show.faces:all']:
+        if self.settings["show.faces:all"]:
             faces = list(self.mesh.faces())
         else:
             faces = list(self.mesh.faces_where(is_loaded=True))
 
         if faces:
-            color = {face: self.settings['color.faces'] for face in faces}
+            color = {face: self.settings["color.faces"] for face in faces}
             guids = self.artist.draw_faces(faces, color)
 
             compas_rhino.rs.AddObjectsToGroup(guids, self.group_faces)
 
-            if self.settings['show.faces']:
+            if self.settings["show.faces"]:
                 compas_rhino.rs.ShowGroup(self.group_faces)
             else:
                 compas_rhino.rs.HideGroup(self.group_faces)
@@ -309,11 +345,11 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def _draw_reaction_overlays(self):
 
-        if self.is_valid and self.settings['show.reactions']:
+        if self.is_valid and self.settings["show.reactions"]:
 
-            self.conduit_reactions.color = self.settings['color.reactions'].rgb255
-            self.conduit_reactions.scale = self.settings['scale.externalforces']
-            self.conduit_reactions.tol = self.settings['tol.externalforces']
+            self.conduit_reactions.color = self.settings["color.reactions"].rgb255
+            self.conduit_reactions.scale = self.settings["scale.externalforces"]
+            self.conduit_reactions.tol = self.settings["tol.externalforces"]
             self.conduit_reactions.enable()
         else:
             if self.conduit_reactions:
@@ -324,10 +360,10 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def _draw_load_overlays(self):
 
-        if self.settings['show.loads']:
-            self.conduit_loads.color = self.settings['color.loads'].rgb255
-            self.conduit_loads.scale = self.settings['scale.externalforces']
-            self.conduit_loads.tol = self.settings['tol.externalforces']
+        if self.settings["show.loads"]:
+            self.conduit_loads.color = self.settings["color.loads"].rgb255
+            self.conduit_loads.scale = self.settings["scale.externalforces"]
+            self.conduit_loads.tol = self.settings["tol.externalforces"]
             self.conduit_loads.enable()
         else:
             if self.conduit_loads:
@@ -338,22 +374,28 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def _draw_force_overlays(self):
 
-        if self.is_valid and self.settings['show.pipes:forces']:
+        if self.is_valid and self.settings["show.pipes:forces"]:
 
-            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
+            xyz = {
+                vertex: self.mesh.vertex_coordinates(vertex)
+                for vertex in self.mesh.vertices()
+            }
             edges = list(self.mesh.edges_where(_is_edge=True))
-            edge_color = {edge: self.settings['color.pipes'].rgb255 for edge in edges}
-            edge_force = {edge: self.mesh.edge_attribute(edge, '_f') for edge in edges}
+            edge_color = {edge: self.settings["color.pipes"].rgb255 for edge in edges}
+            edge_force = {edge: self.mesh.edge_attribute(edge, "_f") for edge in edges}
 
             fmin = min(edge_force.values())
             fmax = max(edge_force.values())
             f_range = (fmax - fmin) or 1
 
-            tmin = self.settings['pipe_thickness.min']
-            tmax = self.settings['pipe_thickness.max']
+            tmin = self.settings["pipe_thickness.min"]
+            tmax = self.settings["pipe_thickness.max"]
             t_range = tmax - tmin
 
-            forces_remapped = {edge: (((force - fmin) * t_range) / f_range) + tmin for edge, force in iter(edge_force.items())}
+            forces_remapped = {
+                edge: (((force - fmin) * t_range) / f_range) + tmin
+                for edge, force in iter(edge_force.items())
+            }
 
             if fmin != fmax:
                 for edge in edges:
@@ -378,22 +420,28 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def _draw_q_overlays(self):
 
-        if self.settings['_is.valid'] and self.settings['show.pipes:forcedensities']:
+        if self.is_valid and self.settings["show.pipes:forcedensities"]:
 
-            xyz = {vertex: self.mesh.vertex_coordinates(vertex) for vertex in self.mesh.vertices()}
+            xyz = {
+                vertex: self.mesh.vertex_coordinates(vertex)
+                for vertex in self.mesh.vertices()
+            }
             edges = list(self.mesh.edges_where(_is_edge=True))
-            edge_color = {edge: self.settings['color.pipes'].rgb255 for edge in edges}
-            edge_q = {edge: self.mesh.edge_attribute(edge, 'q') for edge in edges}
+            edge_color = {edge: self.settings["color.pipes"].rgb255 for edge in edges}
+            edge_q = {edge: self.mesh.edge_attribute(edge, "q") for edge in edges}
 
             qmin = min(edge_q.values())
             qmax = max(edge_q.values())
             q_range = (qmax - qmin) or 1
 
-            tmin = self.settings['pipe_thickness.min']
-            tmax = self.settings['pipe_thickness.max']
+            tmin = self.settings["pipe_thickness.min"]
+            tmax = self.settings["pipe_thickness.max"]
             t_range = tmax - tmin
 
-            q_remapped = {edge: (((q - qmin) * t_range) / q_range) + tmin for edge, q in iter(edge_q.items())}
+            q_remapped = {
+                edge: (((q - qmin) * t_range) / q_range) + tmin
+                for edge, q in iter(edge_q.items())
+            }
 
             if qmin != qmax:
                 for edge in edges:

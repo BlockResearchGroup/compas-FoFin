@@ -9,16 +9,16 @@ from compas_ui.objects import MeshObject
 class CableMeshObject(MeshObject):
     """Base object for representing a cable mesh in a scene."""
 
-    # most of this should be moved to the artist
+    # TODO: Move this to a settings object
+    # TODO: For every setting use a setting object
 
     SETTINGS = {
-        "_is.valid": False,
         "layer": "FF::CableMesh",
-        "show.vertices:free": False,
-        "show.vertices:is_anchor": True,
+        "show.vertices:free": False,  # is this relevant?
+        "show.vertices:is_anchor": True,  # is this relevant?
         "show.edges": True,
         "show.faces": False,
-        "show.faces:all": False,
+        "show.faces:all": False,  # is this relevant?
         "show.reactions": True,
         "show.loads": True,
         "show.pipes:forcedensities": False,
@@ -29,12 +29,12 @@ class CableMeshObject(MeshObject):
         "color.vertices:is_fixed": Color.blue(),
         "color.vertices:is_constrained": Color.cyan(),
         "color.edges": Color.black(),
-        "color.edges:tension": Color.red(),
-        "color.edges:compression": Color.blue(),
         "color.faces": Color.white().darkened(25),
+        "color.tension": Color.red(),
+        "color.compression": Color.blue(),
         "color.reactions": Color.green().darkened(50),
         "color.loads": Color.green().darkened(75),
-        "color.invalid": Color.magenta(),
+        "color.invalid": Color.grey(),
         "color.pipes": Color.white().darkened(50),
         "scale.externalforces": 0.100,
         "pipe_thickness.min": 0.0,
@@ -44,6 +44,7 @@ class CableMeshObject(MeshObject):
 
     def __init__(self, *args, **kwargs):
         super(CableMeshObject, self).__init__(*args, **kwargs)
+        self._is_valid = False
         self._group_free = None
         self._group_fixed = None
         self._group_anchors = None
@@ -60,8 +61,8 @@ class CableMeshObject(MeshObject):
 
     @property
     def is_valid(self):
-        return self.settings.get("_is.valid")
+        return self._is_valid
 
     @is_valid.setter
     def is_valid(self, value):
-        self.settings["_is.valid"] = value
+        self._is_valid = value
