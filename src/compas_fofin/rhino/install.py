@@ -1,6 +1,5 @@
 import os
 import sys
-import imp
 import json
 from shutil import copyfile
 from subprocess import call
@@ -9,10 +8,22 @@ import compas
 from compas.plugins import plugin
 import compas_rhino
 from compas_rhino.install import install as install_packages
+from compas_rhino.install import _filter_installable_packages
 from compas_rhino.install_plugin import install_plugin
 
 
 HERE = os.path.dirname(__file__)
+
+# Split up the installation process into smaller parts
+# TODO: check that all folders are where they were expected
+# TODO: check that user has write access to all required folders
+# TODO: check that all required packages are available in the current env
+# TODO: install all packages for Rhino (not just required)
+# TODO: remove old versions of the plugin
+# TODO: remove old versions of the rui file
+# TODO: install the plugin
+# TODO: install the rui file
+# TODO: use a proper logger
 
 
 @plugin(category="install", tryfirst=True)
@@ -36,9 +47,15 @@ def install(version="7.0"):
     with open(plugin_config, "r") as f:
         config = json.load(f)
 
-    if "packages" in config:
-        install_packages(version=version, packages=config["packages"])
+    packages = []
+    packages = _filter_installable_packages(version, packages)
 
+    if "packages" in config:
+        for name in config["packages"]:
+            if name not in packages:
+                packages.append(name)
+
+    install_packages(version=version, packages=packages)
     install_plugin(plugin)
 
     if compas.WINDOWS:

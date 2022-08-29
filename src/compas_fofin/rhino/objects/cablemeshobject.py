@@ -33,14 +33,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self._conduit_pipes_f = None
         self._conduit_pipes_q = None
 
-    def __getstate__(self):
-        dictcopy = super(RhinoCableMeshObject, self).__getstate__()
-        dictcopy['_conduit_reactions'] = None
-        dictcopy['_conduit_loads'] = None
-        dictcopy['_conduit_pipes_f'] = None
-        dictcopy['_conduit_pipes_q'] = None
-        return dictcopy
-
     @property
     def group_free(self):
         if not self._group_free:
