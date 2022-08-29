@@ -2,12 +2,12 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+from compas.geometry import Vector
 from compas_fd.datastructures import CableMesh
 
 
 class CableMesh(CableMesh):
-    """The FoFin CableMesh.
-    """
+    """The FoFin CableMesh."""
 
     def vertices_on_edge_loop(self, uv):
         edges = self.edge_loop(uv)
@@ -29,3 +29,6 @@ class CableMesh(CableMesh):
                 if self.vertex_degree(vertex) == 2:
                     vertices.append(vertex)
         return vertices
+
+    def vertex_residual(self, vertex):
+        return Vector(*self.vertex_attributes(vertex, names=["_rx", "_ry", "_rz"]))
