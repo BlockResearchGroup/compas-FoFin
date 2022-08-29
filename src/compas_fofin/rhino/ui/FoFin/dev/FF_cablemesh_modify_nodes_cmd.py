@@ -14,19 +14,23 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name='CableMesh')
+    result = ui.scene.get(name="CableMesh")
     if not result:
-        raise Exception('There is no cablemesh in the scene.')
+        raise Exception("There is no cablemesh in the scene.")
 
     cablemesh = result[0]
     nodes = ui.controller.mesh_select_vertices(cablemesh)
 
     if nodes:
-        public = [name for name in cablemesh.mesh.default_vertex_attributes.keys() if not name.startswith('_')]
+        public = [
+            name
+            for name in cablemesh.mesh.default_vertex_attributes.keys()
+            if not name.startswith("_")
+        ]
         if cablemesh.modify_vertices(nodes, names=public):
             cablemesh.is_valid = False
             ui.scene.update()
-            # ui.record()
+            ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

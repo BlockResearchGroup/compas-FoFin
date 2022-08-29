@@ -11,7 +11,7 @@ from compas_ui.ui import UI
 from compas_fofin.datastructures import CableMesh
 
 
-__commandname__ = 'FF_cablemesh_from_cylinder'
+__commandname__ = "FF_cablemesh_from_cylinder"
 
 
 @UI.error()
@@ -23,7 +23,9 @@ def RunCommand(is_interactive):
     if not guid:
         return
 
-    U = ui.get_integer("Number of faces along perimeter?", minval=4, maxval=64, default=16)
+    U = ui.get_integer(
+        "Number of faces along perimeter?", minval=4, maxval=64, default=16
+    )
     if not U:
         return
 
@@ -33,7 +35,7 @@ def RunCommand(is_interactive):
 
     cylinder = RhinoCylinder.from_guid(guid).to_compas()
     mesh = CableMesh.from_shape(cylinder, u=U)
-    mesh.name = 'CableMesh'
+    mesh.name = "CableMesh"
 
     # remove top/bottom
     mesh.delete_vertex((U * 2) + 1)
@@ -52,15 +54,15 @@ def RunCommand(is_interactive):
 
     splits = []
     for u, v in strip:
-        start = Point(* mesh.vertex_coordinates(u))
-        vector = Vector(* mesh.edge_vector(u, v))
+        start = Point(*mesh.vertex_coordinates(u))
+        vector = Vector(*mesh.edge_vector(u, v))
         temp = [u]
         w = u
         for i in range(V - 1):
             t = (i + 1) * 1 / V
             point = start + vector * t
             w = mesh.split_edge(w, v, t=0.5)
-            mesh.vertex_attributes(w, 'xyz', point)
+            mesh.vertex_attributes(w, "xyz", point)
             temp.append(w)
         temp.append(v)
         splits.append(temp)
@@ -77,8 +79,8 @@ def RunCommand(is_interactive):
     ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
-    # ui.record()
+    ui.record()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

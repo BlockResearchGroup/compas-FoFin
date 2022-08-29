@@ -9,7 +9,7 @@ from compas_ui.ui import UI
 from compas_fofin.datastructures import CableMesh
 
 
-__commandname__ = 'FF_cablemesh_from_mesh'
+__commandname__ = "FF_cablemesh_from_mesh"
 
 
 @UI.error()
@@ -22,13 +22,13 @@ def RunCommand(is_interactive):
         return
 
     mesh = RhinoMesh.from_guid(guid).to_compas(cls=CableMesh)
-    mesh.name = 'CableMesh'
+    mesh.name = "CableMesh"
 
     ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
-    # ui.record()
+    ui.record()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

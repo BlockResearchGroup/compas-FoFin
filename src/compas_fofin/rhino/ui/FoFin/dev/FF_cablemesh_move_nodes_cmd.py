@@ -14,9 +14,9 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name='CableMesh')
+    result = ui.scene.get(name="CableMesh")
     if not result:
-        raise Exception('There is no cablemesh in the scene.')
+        raise Exception("There is no cablemesh in the scene.")
 
     cablemesh = result[0]
 
@@ -29,7 +29,7 @@ def RunCommand(is_interactive):
     if not direction:
         return
 
-    if direction == 'Free':
+    if direction == "Free":
         result = cablemesh.move_vertices(nodes)
     else:
         result = cablemesh.move_vertices_direction(nodes, direction=direction)
@@ -37,7 +37,7 @@ def RunCommand(is_interactive):
     if result:
         cablemesh.is_valid = False
         ui.scene.update()
-        # ui.record()
+        ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

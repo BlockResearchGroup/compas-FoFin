@@ -6,7 +6,7 @@ import compas_rhino
 from compas_ui.ui import UI
 
 
-__commandname__ = 'FF_cablemesh_anchors'
+__commandname__ = "FF_cablemesh_anchors"
 
 
 @UI.error()
@@ -14,9 +14,9 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name='CableMesh')
+    result = ui.scene.get(name="CableMesh")
     if not result:
-        raise Exception('There is no cablemesh in the scene.')
+        raise Exception("There is no cablemesh in the scene.")
 
     cablemesh = result[0]
     mesh = cablemesh.mesh
@@ -26,18 +26,18 @@ def RunCommand(is_interactive):
     vertices = list(set(fixed + leaves))
 
     if vertices:
-        mesh.vertices_attribute('is_anchor', True, keys=vertices)
+        mesh.vertices_attribute("is_anchor", True, keys=vertices)
 
-    options = ['Select', 'Unselect']
-    option = ui.get_string('Select/Unselect anchors.', options=options)
+    options = ["Select", "Unselect"]
+    option = ui.get_string("Select/Unselect anchors.", options=options)
     if not option:
         return
 
-    is_anchor = option == 'Select'
+    is_anchor = option == "Select"
 
     while True:
         compas_rhino.rs.UnselectAllObjects()
-        cablemesh.settings['show.vertices:free'] = True
+        cablemesh.settings["show.vertices:free"] = True
         ui.scene.update()
 
         nodes = ui.controller.mesh_select_vertices(cablemesh)
@@ -45,13 +45,13 @@ def RunCommand(is_interactive):
             break
 
         cablemesh.is_valid = False
-        mesh.vertices_attribute('is_anchor', is_anchor, keys=nodes)
+        mesh.vertices_attribute("is_anchor", is_anchor, keys=nodes)
 
     compas_rhino.rs.UnselectAllObjects()
-    cablemesh.settings['show.vertices:free'] = False
+    cablemesh.settings["show.vertices:free"] = False
     ui.scene.update()
-    # ui.record()
+    ui.record()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

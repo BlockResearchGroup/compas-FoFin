@@ -7,7 +7,7 @@ from compas_ui.ui import UI
 from compas_fofin.datastructures import CableMesh
 
 
-__commandname__ = 'FF_cablemesh_from_meshgrid'
+__commandname__ = "FF_cablemesh_from_meshgrid"
 
 
 @UI.error()
@@ -23,22 +23,26 @@ def RunCommand(is_interactive):
     if not dy:
         return
 
-    nx = ui.get_integer("Number of faces in the X direction?", minval=1, maxval=1000, default=10)
+    nx = ui.get_integer(
+        "Number of faces in the X direction?", minval=1, maxval=1000, default=10
+    )
     if not nx:
         return
 
-    ny = ui.get_integer("Number of faces in the Y direction?", minval=1, maxval=1000, default=nx)
+    ny = ui.get_integer(
+        "Number of faces in the Y direction?", minval=1, maxval=1000, default=nx
+    )
     if not ny:
         return
 
     mesh = CableMesh.from_meshgrid(dx=dx, nx=nx, dy=dy, ny=ny)
-    mesh.name = 'CableMesh'
+    mesh.name = "CableMesh"
 
     ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
-    # ui.record()
+    ui.record()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

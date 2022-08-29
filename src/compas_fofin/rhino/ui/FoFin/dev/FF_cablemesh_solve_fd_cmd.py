@@ -5,7 +5,7 @@ from __future__ import division
 from compas_ui.ui import UI
 
 
-__commandname__ = 'FF_cablemesh_solve_fd'
+__commandname__ = "FF_cablemesh_solve_fd"
 
 
 @UI.error()
@@ -13,14 +13,14 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name='CableMesh')
+    result = ui.scene.get(name="CableMesh")
     if not result:
-        raise Exception('There is no cablemesh in the scene.')
+        raise Exception("There is no cablemesh in the scene.")
 
     cablemesh = result[0]
     mesh = cablemesh.mesh
 
-    fd = ui.proxy.function('compas_fd.fd.mesh_fd_constrained_numpy')
+    fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
 
     result = fd(mesh)
 
@@ -33,8 +33,8 @@ def RunCommand(is_interactive):
     cablemesh.is_valid = True
 
     ui.scene.update()
-    # ui.record()
+    ui.record()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)
