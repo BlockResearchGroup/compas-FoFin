@@ -4,6 +4,7 @@ from __future__ import division
 
 import compas_rhino
 from compas_rhino.conversions import RhinoMesh
+from compas.datastructures import mesh_weld
 
 from compas_ui.ui import UI
 from compas_fofin.datastructures import CableMesh
@@ -22,6 +23,7 @@ def RunCommand(is_interactive):
         return
 
     mesh = RhinoMesh.from_guid(guid).to_compas(cls=CableMesh)
+    mesh = mesh_weld(mesh)
     mesh.name = "CableMesh"
 
     ui.scene.clear()
