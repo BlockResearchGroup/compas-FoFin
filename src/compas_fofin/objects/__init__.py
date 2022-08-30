@@ -4,8 +4,10 @@ from __future__ import division
 
 from .cablemeshobject import CableMeshObject
 from .lineconstraintobject import LineConstraintObject
+from .curveconstraintobject import CurveConstraintObject
 
 __all__ = [
     "CableMeshObject",
     "LineConstraintObject",
+    "CurveConstraintObject",
 ]
