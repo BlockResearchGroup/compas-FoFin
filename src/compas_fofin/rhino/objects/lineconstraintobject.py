@@ -13,7 +13,7 @@ from compas_fofin.objects import LineConstraintObject
 
 class RhinoLineConstraintObject(RhinoObject, LineConstraintObject):
     """
-    Class for representing COMPAS lines in Rhino.
+    Class for interacting with COMPAS lines in Rhino.
     """
 
     def __init__(self, *args, **kwargs):
@@ -45,18 +45,20 @@ class RhinoLineConstraintObject(RhinoObject, LineConstraintObject):
 
             import compas_rhino
             from compas.geometry import Line
-            from compas_ui.rhino.objects.lineobject import LineObject
+            from compas_fd.constraints import Constraint
+            from compas_ui.objects import Object
 
             line = Line([0, 0, 0], [1, 0, 0])
-            lineobj = LineObject(line)
+            constraint = Constraint(line)
 
-            lineobj.draw()
+            obj = Object(constraint)
+            obj.draw()
 
             compas_rhino.redraw()
 
-            if lineobj.move_start():
-                lineobj.clear()
-                lineobj.draw()
+            if obj.move_start():
+                obj.clear()
+                obj.draw()
 
         """
         start = point_to_rhino(self.line.start)
@@ -95,18 +97,20 @@ class RhinoLineConstraintObject(RhinoObject, LineConstraintObject):
 
             import compas_rhino
             from compas.geometry import Line
-            from compas_ui.rhino.objects.lineobject import LineObject
+            from compas_fd.constraints import Constraint
+            from compas_ui.objects import Object
 
             line = Line([0, 0, 0], [1, 0, 0])
-            lineobj = LineObject(line)
+            constraint = Constraint(line)
 
-            lineobj.draw()
+            obj = Object(constraint)
+            obj.draw()
 
             compas_rhino.redraw()
 
-            if lineobj.move_end():
-                lineobj.clear()
-                lineobj.draw()
+            if obj.move_end():
+                obj.clear()
+                obj.draw()
 
         """
         start = point_to_rhino(self.line.start)
