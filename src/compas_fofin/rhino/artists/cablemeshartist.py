@@ -2,9 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-# from math import pi
-# from math import sqrt
-
 import compas_rhino
 
 from compas.geometry import add_vectors
@@ -106,55 +103,55 @@ class RhinoCableMeshArtist(CableMeshArtist, MeshArtist):
             redraw=False,
         )
 
-    def draw_pipes(self, color, scale=1.0, tol=1e-3):
-        """Draw pipes around the edges with a radius proportional to the axial force.
+    # def draw_pipes(self, color, scale=1.0, tol=1e-3):
+    #     """Draw pipes around the edges with a radius proportional to the axial force.
 
-        Parameters
-        ----------
-        color : :class:`compas.colors.Color` | dict[tuple[int, int], :class:`compas.colors.Color`]
-            The color of the pipes a a single value or as a mapping between edges and colors.
-        scale : float, optional
-            Scaling factor for the forces.
-        tol : float, optional
-            Minimum diameter of a pipe.
+    #     Parameters
+    #     ----------
+    #     color : :class:`compas.colors.Color` | dict[tuple[int, int], :class:`compas.colors.Color`]
+    #         The color of the pipes a a single value or as a mapping between edges and colors.
+    #     scale : float, optional
+    #         Scaling factor for the forces.
+    #     tol : float, optional
+    #         Minimum diameter of a pipe.
 
-        Returns
-        -------
-        list[System.Guid]
-            The identifiers of the objects representing the pipes in the scene.
+    #     Returns
+    #     -------
+    #     list[System.Guid]
+    #         The identifiers of the objects representing the pipes in the scene.
 
-        """
-        # vertex_xyz = self.vertex_xyz
-        # cylinders = []
-        # for edge in self.cablemesh.edges():
-        #     u, v = edge
-        #     start = vertex_xyz[u]
-        #     end = vertex_xyz[v]
+    #     """
+    #     # vertex_xyz = self.vertex_xyz
+    #     # cylinders = []
+    #     # for edge in self.cablemesh.edges():
+    #     #     u, v = edge
+    #     #     start = vertex_xyz[u]
+    #     #     end = vertex_xyz[v]
 
-        #     if isinstance(size, dict):
-        #         pipe_size = size[edge]
-        #     else:
-        #         pipe_size = size
+    #     #     if isinstance(size, dict):
+    #     #         pipe_size = size[edge]
+    #     #     else:
+    #     #         pipe_size = size
 
-        #     if pipe_size < 0:
-        #         pipe_size = -pipe_size
+    #     #     if pipe_size < 0:
+    #     #         pipe_size = -pipe_size
 
-        #     pipe_size = scale * pipe_size
+    #     #     pipe_size = scale * pipe_size
 
-        #     if pipe_size < tol:
-        #         continue
+    #     #     if pipe_size < tol:
+    #     #         continue
 
-        #     radius = sqrt(pipe_size / pi)
+    #     #     radius = sqrt(pipe_size / pi)
 
-        #     if isinstance(color, dict):
-        #         pipe_color = color[edge]
-        #     else:
-        #         pipe_color = color
+    #     #     if isinstance(color, dict):
+    #     #         pipe_color = color[edge]
+    #     #     else:
+    #     #         pipe_color = color
 
-        #     cylinders.append({
-        #         'start': start,
-        #         'end': end,
-        #         'radius': radius,
-        #         'color': pipe_color
-        #     })
-        # return compas_rhino.draw_cylinders(cylinders, layer=self.layer, clear=False, redraw=False)
+    #     #     cylinders.append({
+    #     #         'start': start,
+    #     #         'end': end,
+    #     #         'radius': radius,
+    #     #         'color': pipe_color
+    #     #     })
+    #     # return compas_rhino.draw_cylinders(cylinders, layer=self.layer, clear=False, redraw=False)

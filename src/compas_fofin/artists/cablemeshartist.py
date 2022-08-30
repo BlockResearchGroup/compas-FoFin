@@ -62,23 +62,23 @@ class CableMeshArtist(MeshArtist):
         """
         raise NotImplementedError
 
-    @abstractmethod
-    def draw_pipes(self, color, scale=1e-3, tol=1e-3):
-        """Draw pipes around the edges with a radius proportional to the axial force.
+    # @abstractmethod
+    # def draw_pipes(self, color, scale=1e-3, tol=1e-3):
+    #     """Draw pipes around the edges with a radius proportional to the axial force.
 
-        Parameters
-        ----------
-        color : :class:`compas.colors.Color` | dict[tuple[int, int], :class:`compas.colors.Color`]
-            The color of the pipes a a single value or as a mapping between edges and colors.
-        scale : float, optional
-            Scaling factor for the forces.
-        tol : float, optional
-            Minimum diameter of a pipe.
+    #     Parameters
+    #     ----------
+    #     color : :class:`compas.colors.Color` | dict[tuple[int, int], :class:`compas.colors.Color`]
+    #         The color of the pipes a a single value or as a mapping between edges and colors.
+    #     scale : float, optional
+    #         Scaling factor for the forces.
+    #     tol : float, optional
+    #         Minimum diameter of a pipe.
 
-        Returns
-        -------
-        list[...]
-            The identifiers of the objects representing the pipes in the scene.
+    #     Returns
+    #     -------
+    #     list[...]
+    #         The identifiers of the objects representing the pipes in the scene.
 
-        """
-        raise NotImplementedError
+    #     """
+    #     raise NotImplementedError
