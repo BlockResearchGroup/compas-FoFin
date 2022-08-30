@@ -4,7 +4,7 @@ from __future__ import division
 
 from abc import abstractmethod
 
-from compas.artists import MeshArtist
+from compas_ui.artists import MeshArtist
 from compas.colors import Color
 
 
