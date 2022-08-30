@@ -1,6 +1,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
+from math import fabs
 
 import compas_rhino
 
@@ -144,6 +145,10 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             self._conduit_pipes_q = PipeConduit(xyz={}, edges=[], values={}, color={})
         return self._conduit_pipes_q
 
+    # ======================================================================
+    # Clear
+    # ======================================================================
+
     def clear_conduits(self):
         try:
             self.conduit_reactions.disable()
@@ -180,6 +185,10 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     def clear(self):
         super(CableMeshObject, self).clear()
         self.clear_conduits()
+
+    # ======================================================================
+    # Draw
+    # ======================================================================
 
     def draw(self):
         layer = self.layer
@@ -376,38 +385,35 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         if self.is_valid and self.settings["show.pipes:forces"]:
 
-            xyz = {
-                vertex: self.mesh.vertex_coordinates(vertex)
-                for vertex in self.mesh.vertices()
-            }
+            xyz = {v: self.mesh.vertex_coordinates(v) for v in self.mesh.vertices()}
             edges = list(self.mesh.edges_where(_is_edge=True))
-            edge_color = {edge: self.settings["color.pipes"].rgb255 for edge in edges}
-            edge_force = {edge: self.mesh.edge_attribute(edge, "_f") for edge in edges}
+            forces = self.mesh.edges_attribute("_f", keys=edges)
 
-            fmin = min(edge_force.values())
-            fmax = max(edge_force.values())
+            fmin = min(forces)
+            fmax = max(forces)
             f_range = (fmax - fmin) or 1
 
+            edge_color = {e: self.settings["color.pipes"].rgb255 for e in edges}
+
+            if fmin != fmax:
+                for e, f in zip(edges, forces):
+                    if f >= 0.0:
+                        edge_color[e] = RED(f / fmax).rgb255
+                    elif f < 0.0:
+                        edge_color[e] = BLUE(f / fmin).rgb255
+
+            forces = [fabs(f) for f in forces]
+            fmin = min(forces)
             tmin = self.settings["pipe_thickness.min"]
             tmax = self.settings["pipe_thickness.max"]
             t_range = tmax - tmin
+            r = t_range / f_range
 
-            forces_remapped = {
-                edge: (((force - fmin) * t_range) / f_range) + tmin
-                for edge, force in iter(edge_force.items())
-            }
-
-            if fmin != fmax:
-                for edge in edges:
-                    force = edge_force[edge]
-                    if force >= 0.0:
-                        edge_color[edge] = RED(force / fmax).rgb255
-                    elif force < 0.0:
-                        edge_color[edge] = BLUE(force / fmin).rgb255
+            f_remapped = {e: ((f - fmin) * r) + tmin for e, f in zip(edges, forces)}
 
             self.conduit_pipes_f.xyz = xyz
             self.conduit_pipes_f.edges = edges
-            self.conduit_pipes_f.values = forces_remapped
+            self.conduit_pipes_f.values = f_remapped
             self.conduit_pipes_f.color = edge_color
             self.conduit_pipes_f.enable()
 
@@ -422,34 +428,31 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         if self.is_valid and self.settings["show.pipes:forcedensities"]:
 
-            xyz = {
-                vertex: self.mesh.vertex_coordinates(vertex)
-                for vertex in self.mesh.vertices()
-            }
+            xyz = {v: self.mesh.vertex_coordinates(v) for v in self.mesh.vertices()}
             edges = list(self.mesh.edges_where(_is_edge=True))
-            edge_color = {edge: self.settings["color.pipes"].rgb255 for edge in edges}
-            edge_q = {edge: self.mesh.edge_attribute(edge, "q") for edge in edges}
+            qs = self.mesh.edges_attribute("q", keys=edges)
 
-            qmin = min(edge_q.values())
-            qmax = max(edge_q.values())
+            qmin = min(qs)
+            qmax = max(qs)
             q_range = (qmax - qmin) or 1
 
+            edge_color = {edge: self.settings["color.pipes"].rgb255 for edge in edges}
+
+            if qmin != qmax:
+                for e, q in zip(edges, qs):
+                    if q >= 0.0:
+                        edge_color[e] = RED(q / qmax).rgb255
+                    elif q < 0.0:
+                        edge_color[e] = BLUE(q / qmin).rgb255
+
+            qs = [fabs(q) for q in qs]
+            qmin = min(q)
             tmin = self.settings["pipe_thickness.min"]
             tmax = self.settings["pipe_thickness.max"]
             t_range = tmax - tmin
+            r = t_range / q_range
 
-            q_remapped = {
-                edge: (((q - qmin) * t_range) / q_range) + tmin
-                for edge, q in iter(edge_q.items())
-            }
-
-            if qmin != qmax:
-                for edge in edges:
-                    q = edge_q[edge]
-                    if q >= 0.0:
-                        edge_color[edge] = RED(q / qmax).rgb255
-                    elif q < 0.0:
-                        edge_color[edge] = BLUE(q / qmin).rgb255
+            q_remapped = {e: ((q - qmin) * r) + tmin for e, q in zip(edges, qs)}
 
             self.conduit_pipes_q.xyz = xyz
             self.conduit_pipes_q.edges = edges
