@@ -38,9 +38,9 @@ class RhinoLineConstraintArtist(RhinoArtist, ConstraintArtist):
         ----------
         color : tuple[int, int, int] | tuple[float, float, float] | :class:`~compas.colors.Color`, optional
             The RGB color of the line.
-            Default is :attr:`compas.artists.PrimitiveArtist.color`.
+            Default is :attr:`compas_fofin.artists.ConstraintArtist.color`.
         show_points : bool, optional
-            If True, draw the start and end point of the line.
+            If True, draw the start and end point of the line constraint.
 
         Returns
         -------
@@ -52,18 +52,22 @@ class RhinoLineConstraintArtist(RhinoArtist, ConstraintArtist):
         end = list(self.constraint.geometry.end)
         color = Color.coerce(color) or self.color
         color = color.rgb255
+
         guids = []
+
         if show_points:
-            points = [
-                {"pos": start, "color": color, "name": self.constraint.geometry.name},
-                {"pos": end, "color": color, "name": self.constraint.geometry.name},
-            ]
-            guids += compas_rhino.draw_points(
-                points,
-                layer=self.layer,
-                clear=False,
-                redraw=False,
-            )
+            # points = [
+            #     {"pos": start, "color": color, "name": self.constraint.geometry.name},
+            #     {"pos": end, "color": color, "name": self.constraint.geometry.name},
+            # ]
+            # guids += compas_rhino.draw_points(
+            #     points,
+            #     layer=self.layer,
+            #     clear=False,
+            #     redraw=False,
+            # )
+            raise NotImplementedError
+
         lines = [
             {
                 "start": start,
@@ -72,6 +76,7 @@ class RhinoLineConstraintArtist(RhinoArtist, ConstraintArtist):
                 "name": self.constraint.geometry.name,
             }
         ]
+
         guids += compas_rhino.draw_lines(
             lines,
             layer=self.layer,
