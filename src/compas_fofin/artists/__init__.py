@@ -3,5 +3,9 @@ from __future__ import absolute_import
 from __future__ import division
 
 from .cablemeshartist import CableMeshArtist
+from .constraintartist import ConstraintArtist
 
-__all__ = ['CableMeshArtist']
+__all__ = [
+    "CableMeshArtist",
+    "ConstraintArtist",
+]
