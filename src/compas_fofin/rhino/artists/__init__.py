@@ -4,17 +4,24 @@ from __future__ import division
 
 from compas.plugins import plugin
 from compas_rhino.artists import RhinoArtist
+
 from compas_fofin.datastructures import CableMesh
+from compas_fd.constraints import LineConstraint
 
 from .cablemeshartist import RhinoCableMeshArtist
+from .lineconstraintartist import RhinoLineConstraintArtist
 
 
-@plugin(category="ui", requires=["Rhino"])
+@plugin(category="factories", requires=["Rhino"])
 def register_artists():
+
+    RhinoArtist.register(LineConstraint, RhinoLineConstraintArtist, context="Rhino")
     RhinoArtist.register(CableMesh, RhinoCableMeshArtist, context="Rhino")
-    print("Rhino FoFin artists registered.")
+
+    print("FoFin Rhino Artists registered.")
 
 
 __all__ = [
-    'RhinoCableMeshArtist',
+    "RhinoCableMeshArtist",
+    "RhinoLineConstraintArtist",
 ]
