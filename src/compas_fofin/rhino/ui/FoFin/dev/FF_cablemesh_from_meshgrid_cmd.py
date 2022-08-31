@@ -15,6 +15,11 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
+    result = ui.scene.get(name="CableMesh")
+    if result:
+        for obj in result:
+            ui.scene.remove(obj)
+
     dx = ui.get_real("Dimension in the X direction?", minval=1, maxval=100, default=10)
     if not dx:
         return
@@ -38,7 +43,7 @@ def RunCommand(is_interactive):
     mesh = CableMesh.from_meshgrid(dx=dx, nx=nx, dy=dy, ny=ny)
     mesh.name = "CableMesh"
 
-    ui.scene.clear()
+    # ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
     ui.record()

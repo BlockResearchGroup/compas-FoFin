@@ -17,6 +17,11 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
+    result = ui.scene.get(name="CableMesh")
+    if result:
+        for obj in result:
+            ui.scene.remove(obj)
+
     guid = compas_rhino.select_object("Select a box.")
     if not guid:
         return
@@ -32,7 +37,6 @@ def RunCommand(is_interactive):
     mesh.name = "CableMesh"
 
     compas_rhino.rs.HideObject(guid)
-    ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
     ui.record()
