@@ -2,6 +2,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+import Rhino
+
 import compas_rhino
 from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
@@ -52,6 +54,17 @@ def RunCommand(is_interactive):
         guid = compas_rhino.select_curve(message="Select curve constraint")
         if not guid:
             return
+
+        obj = compas_rhino.find_object(guid)
+        if not isinstance(obj.Geometry, Rhino.Geometry.Curve):
+            return
+
+        # this will fail if the curve is actually not a nurbs curve
+        # failure occurs when converting the converted curve to data
+        # since it will try to include information about the knots etc.
+        # similar problem as with OCC
+
+        # perhaps better would be to allow for curve or surface and check the type...
 
         curve = RhinoCurve.from_guid(guid).to_compas()
         constraint = Constraint(curve)
