@@ -364,12 +364,13 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             if self.conduit_reactions:
                 try:
                     self.conduit_reactions.disable()
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
 
     def _draw_load_overlays(self):
 
         if self.settings["show.loads"]:
+
             self.conduit_loads.color = self.settings["color.loads"].rgb255
             self.conduit_loads.scale = self.settings["scale.externalforces"]
             self.conduit_loads.tol = self.settings["tol.externalforces"]
@@ -378,8 +379,8 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             if self.conduit_loads:
                 try:
                     self.conduit_loads.disable()
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
 
     def _draw_force_overlays(self):
 
@@ -421,8 +422,8 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             if self.conduit_pipes_f:
                 try:
                     self.conduit_pipes_f.disable()
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
 
     def _draw_q_overlays(self):
 
@@ -464,8 +465,8 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             if self.conduit_pipes_q:
                 try:
                     self.conduit_pipes_q.disable()
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
 
     # ======================================================================
     # Constraints
