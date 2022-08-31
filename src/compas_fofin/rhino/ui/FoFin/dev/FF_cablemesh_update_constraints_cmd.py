@@ -2,13 +2,17 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+import System
+import Rhino
+
 import compas_rhino
+
 from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
-from compas_rhino.geometry import RhinoSurface
+
+# from compas_rhino.geometry import RhinoSurface
 
 from compas_ui.ui import UI
-from compas_fd.constraints import Constraint
 
 
 __commandname__ = "FF_cablemesh_update_constraints"
@@ -26,58 +30,61 @@ def RunCommand(is_interactive):
     cablemesh = result[0]
     mesh = cablemesh.mesh
 
-    # vertices = ui.controller.mesh_select_vertices(cablemesh)
-    # if not vertices:
-    #     return
+    for vertex in mesh.vertices_where(is_anchor=True):
+        point = mesh.vertex_attributes(vertex, "xyz")
+        constraint = mesh.vertex_attribute(vertex, "constraint")
 
-    # ctypes = ["Line", "Curve", "Surface"]
-    # ctype = ui.get_string("Node constraint type?", options=ctypes)
-    # if not ctype:
-    #     return
+        if not constraint:
+            continue
 
-    # if ctype == "Line":
-    #     guid = compas_rhino.select_line(message="Select line constraint")
-    #     if not guid:
-    #         return
+        if not constraint._rhino_guid:
+            continue
 
-    #     line = RhinoLine.from_guid(guid).to_compas()
-    #     constraint = Constraint(line)
-    #     for vertex in vertices:
-    #         constraint.location = mesh.vertex_attributes(vertex, "xyz")
-    #         constraint.project()
-    #         mesh.vertex_attributes(vertex, "xyz", constraint.location)
-    #         mesh.vertex_attribute(vertex, "constraint", constraint)
+        result, guid = System.Guid.TryParse(constraint._rhino_guid)
 
-    # elif ctype == "Curve":
-    #     guid = compas_rhino.select_curve(message="Select curve constraint")
-    #     if not guid:
-    #         return
+        if not result:
+            continue
 
-    #     curve = RhinoCurve.from_guid(guid).to_compas()
-    #     constraint = Constraint(curve)
-    #     for vertex in vertices:
-    #         constraint.location = mesh.vertex_attributes(vertex, "xyz")
-    #         constraint.project()
-    #         mesh.vertex_attributes(vertex, "xyz", constraint.location)
-    #         mesh.vertex_attribute(vertex, "constraint", constraint)
+        obj = compas_rhino.find_object(guid)
+        if not obj:
+            continue
 
-    # elif ctype == "Surface":
-    #     guid = compas_rhino.select_surface(message="Select surface constraint")
-    #     if not guid:
-    #         return
+        if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
 
-    #     surface = RhinoSurface.from_guid(guid).to_compas()
-    #     constraint = Constraint(surface)
-    #     for vertex in vertices:
-    #         constraint.location = mesh.vertex_attributes(vertex, "xyz")
-    #         constraint.project()
-    #         mesh.vertex_attributes(vertex, "xyz", constraint.location)
-    #         mesh.vertex_attribute(vertex, "constraint", constraint)
+            if obj.Geometry.IsLinear():
+                line = RhinoLine.from_guid(guid).to_compas()
+                constraint.geometry = line
 
-    # compas_rhino.rs.UnselectAllObjects()
-    # cablemesh.is_valid = False
-    # ui.scene.update()
-    # ui.record()
+            elif obj.Geometry.IsCircle():
+                raise NotImplementedError
+
+            elif obj.Geometry.IsEllipse():
+                raise NotImplementedError
+
+            elif obj.Geometry.IsArc():
+                raise NotImplementedError
+
+            elif obj.Geometry.IsPolyline():
+                raise NotImplementedError
+
+            elif isinstance(obj.Geometry, Rhino.Geometry.NurbsCurve):
+                curve = RhinoCurve.from_guid(guid).to_compas()
+                constraint.geometry = curve
+
+            else:
+                raise NotImplementedError
+
+        elif obj.ObjectType == Rhino.DocObjects.ObjectType.Surface:
+            raise NotImplementedError
+
+        constraint.location = point
+        constraint.project()
+        mesh.vertex_attributes(vertex, "xyz", constraint.location)
+
+    compas_rhino.rs.UnselectAllObjects()
+    cablemesh.is_valid = False
+    ui.scene.update()
+    ui.record()
 
 
 if __name__ == "__main__":
