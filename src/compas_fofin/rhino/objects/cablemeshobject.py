@@ -7,9 +7,6 @@ import compas_rhino
 
 from compas.colors import Color
 from compas.colors import ColorMap
-from compas.geometry import Line
-from compas.geometry import NurbsCurve
-from compas.geometry import NurbsSurface
 
 from compas_ui.rhino.objects import RhinoMeshObject
 
@@ -270,19 +267,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         self.guids += guids
         self.guid_vertex = zip(guids, vertices)
-
-        if self.settings["show.constraints"]:
-            if constrained:
-                text = {}
-                for vertex in constrained:
-                    constraint = self.mesh.vertex_attribute(vertex, "constraint")
-                    if isinstance(constraint.geometry, Line):
-                        text[vertex] = "L"
-                    elif isinstance(constraint.geometry, NurbsCurve):
-                        text[vertex] = "C"
-                    elif isinstance(constraint.geometry, NurbsSurface):
-                        text[vertex] = "S"
-                self.guids += self.artist.draw_vertexlabels(text)
 
     # ======================================================================
     # Edges
