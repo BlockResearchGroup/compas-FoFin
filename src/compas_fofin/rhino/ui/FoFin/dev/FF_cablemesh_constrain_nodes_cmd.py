@@ -2,6 +2,8 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
+import Rhino
+
 import compas_rhino
 from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
@@ -30,56 +32,58 @@ def RunCommand(is_interactive):
     if not vertices:
         return
 
-    ctypes = ["Line", "Curve", "Surface"]
-    ctype = ui.get_string("Node constraint type?", options=ctypes)
-    if not ctype:
+    guid = compas_rhino.select_curve(message="Select constraint (Curve/Surface)")
+    if not guid:
         return
 
-    if ctype == "Line":
-        guid = compas_rhino.select_line(message="Select line constraint")
-        if not guid:
-            return
+    obj = compas_rhino.find_object(guid)
+    if not obj:
+        return
 
-        line = RhinoLine.from_guid(guid).to_compas()
-        constraint = Constraint(line)
-        for vertex in vertices:
-            constraint.location = mesh.vertex_attributes(vertex, "xyz")
-            constraint.project()
-            mesh.vertex_attributes(vertex, "xyz", constraint.location)
-            mesh.vertex_attribute(vertex, "constraint", constraint)
+    if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
 
-    elif ctype == "Curve":
-        guid = compas_rhino.select_curve(message="Select curve constraint")
-        if not guid:
-            return
+        if obj.Geometry.IsLinear():
+            line = RhinoLine.from_guid(guid).to_compas()
+            constraint = Constraint(line)
 
-        # this will fail if the curve is actually not a nurbs curve
-        # failure occurs when converting the converted curve to data
-        # since it will try to include information about the knots etc.
-        # similar problem as with OCC
+        elif obj.Geometry.IsCircle():
+            raise NotImplementedError
 
-        # perhaps better would be to allow for curve or surface and check the type...
+        elif obj.Geometry.IsEllipse():
+            raise NotImplementedError
 
-        curve = RhinoCurve.from_guid(guid).to_compas()
-        constraint = Constraint(curve)
-        for vertex in vertices:
-            constraint.location = mesh.vertex_attributes(vertex, "xyz")
-            constraint.project()
-            mesh.vertex_attributes(vertex, "xyz", constraint.location)
-            mesh.vertex_attribute(vertex, "constraint", constraint)
+        elif obj.Geometry.IsArc():
+            raise NotImplementedError
 
-    elif ctype == "Surface":
+        elif obj.Geometry.IsPolyline():
+            raise NotImplementedError
+
+        elif isinstance(obj.Geometry, Rhino.Geometry.NurbsCurve):
+            curve = RhinoCurve.from_guid(guid).to_compas()
+            constraint = Constraint(curve)
+
+        else:
+            raise NotImplementedError
+
+    elif obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
+
         guid = compas_rhino.select_surface(message="Select surface constraint")
         if not guid:
             return
 
         surface = RhinoSurface.from_guid(guid).to_compas()
         constraint = Constraint(surface)
-        for vertex in vertices:
-            constraint.location = mesh.vertex_attributes(vertex, "xyz")
-            constraint.project()
-            mesh.vertex_attributes(vertex, "xyz", constraint.location)
-            mesh.vertex_attribute(vertex, "constraint", constraint)
+
+    else:
+        raise NotImplementedError
+
+    constraint._rhino_guid = str(guid)
+
+    for vertex in vertices:
+        constraint.location = mesh.vertex_attributes(vertex, "xyz")
+        constraint.project()
+        mesh.vertex_attributes(vertex, "xyz", constraint.location)
+        mesh.vertex_attribute(vertex, "constraint", constraint)
 
     compas_rhino.rs.UnselectAllObjects()
     cablemesh.is_valid = False
