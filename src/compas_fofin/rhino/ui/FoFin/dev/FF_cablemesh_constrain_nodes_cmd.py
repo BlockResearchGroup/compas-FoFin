@@ -55,10 +55,6 @@ def RunCommand(is_interactive):
         if not guid:
             return
 
-        obj = compas_rhino.find_object(guid)
-        if not isinstance(obj.Geometry, Rhino.Geometry.Curve):
-            return
-
         # this will fail if the curve is actually not a nurbs curve
         # failure occurs when converting the converted curve to data
         # since it will try to include information about the knots etc.
