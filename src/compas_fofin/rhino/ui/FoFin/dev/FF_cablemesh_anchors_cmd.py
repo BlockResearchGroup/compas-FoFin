@@ -46,6 +46,9 @@ def RunCommand(is_interactive):
 
         cablemesh.is_valid = False
         mesh.vertices_attribute("is_anchor", is_anchor, keys=nodes)
+        if not is_anchor:
+            for node in nodes:
+                mesh.unset_vertex_attribute(node, "constraint")
 
     compas_rhino.rs.UnselectAllObjects()
     cablemesh.settings["show.vertices:free"] = False

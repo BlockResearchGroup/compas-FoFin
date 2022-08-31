@@ -19,18 +19,13 @@ def RunCommand(is_interactive):
         raise Exception("There is no cablemesh in the scene.")
 
     cablemesh = result[0]
-    cablemesh.settings["show.vertices:free"] = True
-    ui.scene.update()
-
     nodes = ui.controller.mesh_select_vertices(cablemesh)
 
     if nodes:
         for node in nodes:
             cablemesh.mesh.unset_vertex_attribute(node, "constraint")
+        ui.scene.update()
         ui.record()
-
-    cablemesh.settings["show.vertices:free"] = False
-    ui.scene.update()
 
     compas_rhino.rs.UnselectAllObjects()
 
