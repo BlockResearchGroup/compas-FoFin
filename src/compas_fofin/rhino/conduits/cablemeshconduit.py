@@ -41,10 +41,10 @@ class ReactionConduit(BaseConduit):
         color = Color.FromArgb(*self.color)
         size = self.arrow_size
         scale = self.scale
-        tol2 = self.tol ** 2
+        tol2 = self.tol**2
         for vertex in self.cablemesh.vertices_where(is_anchor=True):
-            sp = self.cablemesh.vertex_attributes(vertex, ['x', 'y', 'z'])
-            r = self.cablemesh.vertex_attributes(vertex, ['_rx', '_ry', '_rz'])
+            sp = self.cablemesh.vertex_attributes(vertex, ["x", "y", "z"])
+            r = self.cablemesh.vertex_attributes(vertex, ["_rx", "_ry", "_rz"])
             r = scale_vector(r, -scale)
             if length_vector_sqrd(r) < tol2:
                 continue
@@ -80,11 +80,11 @@ class LoadConduit(BaseConduit):
         color = self.color
         size = self.arrow_size
         scale = self.scale
-        tol2 = self.tol ** 2
+        tol2 = self.tol**2
         mesh = self.cablemesh
         for vertex in mesh.vertices():
             ep = mesh.vertex_coordinates(vertex)
-            p = mesh.vertex_attributes(vertex, ['px', 'py', 'pz'])
+            p = mesh.vertex_attributes(vertex, ["px", "py", "pz"])
             p = scale_vector(p, scale)
             if length_vector_sqrd(p) < tol2:
                 continue
@@ -121,7 +121,6 @@ class PipeConduit(BaseConduit):
             sp = self.xyz[u]
             ep = self.xyz[v]
             thickness = int(abs(self.values[edge]))
-            e.Display.DrawLine(Point3d(*sp),
-                               Point3d(*ep),
-                               Color.FromArgb(*self.color[edge]),
-                               thickness)
+            e.Display.DrawLine(
+                Point3d(*sp), Point3d(*ep), Color.FromArgb(*self.color[edge]), thickness
+            )
