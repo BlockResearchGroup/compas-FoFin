@@ -24,7 +24,7 @@ def RunCommand(is_interactive):
     if not edges:
         return
 
-    scale = ui.get_real("Scale factor?", minval=1e-3, maxval=1e3, default=1.0)
+    scale = ui.get_real("Scale factor?", minval=-1e3, maxval=1e3, default=1.0)
 
     if scale:
         Q = cablemesh.mesh.edges_attribute("q", keys=edges)
