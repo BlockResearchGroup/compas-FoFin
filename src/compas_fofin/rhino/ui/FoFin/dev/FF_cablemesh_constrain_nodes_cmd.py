@@ -2,8 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-import Rhino
-
 import compas_rhino
 from compas_rhino.geometry import RhinoLine
 from compas_rhino.geometry import RhinoCurve
