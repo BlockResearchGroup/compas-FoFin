@@ -36,7 +36,7 @@ class CableMeshObject(MeshObject):
         "color.loads": Color.green().darkened(75),
         "color.invalid": Color.grey(),
         "color.pipes": Color.white().darkened(50),
-        "scale.externalforces": 0.100,
+        "scale.externalforces": 1.000,
         "pipe_thickness.min": 0.0,
         "pipe_thickness.max": 10.0,
         "tol.externalforces": 1e-3,
