@@ -2,7 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-import compas_rhino
 from compas_ui.ui import UI
 
 
@@ -20,9 +19,9 @@ def RunCommand(is_interactive):
 
     cablemesh = result[0]
 
-    # move the cablemesh
-    # update the scene
-    # record
+    if cablemesh.move():
+        ui.scene.update()
+        ui.record()
 
     # provide the option to move in
     # - global coordinate space
