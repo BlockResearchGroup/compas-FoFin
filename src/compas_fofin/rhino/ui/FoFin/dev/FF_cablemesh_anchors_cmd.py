@@ -34,10 +34,10 @@ def RunCommand(is_interactive):
         return
 
     is_anchor = option == "Select"
+    cablemesh.settings["show.vertices:free"] = option == "Select"
 
     while True:
         compas_rhino.rs.UnselectAllObjects()
-        cablemesh.settings["show.vertices:free"] = True
         ui.scene.update()
 
         nodes = ui.controller.mesh_select_vertices(cablemesh)
