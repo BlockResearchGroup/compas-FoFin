@@ -8,7 +8,10 @@ from compas.utilities import pairwise
 from compas_rhino.conversions import RhinoCylinder
 from compas_ui.ui import UI
 
+from compas_ui.rhino.callbacks import register_callback
 from compas_fofin.datastructures import CableMesh
+
+from callbacks import FF_on_object_update
 
 
 __commandname__ = "FF_cablemesh_from_cylinder"
@@ -19,22 +22,25 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if result:
-        for obj in result:
-            ui.scene.remove(obj)
-
     guid = compas_rhino.select_object("Select a cylinder.")
     if not guid:
         return
 
     U = ui.get_integer(
-        "Number of faces along perimeter?", minval=4, maxval=64, default=16
+        "Number of faces along perimeter?",
+        minval=4,
+        maxval=64,
+        default=16,
     )
     if not U:
         return
 
-    V = ui.get_integer("Number of faces along height?", minval=2, maxval=32, default=4)
+    V = ui.get_integer(
+        "Number of faces along height?",
+        minval=2,
+        maxval=32,
+        default=4,
+    )
     if not V:
         return
 
@@ -81,10 +87,11 @@ def RunCommand(is_interactive):
             mesh.add_face([a, b, bb, aa])
 
     compas_rhino.rs.HideObject(guid)
-    # ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
     ui.record()
+
+    register_callback(FF_on_object_update)
 
 
 if __name__ == "__main__":

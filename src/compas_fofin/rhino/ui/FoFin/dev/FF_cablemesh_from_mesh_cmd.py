@@ -4,10 +4,15 @@ from __future__ import division
 
 import compas_rhino
 from compas_rhino.conversions import RhinoMesh
+
 from compas.datastructures import mesh_weld
 
 from compas_ui.ui import UI
+from compas_ui.rhino.callbacks import register_callback
+
 from compas_fofin.datastructures import CableMesh
+
+from callbacks import FF_on_object_update
 
 
 __commandname__ = "FF_cablemesh_from_mesh"
@@ -18,11 +23,6 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if result:
-        for obj in result:
-            ui.scene.remove(obj)
-
     guid = compas_rhino.select_mesh()
     if not guid:
         return
@@ -32,10 +32,11 @@ def RunCommand(is_interactive):
     mesh.name = "CableMesh"
 
     compas_rhino.rs.HideObject(guid)
-    # ui.scene.clear()
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
     ui.record()
+
+    register_callback(FF_on_object_update)
 
 
 if __name__ == "__main__":

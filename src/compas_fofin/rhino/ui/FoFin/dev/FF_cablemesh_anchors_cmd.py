@@ -4,6 +4,7 @@ from __future__ import division
 
 import compas_rhino
 from compas_ui.ui import UI
+from compas_fofin.objects import CableMeshObject
 
 
 __commandname__ = "FF_cablemesh_anchors"
@@ -14,11 +15,11 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if not result:
-        raise Exception("There is no cablemesh in the scene.")
+    cablemesh = ui.scene.active_object
 
-    cablemesh = result[0]
+    if not isinstance(cablemesh, CableMeshObject):
+        raise Exception("The active object is not a CableMesh.")
+
     mesh = cablemesh.mesh
 
     fixed = list(mesh.vertices_where(is_fixed=True))

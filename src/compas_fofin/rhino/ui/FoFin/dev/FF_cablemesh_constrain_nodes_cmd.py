@@ -5,11 +5,12 @@ from __future__ import division
 import Rhino
 
 import compas_rhino
-from compas_rhino.geometry import RhinoLine
-from compas_rhino.geometry import RhinoCurve
 from compas_rhino.geometry import RhinoSurface
 
 from compas_ui.ui import UI
+from compas_fofin.rhino.conversions import curveobject_to_compas
+
+from compas_fofin.objects import CableMeshObject
 from compas_fd.constraints import Constraint
 
 
@@ -21,11 +22,11 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if not result:
-        raise Exception("There is no cablemesh in the scene.")
+    cablemesh = ui.scene.active_object
 
-    cablemesh = result[0]
+    if not isinstance(cablemesh, CableMeshObject):
+        raise Exception("The active object is not a CableMesh.")
+
     mesh = cablemesh.mesh
 
     vertices = ui.controller.mesh_select_vertices(cablemesh)
@@ -42,30 +43,10 @@ def RunCommand(is_interactive):
 
     if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
 
-        if obj.Geometry.IsLinear():
-            line = RhinoLine.from_guid(guid).to_compas()
-            constraint = Constraint(line)
+        curve = curveobject_to_compas(obj)
+        constraint = Constraint(curve)
 
-        elif obj.Geometry.IsCircle():
-            raise NotImplementedError
-
-        elif obj.Geometry.IsEllipse():
-            raise NotImplementedError
-
-        elif obj.Geometry.IsArc():
-            raise NotImplementedError
-
-        elif obj.Geometry.IsPolyline():
-            raise NotImplementedError
-
-        elif isinstance(obj.Geometry, Rhino.Geometry.NurbsCurve):
-            curve = RhinoCurve.from_guid(guid).to_compas()
-            constraint = Constraint(curve)
-
-        else:
-            raise NotImplementedError
-
-    elif obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
+    elif obj.ObjectType == Rhino.DocObjects.ObjectType.Surface:
 
         guid = compas_rhino.select_surface(message="Select surface constraint")
         if not guid:

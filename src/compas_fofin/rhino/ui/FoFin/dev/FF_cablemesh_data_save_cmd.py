@@ -4,9 +4,10 @@ from __future__ import division
 
 import compas
 from compas_ui.ui import UI
+from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = 'FF_cablemesh_data_save'
+__commandname__ = "FF_cablemesh_data_save"
 
 
 @UI.error()
@@ -14,17 +15,17 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name='CableMesh')
-    if not result:
-        raise Exception('There is no cablemesh in the scene.')
+    cablemesh = ui.scene.active_object
 
-    cablemesh = result[0]
+    if not isinstance(cablemesh, CableMeshObject):
+        raise Exception("The active object is not a CableMesh.")
+
     mesh = cablemesh.mesh
 
-    path = ui.pick_file_save('FoFin.data')
+    path = ui.pick_file_save("FoFin.data")
     if path:
         compas.json_dump(mesh, path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

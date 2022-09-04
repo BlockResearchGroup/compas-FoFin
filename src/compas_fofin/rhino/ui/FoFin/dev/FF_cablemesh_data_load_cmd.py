@@ -4,6 +4,7 @@ from __future__ import division
 
 import compas
 from compas_ui.ui import UI
+from compas_fofin.objects import CableMeshObject
 from compas_fofin.datastructures import CableMesh
 
 
@@ -15,11 +16,10 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if not result:
-        raise Exception("There is no cablemesh in the scene.")
+    cablemesh = ui.scene.active_object
 
-    cablemesh = result[0]
+    if not isinstance(cablemesh, CableMeshObject):
+        raise Exception("The active object is not a CableMesh.")
 
     path = ui.pick_file_open()
     if path:
