@@ -6,12 +6,14 @@ from compas.plugins import plugin
 
 from compas_fd.constraints import CurveConstraint
 from compas_fd.constraints import LineConstraint
+from compas_fd.constraints import CircleConstraint
 from compas_fofin.datastructures import CableMesh
 
 from compas_ui.rhino.objects import RhinoObject
 
 from .cablemeshobject import RhinoCableMeshObject
 from .lineconstraintobject import RhinoLineConstraintObject
+from .circleconstraintobject import RhinoCircleConstraintObject
 from .curveconstraintobject import RhinoCurveConstraintObject
 
 
@@ -20,6 +22,7 @@ def register_objects():
 
     RhinoObject.register(CurveConstraint, RhinoCurveConstraintObject, context="Rhino")
     RhinoObject.register(LineConstraint, RhinoLineConstraintObject, context="Rhino")
+    RhinoObject.register(CircleConstraint, RhinoCircleConstraintObject, context="Rhino")
     RhinoObject.register(CableMesh, RhinoCableMeshObject, context="Rhino")
 
     print("FoFin Rhino Objects registered.")
@@ -28,5 +31,6 @@ def register_objects():
 __all__ = [
     "RhinoCableMeshObject",
     "RhinoLineConstraintObject",
+    "RhinoCircleConstraintObject",
     "RhinoCurveConstraintObject",
 ]
