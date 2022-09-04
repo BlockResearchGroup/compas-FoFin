@@ -13,7 +13,7 @@ class CableMeshObject(MeshObject):
     # TODO: For every setting use a setting object
 
     SETTINGS = {
-        "layer": "FF::CableMesh",
+        "layer": "FF",
         "show.vertices:free": False,  # is this relevant?
         "show.vertices:is_anchor": True,  # is this relevant?
         "show.edges": True,
