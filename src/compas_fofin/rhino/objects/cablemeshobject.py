@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from __future__ import division
 from math import fabs
 
+import System
+import Rhino
 import compas_rhino
 
 from compas.colors import Color
@@ -14,7 +16,7 @@ from compas_fofin.objects import CableMeshObject
 from compas_fofin.rhino.conduits import ReactionConduit
 from compas_fofin.rhino.conduits import LoadConduit
 from compas_fofin.rhino.conduits import PipeConduit
-
+from compas_fofin.rhino.conversions import curveobject_to_compas
 
 RED = ColorMap.from_two_colors(Color.white(), Color.red())
 BLUE = ColorMap.from_two_colors(Color.white(), Color.blue())
@@ -56,7 +58,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def group_free(self):
         if not self._group_free:
-            group = "{}::vertices::free".format(self.layer)
+            group = "{}::vertices::free".format(self.guid)
             self._group_free = group
 
             if not compas_rhino.rs.IsGroup(group):
@@ -67,7 +69,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def group_fixed(self):
         if not self._group_fixed:
-            group = "{}::vertices::fixed".format(self.layer)
+            group = "{}::vertices::fixed".format(self.guid)
             self._group_fixed = group
 
             if not compas_rhino.rs.IsGroup(group):
@@ -78,7 +80,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def group_anchors(self):
         if not self._group_anchors:
-            group = "{}::vertices::anchors".format(self.layer)
+            group = "{}::vertices::anchors".format(self.guid)
             self._group_anchors = group
 
             if not compas_rhino.rs.IsGroup(group):
@@ -89,7 +91,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def group_edges(self):
         if not self._group_edges:
-            group = "{}::edges".format(self.layer)
+            group = "{}::edges".format(self.guid)
             self._group_edges = group
 
             if not compas_rhino.rs.IsGroup(group):
@@ -100,7 +102,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def group_faces(self):
         if not self._group_faces:
-            group = "{}::faces".format(self.layer)
+            group = "{}::faces".format(self.guid)
             self._group_faces = group
 
             if not compas_rhino.rs.IsGroup(group):
@@ -141,6 +143,73 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if not self._conduit_pipes_q:
             self._conduit_pipes_q = PipeConduit(xyz={}, edges=[], values={}, color={})
         return self._conduit_pipes_q
+
+    # ======================================================================
+    # Methods
+    # ======================================================================
+
+    def update_constraint(self, vertex, constraint, obj):
+        """
+        Update a vertex constraint using the current geometr of a given constraint object.
+
+        Parameters
+        ----------
+        vertex : int
+        constraint
+        obj : RhinoObject
+
+        Returns
+        -------
+        None
+
+        """
+        if str(obj.Id) != constraint._rhino_guid:
+            return
+
+        point = self.mesh.vertex_attributes(vertex, "xyz")
+
+        if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
+            curve = curveobject_to_compas(obj)
+            constraint.geometry = curve
+
+        elif obj.ObjectType == Rhino.DocObjects.ObjectType.Surface:
+            raise NotImplementedError
+
+        constraint.location = point
+        constraint.project()
+        self.mesh.vertex_attributes(vertex, "xyz", constraint.location)
+
+    def update_constraints(self):
+        """
+        Update all constraints to the latest constraint geometry.
+
+        Returns
+        -------
+        None
+
+        """
+        for vertex in self.mesh.vertices_where(is_anchor=True):
+            # check if a vertex has a constraint
+            constraint = self.mesh.vertex_attribute(vertex, "constraint")
+            if not constraint or not constraint._rhino_guid:
+                continue
+
+            # convert the guid string to an object
+            result, guid = System.Guid.TryParse(constraint._rhino_guid)
+            if not result:
+                continue
+
+            # find the object corresponding to the guid
+            obj = compas_rhino.find_object(guid)
+            if not obj:
+                continue
+
+            # update the vertex
+            self.update_constraint(vertex, constraint, obj)
+
+    # ======================================================================
+    # Clear
+    # ======================================================================
 
     # ======================================================================
     # Clear
@@ -189,9 +258,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
     def draw(self):
         layer = self.layer
-
         self.artist.layer = layer
-        self.artist.clear_layer()
 
         self.clear()
         if not self.visible:
