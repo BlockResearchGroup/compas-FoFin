@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas.geometry import Point, Vector
 from compas.utilities import pairwise
 from compas_rhino.conversions import RhinoCylinder
 from compas_ui.ui import UI
@@ -48,6 +47,10 @@ def RunCommand(is_interactive):
     mesh = CableMesh.from_shape(cylinder, u=U)
     mesh.name = "CableMesh"
 
+    # move this to somewhere else
+    # ---------------------------------------
+    # ---------------------------------------
+
     # remove top/bottom
     mesh.delete_vertex((U * 2) + 1)
     mesh.delete_vertex(U * 2)
@@ -65,8 +68,8 @@ def RunCommand(is_interactive):
 
     splits = []
     for u, v in strip:
-        start = Point(*mesh.vertex_coordinates(u))
-        vector = Vector(*mesh.edge_vector(u, v))
+        start = mesh.vertex_point(u)
+        vector = mesh.edge_vector((u, v))
         temp = [u]
         w = u
         for i in range(V - 1):
@@ -85,6 +88,9 @@ def RunCommand(is_interactive):
     for right, left in pairwise(splits + splits[0:1]):
         for (a, b), (aa, bb) in zip(pairwise(right), pairwise(left)):
             mesh.add_face([a, b, bb, aa])
+
+    # ---------------------------------------
+    # ---------------------------------------
 
     compas_rhino.rs.HideObject(guid)
     ui.scene.add(mesh, name=mesh.name)
