@@ -2,12 +2,11 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from compas.numerical import dr
 from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = "FF_cablemesh_solve_dr"
+__commandname__ = "FF_cablemesh_solve_dr_numpy"
 
 
 @UI.error()
@@ -20,42 +19,41 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
-    mesh = cablemesh.mesh
+    dr = ui.proxy.function("compas.numerical.dr_numpy")
 
-    k_i = mesh.key_index()
-    vertices = mesh.vertices_attributes("xyz")
-    edges = list(mesh.edges_where({"_is_edge": True}))
-    ij = [(k_i[u], k_i[v]) for u, v in edges]
-    fixed = [k_i[vertex] for vertex in mesh.vertices_where(is_anchor=True)]
-    loads = mesh.vertices_attributes(["px", "py", "pz"])
-    qpre = mesh.edges_attribute("q", keys=mesh.edges_where({"_is_edge": True}))
-    # fpre
-    # lpre
-    # linit
-    # E
-    # radius
-    kmax = 100
+    # cablemesh.update_constraints()
 
-    X, Q, F, L, R = dr(
-        vertices=vertices,
-        edges=ij,
-        fixed=fixed,
-        loads=loads,
-        qpre=qpre,
-        kmax=kmax,
-    )
+    # k_i = cablemesh.mesh.key_index()
+    # vertices = cablemesh.mesh.vertices_attributes("xyz")
+    # edges = list(cablemesh.mesh.edges_where(_is_edge=True))
+    # fixed = [k_i[vertex] for vertex in cablemesh.mesh.vertices_where(is_anchor=True)]
+    # loads = cablemesh.mesh.vertices_attributes(["px", "py", "pz"])
+    # qpre = cablemesh.mesh.edges_attribute("q", keys=edges)
+    # # fpre, lpre, linit, E, radius
+    # kmax = 100
 
-    for vertex in mesh.vertices():
-        index = k_i[vertex]
-        x = X[index]
-        r = R[index]
-        mesh.vertex_attributes(vertex, "xyz", x)
-        mesh.vertex_attributes(vertex, ["_rx", "_ry", "_rz"], r)
+    # ij = [(k_i[u], k_i[v]) for u, v in edges]
 
-    for edge, q, f, l in zip(edges, Q, F, L):
-        mesh.edge_attribute(edge, "_q", q)
-        mesh.edge_attribute(edge, "_f", f)
-        mesh.edge_attribute(edge, "_l", l)
+    # X, Q, F, L, R = dr(
+    #     vertices=vertices,
+    #     edges=ij,
+    #     fixed=fixed,
+    #     loads=loads,
+    #     qpre=qpre,
+    #     kmax=kmax,
+    # )
+
+    # for vertex in cablemesh.mesh.vertices():
+    #     index = k_i[vertex]
+    #     x = X[index]
+    #     r = R[index]
+    #     cablemesh.mesh.vertex_attributes(vertex, "xyz", x)
+    #     cablemesh.mesh.vertex_attributes(vertex, ["_rx", "_ry", "_rz"], r)
+
+    # for edge, q, f, l in zip(edges, Q, F, L):
+    #     cablemesh.mesh.edge_attribute(edge, "_q", q)
+    #     cablemesh.mesh.edge_attribute(edge, "_f", f)
+    #     cablemesh.mesh.edge_attribute(edge, "_l", l)
 
     cablemesh.is_valid = True
 
