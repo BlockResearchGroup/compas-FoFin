@@ -2,8 +2,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-import System
-import compas_rhino
 from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
 
@@ -21,21 +19,7 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
-    for vertex in cablemesh.mesh.vertices_where(is_anchor=True):
-        constraint = cablemesh.mesh.vertex_attribute(vertex, "constraint")
-
-        if not constraint or not constraint._rhino_guid:
-            continue
-
-        result, guid = System.Guid.TryParse(constraint._rhino_guid)
-        if not result:
-            continue
-
-        obj = compas_rhino.find_object(guid)
-        if not obj:
-            continue
-
-        cablemesh.update_constraint(vertex, obj)
+    cablemesh.update_constraints()
 
     fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
     result = fd(cablemesh.mesh)
