@@ -3,11 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 from compas_ui.ui import UI
-from compas_ui.rhino.callbacks import register_callback
-
 from compas_fofin.datastructures import CableMesh
-
-from callbacks import FF_on_object_update
 
 
 __commandname__ = "FF_cablemesh_from_meshgrid"
@@ -60,8 +56,6 @@ def RunCommand(is_interactive):
     ui.scene.add(mesh, name=mesh.name)
     ui.scene.update()
     ui.record()
-
-    register_callback(FF_on_object_update)
 
 
 if __name__ == "__main__":
