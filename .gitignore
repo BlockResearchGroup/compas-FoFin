@@ -123,3 +123,5 @@ temp/**
 src/compas_fofin/ui/Rhino/FoFin/dev/FF.rui
 
 *.rui
+
+*.3dm
