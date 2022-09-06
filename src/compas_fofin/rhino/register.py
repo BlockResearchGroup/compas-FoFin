@@ -1,5 +1,25 @@
+import os
+import json
+from compas.plugins import plugin
 from compas_ui.ui import UI
-from compas_fofin.objects import CableMeshObject
+from compas_ui.rhino.callbacks import register_callback
+from compas_fofin.rhino.install import plugin_devpath
+from compas_fofin.rhino.objects import RhinoCableMeshObject
+
+
+@plugin(category="ui")
+def register(ui):
+
+    # register settings
+    devpath = plugin_devpath("FoFin")
+    configpath = os.path.join(devpath, "config.json")
+    with open(configpath, "r") as f:
+        config = json.load(f)
+        settings = config["settings"]
+        ui.settings["FoFin"] = settings
+
+    # register callbacks
+    register_callback(FF_on_object_update)
 
 
 def FF_on_object_update(*args):
@@ -16,7 +36,6 @@ def FF_on_object_update(*args):
 
     """
     ui = UI()
-
     e = args[1]
     obj = e.NewRhinoObject
 
@@ -24,7 +43,7 @@ def FF_on_object_update(*args):
     # - Update constraints (when constraint objects are modified)
 
     cablemesh = ui.scene.active_object
-    if not isinstance(cablemesh, CableMeshObject):
+    if not isinstance(cablemesh, RhinoCableMeshObject):
         return
 
     # only trigger as redraw if there is something to redraw
@@ -48,4 +67,3 @@ def FF_on_object_update(*args):
     if is_dirty:
         cablemesh.is_valid = False
         ui.scene.update()
-        print("all should be well...")

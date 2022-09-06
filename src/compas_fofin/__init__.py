@@ -40,4 +40,5 @@ __all_plugins__ = [
     "compas_fofin.rhino.install",
     "compas_fofin.rhino.artists",
     "compas_fofin.rhino.objects",
+    "compas_fofin.rhino.register",
 ]
