@@ -10,7 +10,7 @@ from compas_rhino.geometry import RhinoSurface
 from compas_ui.ui import UI
 from compas_fofin.rhino.conversions import curveobject_to_compas
 
-from compas_fofin.objects import CableMeshObject
+from compas_fofin.rhino.objects import RhinoCableMeshObject
 from compas_fd.constraints import Constraint
 
 
@@ -24,7 +24,7 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
-    if not isinstance(cablemesh, CableMeshObject):
+    if not isinstance(cablemesh, RhinoCableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
     mesh = cablemesh.mesh

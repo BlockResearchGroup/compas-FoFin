@@ -30,18 +30,18 @@ def RunCommand(is_interactive):
     if not selected:
         return
 
+    # this should be a cloud call with cached values
+    # anchors, edges, loads, ... are constant
+    # only Q needs to be sent
+    # and new (free) vertex locations should be received
+    fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
+
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
 
     if mode == "Value":
         scale = ui.get_real("Scaling factor?", minval=-1e2, maxval=+1e2, default=1.0)
 
     elif mode == "Interactive":
-        # this should be a cloud call with cached values
-        # anchors, edges, loads, ... are constant
-        # only Q needs to be sent
-        # and new (free) vertex locations should be received
-        fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
-
         # start the dynamic scaling process
 
         cablemesh.is_valid = False
@@ -109,7 +109,7 @@ def RunCommand(is_interactive):
         sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
         scale = sign * l2 / l1
 
-    if scale:
+    if scale is not None:
         for edge, q in zip(selected, Q):
             cablemesh.mesh.edge_attribute(edge, "q", q * scale)
 
