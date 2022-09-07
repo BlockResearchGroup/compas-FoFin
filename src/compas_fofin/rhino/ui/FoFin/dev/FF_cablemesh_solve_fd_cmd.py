@@ -20,17 +20,7 @@ def RunCommand(is_interactive):
         raise Exception("The active object is not a CableMesh.")
 
     cablemesh.update_constraints()
-
-    fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
-    result = fd(cablemesh.mesh)
-
-    if not result:
-        # this failure should just rigger an error
-        print("Force-density method equilibrium failed!")
-        return
-
-    cablemesh.mesh.data = result.data
-    cablemesh.is_valid = True
+    cablemesh.update_equilibrium(ui)
 
     ui.scene.update()
     ui.record()

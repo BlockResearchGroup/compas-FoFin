@@ -34,7 +34,6 @@ def RunCommand(is_interactive):
     # anchors, edges, loads, ... are constant
     # only Q needs to be sent
     # and new (free) vertex locations should be received
-    fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
 
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
 
@@ -85,12 +84,9 @@ def RunCommand(is_interactive):
             # cached: anchors, edges, loads
             # sent: q
             # received: xyz
-            result = fd(cablemesh.mesh)
-            if result:
-                cablemesh.mesh.data = result.data
-                cablemesh.is_valid = True
-                cablemesh._draw_force_overlays()
-                cablemesh._draw_reaction_overlays()
+            cablemesh.update_equilibrium(ui)
+            cablemesh._draw_force_overlays()
+            cablemesh._draw_reaction_overlays()
 
         gp.SetCommandPrompt("Reference point 2.")
         gp.SetBasePoint(o, False)
@@ -113,10 +109,8 @@ def RunCommand(is_interactive):
         for edge, q in zip(selected, Q):
             cablemesh.mesh.edge_attribute(edge, "q", q * scale)
 
-        result = fd(cablemesh.mesh)
-        if result:
-            cablemesh.mesh.data = result.data
-            cablemesh.is_valid = True
+        cablemesh.update_equilibrium(ui)
+
     else:
         cablemesh.is_valid = False
 

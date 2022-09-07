@@ -220,6 +220,33 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             # update the vertex
             self.update_constraint(vertex, constraint, obj)
 
+    def update_equilibrium(self, ui):
+        """
+        Update the equilibrium of the cablemesh.
+
+        Returns
+        -------
+        bool
+
+        """
+        fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
+        result = fd(
+            self.mesh,
+            kmax=ui.settings["FoFin"]["solver"]["kmax"],
+            damping=ui.settings["FoFin"]["solver"]["damping"],
+            tol_res=ui.settings["FoFin"]["solver"]["tol"]['residuals'],
+            tol_disp=ui.settings["FoFin"]["solver"]["tol"]['displacements'],
+        )
+
+        if not result:
+            print("Force-density method equilibrium failed!")
+            return False
+
+        self.mesh.data = result.data
+        self.is_valid = True
+
+        return True
+
     # ======================================================================
     # Clear
     # ======================================================================
