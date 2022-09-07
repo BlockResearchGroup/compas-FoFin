@@ -24,7 +24,7 @@ def register(ui):
     with open(plugin_config, "r") as f:
         config = json.load(f)
         settings = config["settings"]
-        ui.settings["FoFin"] = settings
+        ui.registry["FoFin"] = settings
 
     # register callbacks
     # register_callback(FF_on_object_update)

@@ -37,7 +37,7 @@ def RunCommand(is_interactive):
     if result:
         cablemesh.is_valid = False
 
-        if ui.settings["FoFin"]["solver"]["autorun"]:
+        if ui.registry["FoFin"]["solver"]["autorun"]:
             cablemesh.update_equilibrium(ui)
 
         ui.scene.update()

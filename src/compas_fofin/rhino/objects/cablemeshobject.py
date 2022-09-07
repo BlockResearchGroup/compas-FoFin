@@ -230,12 +230,13 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         """
         fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
+
         result = fd(
             self.mesh,
-            kmax=ui.settings["FoFin"]["solver"]["kmax"],
-            damping=ui.settings["FoFin"]["solver"]["damping"],
-            tol_res=ui.settings["FoFin"]["solver"]["tol"]['residuals'],
-            tol_disp=ui.settings["FoFin"]["solver"]["tol"]['displacements'],
+            kmax=ui.registry["FoFin"]["solver"]["kmax"],
+            damping=ui.registry["FoFin"]["solver"]["damping"],
+            tol_res=ui.registry["FoFin"]["solver"]["tol"]["residuals"],
+            tol_disp=ui.registry["FoFin"]["solver"]["tol"]["displacements"],
         )
 
         if not result:
