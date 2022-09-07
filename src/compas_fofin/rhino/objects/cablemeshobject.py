@@ -15,6 +15,7 @@ from compas_ui.rhino.objects import RhinoMeshObject
 from compas_fofin.objects import CableMeshObject
 from compas_fofin.rhino.conduits import ReactionConduit
 from compas_fofin.rhino.conduits import LoadConduit
+from compas_fofin.rhino.conduits import SelfweightConduit
 from compas_fofin.rhino.conduits import PipeConduit
 from compas_fofin.rhino.conversions import curveobject_to_compas
 
@@ -52,6 +53,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         super(RhinoCableMeshObject, self).__init__(*args, **kwargs)
         self._conduit_reactions = None
         self._conduit_loads = None
+        self._conduit_selfweight = None
         self._conduit_pipes_f = None
         self._conduit_pipes_q = None
 
@@ -116,7 +118,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             self._conduit_reactions = ReactionConduit(
                 self.mesh,
                 color=self.settings["color.reactions"].rgb255,
-                scale=self.settings["scale.externalforces"],
+                scale=self.settings["scale.reactions"],
                 tol=self.settings["tol.externalforces"],
             )
         return self._conduit_reactions
@@ -127,10 +129,21 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             self._conduit_loads = LoadConduit(
                 self.mesh,
                 color=self.settings["color.loads"].rgb255,
-                scale=self.settings["scale.externalforces"],
+                scale=self.settings["scale.loads"],
                 tol=self.settings["tol.externalforces"],
             )
         return self._conduit_loads
+
+    @property
+    def conduit_selfweight(self):
+        if not self._conduit_selfweight:
+            self._conduit_selfweight = SelfweightConduit(
+                self.mesh,
+                color=self.settings["color.selfweight"].rgb255,
+                scale=self.settings["scale.selfweight"],
+                tol=self.settings["tol.externalforces"],
+            )
+        return self._conduit_selfweight
 
     @property
     def conduit_pipes_f(self):
@@ -233,6 +246,14 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             self._conduit_loads = None
 
         try:
+            self.conduit_selfweight.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_selfweight
+            self._conduit_selfweight = None
+
+        try:
             self.conduit_pipes_f.disable()
         except Exception:
             pass
@@ -271,6 +292,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self._draw_faces()
         self._draw_reaction_overlays()
         self._draw_load_overlays()
+        self._draw_selfweight_overlays()
         self._draw_force_overlays()
         self._draw_q_overlays()
 
@@ -408,7 +430,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if self.is_valid and self.settings["show.reactions"]:
 
             self.conduit_reactions.color = self.settings["color.reactions"].rgb255
-            self.conduit_reactions.scale = self.settings["scale.externalforces"]
+            self.conduit_reactions.scale = self.settings["scale.reactions"]
             self.conduit_reactions.tol = self.settings["tol.externalforces"]
             self.conduit_reactions.enable()
         else:
@@ -423,13 +445,28 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         if self.settings["show.loads"]:
 
             self.conduit_loads.color = self.settings["color.loads"].rgb255
-            self.conduit_loads.scale = self.settings["scale.externalforces"]
+            self.conduit_loads.scale = self.settings["scale.loads"]
             self.conduit_loads.tol = self.settings["tol.externalforces"]
             self.conduit_loads.enable()
         else:
             if self.conduit_loads:
                 try:
                     self.conduit_loads.disable()
+                except Exception as e:
+                    print(e)
+
+    def _draw_selfweight_overlays(self):
+
+        if self.settings["show.selfweight"]:
+
+            self.conduit_selfweight.color = self.settings["color.selfweight"].rgb255
+            self.conduit_selfweight.scale = self.settings["scale.selfweight"]
+            self.conduit_selfweight.tol = self.settings["tol.externalforces"]
+            self.conduit_selfweight.enable()
+        else:
+            if self.conduit_selfweight:
+                try:
+                    self.conduit_selfweight.disable()
                 except Exception as e:
                     print(e)
 

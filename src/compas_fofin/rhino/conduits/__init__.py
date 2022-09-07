@@ -4,11 +4,13 @@ from __future__ import division
 
 from .cablemeshconduit import ReactionConduit
 from .cablemeshconduit import LoadConduit
+from .cablemeshconduit import SelfweightConduit
 from .cablemeshconduit import PipeConduit
 
 
 __all__ = [
     'ReactionConduit',
     'LoadConduit',
+    'SelfweightConduit',
     'PipeConduit',
 ]
