@@ -15,26 +15,16 @@
     },
     "commands": [
         {
-            "name": "FF_cablemesh_data_load",
-            "menu_text": "Load Mesh Data"
+            "name": "FF_cablemesh_anchors",
+            "menu_text": "Identify Anchors",
+            "icon": 1,
+            "tooltip": "Identify Anchors"
         },
         {
-            "name": "FF_cablemesh_data_save",
-            "menu_text": "Save Mesh Data"
-        },
-        {
-            "name": "FF_toolbar_cablemesh_create",
-            "menu_text": "Create Cablemesh",
-            "icon": 0,
-            "tooltip": "Create Cablemesh"
-        },
-        {
-            "name": "FF_cablemesh_from_meshgrid",
-            "menu_text": "Cablemesh From Meshgrid"
-        },
-        {
-            "name": "FF_cablemesh_from_mesh",
-            "menu_text": "Cablemesh From Mesh"
+            "name": "FF_cablemesh_constrain_nodes",
+            "menu_text": "Node Constraints",
+            "icon": 4,
+            "tooltip": "Set Node Constraints"
         },
         {
             "name": "FF_cablemesh_from_box",
@@ -45,28 +35,18 @@
             "menu_text": "Cablemesh From Cylinder"
         },
         {
-            "name": "FF_cablemesh_anchors",
-            "menu_text": "Identify Anchors",
-            "icon": 1,
-            "tooltip": "Identify Anchors"
+            "name": "FF_cablemesh_from_mesh",
+            "menu_text": "Cablemesh From Mesh"
         },
         {
-            "name": "FF_cablemesh_solve_fd",
-            "menu_text": "Force Density Method",
-            "icon": 2,
-            "tooltip": "Force Density Method"
+            "name": "FF_cablemesh_from_meshgrid",
+            "menu_text": "Cablemesh From Meshgrid"
         },
         {
-            "name": "FF_cablemesh_move_nodes",
-            "menu_text": "Move Nodes",
-            "icon": 3,
-            "tooltip": "Move Nodes"
-        },
-        {
-            "name": "FF_cablemesh_constrain_nodes",
-            "menu_text": "Node Constraints",
-            "icon": 4,
-            "tooltip": "Set Node Constraints"
+            "name": "FF_cablemesh_modify_edges",
+            "menu_text": "Edge Attributes",
+            "icon": 7,
+            "tooltip": "Modify Edge Attributes"
         },
         {
             "name": "FF_cablemesh_modify_nodes",
@@ -75,33 +55,48 @@
             "tooltip": "Modify Node Attributes"
         },
         {
+            "name": "FF_cablemesh_move",
+            "menu_text": "Move",
+            "tooltip": "Move"
+        },
+        {
+            "name": "FF_cablemesh_move_nodes",
+            "menu_text": "Move Nodes",
+            "icon": 3,
+            "tooltip": "Move Nodes"
+        },
+        {
             "name": "FF_cablemesh_scale_q",
             "menu_text": "Scale Force Densities",
             "icon": 6,
             "tooltip": "Scale Force Densities"
         },
         {
-            "name": "FF_cablemesh_modify_edges",
-            "menu_text": "Edge Attributes",
-            "icon": 7,
-            "tooltip": "Modify Edge Attributes"
+            "name": "FF_cablemesh_solve_fd",
+            "menu_text": "Force Density Method",
+            "icon": 2,
+            "tooltip": "Force Density Method"
+        },
+        {
+            "name": "FF_cablemesh_uncnostrain nodes",
+            "menu_text": "Unconstrain Nodes",
+            "tooltip": "Unconstrain Nodes"
+        },
+        {
+            "name": "FF_cablemesh_update_constraints",
+            "menu_text": "Update Constraints",
+            "tooltip": "Update Constraints"
+        },
+        {
+            "name": "FF_toolbar_cablemesh_create",
+            "menu_text": "Create CableMesh",
+            "tooltip": "Create CableMesh"
         }
     ],
     "menus": [
         {
             "name": "FoFin",
             "items": [
-                {
-                    "name": "Data",
-                    "items": [
-                        {
-                            "command": "FF_cablemesh_data_load"
-                        },
-                        {
-                            "command": "FF_cablemesh_data_save"
-                        }
-                    ]
-                },
                 {
                     "name": "Create CableMesh",
                     "items": [
