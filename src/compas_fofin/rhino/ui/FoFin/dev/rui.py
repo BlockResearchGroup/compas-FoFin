@@ -2,9 +2,9 @@ import os
 from compas_ui.rhino.rui import Rui
 
 HERE = os.path.dirname(__file__)
-UIPATH = os.path.join(HERE, "ui.json")
-RUIPATH = os.path.join(HERE, "FOFIN.rui")
+UI = os.path.join(HERE, "ui.json")
+RUI = os.path.join(HERE, "FOFIN.rui")
 
-rui = Rui.from_json(UIPATH, RUIPATH)
+rui = Rui.from_json(UI, RUI)
 
 rui.write()
