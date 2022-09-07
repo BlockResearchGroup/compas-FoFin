@@ -39,7 +39,7 @@ class ReactionConduit(BaseConduit):
         self.tol = tol
         self.arrow_size = 0.2
 
-    def DrawForeground(self, e):
+    def PostDrawObjects(self, e):
         color = Color.FromArgb(*self.color)
         scale = self.scale
         tol2 = self.tol**2
@@ -169,7 +169,7 @@ class PipeConduit(BaseConduit):
         self.values = values or {}
         self.color = color or {}
 
-    def DrawForeground(self, e):
+    def PostDrawObjects(self, e):
         for edge in self.edges:
             u, v = edge
             sp = self.xyz[u]
