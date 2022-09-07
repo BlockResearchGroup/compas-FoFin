@@ -20,6 +20,10 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
+    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:free"] = True
+    ui.scene.update()
+
     nodes = ui.controller.mesh_select_vertices(cablemesh)
 
     if nodes:
@@ -30,8 +34,11 @@ def RunCommand(is_interactive):
         ]
         if cablemesh.modify_vertices(nodes, names=public):
             cablemesh.is_valid = False
-            ui.scene.update()
             ui.record()
+
+    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:free"] = False
+    ui.scene.update()
 
     compas_rhino.rs.UnselectAllObjects()
 
