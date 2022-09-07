@@ -2,24 +2,32 @@ import os
 import json
 from compas.plugins import plugin
 from compas_ui.ui import UI
-from compas_ui.rhino.callbacks import register_callback
-from compas_fofin.rhino.install import plugin_devpath
+
 from compas_fofin.rhino.objects import RhinoCableMeshObject
+
+
+HERE = os.path.dirname(__file__)
 
 
 @plugin(category="ui")
 def register(ui):
 
-    # register settings
-    devpath = plugin_devpath("FoFin")
-    configpath = os.path.join(devpath, "config.json")
-    with open(configpath, "r") as f:
+    plugin_name = "FoFin"
+    plugin_path = os.path.join(HERE, "ui", plugin_name)
+    if not os.path.isdir(plugin_path):
+        raise Exception("Cannot find the plugin: {}".format(plugin_path))
+
+    plugin_path = os.path.abspath(plugin_path)
+    plugin_dev = os.path.join(plugin_path, "dev")
+    plugin_config = os.path.join(plugin_dev, "config.json")
+
+    with open(plugin_config, "r") as f:
         config = json.load(f)
         settings = config["settings"]
         ui.settings["FoFin"] = settings
 
     # register callbacks
-    register_callback(FF_on_object_update)
+    # register_callback(FF_on_object_update)
 
 
 def FF_on_object_update(*args):

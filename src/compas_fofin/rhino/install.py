@@ -31,23 +31,17 @@ def installable_rhino_packages():
     return ["compas_fofin"]
 
 
-def plugin_devpath(name):
-    plugin = os.path.join(HERE, "ui", name)
-    if not os.path.isdir(plugin):
-        raise Exception("Cannot find the plugin: {}".format(plugin))
-
-    plugin_dir = os.path.abspath(plugin)
-    plugin_path, plugin_name = os.path.split(plugin_dir)
-    plugin_path = plugin_path or os.getcwd()
-    return os.path.join(plugin_dir, "dev")
-
-
 def install(version="7.0"):
-    name = "FoFin"
-    dev = plugin_devpath(name)
-    config = os.path.join(dev, "config.json")
+    plugin_name = "FoFin"
+    plugin_path = os.path.join(HERE, "ui", plugin_name)
+    if not os.path.isdir(plugin_path):
+        raise Exception("Cannot find the plugin: {}".format(plugin_path))
 
-    with open(config, "r") as f:
+    plugin_path = os.path.abspath(plugin_path)
+    plugin_dev = os.path.join(plugin_path, "dev")
+    plugin_config = os.path.join(plugin_dev, "config.json")
+
+    with open(plugin_config, "r") as f:
         config = json.load(f)
 
     packages = []
@@ -59,17 +53,17 @@ def install(version="7.0"):
                 packages.append(name)
 
     install_packages(version=version, packages=packages)
-    install_plugin(plugin)
+    install_plugin(plugin_path)
 
     if compas.WINDOWS:
-        ruipy = os.path.join(dev, "rui.py")
-        ruiname = "{}.rui".format(name)
+        plugin_ruipy = os.path.join(plugin_dev, "rui.py")
+        plugin_rui = "{}.rui".format(plugin_name)
         python_plugins_path = compas_rhino._get_rhino_pythonplugins_path(version)
 
-        call(sys.executable + " " + ruipy, shell=True)
+        call(sys.executable + " " + plugin_ruipy, shell=True)
         copyfile(
-            os.path.join(dev, ruiname),
-            os.path.join(python_plugins_path, "..", "..", "UI", ruiname),
+            os.path.join(plugin_dev, plugin_rui),
+            os.path.join(python_plugins_path, "..", "..", "UI", plugin_rui),
         )
 
 
