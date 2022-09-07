@@ -14,13 +14,14 @@ class CableMeshObject(MeshObject):
 
     SETTINGS = {
         "layer": "FF",
-        "show.vertices:free": False,  # is this relevant?
-        "show.vertices:is_anchor": True,  # is this relevant?
+        "show.vertices:free": False,
+        "show.vertices:is_anchor": True,
         "show.edges": True,
         "show.faces": False,
-        "show.faces:all": False,  # is this relevant?
+        "show.faces:all": False,
         "show.reactions": True,
         "show.loads": True,
+        "show.selfweight": True,
         "show.pipes:forcedensities": False,
         "show.pipes:forces": True,
         "show.constraints": True,
@@ -33,10 +34,13 @@ class CableMeshObject(MeshObject):
         "color.tension": Color.red(),
         "color.compression": Color.blue(),
         "color.reactions": Color.green().darkened(50),
-        "color.loads": Color.green().darkened(75),
-        "color.invalid": Color.grey(),
+        "color.loads": Color.green().darkened(50),
+        "color.selfweight": Color.white(),
+        "color.invalid": Color.grey().lightened(50),
         "color.pipes": Color.white().darkened(50),
-        "scale.externalforces": 0.300,
+        "scale.reactions": 0.300,
+        "scale.loads": 1.0,
+        "scale.selfweight": 1.0,
         "pipe_thickness.min": 0.0,
         "pipe_thickness.max": 10.0,
         "tol.externalforces": 1e-3,
