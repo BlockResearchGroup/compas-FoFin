@@ -2,28 +2,50 @@
     "icons": {
         "bitmap": "assets/FF_ui.png",
         "images": [
+
+
+            "0_init",
+
+            "1_load",
+            "2_save",
+
+            "3_undo",
+            "4_redo",
+
             "5_make_cablemesh",
+
             "6_define_anchors",
+
             "7_solve_fd",
+
             "8_node_move",
             "9_node_constraints",
             "10_node_modify",
+
             "11_edge_scale_q",
             "12_edge_attributes",
-            "13_settings"
+
+            "13_settings",
+            "14_redraw",
+            "15_clear",
+
+            "16_cloud_check",
+            "17_cloud_restart",
+            "18_cloud_shutdown"
+
         ]
     },
     "commands": [
         {
             "name": "FF_cablemesh_anchors",
             "menu_text": "Identify Anchors",
-            "icon": 1,
+            "icon": 6,
             "tooltip": "Identify Anchors"
         },
         {
             "name": "FF_cablemesh_constrain_nodes",
             "menu_text": "Node Constraints",
-            "icon": 4,
+            "icon": 9,
             "tooltip": "Set Node Constraints"
         },
         {
@@ -45,13 +67,13 @@
         {
             "name": "FF_cablemesh_modify_edges",
             "menu_text": "Edge Attributes",
-            "icon": 7,
+            "icon": 12,
             "tooltip": "Modify Edge Attributes"
         },
         {
             "name": "FF_cablemesh_modify_nodes",
             "menu_text": "Modify Nodes Attributes",
-            "icon": 5,
+            "icon": 10,
             "tooltip": "Modify Node Attributes"
         },
         {
@@ -62,19 +84,19 @@
         {
             "name": "FF_cablemesh_move_nodes",
             "menu_text": "Move Nodes",
-            "icon": 3,
+            "icon": 8,
             "tooltip": "Move Nodes"
         },
         {
             "name": "FF_cablemesh_scale_q",
             "menu_text": "Scale Force Densities",
-            "icon": 6,
+            "icon": 11,
             "tooltip": "Scale Force Densities"
         },
         {
             "name": "FF_cablemesh_solve_fd",
             "menu_text": "Force Density Method",
-            "icon": 2,
+            "icon": 7,
             "tooltip": "Force Density Method"
         },
         {
@@ -90,6 +112,7 @@
         {
             "name": "FF_toolbar_cablemesh_create",
             "menu_text": "Create CableMesh",
+            "icon": 5,
             "tooltip": "Create CableMesh"
         }
     ],
