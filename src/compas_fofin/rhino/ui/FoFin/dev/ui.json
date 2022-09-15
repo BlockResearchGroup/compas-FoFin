@@ -3,35 +3,25 @@
         "bitmap": "assets/FF_ui.png",
         "images": [
 
+            "0_make_cablemesh",
 
-            "0_init",
+            "1_define_anchors",
 
-            "1_load",
-            "2_save",
+            "2_solve_fd",
 
-            "3_undo",
-            "4_redo",
+            "3_node_move",
 
-            "5_make_cablemesh",
+            "4_node_constraints",
 
-            "6_define_anchors",
+            "5_update_constraints",
 
-            "7_solve_fd",
+            "6_node_attributes",
 
-            "8_node_move",
-            "9_node_constraints",
-            "10_node_modify",
+            "7_edge_scale_q",
 
-            "11_edge_scale_q",
-            "12_edge_attributes",
+            "8_edge_delete",
 
-            "13_settings",
-            "14_redraw",
-            "15_clear",
-
-            "16_cloud_check",
-            "17_cloud_restart",
-            "18_cloud_shutdown"
+            "9_edge_attributes"
 
         ]
     },
@@ -39,13 +29,13 @@
         {
             "name": "FF_cablemesh_anchors",
             "menu_text": "Identify Anchors",
-            "icon": 6,
+            "icon": 1,
             "tooltip": "Identify Anchors"
         },
         {
             "name": "FF_cablemesh_constrain_nodes",
             "menu_text": "Node Constraints",
-            "icon": 9,
+            "icon": 4,
             "tooltip": "Set Node Constraints"
         },
         {
@@ -67,13 +57,13 @@
         {
             "name": "FF_cablemesh_modify_edges",
             "menu_text": "Edge Attributes",
-            "icon": 12,
+            "icon": 9,
             "tooltip": "Modify Edge Attributes"
         },
         {
             "name": "FF_cablemesh_modify_nodes",
             "menu_text": "Modify Nodes Attributes",
-            "icon": 10,
+            "icon": 6,
             "tooltip": "Modify Node Attributes"
         },
         {
@@ -84,36 +74,43 @@
         {
             "name": "FF_cablemesh_move_nodes",
             "menu_text": "Move Nodes",
-            "icon": 8,
+            "icon": 3,
             "tooltip": "Move Nodes"
         },
         {
             "name": "FF_cablemesh_scale_q",
             "menu_text": "Scale Force Densities",
-            "icon": 11,
+            "icon": 7,
             "tooltip": "Scale Force Densities"
         },
         {
             "name": "FF_cablemesh_solve_fd",
             "menu_text": "Force Density Method",
-            "icon": 7,
+            "icon": 2,
             "tooltip": "Force Density Method"
         },
         {
-            "name": "FF_cablemesh_uncnostrain nodes",
+            "name": "FF_cablemesh_unconstrain_nodes",
             "menu_text": "Unconstrain Nodes",
             "tooltip": "Unconstrain Nodes"
         },
         {
             "name": "FF_cablemesh_update_constraints",
             "menu_text": "Update Constraints",
+            "icon": 5,
             "tooltip": "Update Constraints"
         },
         {
             "name": "FF_toolbar_cablemesh_create",
             "menu_text": "Create CableMesh",
-            "icon": 5,
+            "icon": 0,
             "tooltip": "Create CableMesh"
+        },
+        {
+            "name": "FF_cablemesh_edges_delete",
+            "menu_text": "Remove edges",
+            "icon": 8,
+            "tooltip": "Remove edges"
         }
     ],
     "menus": [
@@ -162,6 +159,9 @@
                             "command": "FF_cablemesh_constrain_nodes"
                         },
                         {
+                            "command": "FF_cablemesh_update_constraints"
+                        },
+                        {
                             "command": "FF_cablemesh_modify_nodes"
                         }
                     ]
@@ -174,6 +174,9 @@
                     "items": [
                         {
                             "command": "FF_cablemesh_scale_q"
+                        },
+                        {
+                            "command": "FF_cablemesh_edges_delete"
                         },
                         {
                             "command": "FF_cablemesh_modify_edges"
@@ -212,6 +215,9 @@
                     "left": "FF_cablemesh_constrain_nodes"
                 },
                 {
+                    "left": "FF_cablemesh_update_constraints"
+                },
+                {
                     "left": "FF_cablemesh_modify_nodes"
                 },
                 {
@@ -219,6 +225,9 @@
                 },
                 {
                     "left": "FF_cablemesh_scale_q"
+                },
+                {
+                    "left": "FF_cablemesh_edges_delete"
                 },
                 {
                     "left": "FF_cablemesh_modify_edges"
