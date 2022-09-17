@@ -14,27 +14,30 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    result = ui.scene.get(name="CableMesh")
-    if not result:
-        raise Exception("There is no cablemesh in the scene.")
+    cablemesh = ui.scene.active_object
 
-    cablemesh = result[0]
-    mesh = cablemesh.mesh
+    cablemesh.settings["show.edges"] = True
+    ui.scene.update()
 
     edges = ui.controller.mesh_select_edges(cablemesh)
 
     if edges:
         fkeys = set()
         for (u, v) in edges:
-            fkeys.update(mesh.edge_faces(u, v))
+            fkeys.update(cablemesh.mesh.edge_faces(u, v))
         for fkey in fkeys:
             if fkey:
-                mesh.delete_face(fkey)
+                cablemesh.mesh.delete_face(fkey)
 
-        mesh.remove_unused_vertices()
+        cablemesh.mesh.remove_unused_vertices()
         cablemesh.is_valid = False
         ui.scene.update()
         ui.record()
+
+    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
+
+    ui.scene.update()
+    ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

@@ -22,6 +22,8 @@ def RunCommand(is_interactive):
     cablemesh.update_constraints()
     cablemesh.update_equilibrium(ui)
 
+    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
+
     ui.scene.update()
     ui.record()
 

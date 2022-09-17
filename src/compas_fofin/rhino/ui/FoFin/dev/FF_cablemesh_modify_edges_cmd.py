@@ -17,12 +17,17 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
+    cablemesh.settings["show.edges"] = True
+    ui.scene.update()
+
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
     edges = ui.controller.mesh_select_edges(cablemesh)
 
+
     if edges:
+
         public = [
             name
             for name in cablemesh.mesh.default_edge_attributes.keys()
@@ -30,8 +35,12 @@ def RunCommand(is_interactive):
         ]
         if cablemesh.modify_edges(edges, names=public):
             cablemesh.is_valid = False
-            ui.scene.update()
-            ui.record()
+
+
+    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
+
+    ui.scene.update()
+    ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

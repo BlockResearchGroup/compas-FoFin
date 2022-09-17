@@ -18,6 +18,9 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
+    cablemesh.settings["show.edges"] = True
+    ui.scene.update()
+
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
@@ -113,6 +116,8 @@ def RunCommand(is_interactive):
 
     else:
         cablemesh.is_valid = False
+
+    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
 
     ui.scene.update()
     ui.record()
