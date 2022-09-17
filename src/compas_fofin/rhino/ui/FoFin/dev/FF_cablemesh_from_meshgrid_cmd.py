@@ -14,24 +14,6 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    dx = ui.get_real(
-        "Dimension in the X direction?",
-        minval=1,
-        maxval=100,
-        default=10,
-    )
-    if not dx:
-        return
-
-    dy = ui.get_real(
-        "Dimension in the Y direction?",
-        minval=1,
-        maxval=100,
-        default=dx,
-    )
-    if not dy:
-        return
-
     nx = ui.get_integer(
         "Number of faces in the X direction?",
         minval=1,
@@ -48,6 +30,24 @@ def RunCommand(is_interactive):
         default=nx,
     )
     if not ny:
+        return
+
+    dx = ui.get_real(
+        "Dimension in the X direction?",
+        minval=1,
+        maxval=100,
+        default=10,
+    )
+    if not dx:
+        return
+
+    dy = ui.get_real(
+        "Dimension in the Y direction?",
+        minval=1,
+        maxval=100,
+        default=dx,
+    )
+    if not dy:
         return
 
     mesh = CableMesh.from_meshgrid(dx=dx, nx=nx, dy=dy, ny=ny)
