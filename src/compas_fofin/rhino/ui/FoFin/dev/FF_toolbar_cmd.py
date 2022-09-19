@@ -27,7 +27,7 @@ def RunCommand(is_interactive):
         },
         {
             "command": "FF_cablemesh_solve_fd",
-            "icon": os.path.join(HERE, "assets", "FF_solve_fd.png"),
+            "icon": os.path.join(HERE, "assets", "FF_cablemesh_solve_fd.png"),
         },
         {
             "command": "FF_cablemesh_move_nodes",
