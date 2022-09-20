@@ -22,6 +22,9 @@ def RunCommand(is_interactive):
 
     cablemesh.settings["show.vertices:anchors"] = True
     cablemesh.settings["show.vertices:free"] = True
+
+    cablemesh.is_valid = False
+
     ui.scene.update()
 
     nodes = ui.controller.mesh_select_vertices(cablemesh)
@@ -32,13 +35,13 @@ def RunCommand(is_interactive):
             for name in cablemesh.mesh.default_vertex_attributes.keys()
             if not name.startswith("_")
         ]
-        if cablemesh.modify_vertices(nodes, names=public):
-            cablemesh.is_valid = False
-            ui.record()
+        cablemesh.modify_vertices(nodes, names=public)
 
     cablemesh.settings["show.vertices:anchors"] = True
     cablemesh.settings["show.vertices:free"] = False
+
     ui.scene.update()
+    ui.record()
 
     compas_rhino.rs.UnselectAllObjects()
 

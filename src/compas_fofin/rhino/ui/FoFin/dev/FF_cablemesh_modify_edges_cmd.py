@@ -17,14 +17,13 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
-    cablemesh.settings["show.edges"] = True
-    ui.scene.update()
-
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
-    edges = ui.controller.mesh_select_edges(cablemesh)
+    cablemesh.is_valid = False
+    ui.scene.update()
 
+    edges = ui.controller.mesh_select_edges(cablemesh)
 
     if edges:
 
@@ -33,11 +32,7 @@ def RunCommand(is_interactive):
             for name in cablemesh.mesh.default_edge_attributes.keys()
             if not name.startswith("_")
         ]
-        if cablemesh.modify_edges(edges, names=public):
-            cablemesh.is_valid = False
-
-
-    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
+        cablemesh.modify_edges(edges, names=public)
 
     ui.scene.update()
     ui.record()

@@ -4,6 +4,7 @@ from __future__ import division
 
 import compas_rhino
 from compas_ui.ui import UI
+from compas_fofin.objects import CableMeshObject
 
 
 __commandname__ = "FF_cablemesh_edges_delete"
@@ -16,7 +17,10 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
-    cablemesh.settings["show.edges"] = True
+    if not isinstance(cablemesh, CableMeshObject):
+        raise Exception("The active object is not a CableMesh.")
+
+    cablemesh.is_valid = False
     ui.scene.update()
 
     edges = ui.controller.mesh_select_edges(cablemesh)
@@ -30,11 +34,8 @@ def RunCommand(is_interactive):
                 cablemesh.mesh.delete_face(fkey)
 
         cablemesh.mesh.remove_unused_vertices()
-        cablemesh.is_valid = False
         ui.scene.update()
         ui.record()
-
-    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
 
     ui.scene.update()
     ui.record()

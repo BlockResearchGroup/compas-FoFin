@@ -37,6 +37,8 @@ def RunCommand(is_interactive):
     is_anchor = option == "Select"
     cablemesh.settings["show.vertices:free"] = option == "Select"
 
+    cablemesh.is_valid = False
+
     while True:
         compas_rhino.rs.UnselectAllObjects()
         ui.scene.update()
@@ -45,7 +47,6 @@ def RunCommand(is_interactive):
         if not nodes:
             break
 
-        cablemesh.is_valid = False
         mesh.vertices_attribute("is_anchor", is_anchor, keys=nodes)
         if not is_anchor:
             for node in nodes:
