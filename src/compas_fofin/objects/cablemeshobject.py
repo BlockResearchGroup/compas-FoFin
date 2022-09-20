@@ -36,7 +36,7 @@ class CableMeshObject(MeshObject):
         "color.reactions": Color.green().darkened(50),
         "color.loads": Color.green().darkened(50),
         "color.selfweight": Color.white(),
-        "color.invalid": Color.grey().lightened(50),
+        "color.invalid": Color.black(),
         "color.pipes": Color.white().darkened(50),
         "scale.reactions": 0.300,
         "scale.loads": 1.0,
@@ -70,3 +70,4 @@ class CableMeshObject(MeshObject):
     @is_valid.setter
     def is_valid(self, value):
         self._is_valid = value
+        self.settings["show.edges"] = False if self._is_valid else True
