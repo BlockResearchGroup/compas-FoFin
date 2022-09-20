@@ -117,8 +117,6 @@ def RunCommand(is_interactive):
     else:
         cablemesh.is_valid = False
 
-    cablemesh.settings["show.edges"] = cablemesh.is_valid != True
-
     ui.scene.update()
     ui.record()
 
