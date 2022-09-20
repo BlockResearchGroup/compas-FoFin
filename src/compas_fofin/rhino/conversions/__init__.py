@@ -4,6 +4,4 @@ from __future__ import division
 
 from .curves import curveobject_to_compas
 
-__all__ = [
-    'curveobject_to_compas'
-]
+__all__ = ["curveobject_to_compas"]

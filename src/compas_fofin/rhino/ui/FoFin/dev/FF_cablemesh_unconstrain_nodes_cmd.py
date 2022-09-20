@@ -25,7 +25,7 @@ def RunCommand(is_interactive):
     if nodes:
         for node in nodes:
             cablemesh.mesh.unset_vertex_attribute(node, "constraint")
-        
+
         cablemesh.is_valid = False
         ui.scene.update()
         ui.record()
