@@ -69,6 +69,7 @@ def install(version="7.0"):
             os.path.join(python_plugins_path, "..", "..", "UI", plugin_rui),
         )
 
+
 def main(plugin_name, version):
     print("="*20, "Checking Folders", "="*20)
     if not check_folders(plugin_name, version):
