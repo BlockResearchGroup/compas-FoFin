@@ -10,6 +10,9 @@ import compas_rhino
 from compas_rhino.install import install as install_packages
 from compas_rhino.install import _filter_installable_packages
 from compas_rhino.install_plugin import install_plugin
+from compas_ui.rhino.install import check_folders
+from compas_ui.rhino.install import check_dependencies
+from compas_ui.rhino.install import install as install_ui
 
 
 HERE = os.path.dirname(__file__)
@@ -66,6 +69,23 @@ def install(version="7.0"):
             os.path.join(python_plugins_path, "..", "..", "UI", plugin_rui),
         )
 
+def main(plugin_name, version):
+    print("="*20, "Checking Folders", "="*20)
+    if not check_folders(plugin_name, version):
+        return
+
+    print("="*20, "Checking Dependencies", "="*20)
+    if not check_dependencies(os.path.join(HERE, "..", "..", "..", "requirements.txt")):
+        return
+
+    print("="*20, "Running COMPAS UI Installation", "="*20)
+    install_ui(version)
+
+    print("="*20, "Running COMPAS FoFin Installation", "="*20)
+    install(version)
+
+    print("="*20, "Installation Completed", "="*20)
+
 
 if __name__ == "__main__":
     import argparse
@@ -81,4 +101,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    install(version=args.version)
+    main("FoFin", args.version)
