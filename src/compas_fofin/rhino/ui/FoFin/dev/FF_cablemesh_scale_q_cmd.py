@@ -18,9 +18,6 @@ def RunCommand(is_interactive):
 
     cablemesh = ui.scene.active_object
 
-    cablemesh.settings["show.edges"] = True
-    ui.scene.update()
-
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
@@ -28,6 +25,9 @@ def RunCommand(is_interactive):
     mode = ui.get_string(message="Scaling mode?", options=options)
     if not mode:
         return
+
+    cablemesh.is_valid = False
+    ui.scene.update()
 
     selected = ui.controller.mesh_select_edges(cablemesh)
     if not selected:
@@ -41,13 +41,10 @@ def RunCommand(is_interactive):
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
 
     if mode == "Value":
+
         scale = ui.get_real("Scaling factor?", minval=-1e2, maxval=+1e2, default=1.0)
 
     elif mode == "Interactive":
-        # start the dynamic scaling process
-
-        cablemesh.is_valid = False
-        ui.scene.update()
 
         gp = Rhino.Input.Custom.GetPoint()
         gp.SetCommandPrompt("Base point for scaling.")
@@ -79,6 +76,7 @@ def RunCommand(is_interactive):
 
             sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
             scale = sign * l2 / l1
+            print(scale)
 
             for edge, q in zip(selected, Q):
                 cablemesh.mesh.edge_attribute(edge, "q", q * scale)
@@ -99,7 +97,9 @@ def RunCommand(is_interactive):
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:
-            return False
+            for edge, q in zip(selected, Q):
+                cablemesh.mesh.edge_attribute(edge, "q", q)
+            cablemesh.update_equilibrium(ui)
 
         r2 = gp.Point()
         v2 = r2 - o
@@ -107,15 +107,14 @@ def RunCommand(is_interactive):
 
         sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
         scale = sign * l2 / l1
+        print(scale)
 
-    if scale is not None:
+    if scale is None:
+        cablemesh.is_valid = False
+    else:
         for edge, q in zip(selected, Q):
             cablemesh.mesh.edge_attribute(edge, "q", q * scale)
-
         cablemesh.update_equilibrium(ui)
-
-    else:
-        cablemesh.is_valid = False
 
     ui.scene.update()
     ui.record()
