@@ -20,4 +20,4 @@ exclude CONTRIBUTING.md
 exclude .gitpod.yml
 
 
-global-exclude *.py[cod] __pycache__ *.dylib *.nb[ic] .DS_Store *.rui
+global-exclude *.py[cod] __pycache__ *.dylib *.nb[ic] .DS_Store *.rui *.ui
