@@ -35,7 +35,7 @@ def RunCommand(is_interactive):
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_move_nodes.png"),
         },
         {
-            "command": "FF_cablemesh_constrain_nodes",
+            "command": "FF_cablemesh_constraints",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_constrain_nodes.png"),
         },
         {
