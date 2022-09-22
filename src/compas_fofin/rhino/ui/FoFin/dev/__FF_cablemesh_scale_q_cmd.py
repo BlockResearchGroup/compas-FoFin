@@ -94,7 +94,6 @@ def RunCommand(is_interactive):
 
             xyz = fd_call(scale)
             cablemesh.conduit_edges.xyz = xyz
-            cablemesh.conduit_edges.redraw()
 
         gp.SetCommandPrompt("Reference point 2.")
         gp.SetBasePoint(o, False)

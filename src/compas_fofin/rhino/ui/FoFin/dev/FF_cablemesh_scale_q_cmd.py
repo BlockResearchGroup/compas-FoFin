@@ -85,7 +85,7 @@ def RunCommand(is_interactive):
             # cached: anchors, edges, loads
             # sent: q
             # received: xyz
-            cablemesh.update_equilibrium(ui)
+            cablemesh.update_equilibrium(ui, kmax=10)
             cablemesh._draw_force_overlays()
             cablemesh._draw_reaction_overlays()
 

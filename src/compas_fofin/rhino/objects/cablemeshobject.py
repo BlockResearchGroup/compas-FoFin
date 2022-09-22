@@ -232,7 +232,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             # update the vertex
             self.update_constraint(vertex, constraint, obj)
 
-    def update_equilibrium(self, ui):
+    def update_equilibrium(self, ui, kmax=None):
         """
         Update the equilibrium of the cablemesh.
 
@@ -242,10 +242,11 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         """
         fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
+        kmax = kmax or ui.registry["FoFin"]["solver"]["kmax"]
 
         result = fd(
             self.mesh,
-            kmax=ui.registry["FoFin"]["solver"]["kmax"],
+            kmax=kmax,
             damping=ui.registry["FoFin"]["solver"]["damping"],
             tol_res=ui.registry["FoFin"]["solver"]["tol"]["residuals"],
             tol_disp=ui.registry["FoFin"]["solver"]["tol"]["displacements"],
