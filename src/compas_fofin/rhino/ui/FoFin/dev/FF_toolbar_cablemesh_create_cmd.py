@@ -19,7 +19,7 @@ __commandname__ = 'FF_toolbar_cablemesh_create'
 def RunCommand(is_interactive):
 
     options = ["FromMeshgrid", 'FromMesh', "FromBox", "FromCylinder"]
-    option = compas_rhino.rs.GetString("Create Cablemesh:", strings=options)
+    option = compas_rhino.rs.GetString("Create Cablemesh", strings=options)
 
     if not option:
         return
