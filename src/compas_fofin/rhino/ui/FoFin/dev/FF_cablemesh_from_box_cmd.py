@@ -16,11 +16,11 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    guid = compas_rhino.select_object("Select a box.")
+    guid = compas_rhino.select_object("Select a box")
     if not guid:
         return
 
-    k = ui.get_integer("Resolution?", minval=1, maxval=6, default=2)
+    k = ui.get_integer("Resolution", minval=1, maxval=6, default=2)
     if not k:
         return
 

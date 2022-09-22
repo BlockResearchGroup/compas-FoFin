@@ -17,12 +17,12 @@ def RunCommand(is_interactive):
 
     ui = UI()
 
-    guid = compas_rhino.select_object("Select a cylinder.")
+    guid = compas_rhino.select_object("Select a cylinder")
     if not guid:
         return
 
     U = ui.get_integer(
-        "Number of faces along perimeter?",
+        "Number of faces along perimeter",
         minval=4,
         maxval=64,
         default=16,
@@ -31,7 +31,7 @@ def RunCommand(is_interactive):
         return
 
     V = ui.get_integer(
-        "Number of faces along height?",
+        "Number of faces along height",
         minval=2,
         maxval=32,
         default=4,

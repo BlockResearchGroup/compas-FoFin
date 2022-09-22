@@ -15,7 +15,7 @@ def RunCommand(is_interactive):
     ui = UI()
 
     nx = ui.get_integer(
-        "Number of faces in the X direction?",
+        "Number of faces in the X direction",
         minval=1,
         maxval=1000,
         default=10,
@@ -24,7 +24,7 @@ def RunCommand(is_interactive):
         return
 
     ny = ui.get_integer(
-        "Number of faces in the Y direction?",
+        "Number of faces in the Y direction",
         minval=1,
         maxval=1000,
         default=nx,
@@ -33,7 +33,7 @@ def RunCommand(is_interactive):
         return
 
     dx = ui.get_real(
-        "Dimension in the X direction?",
+        "Dimension in the X direction",
         minval=1,
         maxval=100,
         default=10,
@@ -42,7 +42,7 @@ def RunCommand(is_interactive):
         return
 
     dy = ui.get_real(
-        "Dimension in the Y direction?",
+        "Dimension in the Y direction",
         minval=1,
         maxval=100,
         default=dx,

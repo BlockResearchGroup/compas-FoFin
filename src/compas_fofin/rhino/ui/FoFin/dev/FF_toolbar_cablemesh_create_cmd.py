@@ -12,13 +12,13 @@ import FF_cablemesh_from_box_cmd
 import FF_cablemesh_from_cylinder_cmd
 
 
-__commandname__ = 'FF_toolbar_cablemesh_create'
+__commandname__ = "FF_toolbar_cablemesh_create"
 
 
 @UI.error()
 def RunCommand(is_interactive):
 
-    options = ["FromMeshgrid", 'FromMesh', "FromBox", "FromCylinder"]
+    options = ["FromMeshgrid", "FromMesh", "FromBox", "FromCylinder"]
     option = compas_rhino.rs.GetString("Create Cablemesh", strings=options)
 
     if not option:
@@ -37,5 +37,5 @@ def RunCommand(is_interactive):
         FF_cablemesh_from_cylinder_cmd.RunCommand(True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)
