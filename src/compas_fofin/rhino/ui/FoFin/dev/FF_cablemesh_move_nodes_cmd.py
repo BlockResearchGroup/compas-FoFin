@@ -20,6 +20,9 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
+    cablemesh.is_valid = False
+    ui.scene.update()
+
     nodes = ui.controller.mesh_select_vertices(cablemesh)
     if not nodes:
         return
@@ -35,8 +38,6 @@ def RunCommand(is_interactive):
         result = cablemesh.move_vertices_direction(nodes, direction=direction)
 
     if result:
-        cablemesh.is_valid = False
-
         ui.scene.update()
         ui.record()
 
