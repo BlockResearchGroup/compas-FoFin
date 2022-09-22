@@ -8,7 +8,7 @@ from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = "FF_cablemesh_modify_edges"
+__commandname__ = "FF_cablemesh_scale_q"
 
 
 @UI.error()
