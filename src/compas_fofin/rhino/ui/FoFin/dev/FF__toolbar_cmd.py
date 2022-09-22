@@ -29,6 +29,7 @@ def RunCommand(is_interactive):
             "command": "FF_cablemesh_solve_fd",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_solve_fd.png"),
         },
+        {"type": "separator"},
         {
             "command": "FF_cablemesh_move_nodes",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_move_nodes.png"),
@@ -45,6 +46,7 @@ def RunCommand(is_interactive):
             "command": "FF_cablemesh_scale_q",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_scale_q.png"),
         },
+        {"type": "separator"},
         {
             "command": "FF_cablemesh_modify_nodes",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_modify_nodes.png"),
@@ -53,6 +55,7 @@ def RunCommand(is_interactive):
             "command": "FF_cablemesh_modify_edges",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_modify_edges.png"),
         },
+        {"type": "separator"},
         {
             "command": "FF_cablemesh_edges_delete",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_edges_delete.png"),
