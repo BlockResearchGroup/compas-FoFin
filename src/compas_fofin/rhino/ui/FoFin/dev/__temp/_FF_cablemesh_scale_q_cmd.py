@@ -106,11 +106,11 @@ def RunCommand(is_interactive):
             print(scale)
 
             result = fd_cached_proxy(cached_mesh, scale, selected, cached_Q,
-                            kmax,
-                            ui.registry["FoFin"]["solver"]["damping"],
-                            ui.registry["FoFin"]["solver"]["tol"]["residuals"],
-                            ui.registry["FoFin"]["solver"]["tol"]["displacements"],
-                            )
+                                     kmax,
+                                     ui.registry["FoFin"]["solver"]["damping"],
+                                     ui.registry["FoFin"]["solver"]["tol"]["residuals"],
+                                     ui.registry["FoFin"]["solver"]["tol"]["displacements"],
+                                     )
 
             if not result:
                 print("Force-density method equilibrium failed!")
