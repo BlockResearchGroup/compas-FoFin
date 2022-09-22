@@ -178,3 +178,28 @@ class PipeConduit(BaseConduit):
             e.Display.DrawLine(
                 Point3d(*sp), Point3d(*ep), Color.FromArgb(*self.color[edge]), thickness
             )
+
+
+class EdgeConduit(BaseConduit):
+    """Display conduit for CableMesh edges as lines.
+
+    Parameters
+    ----------
+    xyz : list of list of float
+        The vertex coordinates.
+    edges : list of tuple of int
+        List of pairs of indices into the list of vertex coordinates.
+
+    """
+
+    def __init__(self, xyz, edges, **kwargs):
+        super(EdgeConduit, self).__init__(**kwargs)
+        self.xyz = xyz
+        self.edges = edges
+
+    def PostDrawObjects(self, e):
+        color = Color.Black
+        for i, j in self.edges:
+            sp = self.xyz[i]
+            ep = self.xyz[j]
+            e.Display.DrawLine(Point3d(*sp), Point3d(*ep), color)

@@ -6,6 +6,7 @@ from .cablemeshconduit import ReactionConduit
 from .cablemeshconduit import LoadConduit
 from .cablemeshconduit import SelfweightConduit
 from .cablemeshconduit import PipeConduit
+from .cablemeshconduit import EdgeConduit
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     'LoadConduit',
     'SelfweightConduit',
     'PipeConduit',
+    'EdgeConduit',
 ]
