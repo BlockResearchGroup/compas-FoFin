@@ -4,7 +4,7 @@ from __future__ import division
 
 from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
-
+import Eto.Forms
 
 __commandname__ = "FF_cablemesh_solve_fd"
 
@@ -18,6 +18,11 @@ def RunCommand(is_interactive):
 
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
+
+    anchors = list(cablemesh.mesh.vertices_where(is_anchor=True))
+    if not anchors:
+        Eto.Forms.MessageBox.Show("No anchors chosen.")
+        return
 
     cablemesh.update_constraints()
     cablemesh.update_equilibrium(ui)
