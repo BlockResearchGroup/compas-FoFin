@@ -17,6 +17,7 @@ from compas_fofin.rhino.conduits import ReactionConduit
 from compas_fofin.rhino.conduits import LoadConduit
 from compas_fofin.rhino.conduits import SelfweightConduit
 from compas_fofin.rhino.conduits import PipeConduit
+from compas_fofin.rhino.conduits import EdgeConduit
 from compas_fofin.rhino.conversions import curveobject_to_compas
 
 RED = ColorMap.from_two_colors(Color.white(), Color.red())
@@ -56,6 +57,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self._conduit_selfweight = None
         self._conduit_pipes_f = None
         self._conduit_pipes_q = None
+        self._conduit_edges = None
 
     @property
     def group_free(self):
@@ -157,6 +159,16 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
             self._conduit_pipes_q = PipeConduit(xyz={}, edges=[], values={}, color={})
         return self._conduit_pipes_q
 
+    @property
+    def conduit_edges(self):
+        if not self._conduit_edges:
+            vertex_index = self.mesh.key_index()
+            edges = self.mesh.edges_where(_is_edge=True)
+            edges = [(vertex_index[u], vertex_index[v]) for u, v in edges]
+            xyz = self.mesh.vertices_attributes("xyz")
+            self._conduit_edges = EdgeConduit(xyz, edges)
+        return self._conduit_edges
+
     # ======================================================================
     # Methods
     # ======================================================================
@@ -252,10 +264,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     # Clear
     # ======================================================================
 
-    # ======================================================================
-    # Clear
-    # ======================================================================
-
     def clear_conduits(self):
         try:
             self.conduit_reactions.disable()
@@ -296,6 +304,14 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         finally:
             del self._conduit_pipes_q
             self._conduit_pipes_q = None
+
+        try:
+            self.conduit_edges.disable()
+        except Exception:
+            pass
+        finally:
+            del self._conduit_edges
+            self._conduit_edges = None
 
     def clear(self):
         super(CableMeshObject, self).clear()
@@ -583,6 +599,9 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
                     self.conduit_pipes_q.disable()
                 except Exception as e:
                     print(e)
+
+    def _draw_edges_overlays(self, xyz):
+        self.conduit_edges.xyz = xyz
 
     # ======================================================================
     # Constraints
