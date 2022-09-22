@@ -30,7 +30,7 @@ def RunCommand(is_interactive):
         mesh.vertices_attribute("is_anchor", True, keys=vertices)
 
     options = ["Select", "Unselect"]
-    option = ui.get_string("Select/Unselect anchors.", options=options)
+    option = ui.get_string("Select/Unselect anchors", options=options)
     if not option:
         return
 

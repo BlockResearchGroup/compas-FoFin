@@ -25,7 +25,7 @@ def RunCommand(is_interactive):
         return
 
     options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    direction = ui.get_string(message="Direction.", options=options)
+    direction = ui.get_string(message="Direction", options=options)
     if not direction:
         return
 

@@ -21,7 +21,7 @@ def RunCommand(is_interactive):
 
     anchors = list(cablemesh.mesh.vertices_where(is_anchor=True))
     if not anchors:
-        Eto.Forms.MessageBox.Show("No anchors chosen.")
+        Eto.Forms.MessageBox.Show("The structure has no anchors.")
         return
 
     cablemesh.update_constraints()

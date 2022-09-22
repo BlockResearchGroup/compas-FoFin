@@ -22,7 +22,7 @@ def RunCommand(is_interactive):
         raise Exception("The active object is not a CableMesh.")
 
     options = ["Value", "Interactive"]
-    mode = ui.get_string(message="Scaling mode?", options=options)
+    mode = ui.get_string(message="Scaling mode", options=options)
     if not mode:
         return
 
@@ -42,7 +42,7 @@ def RunCommand(is_interactive):
 
     if mode == "Value":
 
-        scale = ui.get_real("Scaling factor?", minval=-1e2, maxval=+1e2, default=1.0)
+        scale = ui.get_real("Scaling factor", minval=-1e2, maxval=+1e2, default=1.0)
 
     elif mode == "Interactive":
 
@@ -65,7 +65,7 @@ def RunCommand(is_interactive):
         cablemesh.conduit_edges.enable()
 
         gp = Rhino.Input.Custom.GetPoint()
-        gp.SetCommandPrompt("Base point for scaling.")
+        gp.SetCommandPrompt("Base point for scaling")
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:
@@ -73,7 +73,7 @@ def RunCommand(is_interactive):
 
         o = gp.Point()
 
-        gp.SetCommandPrompt("Reference point 1.")
+        gp.SetCommandPrompt("Reference point 1")
         gp.SetBasePoint(o, False)
         gp.DrawLineFromPoint(o, True)
 
@@ -97,7 +97,7 @@ def RunCommand(is_interactive):
             cablemesh.conduit_edges.xyz = xyz
             cablemesh.conduit_edges.redraw()
 
-        gp.SetCommandPrompt("Reference point 2.")
+        gp.SetCommandPrompt("Reference point 2")
         gp.SetBasePoint(o, False)
         gp.DrawLineFromPoint(o, True)
         gp.Constrain(Rhino.Geometry.Line(o, r1))
