@@ -11,6 +11,27 @@ from compas_fofin.objects import CableMeshObject
 __commandname__ = "FF_cablemesh_modify_edges"
 
 
+def fd_cached(mesh, scale, selected, Q, kmax, damping, tol_res, tol_disp):
+    for edge, q in zip(selected, Q):
+        mesh.edge_attribute(edge, "q", q * scale)
+
+    from compas_fd.fd import mesh_fd_constrained_numpy as fd
+
+    result = fd(
+        mesh,
+        kmax=kmax,
+        damping=damping,
+        tol_res=tol_res,
+        tol_disp=tol_disp,
+    )
+
+    if not result:
+        return False
+    else:
+        mesh.data = result.data
+        return mesh
+
+
 @UI.error()
 def RunCommand(is_interactive):
 
@@ -20,6 +41,9 @@ def RunCommand(is_interactive):
 
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
+
+    fd_cached_proxy = ui.proxy.function(fd_cached)
+    cached_mesh = ui.proxy.cache(cablemesh.mesh)
 
     options = ["Value", "Interactive"]
     mode = ui.get_string(message="Scaling mode?", options=options)
@@ -39,6 +63,9 @@ def RunCommand(is_interactive):
     # and new (free) vertex locations should be received
 
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
+    cached_Q = ui.proxy.cache(Q)
+
+    kmax = 10
 
     if mode == "Value":
 
@@ -78,14 +105,19 @@ def RunCommand(is_interactive):
             scale = sign * l2 / l1
             print(scale)
 
-            for edge, q in zip(selected, Q):
-                cablemesh.mesh.edge_attribute(edge, "q", q * scale)
+            result = fd_cached_proxy(cached_mesh, scale, selected, cached_Q,
+                            kmax,
+                            ui.registry["FoFin"]["solver"]["damping"],
+                            ui.registry["FoFin"]["solver"]["tol"]["residuals"],
+                            ui.registry["FoFin"]["solver"]["tol"]["displacements"],
+                            )
 
-            # replace this by a call with cached values
-            # cached: anchors, edges, loads
-            # sent: q
-            # received: xyz
-            cablemesh.update_equilibrium(ui, kmax=10)
+            if not result:
+                print("Force-density method equilibrium failed!")
+                return False
+
+            cablemesh.mesh.data = result.data
+            cablemesh.is_valid = True
             cablemesh._draw_force_overlays()
             cablemesh._draw_reaction_overlays()
 

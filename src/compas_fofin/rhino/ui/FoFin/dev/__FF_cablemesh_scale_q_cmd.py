@@ -46,11 +46,11 @@ def RunCommand(is_interactive):
 
     elif mode == "Interactive":
 
-        fd_create = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_create")
+        fd_create = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_create", cache=True)
         fd_call = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_call")
         fd_delete = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_delete")
 
-        fd_create(
+        cached_data = fd_create(
             cablemesh.mesh,
             selected,
             kmax=ui.registry["FoFin"]["solver"]["kmax"],
@@ -91,9 +91,10 @@ def RunCommand(is_interactive):
 
             sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
             scale = sign * l2 / l1
-
-            xyz = fd_call(scale)
+            xyz = fd_call(scale, cached_data)
             cablemesh.conduit_edges.xyz = xyz
+            cablemesh.conduit_edges.redraw()
+            print(scale)
 
         gp.SetCommandPrompt("Reference point 2.")
         gp.SetBasePoint(o, False)
