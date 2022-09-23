@@ -51,7 +51,7 @@ def RunCommand(is_interactive):
     elif option == "Constrain":
         # Select any set of vertices
         # Make them anchors and constrain them
-        cablemesh.settings["show.vertices:free"] = True
+        # cablemesh.settings["show.vertices:free"] = True
         ui.scene.update()
 
         vertices = ui.controller.mesh_select_vertices(cablemesh)
@@ -96,7 +96,7 @@ def RunCommand(is_interactive):
             mesh.vertex_attribute(vertex, "constraint", constraint)
 
     compas_rhino.rs.UnselectAllObjects()
-    cablemesh.settings["show.vertices:free"] = False
+    # cablemesh.settings["show.vertices:free"] = False
     ui.scene.update()
     ui.record()
 
