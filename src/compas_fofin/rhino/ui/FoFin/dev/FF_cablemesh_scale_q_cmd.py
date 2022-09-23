@@ -63,6 +63,7 @@ def RunCommand(is_interactive):
 
         cablemesh.clear_conduits()
         cablemesh.conduit_edges.enable()
+        compas_rhino.rs.EnableRedraw(True)
 
         gp = Rhino.Input.Custom.GetPoint()
         gp.SetCommandPrompt("Base point for scaling")
@@ -119,6 +120,7 @@ def RunCommand(is_interactive):
 
         fd_delete()
         cablemesh.conduit_edges.disable()
+        compas_rhino.rs.EnableRedraw(False)
 
     if scale is None:
         cablemesh.is_valid = False
