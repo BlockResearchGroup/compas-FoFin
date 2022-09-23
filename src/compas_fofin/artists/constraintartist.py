@@ -30,7 +30,7 @@ class ConstraintArtist(Artist):
 
     """
 
-    default_color = Color.from_hex("#0092D2")
+    default_color = Color.cyan()
 
     def __init__(self, constraint, color=None, **kwargs):
         super(ConstraintArtist, self).__init__()
