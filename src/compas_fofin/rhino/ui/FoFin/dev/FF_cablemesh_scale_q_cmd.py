@@ -118,7 +118,6 @@ def RunCommand(is_interactive):
         print(scale)
 
         fd_delete()
-
         cablemesh.conduit_edges.disable()
 
     if scale is None:
