@@ -11,7 +11,7 @@ from compas_rhino.install import install as install_packages
 from compas_rhino.install import _filter_installable_packages
 from compas_rhino.install_plugin import install_plugin
 from compas_ui.rhino.install import check_folders
-from compas_ui.rhino.install import check_dependencies
+# from compas_ui.rhino.install import check_dependencies
 from compas_ui.rhino.install import install as install_ui
 
 
@@ -75,9 +75,9 @@ def main(plugin_name, version):
     if not check_folders(plugin_name, version):
         return
 
-    print("="*20, "Checking Dependencies", "="*20)
-    if not check_dependencies(os.path.join(HERE, "..", "..", "..", "requirements.txt")):
-        return
+    # print("="*20, "Checking Dependencies", "="*20)
+    # if not check_dependencies(os.path.join(HERE, "..", "..", "..", "requirements.txt")):
+    #     return
 
     print("="*20, "Running COMPAS UI Installation", "="*20)
     install_ui(version)
