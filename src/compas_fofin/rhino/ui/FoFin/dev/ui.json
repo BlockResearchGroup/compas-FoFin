@@ -2,27 +2,16 @@
     "icons": {
         "bitmap": "assets/FF_ui.png",
         "images": [
-
             "0_make_cablemesh",
-
             "1_define_anchors",
-
             "2_solve_fd",
-
             "3_node_move",
-
             "4_node_constraints",
-
             "5_update_constraints",
-
             "6_node_attributes",
-
             "7_edge_scale_q",
-
             "8_edge_delete",
-
             "9_edge_attributes"
-
         ]
     },
     "commands": [
@@ -33,10 +22,10 @@
             "tooltip": "Identify Anchors"
         },
         {
-            "name": "FF_cablemesh_constrain_nodes",
+            "name": "FF_cablemesh_constraints",
             "menu_text": "Node Constraints",
             "icon": 4,
-            "tooltip": "Set Node Constraints"
+            "tooltip": "Assign Node Constraints"
         },
         {
             "name": "FF_cablemesh_from_box",
@@ -53,6 +42,10 @@
         {
             "name": "FF_cablemesh_from_meshgrid",
             "menu_text": "Cablemesh From Meshgrid"
+        },
+        {
+            "name": "FF_cablemesh_from_surface",
+            "menu_text": "Cablemesh From Surface"
         },
         {
             "name": "FF_cablemesh_modify_edges",
@@ -90,11 +83,6 @@
             "tooltip": "Force Density Method"
         },
         {
-            "name": "FF_cablemesh_unconstrain_nodes",
-            "menu_text": "Unconstrain Nodes",
-            "tooltip": "Unconstrain Nodes"
-        },
-        {
             "name": "FF_cablemesh_update_constraints",
             "menu_text": "Update Constraints",
             "icon": 5,
@@ -122,6 +110,9 @@
                     "items": [
                         {
                             "command": "FF_cablemesh_from_meshgrid"
+                        },
+                        {
+                            "command": "FF_cablemesh_from_surface"
                         },
                         {
                             "command": "FF_cablemesh_from_mesh"
@@ -156,7 +147,7 @@
                             "command": "FF_cablemesh_move_nodes"
                         },
                         {
-                            "command": "FF_cablemesh_constrain_nodes"
+                            "command": "FF_cablemesh_constraints"
                         },
                         {
                             "command": "FF_cablemesh_update_constraints"
@@ -194,13 +185,7 @@
                     "left": "FF_toolbar_cablemesh_create"
                 },
                 {
-                    "type": "separator"
-                },
-                {
                     "left": "FF_cablemesh_anchors"
-                },
-                {
-                    "type": "separator"
                 },
                 {
                     "left": "FF_cablemesh_solve_fd"
@@ -212,7 +197,7 @@
                     "left": "FF_cablemesh_move_nodes"
                 },
                 {
-                    "left": "FF_cablemesh_constrain_nodes"
+                    "left": "FF_cablemesh_constraints"
                 },
                 {
                     "left": "FF_cablemesh_update_constraints"
