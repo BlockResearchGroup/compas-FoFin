@@ -61,10 +61,6 @@ def RunCommand(is_interactive):
             tol_disp=ui.registry["FoFin"]["solver"]["tol"]["displacements"],
         )
 
-        cablemesh.clear_conduits()
-        cablemesh.conduit_edges.enable()
-        compas_rhino.rs.EnableRedraw(True)
-
         gp = Rhino.Input.Custom.GetPoint()
         gp.SetCommandPrompt("Base point for scaling")
 
@@ -87,6 +83,7 @@ def RunCommand(is_interactive):
         l1 = v1.SquareLength
 
         def OnDynamicDraw(sender, e):
+            cablemesh.conduit_edges.disable()
 
             r2 = e.CurrentPoint
             v2 = r2 - o
@@ -95,8 +92,9 @@ def RunCommand(is_interactive):
             sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
             scale = sign * l2 / l1
             xyz = fd_call(scale, cached_data)
+
             cablemesh.conduit_edges.xyz = xyz
-            cablemesh.conduit_edges.redraw()
+            cablemesh.conduit_edges.enable()
 
         gp.SetCommandPrompt("Reference point 2")
         gp.SetBasePoint(o, False)
@@ -120,7 +118,6 @@ def RunCommand(is_interactive):
 
         fd_delete()
         cablemesh.conduit_edges.disable()
-        compas_rhino.rs.EnableRedraw(False)
 
     if scale is None:
         cablemesh.is_valid = False
