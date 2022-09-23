@@ -25,7 +25,7 @@ class CableMeshObject(MeshObject):
         "show.pipes:forcedensities": False,
         "show.pipes:forces": True,
         "show.constraints": True,
-        "color.vertices": Color.white(),
+        "color.vertices": Color.black(),
         "color.vertices:is_anchor": Color.red(),
         "color.vertices:is_fixed": Color.blue(),
         "color.vertices:is_constrained": Color.cyan(),
