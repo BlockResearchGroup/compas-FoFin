@@ -203,9 +203,6 @@
                     "left": "FF_cablemesh_update_constraints"
                 },
                 {
-                    "left": "FF_cablemesh_modify_nodes"
-                },
-                {
                     "type": "separator"
                 },
                 {
@@ -213,6 +210,12 @@
                 },
                 {
                     "left": "FF_cablemesh_edges_delete"
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "left": "FF_cablemesh_modify_nodes"
                 },
                 {
                     "left": "FF_cablemesh_modify_edges"

@@ -42,9 +42,14 @@ def RunCommand(is_interactive):
             "command": "FF_cablemesh_update_constraints",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_update_constraints.png"),
         },
+        {"type": "separator"},
         {
             "command": "FF_cablemesh_scale_q",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_scale_q.png"),
+        },
+        {
+            "command": "FF_cablemesh_edges_delete",
+            "icon": os.path.join(HERE, "assets", "FF_cablemesh_edges_delete.png"),
         },
         {"type": "separator"},
         {
@@ -54,11 +59,6 @@ def RunCommand(is_interactive):
         {
             "command": "FF_cablemesh_modify_edges",
             "icon": os.path.join(HERE, "assets", "FF_cablemesh_modify_edges.png"),
-        },
-        {"type": "separator"},
-        {
-            "command": "FF_cablemesh_edges_delete",
-            "icon": os.path.join(HERE, "assets", "FF_cablemesh_edges_delete.png"),
         },
     ]
 
