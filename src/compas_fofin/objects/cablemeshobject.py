@@ -71,3 +71,13 @@ class CableMeshObject(MeshObject):
     def is_valid(self, value):
         self._is_valid = value
         self.settings["show.edges"] = False if self._is_valid else True
+
+    @property
+    def show_edges(self):
+        if not self.is_valid:
+            return True
+        return self.settings["show.edges"]
+
+    @show_edges.setter
+    def show_edges(self, value):
+        self.settings["show.edges"] = bool(value)
