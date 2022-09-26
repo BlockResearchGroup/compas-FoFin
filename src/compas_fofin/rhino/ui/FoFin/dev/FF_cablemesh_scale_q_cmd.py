@@ -33,11 +33,6 @@ def RunCommand(is_interactive):
     if not selected:
         return
 
-    # this should be a cloud call with cached values
-    # anchors, edges, loads, ... are constant
-    # only Q needs to be sent
-    # and new (free) vertex locations should be received
-
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
 
     if mode == "Value":
@@ -68,28 +63,28 @@ def RunCommand(is_interactive):
         if gp.CommandResult() != Rhino.Commands.Result.Success:
             return False
 
-        o = gp.Point()
+        base = gp.Point()
 
         gp.SetCommandPrompt("Reference point 1")
-        gp.SetBasePoint(o, False)
-        gp.DrawLineFromPoint(o, True)
+        gp.SetBasePoint(base, False)
+        gp.DrawLineFromPoint(base, True)
 
         gp.Get()
         if gp.CommandResult() != Rhino.Commands.Result.Success:
             return False
 
-        r1 = gp.Point()
-        v1 = r1 - o
-        l1 = v1.SquareLength
+        ref1 = gp.Point()
+        vec1 = ref1 - base
+        l1 = vec1.SquareLength
 
         def OnDynamicDraw(sender, e):
             cablemesh.conduit_edges.disable()
 
-            r2 = e.CurrentPoint
-            v2 = r2 - o
-            l2 = v2.SquareLength
+            ref2 = e.CurrentPoint
+            vec2 = ref2 - base
+            l2 = vec2.SquareLength
 
-            sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
+            sign = +1 if Rhino.Geometry.Vector3d.Multiply(vec1, vec2) > 0 else -1
             scale = sign * l2 / l1
             xyz = fd_call(scale, cached_data)
 
@@ -97,9 +92,9 @@ def RunCommand(is_interactive):
             cablemesh.conduit_edges.enable()
 
         gp.SetCommandPrompt("Reference point 2")
-        gp.SetBasePoint(o, False)
-        gp.DrawLineFromPoint(o, True)
-        gp.Constrain(Rhino.Geometry.Line(o, r1))
+        gp.SetBasePoint(base, False)
+        gp.DrawLineFromPoint(base, True)
+        gp.Constrain(Rhino.Geometry.Line(base, ref1))
         gp.DynamicDraw += OnDynamicDraw
 
         gp.Get()
@@ -108,11 +103,11 @@ def RunCommand(is_interactive):
                 cablemesh.mesh.edge_attribute(edge, "q", q)
             cablemesh.update_equilibrium(ui)
 
-        r2 = gp.Point()
-        v2 = r2 - o
-        l2 = v2.SquareLength
+        ref2 = gp.Point()
+        vec2 = ref2 - base
+        l2 = vec2.SquareLength
 
-        sign = +1 if Rhino.Geometry.Vector3d.Multiply(v1, v2) > 0 else -1
+        sign = +1 if Rhino.Geometry.Vector3d.Multiply(vec1, vec2) > 0 else -1
         scale = sign * l2 / l1
         print(scale)
 
