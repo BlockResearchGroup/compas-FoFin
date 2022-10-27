@@ -50,10 +50,10 @@ def RunCommand(is_interactive):
         cached_data = fd_create(
             cablemesh.mesh,
             selected,
-            kmax=ui.registry["FoFin"]["solver"]["kmax"],
-            damping=ui.registry["FoFin"]["solver"]["damping"],
-            tol_res=ui.registry["FoFin"]["solver"]["tol"]["residuals"],
-            tol_disp=ui.registry["FoFin"]["solver"]["tol"]["displacements"],
+            kmax=ui.registry["FoFin"]["solver.kmax"],
+            damping=ui.registry["FoFin"]["solver.damping"],
+            tol_res=ui.registry["FoFin"]["solver.tol.residuals"],
+            tol_disp=ui.registry["FoFin"]["solver.tol.displacements"],
         )
 
         gp = Rhino.Input.Custom.GetPoint()

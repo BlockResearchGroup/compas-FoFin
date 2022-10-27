@@ -17,17 +17,5 @@
         "compas_ui",
         "compas_fd",
         "compas_fofin"
-    ],
-    "settings": {
-        "solver": {
-            "autorun": true,
-            "show_iterations": false,
-            "kmax": 100,
-            "damping": 0.1,
-            "tol": {
-                "residuals": 1e-3,
-                "displacements": 1e-3
-            }
-        }
-    }
+    ]
 }
