@@ -245,14 +245,14 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
 
         """
         fd = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_numpy")
-        kmax = kmax or ui.registry["FoFin"]["solver"]["kmax"]
+        kmax = kmax or ui.registry["FoFin"]["solver.kmax"]
 
         result = fd(
             self.mesh,
             kmax=kmax,
-            damping=ui.registry["FoFin"]["solver"]["damping"],
-            tol_res=ui.registry["FoFin"]["solver"]["tol"]["residuals"],
-            tol_disp=ui.registry["FoFin"]["solver"]["tol"]["displacements"],
+            damping=ui.registry["FoFin"]["solver.damping"],
+            tol_res=ui.registry["FoFin"]["solver.tol.residuals"],
+            tol_disp=ui.registry["FoFin"]["solver.tol.displacements"],
         )
 
         if not result:
