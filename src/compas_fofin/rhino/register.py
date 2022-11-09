@@ -12,14 +12,16 @@ from compas_ui.values import FloatValue
 
 HERE = os.path.dirname(__file__)
 
-SETTINGS = Settings({
-    "solver.autorun": BoolValue(True),
-    "solver.show_iterations": BoolValue(False),
-    "solver.kmax": IntValue(100),
-    "solver.damping": FloatValue(0.1),
-    "solver.tol.residuals": FloatValue(1e-3),
-    "solver.tol.displacements": FloatValue(1e-3)
-})
+SETTINGS = Settings(
+    {
+        "solver.autorun": BoolValue(True),
+        "solver.show_iterations": BoolValue(False),
+        "solver.kmax": IntValue(100),
+        "solver.damping": FloatValue(0.1),
+        "solver.tol.residuals": FloatValue(1e-3),
+        "solver.tol.displacements": FloatValue(1e-3),
+    }
+)
 
 
 @plugin(category="ui")
@@ -31,9 +33,6 @@ def register(ui):
         raise Exception("Cannot find the plugin: {}".format(plugin_path))
 
     ui.registry["FoFin"] = SETTINGS
-
-    # register callbacks
-    # register_callback(FF_on_object_update)
 
 
 def FF_on_object_update(*args):
