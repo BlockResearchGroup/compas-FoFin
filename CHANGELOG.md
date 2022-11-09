@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added `compas_fofin.rhino.install.after_rhino_install`.
+
 ### Changed
 
 ### Removed
+
+* Removed `compas_fofin.rhino.install.main`.
 
 
 ## [0.5.1] 2022-09-23
