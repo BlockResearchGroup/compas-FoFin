@@ -41,9 +41,7 @@ def RunCommand(is_interactive):
 
     elif mode == "Interactive":
 
-        fd_create = ui.proxy.function(
-            "compas_fd.fd.mesh_fd_constrained_cache_create", cache=True
-        )
+        fd_create = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_create", cache=True)
         fd_call = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_call")
         fd_delete = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_delete")
 

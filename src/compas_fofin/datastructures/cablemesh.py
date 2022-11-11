@@ -43,9 +43,7 @@ class CableMesh(CableMesh):
         return Line(self.vertex_coordinates(edge[0]), self.vertex_coordinates(edge[1]))
 
     def edge_vector(self, edge):
-        return Vector.from_start_end(
-            self.vertex_coordinates(edge[0]), self.vertex_coordinates(edge[1])
-        )
+        return Vector.from_start_end(self.vertex_coordinates(edge[0]), self.vertex_coordinates(edge[1]))
 
     def edge_force(self, edge):
         vector = self.edge_vector()
