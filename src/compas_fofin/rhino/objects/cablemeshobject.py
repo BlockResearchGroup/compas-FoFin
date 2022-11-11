@@ -157,9 +157,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     @property
     def conduit_forcedensities(self):
         if not self._conduit_forcedensities:
-            self._conduit_forcedensities = PipeConduit(
-                xyz={}, edges=[], values={}, color={}
-            )
+            self._conduit_forcedensities = PipeConduit(xyz={}, edges=[], values={}, color={})
         return self._conduit_forcedensities
 
     @property
@@ -359,11 +357,7 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         free = list(self.mesh.vertices_where(is_anchor=False))
         fixed = list(self.mesh.vertices_where(is_fixed=True))
         anchored = list(self.mesh.vertices_where(is_anchor=True))
-        constrained = list(
-            self.mesh.vertices_where_predicate(
-                lambda key, attr: attr["constraint"] is not None
-            )
-        )
+        constrained = list(self.mesh.vertices_where_predicate(lambda key, attr: attr["constraint"] is not None))
 
         color_free = self.settings["color.vertices"]
         color_fixed = self.settings["color.vertices:is_fixed"]

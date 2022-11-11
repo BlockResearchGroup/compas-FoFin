@@ -11,7 +11,7 @@ import FF_saveas_cmd
 import FF_cablemesh_data_save_cmd
 
 
-__commandname__ = 'FF_toolbar_save'
+__commandname__ = "FF_toolbar_save"
 
 
 @UI.error()
@@ -33,5 +33,5 @@ def RunCommand(is_interactive):
         FF_cablemesh_data_save_cmd.RunCommand(True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)
