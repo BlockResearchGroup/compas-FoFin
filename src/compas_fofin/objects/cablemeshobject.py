@@ -14,9 +14,6 @@ from compas_ui.values import StrValue
 class CableMeshObject(MeshObject):
     """Base object for representing a cable mesh in a scene."""
 
-    # TODO: Move this to a settings object
-    # TODO: For every setting use a setting object
-
     SETTINGS = Settings({
         "layer": StrValue("FF"),
         "show.vertices:free": BoolValue(False),
