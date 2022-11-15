@@ -30,11 +30,7 @@ def RunCommand(is_interactive):
     nodes = ui.controller.mesh_select_vertices(cablemesh)
 
     if nodes:
-        public = [
-            name
-            for name in cablemesh.mesh.default_vertex_attributes.keys()
-            if not name.startswith("_")
-        ]
+        public = [name for name in cablemesh.mesh.default_vertex_attributes.keys() if not name.startswith("_")]
         cablemesh.modify_vertices(nodes, names=public)
 
     cablemesh.settings["show.vertices:anchors"] = True

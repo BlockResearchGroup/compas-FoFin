@@ -27,11 +27,7 @@ def RunCommand(is_interactive):
 
     if edges:
 
-        public = [
-            name
-            for name in cablemesh.mesh.default_edge_attributes.keys()
-            if not name.startswith("_")
-        ]
+        public = [name for name in cablemesh.mesh.default_edge_attributes.keys() if not name.startswith("_")]
         cablemesh.modify_edges(edges, names=public)
 
     ui.scene.update()

@@ -175,9 +175,7 @@ class PipeConduit(BaseConduit):
             sp = self.xyz[u]
             ep = self.xyz[v]
             thickness = int(abs(self.values[edge]))
-            e.Display.DrawLine(
-                Point3d(*sp), Point3d(*ep), Color.FromArgb(*self.color[edge]), thickness
-            )
+            e.Display.DrawLine(Point3d(*sp), Point3d(*ep), Color.FromArgb(*self.color[edge]), thickness)
 
 
 class EdgeConduit(BaseConduit):

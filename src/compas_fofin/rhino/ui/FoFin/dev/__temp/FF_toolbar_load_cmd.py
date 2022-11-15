@@ -10,7 +10,7 @@ import FF_load_cmd
 import FF_cablemesh_data_load_cmd
 
 
-__commandname__ = 'FF_toolbar_load'
+__commandname__ = "FF_toolbar_load"
 
 
 @UI.error()
@@ -29,5 +29,5 @@ def RunCommand(is_interactive):
         FF_cablemesh_data_load_cmd.RunCommand(True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     RunCommand(True)

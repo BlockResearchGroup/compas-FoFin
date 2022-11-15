@@ -22,6 +22,4 @@ from __future__ import division
 from .cablemesh import CableMesh  # noqa: F401
 
 
-__all__ = [
-    'CableMesh'
-]
+__all__ = ["CableMesh"]
