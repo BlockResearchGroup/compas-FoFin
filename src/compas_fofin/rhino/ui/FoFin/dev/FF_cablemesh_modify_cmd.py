@@ -7,7 +7,7 @@ from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = "FF_cablemesh_modify_nodes"
+__commandname__ = "FF_cablemesh_modify"
 
 
 @UI.error()
@@ -20,21 +20,10 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
-    cablemesh.settings["show.vertices:is_anchor"] = True
-    cablemesh.settings["show.vertices:free"] = True
-
     cablemesh.is_valid = False
-
     ui.scene.update()
 
-    nodes = ui.controller.mesh_select_vertices(cablemesh)
-
-    if nodes:
-        public = [name for name in cablemesh.mesh.default_vertex_attributes.keys() if not name.startswith("_")]
-        cablemesh.modify_vertices(nodes, names=public)
-
-    cablemesh.settings["show.vertices:is_anchor"] = True
-    cablemesh.settings["show.vertices:free"] = False
+    cablemesh.modify()
 
     ui.scene.update()
     ui.record()

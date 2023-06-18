@@ -3,7 +3,7 @@ from compas.plugins import plugin
 
 @plugin(category="install", tryfirst=True)
 def installable_rhino_packages():
-    return ["compas_fofin"]
+    return ["compas_fofin", "compas_fd"]
 
 
 if __name__ == "__main__":

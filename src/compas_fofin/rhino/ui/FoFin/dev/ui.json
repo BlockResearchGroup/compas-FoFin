@@ -48,6 +48,11 @@
             "menu_text": "Cablemesh From Surface"
         },
         {
+            "name": "FF_cablemesh_modify",
+            "menu_text": "Mesh Attributes",
+            "tooltip": "Modify Mesh Attributes"
+        },
+        {
             "name": "FF_cablemesh_modify_edges",
             "menu_text": "Edge Attributes",
             "icon": 9,
@@ -136,6 +141,12 @@
                 },
                 {
                     "command": "FF_cablemesh_solve_fd"
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "command": "FF_cablemesh_modify"
                 },
                 {
                     "type": "separator"
