@@ -15,7 +15,6 @@ __commandname__ = "FF_toolbar_load"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     options = ["LoadSession", "LoadMeshData"]
     option = compas_rhino.rs.GetString("Create Cablemesh:", strings=options)
 

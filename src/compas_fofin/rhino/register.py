@@ -26,7 +26,6 @@ SETTINGS = Settings(
 
 @plugin(category="ui")
 def register(ui):
-
     plugin_name = "FoFin"
     plugin_path = os.path.join(HERE, "ui", plugin_name)
     if not os.path.isdir(plugin_path):

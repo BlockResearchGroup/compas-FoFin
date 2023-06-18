@@ -12,7 +12,6 @@ __commandname__ = "FF_cablemesh_edges_delete"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -27,7 +26,7 @@ def RunCommand(is_interactive):
 
     if edges:
         fkeys = set()
-        for (u, v) in edges:
+        for u, v in edges:
             fkeys.update(cablemesh.mesh.edge_faces(u, v))
         for fkey in fkeys:
             if fkey:

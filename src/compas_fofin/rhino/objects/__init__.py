@@ -19,7 +19,6 @@ from .curveconstraintobject import RhinoCurveConstraintObject
 
 @plugin(category="ui", requires=["Rhino"])
 def register_objects():
-
     RhinoObject.register(CurveConstraint, RhinoCurveConstraintObject, context="Rhino")
     RhinoObject.register(LineConstraint, RhinoLineConstraintObject, context="Rhino")
     RhinoObject.register(CircleConstraint, RhinoCircleConstraintObject, context="Rhino")

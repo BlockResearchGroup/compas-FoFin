@@ -12,7 +12,6 @@ __commandname__ = "FF_cablemesh_modify_edges"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -26,7 +25,6 @@ def RunCommand(is_interactive):
     edges = ui.controller.mesh_select_edges(cablemesh)
 
     if edges:
-
         public = [name for name in cablemesh.mesh.default_edge_attributes.keys() if not name.startswith("_")]
         cablemesh.modify_edges(edges, names=public)
 

@@ -16,7 +16,6 @@ __commandname__ = "FF_constraint_add"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     ctypes = ["Line", "Curve", "Surface"]

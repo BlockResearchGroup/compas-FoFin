@@ -7,7 +7,6 @@ from compas_ui.values import Settings
 
 
 class CurveConstraintObject(ConstraintObject):
-
     SETTINGS = Settings()
 
     def __init__(self, *args, **kwargs):

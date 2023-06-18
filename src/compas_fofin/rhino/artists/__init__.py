@@ -18,7 +18,6 @@ from .curveconstraintartist import RhinoCurveConstraintArtist
 
 @plugin(category="factories", requires=["Rhino"])
 def register_artists():
-
     RhinoArtist.register(CurveConstraint, RhinoCurveConstraintArtist, context="Rhino")
     RhinoArtist.register(LineConstraint, RhinoLineConstraintArtist, context="Rhino")
     RhinoArtist.register(CircleConstraint, RhinoCircleConstraintArtist, context="Rhino")

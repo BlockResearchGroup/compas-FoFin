@@ -11,7 +11,6 @@ __commandname__ = "FF_cablemesh_from_meshgrid"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     nx = ui.get_integer(

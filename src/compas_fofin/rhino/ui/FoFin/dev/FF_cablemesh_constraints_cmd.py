@@ -21,7 +21,6 @@ __commandname__ = "FF_cablemesh_constraints"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -67,7 +66,6 @@ def RunCommand(is_interactive):
             return
 
         if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
-
             constraint = None
             for vertex in mesh.vertices():
                 temp = mesh.vertex_attribute(vertex, "constraint")

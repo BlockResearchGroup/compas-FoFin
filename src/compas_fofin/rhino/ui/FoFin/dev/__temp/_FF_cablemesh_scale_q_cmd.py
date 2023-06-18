@@ -34,7 +34,6 @@ def fd_cached(mesh, scale, selected, Q, kmax, damping, tol_res, tol_disp):
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -68,11 +67,9 @@ def RunCommand(is_interactive):
     kmax = 10
 
     if mode == "Value":
-
         scale = ui.get_real("Scaling factor?", minval=-1e2, maxval=+1e2, default=1.0)
 
     elif mode == "Interactive":
-
         gp = Rhino.Input.Custom.GetPoint()
         gp.SetCommandPrompt("Base point for scaling.")
 

@@ -8,7 +8,6 @@ from compas_ui.values import Settings
 
 
 class ConstraintObject(Object):
-
     SETTINGS = Settings()
 
     def __init__(self, *args, **kwargs):

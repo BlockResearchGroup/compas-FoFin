@@ -353,7 +353,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     # ======================================================================
 
     def _draw_vertices(self):
-
         free = list(self.mesh.vertices_where(is_anchor=False))
         fixed = list(self.mesh.vertices_where(is_fixed=True))
         anchored = list(self.mesh.vertices_where(is_anchor=True))
@@ -403,7 +402,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     # ======================================================================
 
     def _draw_edges(self):
-
         edges = list(self.mesh.edges_where(_is_edge=True))
         color = {edge: self.settings["color.edges"] for edge in edges}
 
@@ -433,7 +431,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     # ======================================================================
 
     def _draw_faces(self):
-
         if self.settings["show.faces:all"]:
             faces = list(self.mesh.faces())
         else:
@@ -460,7 +457,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
     # ======================================================================
 
     def _draw_constraints(self):
-
         old_new = {}
 
         for vertex in self.mesh.vertices():
@@ -537,7 +533,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self.conduit_forces.disable()
 
         if self.is_valid and self.settings["show.pipes:forces"]:
-
             xyz = {v: self.mesh.vertex_coordinates(v) for v in self.mesh.vertices()}
             edges = list(self.mesh.edges_where(_is_edge=True))
             forces = self.mesh.edges_attribute("_f", keys=edges)
@@ -574,7 +569,6 @@ class RhinoCableMeshObject(CableMeshObject, RhinoMeshObject):
         self.conduit_forcedensities.disable()
 
         if self.is_valid and self.settings["show.pipes:forcedensities"]:
-
             xyz = {v: self.mesh.vertex_coordinates(v) for v in self.mesh.vertices()}
             edges = list(self.mesh.edges_where(_is_edge=True))
             qs = self.mesh.edges_attribute("q", keys=edges)

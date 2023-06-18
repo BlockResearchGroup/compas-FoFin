@@ -7,7 +7,6 @@ from compas_ui.values import Settings
 
 
 class LineConstraintObject(Object):
-
     SETTINGS = Settings()
 
     def __init__(self, *args, **kwargs):

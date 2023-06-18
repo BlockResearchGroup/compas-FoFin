@@ -16,7 +16,6 @@ __commandname__ = "FF_toolbar_save"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     options = ["SaveSession", "SaveSessionAs", "SaveMeshData"]
     option = compas_rhino.rs.GetString("Create Cablemesh:", strings=options)
 
