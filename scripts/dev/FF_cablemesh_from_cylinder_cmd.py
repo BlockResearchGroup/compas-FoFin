@@ -3,9 +3,9 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas.utilities import pairwise
+from compas.itertools import pairwise
 from compas_rhino.conversions import RhinoCylinder
-from compas_ui.ui import UI
+from compas_session.session import Session
 from compas_fofin.datastructures import CableMesh
 
 

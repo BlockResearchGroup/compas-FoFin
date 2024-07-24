@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_ui.ui import UI
+from compas_session.session import Session
 from compas_fofin.objects import CableMeshObject
 
 

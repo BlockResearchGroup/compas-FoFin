@@ -8,7 +8,7 @@ import compas_rhino
 
 # from compas_rhino.geometry import RhinoSurface
 
-from compas_ui.ui import UI
+from compas_session.session import Session
 from compas_fofin.rhino.conversions import curveobject_to_compas
 
 from compas_fofin.rhino.objects import RhinoCableMeshObject

@@ -4,7 +4,7 @@ from __future__ import division
 
 import compas_rhino
 
-from compas_ui.ui import UI
+from compas_session.session import Session
 
 import FF_cablemesh_from_meshgrid_cmd
 import FF_cablemesh_from_mesh_cmd

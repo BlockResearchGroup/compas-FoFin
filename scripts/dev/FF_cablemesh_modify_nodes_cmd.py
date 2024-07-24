@@ -3,11 +3,11 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_ui.ui import UI
+from compas_session.session import Session
 from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = "FF_cablemesh_edges_delete"
+__commandname__ = "FF_cablemesh_modify_nodes"
 
 
 @UI.error()
@@ -20,22 +20,21 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
+    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:free"] = True
+
     cablemesh.is_valid = False
+
     ui.scene.update()
 
-    edges = ui.controller.mesh_select_edges(cablemesh)
+    nodes = ui.controller.mesh_select_vertices(cablemesh)
 
-    if edges:
-        fkeys = set()
-        for (u, v) in edges:
-            fkeys.update(cablemesh.mesh.edge_faces(u, v))
-        for fkey in fkeys:
-            if fkey:
-                cablemesh.mesh.delete_face(fkey)
+    if nodes:
+        public = [name for name in cablemesh.mesh.default_vertex_attributes.keys() if not name.startswith("_")]
+        cablemesh.modify_vertices(nodes, names=public)
 
-        cablemesh.mesh.remove_unused_vertices()
-        ui.scene.update()
-        ui.record()
+    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:free"] = False
 
     ui.scene.update()
     ui.record()
