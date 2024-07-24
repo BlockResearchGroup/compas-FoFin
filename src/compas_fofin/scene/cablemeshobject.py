@@ -6,6 +6,7 @@ from compas.scene.descriptors.color import ColorAttribute
 class CableMeshObject(MeshObject):
 
     anchorcolor = ColorAttribute(default=Color.red())
+    constraintcolor = ColorAttribute(default=Color.cyan())
     residualcolor = ColorAttribute(default=Color.cyan())
     reactioncolor = ColorAttribute(default=Color.green())
     loadcolor = ColorAttribute(default=Color.green().darkened(50))
@@ -36,6 +37,7 @@ class CableMeshObject(MeshObject):
         settings["show_residuals"] = self.show_residuals
         settings["show_reactions"] = self.show_reactions
         settings["anchorcolor"] = self.anchorcolor
+        settings["constraintcolor"] = self.constraintcolor
         settings["residualcolor"] = self.residualcolor
         settings["reactioncolor"] = self.reactioncolor
         settings["loadcolor"] = self.loadcolor
@@ -43,6 +45,15 @@ class CableMeshObject(MeshObject):
         settings["compressioncolor"] = self.compressioncolor
         settings["tensioncolor"] = self.tensioncolor
         return settings
+
+    def select_vertices(self):
+        raise NotImplementedError
+
+    def select_edges(self):
+        raise NotImplementedError
+
+    def select_faces(self):
+        raise NotImplementedError
 
     def draw_forces(self):
         raise NotImplementedError
