@@ -16,21 +16,13 @@ __commandname__ = "FF_cablemesh_from_box"
 def RunCommand(is_interactive):
 
     session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
-    session.init()
 
     # =============================================================================
     # Get stuff from session
     # =============================================================================
 
     scene: Scene = session.setdefault("scene", factory=Scene, filepath="scene.json")
-
-    guids = []
-    for obj in scene.objects:
-        guids += obj.guids  # if the guids would be stored, this would not be necessary
-        scene.remove(obj)
-
-    guids = compas_rhino.objects.get_objects(name="CableMesh*")
-    compas_rhino.objects.delete_objects(guids)
+    scene.clear()
 
     # =============================================================================
     # Make a cablemesh from a box
@@ -45,7 +37,7 @@ def RunCommand(is_interactive):
         return
 
     obj = compas_rhino.objects.find_object(guid)
-    box = compas_rhino.conversions.extrusion_to_compas_box(obj.Geometry)
+    box = compas_rhino.conversions.extrusion_to_compas_box(obj.Geometry)  # use brep_to_compas_box instead
 
     mesh = CableMesh.from_shape(box)
     mesh = mesh.subdivided(scheme="quad", k=k)
@@ -63,8 +55,6 @@ def RunCommand(is_interactive):
     # =============================================================================
     # Save session
     # =============================================================================
-
-    # print(session.data['scene'])
 
     # session.record()
     # session.save()

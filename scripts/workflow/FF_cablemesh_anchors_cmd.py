@@ -1,3 +1,4 @@
+#! python3
 import pathlib
 
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
@@ -34,9 +35,6 @@ def RunCommand(is_interactive):
     if vertices:
         mesh.vertices_attribute("is_anchor", True, keys=vertices)
 
-    # meshobj.delete_vertices()
-    # meshobj.draw_vertices()
-
     # =============================================================================
     # Select/Unselect anchors
     # =============================================================================
@@ -53,12 +51,7 @@ def RunCommand(is_interactive):
     while True:
         rs.UnselectAllObjects()
 
-        # redraw vertices?
-        meshobj.delete_vertices()
-        meshobj.draw_vertices()
-
-        # or just add option to redraw here?
-        vertices = meshobj.select_vertices()
+        vertices = meshobj.select_vertices(redraw=True)
         if not vertices:
             break
 
@@ -73,13 +66,11 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     rs.UnselectAllObjects()
+
     meshobj.show_free = False
 
-    meshobj.delete_vertices()
-    meshobj.draw_vertices()
-
-    # is this still needed?
-    scene.draw()
+    meshobj.clear()
+    meshobj.draw()
 
     # =============================================================================
     # Session save

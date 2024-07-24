@@ -1,11 +1,12 @@
+#! python3
 import pathlib
 
-import Rhino  # type: ignore
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
+from compas.colors import Color
 from compas.scene import Scene
 from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
@@ -34,7 +35,7 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    option = rs.GetString(message="Constrain/Unconstrain nodes", strings=["Constrain", "Unconstrain"])
+    option = rs.GetString(message="Constrain/Unconstrain Vertices", strings=["Constrain", "Unconstrain"])
     if not option:
         return
 
@@ -55,50 +56,40 @@ def RunCommand(is_interactive):
         # Make them anchors and constrain them
 
         meshobj.show_free = True
-        meshobj.delete_vertices()
-        meshobj.draw_vertices()
 
-        vertices = meshobj.select_vertices()
-        if not vertices:
-            return
+        vertices = meshobj.select_vertices(redraw=True)
+        if vertices:
 
-        guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
-        if not guid:
-            return
+            guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
+            if guid:
 
-        obj = compas_rhino.objects.find_object(guid)
-        if not obj:
-            return
+                obj = compas_rhino.objects.find_object(guid)
+                if obj:
 
-        if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
+                    constraint = None
+                    if "constraint.guid" in obj.UserDictionary:
+                        if obj.UserDictionary["constraint.guid"] in mesh.constraints:
+                            constraint = mesh.constraints[obj.UserDictionary["constraint.guid"]]
 
-            constraint = None
-            for vertex in mesh.vertices():
-                temp = mesh.vertex_attribute(vertex, "constraint")
-                if temp is not None:
-                    if temp._rhino_guid == str(guid):
-                        constraint = temp
-                        break
+                    if not constraint:
+                        curve = compas_rhino.conversions.curveobject_to_compas(obj)
+                        constraint = Constraint(curve)
+                        obj = scene.add(constraint.geometry, color=Color.cyan())  # only the gometry of the constraint is visualised
+                        obj.draw()
 
-            if not constraint:
-                curve = compas_rhino.conversions.curveobject_to_compas(obj)
-                constraint = Constraint(curve)
+                        obj = compas_rhino.objects.find_object(obj.guids[0])
+                        obj.UserDictionary["constraint.guid"] = str(constraint.guid)
+                        mesh.constraints[str(constraint.guid)] = constraint
+                        rs.HideObject(guid)
 
-                constraintobj = scene.add(constraint)
-                scene.draw()
+                    if constraint:
+                        for vertex in vertices:
+                            constraint.location = mesh.vertex_point(vertex)
+                            constraint.project()
 
-                rs.HideObject(constraintobj.guid)
-                constraint._rhino_guid = str(guid)
-
-        else:
-            raise NotImplementedError
-
-        for vertex in vertices:
-            constraint.location = mesh.vertex_attributes(vertex, "xyz")
-            constraint.project()
-            mesh.vertex_attribute(vertex, "is_anchor", True)
-            mesh.vertex_attributes(vertex, "xyz", constraint.location)
-            mesh.vertex_attribute(vertex, "constraint", constraint)
+                            mesh.vertex_attribute(vertex, "is_anchor", True)
+                            mesh.vertex_attribute(vertex, "constraint", constraint)
+                            mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
     # Update scene
@@ -107,10 +98,8 @@ def RunCommand(is_interactive):
     rs.UnselectAllObjects()
     meshobj.show_free = False
 
-    guids = compas_rhino.objects.get_objects(name="CableMesh*")
-    compas_rhino.objects.delete_objects(guids)
-
-    scene.draw()
+    meshobj.clear()
+    meshobj.draw()
 
     # =============================================================================
     # Session save

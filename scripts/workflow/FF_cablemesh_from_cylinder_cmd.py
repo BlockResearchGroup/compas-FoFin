@@ -1,4 +1,6 @@
 #! python3
+import pathlib
+
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
 import compas_rhino
@@ -14,13 +16,14 @@ __commandname__ = "FF_cablemesh_from_cylinder"
 
 def RunCommand(is_interactive):
 
-    session = Session()
+    session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
 
     # =============================================================================
-    # Load stuff from session
+    # Get stuff from session
     # =============================================================================
 
-    scene: Scene = session.load_data("scene.json")
+    scene: Scene = session.setdefault("scene", factory=Scene, filepath="scene.json")
+    scene.clear()
 
     # =============================================================================
     # Get params
@@ -96,23 +99,20 @@ def RunCommand(is_interactive):
             mesh.add_face([a, b, bb, aa])
 
     # =============================================================================
-    # Hide the input object
+    # Update scene
     # =============================================================================
 
     rs.HideObject(guid)
 
-    # =============================================================================
-    # Save session data
-    # =============================================================================
-
-    session.save_data(mesh, "CableMesh.json")
-
-    # =============================================================================
-    # Visualize
-    # =============================================================================
-
-    scene.add(mesh, name="CableMesh", layer="FormFinder")
+    scene.add(mesh, name=mesh.name)
     scene.draw()
+
+    # =============================================================================
+    # Save session
+    # =============================================================================
+
+    # session.record()
+    # session.save()
 
 
 # =============================================================================
