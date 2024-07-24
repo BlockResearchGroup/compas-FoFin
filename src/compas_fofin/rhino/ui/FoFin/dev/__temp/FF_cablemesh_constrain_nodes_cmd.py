@@ -19,7 +19,6 @@ __commandname__ = "FF_cablemesh_constrain_nodes"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -42,12 +41,10 @@ def RunCommand(is_interactive):
         return
 
     if obj.ObjectType == Rhino.DocObjects.ObjectType.Curve:
-
         curve = curveobject_to_compas(obj)
         constraint = Constraint(curve)
 
     elif obj.ObjectType == Rhino.DocObjects.ObjectType.Surface:
-
         guid = compas_rhino.select_surface(message="Select surface constraint")
         if not guid:
             return

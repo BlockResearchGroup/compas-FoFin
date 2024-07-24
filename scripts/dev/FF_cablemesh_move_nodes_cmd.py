@@ -12,7 +12,6 @@ __commandname__ = "FF_cablemesh_move_nodes"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object

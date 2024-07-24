@@ -15,7 +15,6 @@ HERE = os.path.dirname(__file__)
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()  # noqa: F841
 
     config = [

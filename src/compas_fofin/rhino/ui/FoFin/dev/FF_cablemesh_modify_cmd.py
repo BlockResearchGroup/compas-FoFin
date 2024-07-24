@@ -3,11 +3,11 @@ from __future__ import absolute_import
 from __future__ import division
 
 import compas_rhino
-from compas_session.session import Session
+from compas_ui.ui import UI
 from compas_fofin.objects import CableMeshObject
 
 
-__commandname__ = "FF_cablemesh_edges_delete"
+__commandname__ = "FF_cablemesh_modify"
 
 
 @UI.error()
@@ -22,19 +22,7 @@ def RunCommand(is_interactive):
     cablemesh.is_valid = False
     ui.scene.update()
 
-    edges = ui.controller.mesh_select_edges(cablemesh)
-
-    if edges:
-        fkeys = set()
-        for u, v in edges:
-            fkeys.update(cablemesh.mesh.edge_faces(u, v))
-        for fkey in fkeys:
-            if fkey:
-                cablemesh.mesh.delete_face(fkey)
-
-        cablemesh.mesh.remove_unused_vertices()
-        ui.scene.update()
-        ui.record()
+    cablemesh.modify()
 
     ui.scene.update()
     ui.record()

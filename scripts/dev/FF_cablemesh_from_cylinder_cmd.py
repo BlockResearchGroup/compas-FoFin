@@ -14,7 +14,6 @@ __commandname__ = "FF_cablemesh_from_cylinder"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     guid = compas_rhino.select_object("Select a cylinder")

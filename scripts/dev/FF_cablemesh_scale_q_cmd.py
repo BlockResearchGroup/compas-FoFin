@@ -13,7 +13,6 @@ __commandname__ = "FF_cablemesh_scale_q"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -36,11 +35,9 @@ def RunCommand(is_interactive):
     Q = cablemesh.mesh.edges_attribute("q", keys=selected)
 
     if mode == "Value":
-
         scale = ui.get_real("Scaling factor", minval=-1e2, maxval=+1e2, default=1.0)
 
     elif mode == "Interactive":
-
         fd_create = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_create", cache=True)
         fd_call = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_call")
         fd_delete = ui.proxy.function("compas_fd.fd.mesh_fd_constrained_cache_delete")

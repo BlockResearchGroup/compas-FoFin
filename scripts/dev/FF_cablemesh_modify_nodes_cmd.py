@@ -12,7 +12,6 @@ __commandname__ = "FF_cablemesh_modify_nodes"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object
@@ -20,7 +19,7 @@ def RunCommand(is_interactive):
     if not isinstance(cablemesh, CableMeshObject):
         raise Exception("The active object is not a CableMesh.")
 
-    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:is_anchor"] = True
     cablemesh.settings["show.vertices:free"] = True
 
     cablemesh.is_valid = False
@@ -33,7 +32,7 @@ def RunCommand(is_interactive):
         public = [name for name in cablemesh.mesh.default_vertex_attributes.keys() if not name.startswith("_")]
         cablemesh.modify_vertices(nodes, names=public)
 
-    cablemesh.settings["show.vertices:anchors"] = True
+    cablemesh.settings["show.vertices:is_anchor"] = True
     cablemesh.settings["show.vertices:free"] = False
 
     ui.scene.update()

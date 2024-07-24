@@ -12,7 +12,6 @@ __commandname__ = "FF_cablemesh_solve_dr"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()
 
     cablemesh = ui.scene.active_object

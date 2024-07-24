@@ -18,7 +18,6 @@ __commandname__ = "FF_toolbar_cablemesh_create"
 
 @UI.error()
 def RunCommand(is_interactive):
-
     ui = UI()  # noqa: F841
 
     options = ["FromMeshgrid", "FromMesh", "FromSurface", "FromBox", "FromCylinder"]
