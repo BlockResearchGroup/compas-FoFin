@@ -24,32 +24,48 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        self._guids_loads = None
-        self._guids_selfweight = None
-        self._guids_forces = None
-        self._guids_reactions = None
-        self._guids_residuals = None
         self.loadgroup = loadgroup
         self.selfweightgroup = selfweightgroup
         self.forcegroup = forcegroup
         self.reactiongroup = reactiongroup
         self.residualgroup = residualgroup
 
-    def select_vertices(self):
-        guids = compas_rhino.objects.select_points()
+    def select_vertices(self, redraw=True):
+        if redraw:
+            self.clear_vertices()
+            self.draw_vertices()
+
+        guids = compas_rhino.objects.select_points(message="Select Vertices")
         if not guids:
             return
-        guid_vertex = dict(zip(self._guids_vertices, self.mesh.vertices()))
-        return [guid_vertex[guid] for guid in guids]
 
-    def delete_vertices(self):
-        # the guids don't survive...
-        guids = compas_rhino.objects.get_objects(name="CableMesh.vertex.*") or []
-        # guids += self._guids_vertices
-        compas_rhino.objects.delete_objects(guids)
+        return [self._guid_vertex.get(guid) for guid in guids]
+
+    def select_edges(self, redraw=True):
+        if redraw:
+            self.clear_edges()
+            self.draw_edges()
+
+        guids = compas_rhino.objects.select_lines(message="Select Edges")
+        if not guids:
+            return
+
+        return [self._guid_edge.get(guid) for guid in guids]
+
+    def select_faces(self, redraw=True):
+        if redraw:
+            self.clear_faces()
+            self.draw_faces()
+
+        guids = compas_rhino.objects.select_meshes(message="Select Faces")
+        if not guids:
+            return
+
+        return [self._guid_face.get(guid) for guid in guids]
 
     def draw_vertices(self):
         vertices = []
+
         if self.show_free:
             vertices += list(self.mesh.vertices_where(is_anchor=False))
         if self.show_anchors:
@@ -58,7 +74,10 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.show_vertices = vertices
 
         for vertex in self.mesh.vertices_where(is_anchor=True):
-            self.vertexcolor[vertex] = self.anchorcolor
+            if not self.mesh.vertex_attribute(vertex, "constraint"):
+                self.vertexcolor[vertex] = self.anchorcolor
+            else:
+                self.vertexcolor[vertex] = self.constraintcolor
 
         return super().draw_vertices()
 
@@ -82,7 +101,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             elif self.group:
                 self.add_to_group(self.group, guids)
 
-        self._guids_loads = guids
+        self._guids += guids
         return guids
 
     def draw_selfweight(self):
@@ -108,7 +127,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             elif self.group:
                 self.add_to_group(self.group, guids)
 
-        self._guids_selfweight = guids
+        self._guids += guids
         return guids
 
     def draw_forces(self):
@@ -132,7 +151,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             elif self.group:
                 self.add_to_group(self.group, guids)
 
-        self._guids_forces = guids
+        self._guids += guids
         return guids
 
     def draw_reactions(self):
@@ -155,7 +174,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             elif self.group:
                 self.add_to_group(self.group, guids)
 
-        self._guids_reactions = guids
+        self._guids += guids
         return guids
 
     def draw_residuals(self):
@@ -178,5 +197,5 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             elif self.group:
                 self.add_to_group(self.group, guids)
 
-        self._guids_loads = guids
+        self._guids += guids
         return guids
