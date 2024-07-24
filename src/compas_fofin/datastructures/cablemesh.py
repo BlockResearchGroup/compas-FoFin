@@ -26,6 +26,7 @@ class CableMesh(Mesh):
             _l=0.0,
         )
         self.default_face_attributes.update({})
+        self.constraints = {}
 
     def vertex_residual(self, vertex):
         residual = self.vertex_attribute(vertex, "residual")
@@ -43,24 +44,3 @@ class CableMesh(Mesh):
         vector = self.edge_direction()
         vector.scale(self.edge_attribute(edge, "_f"))
         return vector
-
-    # def vertices_on_edge_loop(self, uv):
-    #     edges = self.edge_loop(uv)
-    #     if len(edges) == 1:
-    #         return edges[0]
-    #     vertices = [edge[0] for edge in edges]
-    #     if edges[-1][1] != edges[0][0]:
-    #         vertices.append(edges[-1][1])
-    #     return vertices
-
-    # def corner_vertices(self):
-    #     vertices = []
-    #     if self.is_closed():
-    #         for vertex in self.vertices():
-    #             if self.vertex_degree(vertex) == 3:
-    #                 vertices.append(vertex)
-    #     else:
-    #         for vertex in self.vertices_on_boundary():
-    #             if self.vertex_degree(vertex) == 2:
-    #                 vertices.append(vertex)
-    #     return vertices
