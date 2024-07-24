@@ -1,17 +1,3 @@
-"""
-********************************************************************************
-compas_fofin
-********************************************************************************
-
-.. currentmodule:: compas_fofin
-
-
-.. toctree::
-    :maxdepth: 1
-
-
-"""
-
 from __future__ import print_function
 
 import os
@@ -38,7 +24,8 @@ __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
 
 __all_plugins__ = [
     "compas_fofin.rhino.install",
-    "compas_fofin.rhino.artists",
-    "compas_fofin.rhino.objects",
-    "compas_fofin.rhino.register",
+    "compas_fofin.rhino.scene",
+    # "compas_fofin.rhino.artists",
+    # "compas_fofin.rhino.objects",
+    # "compas_fofin.rhino.register",
 ]
