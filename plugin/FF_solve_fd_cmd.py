@@ -1,20 +1,18 @@
 #! python3
-import pathlib
-
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
 from compas.scene import Scene
 from compas_fd.solvers import fd_constrained_numpy
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_session.session import Session
+from compas_fofin.session import Session
 
-__commandname__ = "FF_cablemesh_solve_fd"
+__commandname__ = "FF_solve_fd"
 
 
 def RunCommand(is_interactive):
 
-    session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
+    session = Session(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -65,8 +63,8 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    # session.record()
-    # session.save()
+    if session.CONFIG["autosave"]:
+        session.record()
 
 
 # =============================================================================

@@ -1,19 +1,22 @@
 #! python3
-import pathlib
-
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
+import compas_rhino
+import compas_rhino.conversions
+import compas_rhino.objects
+from compas.colors import Color
 from compas.scene import Scene
+from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_session.session import Session
+from compas_fofin.session import Session
 
-__commandname__ = "FF_cablemesh_anchors"
+__commandname__ = "FF_constraints_update"
 
 
 def RunCommand(is_interactive):
 
-    session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
+    session = Session(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -25,47 +28,21 @@ def RunCommand(is_interactive):
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
-    # Preselect anchors
+    # Update Constraints
     # =============================================================================
 
-    fixed = list(mesh.vertices_where(is_fixed=True))
-    leaves = list(mesh.vertices_where(vertex_degree=1))
-    vertices = list(set(fixed + leaves))
+    for vertex in mesh.vertices:
+        constraint = mesh.vertex_attribute(vertex, "constraint")
+        if not constraint:
+            continue
 
-    if vertices:
-        mesh.vertices_attribute("is_anchor", True, keys=vertices)
-
-    # =============================================================================
-    # Select/Unselect anchors
-    # =============================================================================
-
-    option = rs.GetString(message="Select/Unselect anchors", strings=["Select", "Unselect"])
-    if not option:
-        return
-
-    option_is_select = option == "Select"
-
-    meshobj.is_valid = False  # this should be moved to the data
-    meshobj.show_free = option_is_select
-
-    while True:
-        rs.UnselectAllObjects()
-
-        vertices = meshobj.select_vertices(redraw=True)
-        if not vertices:
-            break
-
-        mesh.vertices_attribute("is_anchor", option_is_select, keys=vertices)
-
-        if not option_is_select:
-            for vertex in vertices:
-                mesh.unset_vertex_attribute(vertex, "constraint")
+        constraint.location = mesh.vertex_point(vertex)
+        constraint.project()
+        mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
     # Update scene
     # =============================================================================
-
-    rs.UnselectAllObjects()
 
     meshobj.show_free = False
 
@@ -76,8 +53,8 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    # session.record()
-    # session.save_all()
+    if session.CONFIG["autosave"]:
+        session.record()
 
 
 # =============================================================================

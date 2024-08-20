@@ -1,19 +1,17 @@
 #! python3
-import pathlib
-
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
 from compas.scene import Scene
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_session.session import Session
+from compas_fofin.session import Session
 
-__commandname__ = "FF_cablemesh_edges_delete"
+__commandname__ = "FF_edges_delete"
 
 
 def RunCommand(is_interactive):
 
-    session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
+    session = Session(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -28,7 +26,8 @@ def RunCommand(is_interactive):
     # Delete edges
     # =============================================================================
 
-    edges = meshobj.select_edges()
+    meshobj.show_edges = True
+    edges = meshobj.select_edges(redraw=True)
 
     if edges:
         fkeys = set()
@@ -47,6 +46,8 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
+    meshobj.show_edges = False
+
     scene.clear()
     scene.draw()
 
@@ -54,8 +55,8 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    # session.record()
-    # session.save()
+    if session.CONFIG["autosave"]:
+        session.record()
 
 
 # =============================================================================

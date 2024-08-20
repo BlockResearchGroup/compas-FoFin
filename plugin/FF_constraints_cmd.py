@@ -1,6 +1,4 @@
 #! python3
-import pathlib
-
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
 import compas_rhino
@@ -11,14 +9,14 @@ from compas.scene import Scene
 from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_session.session import Session
+from compas_fofin.session import Session
 
-__commandname__ = "FF_cablemesh_constraints"
+__commandname__ = "FF_constraints"
 
 
 def RunCommand(is_interactive):
 
-    session = Session(root=pathlib.Path(__file__).parent, name="FoFin")
+    session = Session(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -30,19 +28,19 @@ def RunCommand(is_interactive):
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
-    # Update constraints
+    # Modify Anchors
     # =============================================================================
 
     rs.UnselectAllObjects()
 
-    option = rs.GetString(message="Constrain/Unconstrain Vertices", strings=["Constrain", "Unconstrain"])
+    option = rs.GetString(message="Constraints", strings=["Add", "Remove"])
     if not option:
         return
 
     # this should be moved to the data
     meshobj.is_valid = False
 
-    if option == "Unconstrain":
+    if option == "Remove":
         # Select any of the currently constrained vertices
         # and unconstrain them leaving them as simple anchors
 
@@ -51,51 +49,53 @@ def RunCommand(is_interactive):
             for vertex in vertices:
                 mesh.unset_vertex_attribute(vertex, "constraint")
 
-    elif option == "Constrain":
+    elif option == "Add":
         # Select any set of vertices
         # Make them anchors and constrain them
 
-        meshobj.show_free = True
-
         vertices = meshobj.select_vertices(redraw=True)
-        if vertices:
+        if not vertices:
+            return
 
-            guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
-            if guid:
+        guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
+        if not guid:
+            return
 
-                obj = compas_rhino.objects.find_object(guid)
-                if obj:
+        obj = compas_rhino.objects.find_object(guid)
+        if not obj:
+            return
 
-                    constraint = None
-                    if "constraint.guid" in obj.UserDictionary:
-                        if obj.UserDictionary["constraint.guid"] in mesh.constraints:
-                            constraint = mesh.constraints[obj.UserDictionary["constraint.guid"]]
+        constraint = None
+        if "constraint.guid" in obj.UserDictionary:
+            if obj.UserDictionary["constraint.guid"] in mesh.constraints:
+                constraint = mesh.constraints[obj.UserDictionary["constraint.guid"]]
 
-                    if not constraint:
-                        curve = compas_rhino.conversions.curveobject_to_compas(obj)
-                        constraint = Constraint(curve)
-                        obj = scene.add(constraint.geometry, color=Color.cyan())  # only the gometry of the constraint is visualised
-                        obj.draw()
+        if not constraint:
+            curve = compas_rhino.conversions.curveobject_to_compas(obj)
+            constraint = Constraint(curve)
+            obj = scene.add(constraint.geometry, color=Color.cyan())  # only the gometry of the constraint is visualised
+            obj.draw()
 
-                        obj = compas_rhino.objects.find_object(obj.guids[0])
-                        obj.UserDictionary["constraint.guid"] = str(constraint.guid)
-                        mesh.constraints[str(constraint.guid)] = constraint
-                        rs.HideObject(guid)
+            obj = compas_rhino.objects.find_object(obj.guids[0])
+            obj.UserDictionary["constraint.guid"] = str(constraint.guid)
+            mesh.constraints[str(constraint.guid)] = constraint
+            rs.HideObject(guid)
 
-                    if constraint:
-                        for vertex in vertices:
-                            constraint.location = mesh.vertex_point(vertex)
-                            constraint.project()
+        if constraint:
+            for vertex in vertices:
+                constraint.location = mesh.vertex_point(vertex)
+                constraint.project()
 
-                            mesh.vertex_attribute(vertex, "is_anchor", True)
-                            mesh.vertex_attribute(vertex, "constraint", constraint)
-                            mesh.vertex_attributes(vertex, "xyz", constraint.location)
+                mesh.vertex_attribute(vertex, "is_anchor", True)
+                mesh.vertex_attribute(vertex, "constraint", constraint)
+                mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
     # Update scene
     # =============================================================================
 
     rs.UnselectAllObjects()
+
     meshobj.show_free = False
 
     meshobj.clear()
@@ -105,8 +105,8 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    # session.record()
-    # session.save_all()
+    if session.CONFIG["autosave"]:
+        session.record()
 
 
 # =============================================================================
