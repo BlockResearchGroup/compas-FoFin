@@ -1,0 +1,78 @@
+{
+  "id": "5df3b821-822e-49e0-b24e-aebbe671c3d1",
+  "identity": {
+    "name": "COMPAS-FormFinder",
+    "version": "0.1.3-beta",
+    "publisher": {
+      "email": "tom.v.mele@gmail.com",
+      "name": "Tom Van Mele",
+      "company": "Block Research Group",
+      "url": "https://brg.ethz.ch/"
+    },
+    "description": "Rhino plugin for form finding of tension-only, compression-only, and mixed tension-compression structures with axial forces, using constrained force-density and dynamic relaxation solvers.",
+    "copyright": "ETH Zurich - Block Research Group",
+    "license": "MIT",
+    "url": "https://github.com/blockresearchgroup/compas-FoFin"
+  },
+  "settings": {
+    "buildPath": "build/",
+    "buildTarget": {
+      "appName": "Rhino3D",
+      "appVersion": {
+        "major": 8
+      },
+      "title": "Rhino3D (8.*)",
+      "slug": "rh8"
+    },
+    "publishTarget": {
+      "title": "McNeel Yak Server"
+    }
+  },
+  "codes": [
+    {
+      "id": "dfa75426-a696-417f-9f40-5c52f5c07f56",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_cablemesh_from_box_cmd",
+      "uri": "FF_cablemesh_from_box_cmd.py"
+    },
+    {
+      "id": "409cbdb1-900a-499b-8412-ac2173430327",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_cablemesh_from_cylinder_cmd",
+      "uri": "FF_cablemesh_from_cylinder_cmd.py"
+    },
+    {
+      "id": "e5e8d61d-33e7-4a73-8117-9a6ae602cd57",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_cablemesh_anchors_cmd",
+      "uri": "FF_cablemesh_anchors_cmd.py"
+    },
+    {
+      "id": "4c7b0644-0ce6-48ab-8a47-f77c16d827bc",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_cablemesh_constraints_cmd",
+      "uri": "FF_cablemesh_constraints_cmd.py"
+    },
+    {
+      "id": "ad32fa9f-3fec-4748-abbf-3a1f02bc9a5e",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_cablemesh_solve_fd_cmd",
+      "uri": "FF_cablemesh_solve_fd_cmd.py"
+    }
+  ]
+}
