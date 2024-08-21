@@ -1,6 +1,7 @@
 #! python3
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
+from compas.geometry import Vector
 from compas.scene import Scene
 from compas_fd.solvers import fd_constrained_numpy
 from compas_fofin.datastructures import CableMesh
@@ -51,7 +52,7 @@ def RunCommand(is_interactive):
         attr["x"] = result.vertices[index, 0]
         attr["y"] = result.vertices[index, 1]
         attr["z"] = result.vertices[index, 2]
-        attr["residual"] = result.residuals[index]
+        attr["residual"] = Vector(*result.residuals[index])
 
     for index, (edge, attr) in enumerate(mesh.edges(data=True)):
         attr["_f"] = result.forces[index]

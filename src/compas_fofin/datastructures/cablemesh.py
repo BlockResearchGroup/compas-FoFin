@@ -43,13 +43,13 @@ class CableMesh(Mesh):
 
     def vertex_residual(self, vertex):
         residual = self.vertex_attribute(vertex, "residual")
-        if not residual:
+        if residual is None:
             residual = Vector(0, 0, 0)
         return residual
 
     def vertex_load(self, vertex):
         load = self.vertex_attribute(vertex, "load")
-        if not load:
+        if load is None:
             load = Vector(0, 0, 0)
         return load
 
