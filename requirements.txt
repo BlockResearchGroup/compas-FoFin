@@ -1,4 +1,4 @@
 compas >= 2.3
 compas_fd >= 0.5
-compas_session
+# compas_session
 # compas_ui >=0.6.1
