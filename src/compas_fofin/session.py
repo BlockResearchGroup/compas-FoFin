@@ -79,35 +79,39 @@ class Session:
     def undo(self):
         if self.current < 0:
             print("Nothing to undo!")
-            return
+            return False
 
         if self.current == 0:
             print("Nothing more to undo!")
-            return
+            return False
 
         self.current -= 1
-        filepath, _ = self._history[self.current]
+        filepath, _ = self.history[self.current]
         self.data = compas.json_load(filepath)
+
+        return True
 
     def redo(self):
         if self.current < 0:
             print("Nothing to redo!")
-            return
+            return False
 
         if self.current == len(self.history) - 1:
             print("Nothing more to redo!")
-            return
+            return False
 
         self.current += 1
         filepath, _ = self.history[self.current]
         self.data = compas.json_load(filepath)
+
+        return True
 
     def record(self, eventname):
         if self.current > -1:
             if self.current < len(self.history) - 1:
                 self.history[:] = self.history[: self.current + 1]
 
-        filepath = tempfile.mkstemp(dir=self.tempdir, suffix=".json", text=True)
+        fd, filepath = tempfile.mkstemp(dir=self.tempdir, suffix=".json", text=True)
 
         compas.json_dump(self.data, filepath)
         self.history.append((filepath, eventname))
