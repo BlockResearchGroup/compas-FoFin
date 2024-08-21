@@ -9,8 +9,6 @@ from compas_fofin.rhino.conversions import box_to_cablemesh
 from compas_fofin.rhino.conversions import cylinder_to_cablemesh
 from compas_fofin.session import Session
 
-__commandname__ = "FF_pattern"
-
 
 def RunCommand(is_interactive):
 
@@ -83,7 +81,7 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.CONFIG["autosave"]:
-        session.record()
+        session.record(eventname="Make Pattern")
 
 
 # =============================================================================

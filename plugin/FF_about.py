@@ -1,11 +1,11 @@
 #! python3
 
-__commandname__ = "FF_edges_attrs"
+from compas_fofin.rhino.forms.about import AboutForm
 
 
 def RunCommand(is_interactive):
 
-    print("Not implemented yet...")
+    AboutForm().show()
 
 
 # =============================================================================

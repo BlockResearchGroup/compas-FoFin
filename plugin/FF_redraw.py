@@ -1,20 +1,20 @@
 #! python3
+import compas_rhino.objects
 from compas.scene import Scene
+from compas_fofin.rhino.scene import RhinoConstraintObject
 from compas_fofin.session import Session
-
-__commandname__ = "FF_clear"
 
 
 def RunCommand(is_interactive):
 
     session = Session(name="FormFinder")
-
-    # =============================================================================
-    # Get stuff from session
-    # =============================================================================
-
     scene: Scene = session.setdefault("scene", factory=Scene)
-    scene.clear()
+    scene.redraw()
+
+    for obj in scene.objects:
+        if isinstance(obj, RhinoConstraintObject):
+            robj = compas_rhino.objects.find_object(obj.guids[0])
+            robj.UserDictionary["constraint.guid"] = str(obj.constraint.guid)
 
 
 # =============================================================================

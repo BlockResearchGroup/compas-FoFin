@@ -1,19 +1,12 @@
 #! python3
-import pathlib
-
+from compas.scene import Scene
 from compas_fofin.session import Session
-
-__commandname__ = "FF_redo"
 
 
 def RunCommand(is_interactive):
 
-    session = Session(root=pathlib.Path(__file__).parent, name="FormFinder")
-
-    # session.redo()
-
-    # if Rhino file is saved, use parent/.FormFinder/temp/timestamp
-    # otherwise use tmp/.FormFinder/temp/timestamp
+    session = Session(name="FormFinder")
+    scene: Scene = session.setdefault("scene", factory=Scene)
 
 
 # =============================================================================

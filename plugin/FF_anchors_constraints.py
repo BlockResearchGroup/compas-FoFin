@@ -11,8 +11,6 @@ from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
 
-__commandname__ = "FF_constraints"
-
 
 def RunCommand(is_interactive):
 
@@ -26,6 +24,8 @@ def RunCommand(is_interactive):
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
     mesh: CableMesh = meshobj.mesh
+
+    # constraints = session.setdefault("constraints", factory=dict)
 
     # =============================================================================
     # Modify Anchors
@@ -61,23 +61,25 @@ def RunCommand(is_interactive):
         if not guid:
             return
 
-        obj = compas_rhino.objects.find_object(guid)
-        if not obj:
+        robj = compas_rhino.objects.find_object(guid)
+        if not robj:
             return
 
         constraint = None
-        if "constraint.guid" in obj.UserDictionary:
-            if obj.UserDictionary["constraint.guid"] in mesh.constraints:
-                constraint = mesh.constraints[obj.UserDictionary["constraint.guid"]]
+        if "constraint.guid" in robj.UserDictionary:
+            if robj.UserDictionary["constraint.guid"] in mesh.constraints:
+                # the constraint already exists
+                constraint = mesh.constraints[robj.UserDictionary["constraint.guid"]]
 
         if not constraint:
-            curve = compas_rhino.conversions.curveobject_to_compas(obj)
+            curve = compas_rhino.conversions.curveobject_to_compas(robj)
             constraint = Constraint(curve)
-            obj = scene.add(constraint.geometry, color=Color.cyan())  # only the gometry of the constraint is visualised
-            obj.draw()
+            sceneobject = scene.add(constraint, color=Color.cyan())
+            sceneobject.draw()
 
-            obj = compas_rhino.objects.find_object(obj.guids[0])
-            obj.UserDictionary["constraint.guid"] = str(constraint.guid)
+            robj = compas_rhino.objects.find_object(sceneobject.guids[0])
+            robj.UserDictionary["constraint.guid"] = str(constraint.guid)
+
             mesh.constraints[str(constraint.guid)] = constraint
             rs.HideObject(guid)
 
@@ -87,7 +89,7 @@ def RunCommand(is_interactive):
                 constraint.project()
 
                 mesh.vertex_attribute(vertex, "is_anchor", True)
-                mesh.vertex_attribute(vertex, "constraint", constraint)
+                mesh.vertex_attribute(vertex, "constraint", str(constraint.guid))
                 mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
@@ -106,7 +108,7 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.CONFIG["autosave"]:
-        session.record()
+        session.record(eventname=f"{option} Constraints")
 
 
 # =============================================================================

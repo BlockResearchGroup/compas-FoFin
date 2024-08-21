@@ -1,7 +1,5 @@
 #! python3
 
-__commandname__ = "FF_redraw"
-
 
 def RunCommand(is_interactive):
 

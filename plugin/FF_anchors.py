@@ -6,8 +6,6 @@ from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
 
-__commandname__ = "FF_anchors"
-
 
 def RunCommand(is_interactive):
 
@@ -109,10 +107,6 @@ def RunCommand(is_interactive):
     meshobj.show_free = False
     meshobj.show_edges = False
 
-    # meshobj.clear_vertices()
-    # meshobj.clear_edges()
-    # meshobj.draw_vertices()
-    # meshobj.draw_edges()
     meshobj.clear()
     meshobj.draw()
 
@@ -121,7 +115,7 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.CONFIG["autosave"]:
-        session.record()
+        session.record(eventname="Identify Anchors")
 
 
 # =============================================================================

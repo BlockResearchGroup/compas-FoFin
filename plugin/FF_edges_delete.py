@@ -1,17 +1,10 @@
 #! python3
 import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
 
-import compas_rhino
-import compas_rhino.conversions
-import compas_rhino.objects
-from compas.colors import Color
 from compas.scene import Scene
-from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
-
-__commandname__ = "FF_constraints_update"
 
 
 def RunCommand(is_interactive):
@@ -28,33 +21,40 @@ def RunCommand(is_interactive):
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
-    # Update Constraints
+    # Delete edges
     # =============================================================================
 
-    for vertex in mesh.vertices:
-        constraint = mesh.vertex_attribute(vertex, "constraint")
-        if not constraint:
-            continue
+    meshobj.show_edges = True
+    edges = meshobj.select_edges(redraw=True)
 
-        constraint.location = mesh.vertex_point(vertex)
-        constraint.project()
-        mesh.vertex_attributes(vertex, "xyz", constraint.location)
+    if edges:
+        fkeys = set()
+        for edge in edges:
+            fkeys.update(mesh.edge_faces(edge))
+
+        for fkey in fkeys:
+            if fkey is not None:
+                mesh.delete_face(fkey)
+
+        mesh.remove_unused_vertices()
 
     # =============================================================================
     # Update scene
     # =============================================================================
 
-    meshobj.show_free = False
+    rs.UnselectAllObjects()
 
-    meshobj.clear()
-    meshobj.draw()
+    meshobj.show_edges = False
+
+    scene.clear()
+    scene.draw()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
     if session.CONFIG["autosave"]:
-        session.record()
+        session.record(eventname="Delete Edges")
 
 
 # =============================================================================
