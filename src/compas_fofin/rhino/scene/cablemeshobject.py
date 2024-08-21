@@ -1,9 +1,14 @@
+import ast
+
+import Rhino  # type: ignore
+import rhinoscriptsyntax as rs  # type: ignore
 import scriptcontext as sc  # type: ignore
 
 import compas_rhino.conversions
 import compas_rhino.objects
 from compas.geometry import Cylinder
 from compas.geometry import Line
+from compas.geometry import Point
 from compas.geometry import Vector
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import CableMeshObject
@@ -29,6 +34,14 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         self.forcegroup = forcegroup
         self.reactiongroup = reactiongroup
         self.residualgroup = residualgroup
+
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+    # Select
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
 
     def select_vertices(self, redraw=True):
         if redraw:
@@ -62,6 +75,37 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             return
 
         return [self._guid_face.get(guid) for guid in guids]
+
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+    # Draw
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+
+    def draw(self):
+        """Draw the mesh or its components in Rhino.
+
+        Returns
+        -------
+        list[System.Guid]
+            The GUIDs of the created Rhino objects.
+
+        Notes
+        -----
+        The mesh should be a valid Rhino Mesh object, which means it should have only triangular or quadrilateral faces.
+        Faces with more than 4 vertices will be triangulated on-the-fly.
+
+        """
+        super(RhinoCableMeshObject, self).draw()
+
+        self.draw_reactions()
+        self.draw_residuals()
+        self.draw_loads()
+        self.draw_selfweight()
+
+        return self.guids
 
     def draw_vertices(self):
         vertices = []
@@ -199,3 +243,334 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
 
         self._guids += guids
         return guids
+
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+    # Modify
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+
+    def update_attributes(self):
+        # type: () -> bool
+
+        mesh = self.mesh  # type: CableMesh
+
+        names = sorted(mesh.attributes.keys())
+        values = [str(mesh.attributes[name]) for name in names]
+        values = rs.PropertyListBox(names, values, message="General Attributes", title="Update Mesh")
+        if values:
+            for name, value in zip(names, values):
+                try:
+                    mesh.attributes[name] = ast.literal_eval(value)
+                except (ValueError, TypeError):
+                    mesh.attributes[name] = value
+            return True
+        return False
+
+    def update_vertex_attributes(self, vertices, names=None):
+        # type: (list[int], list[str] | None) -> bool
+
+        mesh = self.mesh  # type: CableMesh
+
+        names = names or mesh.default_vertex_attributes.keys()
+        names = sorted(names)
+        values = mesh.vertex_attributes(vertices[0], names)
+        if len(vertices) > 1:
+            for i, name in enumerate(names):
+                for vertex in vertices[1:]:
+                    if values[i] != mesh.vertex_attribute(vertex, name):
+                        values[i] = "-"
+                        break
+        values = map(str, values)
+        values = rs.PropertyListBox(names, values, message="Vertex Attributes", title="Update Mesh")
+        if values:
+            for name, value in zip(names, values):
+                if value == "-":
+                    continue
+                for vertex in vertices:
+                    try:
+                        mesh.vertex_attribute(vertex, name, ast.literal_eval(value))
+                    except (ValueError, TypeError):
+                        mesh.vertex_attribute(vertex, name, value)
+            return True
+        return False
+
+    def update_face_attributes(self, faces, names=None):
+        # type: (list[int], list[str] | None) -> bool
+
+        mesh = self.mesh  # type: CableMesh
+
+        names = names or mesh.default_face_attributes.keys()
+        names = sorted(names)
+        values = mesh.face_attributes(faces[0], names)
+        if len(faces) > 1:
+            for i, name in enumerate(names):
+                for face in faces[1:]:
+                    if values[i] != mesh.face_attribute(face, name):
+                        values[i] = "-"
+                        break
+        values = map(str, values)
+        values = rs.PropertyListBox(names, values, message="Face Attributes", title="Update Mesh")
+        if values:
+            for name, value in zip(names, values):
+                if value == "-":
+                    continue
+                for face in faces:
+                    try:
+                        mesh.face_attribute(face, name, ast.literal_eval(value))
+                    except (ValueError, TypeError):
+                        mesh.face_attribute(face, name, value)
+            return True
+        return False
+
+    def update_edge_attributes(self, edges, names=None):
+        # type: (list[tuple[int, int]], list[str] | None) -> bool
+
+        mesh = self.mesh  # type: CableMesh
+
+        names = names or mesh.default_edge_attributes.keys()
+        names = sorted(names)
+        edge = edges[0]
+        values = mesh.edge_attributes(edge, names)
+        if len(edges) > 1:
+            for i, name in enumerate(names):
+                for edge in edges[1:]:
+                    if values[i] != mesh.edge_attribute(edge, name):
+                        values[i] = "-"
+                        break
+        values = map(str, values)
+        values = rs.PropertyListBox(names, values, message="Face Attributes", title="Update Mesh")
+        if values:
+            for name, value in zip(names, values):
+                if value == "-":
+                    continue
+                for edge in edges:
+                    try:
+                        value = ast.literal_eval(value)
+                    except (SyntaxError, ValueError, TypeError):
+                        pass
+                    mesh.edge_attribute(edge, name, value)
+            return True
+        return False
+
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+    # Move
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+
+    def move(self):
+        # type: () -> bool
+
+        mesh = self.mesh  # type: CableMesh
+
+        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
+
+        vertex_p0 = {v: Rhino.Geometry.Point3d(*mesh.vertex_coordinates(v)) for v in mesh.vertices()}
+        vertex_p1 = {v: Rhino.Geometry.Point3d(*mesh.vertex_coordinates(v)) for v in mesh.vertices()}
+
+        edges = list(mesh.edges())
+
+        def OnDynamicDraw(sender, e):
+            current = e.CurrentPoint
+            vector = current - start
+            for vertex in vertex_p1:
+                vertex_p1[vertex] = vertex_p0[vertex] + vector
+            for u, v in iter(edges):
+                sp = vertex[u]
+                ep = vertex[v]
+                e.Display.DrawDottedLine(sp, ep, color)
+
+        gp = Rhino.Input.Custom.GetPoint()
+
+        gp.SetCommandPrompt("Point to move from?")
+        gp.Get()
+
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        start = gp.Point()
+
+        gp = Rhino.Input.Custom.GetPoint()
+        gp.SetCommandPrompt("Point to move to?")
+        gp.DynamicDraw += OnDynamicDraw
+        gp.Get()
+
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        end = gp.Point()
+        vector = compas_rhino.conversions.vector_to_compas(end - start)
+
+        for _, attr in mesh.vertices(True):
+            attr["x"] += vector[0]
+            attr["y"] += vector[1]
+            attr["z"] += vector[2]
+
+        return True
+
+    def move_vertex(self, vertex, constraint=None, allow_off=True):
+        # type: (int, Rhino.Geometry, bool) -> bool
+
+        def OnDynamicDraw(sender, e):
+            for ep in nbrs:
+                sp = e.CurrentPoint
+                e.Display.DrawDottedLine(sp, ep, color)
+
+        mesh = self.mesh  # type: CableMesh
+
+        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
+        nbrs = [mesh.vertex_coordinates(nbr) for nbr in mesh.vertex_neighbors(vertex)]
+        nbrs = [Rhino.Geometry.Point3d(*xyz) for xyz in nbrs]
+
+        gp = Rhino.Input.Custom.GetPoint()
+
+        gp.SetCommandPrompt("Point to move to?")
+        gp.DynamicDraw += OnDynamicDraw
+        if constraint:
+            gp.Constrain(constraint, allow_off)
+
+        gp.Get()
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        mesh.vertex_attributes(vertex, "xyz", list(gp.Point()))
+        return True
+
+    def move_vertices(self, vertices):
+        # type: (list[int]) -> bool
+
+        def OnDynamicDraw(sender, e):
+            end = e.CurrentPoint
+            vector = end - start
+            for a, b in lines:
+                a = a + vector
+                b = b + vector
+                e.Display.DrawDottedLine(a, b, color)
+            for a, b in connectors:
+                a = a + vector
+                e.Display.DrawDottedLine(a, b, color)
+
+        mesh = self.mesh  # type: CableMesh
+
+        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
+        lines = []
+        connectors = []
+
+        for vertex in vertices:
+            a = mesh.vertex_coordinates(vertex)
+            nbrs = mesh.vertex_neighbors(vertex)
+            for nbr in nbrs:
+                b = mesh.vertex_coordinates(nbr)
+                line = [Rhino.Geometry.Point3d(*a), Rhino.Geometry.Point3d(*b)]
+                if nbr in vertices:
+                    lines.append(line)
+                else:
+                    connectors.append(line)
+
+        gp = Rhino.Input.Custom.GetPoint()
+
+        gp.SetCommandPrompt("Point to move from?")
+        gp.Get()
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        start = gp.Point()
+
+        gp.SetCommandPrompt("Point to move to?")
+        gp.SetBasePoint(start, False)
+        gp.DrawLineFromPoint(start, True)
+        gp.DynamicDraw += OnDynamicDraw
+        gp.Get()
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        end = gp.Point()
+        vector = compas_rhino.conversions.vector_to_compas(end - start)
+
+        for vertex in vertices:
+            point = Point(*mesh.vertex_attributes(vertex, "xyz"))
+            mesh.vertex_attributes(vertex, "xyz", point + vector)
+        return True
+
+    def move_vertices_direction(self, vertices, direction):
+        # type: (list[int], str) -> bool
+
+        def OnDynamicDraw(sender, e):
+            draw = e.Display.DrawDottedLine
+            end = e.CurrentPoint
+            vector = end - start
+            for a, b in lines:
+                a = a + vector
+                b = b + vector
+                draw(a, b, color)
+            for a, b in connectors:
+                a = a + vector
+                draw(a, b, color)
+
+        mesh = self.mesh  # type: CableMesh
+
+        direction = direction.lower()
+        color = Rhino.ApplicationSettings.AppearanceSettings.FeedbackColor
+        lines = []
+        connectors = []
+
+        for vertex in vertices:
+            a = Rhino.Geometry.Point3d(*mesh.vertex_coordinates(vertex))
+            nbrs = mesh.vertex_neighbors(vertex)
+            for nbr in nbrs:
+                b = Rhino.Geometry.Point3d(*mesh.vertex_coordinates(nbr))
+                if nbr in vertices:
+                    lines.append((a, b))
+                else:
+                    connectors.append((a, b))
+
+        gp = Rhino.Input.Custom.GetPoint()
+        gp.SetCommandPrompt("Point to move from?")
+        gp.Get()
+
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        start = gp.Point()
+
+        if direction == "x":
+            geometry = Rhino.Geometry.Line(start, start + Rhino.Geometry.Vector3d(1, 0, 0))
+        elif direction == "y":
+            geometry = Rhino.Geometry.Line(start, start + Rhino.Geometry.Vector3d(0, 1, 0))
+        elif direction == "z":
+            geometry = Rhino.Geometry.Line(start, start + Rhino.Geometry.Vector3d(0, 0, 1))
+        elif direction == "xy":
+            geometry = Rhino.Geometry.Plane(start, Rhino.Geometry.Vector3d(0, 0, 1))
+        elif direction == "yz":
+            geometry = Rhino.Geometry.Plane(start, Rhino.Geometry.Vector3d(1, 0, 0))
+        elif direction == "zx":
+            geometry = Rhino.Geometry.Plane(start, Rhino.Geometry.Vector3d(0, 1, 0))
+
+        gp.SetCommandPrompt("Point to move to?")
+        gp.SetBasePoint(start, False)
+        gp.DrawLineFromPoint(start, True)
+        gp.DynamicDraw += OnDynamicDraw
+
+        if direction in ("x", "y", "z"):
+            gp.Constrain(geometry)
+        else:
+            gp.Constrain(geometry, False)
+
+        gp.Get()
+
+        if gp.CommandResult() != Rhino.Commands.Result.Success:
+            return False
+
+        end = gp.Point()
+        vector = compas_rhino.conversions.vector_to_compas(end - start)
+
+        for vertex in vertices:
+            point = mesh.vertex_point(vertex)
+            mesh.vertex_attributes(vertex, "xyz", point + vector)
+
+        return True

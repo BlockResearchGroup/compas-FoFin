@@ -5,11 +5,24 @@ from compas.geometry import Vector
 class CableMesh(Mesh):
     """The FoFin CableMesh."""
 
-    def __init__(self, *args, **kwargs):
-        super(CableMesh, self).__init__(*args, **kwargs)
+    @property
+    def __data__(self):
+        data = super(CableMesh, self).__data__
+        data["constraints"] = self.constraints
+        return data
+
+    @classmethod
+    def __from_data__(cls, data):
+        cablemesh = super(CableMesh, cls).__from_data__(data)
+        cablemesh.constraints = data["constraints"]
+        return cablemesh
+
+    def __init__(self, constraints=None, **kwargs):
+        super(CableMesh, self).__init__(**kwargs)
         self.default_vertex_attributes.update(
             is_anchor=False,
             is_constrained=False,
+            constraint=None,
             residual=None,
             load=None,
             thickness=0,
@@ -26,7 +39,7 @@ class CableMesh(Mesh):
             _l=0.0,
         )
         self.default_face_attributes.update({})
-        self.constraints = {}
+        self.constraints = constraints or {}
 
     def vertex_residual(self, vertex):
         residual = self.vertex_attribute(vertex, "residual")

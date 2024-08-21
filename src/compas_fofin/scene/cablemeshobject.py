@@ -21,11 +21,11 @@ class CableMeshObject(MeshObject):
         self.show_free = False
         self.show_forces = False
         self.show_residuals = False
-        self.show_reactions = False
+        self.show_reactions = True
 
         self.scale_loads = 1
         self.scale_forces = 1
-        self.scale_residuals = 1
+        self.scale_residuals = 50
         self.scale_selfweight = 1
 
         self.is_valid = False
