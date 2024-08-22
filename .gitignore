@@ -127,3 +127,5 @@ src/compas_fofin/ui/Rhino/FoFin/dev/FF.rui
 *.3dm
 
 __dev
+
+plugin/resources/FF_toolbar.ai
