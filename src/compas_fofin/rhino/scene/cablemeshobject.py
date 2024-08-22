@@ -43,27 +43,73 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
     # =============================================================================
     # =============================================================================
 
-    def select_vertices(self, redraw=True):
-        if redraw:
-            self.clear_vertices()
-            self.draw_vertices()
-
-        guids = compas_rhino.objects.select_points(message="Select Vertices")
-        if not guids:
+    def select_vertices(self, show_anchors=True, show_free=True):
+        option = rs.GetInteger(message="Select Vertices", strings=["Degree", "EdgeLoop", "Manual"])
+        if not option:
             return
 
-        return [self._guid_vertex.get(guid) for guid in guids]
+        if option == "Degree":
+            D = rs.GetInteger(message="Vertex Degree", number=2, minimum=1)
+            if not D:
+                return
+            return self.mesh.vertices_where(vertex_degree=D)
 
-    def select_edges(self, redraw=True):
-        if redraw:
+        if option == "EdgeLoop":
+            self.show_edges = True
             self.clear_edges()
             self.draw_edges()
+            guids = compas_rhino.objects.select_lines(message="Select Edges")
+            if not guids:
+                return
+            edges = [self._guid_edge.get(guid) for guid in guids]
 
-        guids = compas_rhino.objects.select_lines(message="Select Edges")
-        if not guids:
+            rs.SelectObjects(guids)
+
+            vertices = []
+            for edge in edges:
+                for u, v in self.mesh.edge_loop(edge):
+                    vertices.append(u)
+                    vertices.append(v)
+            return list(set(vertices))
+
+        if option == "Manual":
+            self.show_anchors = show_anchors
+            self.show_free = show_free
+            self.clear_vertices()
+            self.draw_vertices()
+            guids = compas_rhino.objects.select_points(message="Select Vertices")
+            if not guids:
+                return
+            return [self._guid_vertex.get(guid) for guid in guids]
+
+    def select_edges(self):
+        option = rs.GetString(message="Select Edges", strings=["EdgeLoop", "Manual", "All"])
+        if not option:
             return
 
-        return [self._guid_edge.get(guid) for guid in guids]
+        if option == "EdgeLoop":
+            self.show_edges = True
+            self.clear_edges()
+            self.draw_edges()
+            guids = compas_rhino.objects.select_lines(message="Select Edges")
+            if not guids:
+                return
+            edges = []
+            for guid in guids:
+                edge = self._guid_edge[guid]
+                for edge in self.mesh.edge_loop(edge):
+                    edges.append(edge)
+            edge_guid = {edge: guid for guid, edge in self._guid_edge.items()}
+            rs.SelectObjects([edge_guid[edge] for edge in edges])
+            return edges
+
+        if option == "Manual":
+            self.clear_edges()
+            self.draw_edges()
+            guids = compas_rhino.objects.select_lines(message="Select Edges")
+            if not guids:
+                return
+            return [self._guid_edge.get(guid) for guid in guids]
 
     def select_faces(self, redraw=True):
         if redraw:
@@ -100,10 +146,16 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         """
         super(RhinoCableMeshObject, self).draw()
 
-        self.draw_reactions()
-        self.draw_residuals()
-        self.draw_loads()
-        self.draw_selfweight()
+        if self.show_reactions:
+            self.draw_reactions()
+        if self.show_residuals:
+            self.draw_residuals()
+        if self.show_loads:
+            self.draw_loads()
+        if self.show_selfweight:
+            self.draw_selfweight()
+        if self.show_forces:
+            self.draw_forces()
 
         return self.guids
 
@@ -129,15 +181,17 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         guids = []
 
         for vertex in self.mesh.vertices_where(is_anchor=False):
-            load = self.mesh.vertex_load(vertex)
+            load = self.mesh.vertex_attribute(vertex, "load")
 
             if load is not None:
-                name = "{}.vertex.{}.load".format(self.mesh.name, vertex)
-                attr = self.compile_attributes(name=name, color=self.loadcolor, arrow="end")
-                point = self.mesh.vertex_point(vertex)
-                line = Line.from_point_and_vector(point, load * self.scale_loads)
-                guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
-                guids.append(guid)
+                vector = Vector(*load) * self.scale_loads
+                if vector.length > self.tol_vectors:
+                    name = "{}.vertex.{}.load".format(self.mesh.name, vertex)
+                    attr = self.compile_attributes(name=name, color=self.loadcolor, arrow="end")
+                    point = self.mesh.vertex_point(vertex)
+                    line = Line.from_point_and_vector(point, vector)
+                    guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
+                    guids.append(guid)
 
         if guids:
             if self.loadgroup:
@@ -152,18 +206,19 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         guids = []
 
         for vertex in self.mesh.vertices_where(is_anchor=False):
-            thickness = self.mesh.vertex_attribute(vertex, "t")
+            thickness = self.mesh.vertex_attribute(vertex, "thickness")
 
             if thickness:
                 area = self.mesh.vertex_area(vertex)
                 weight = area * thickness
                 point = self.mesh.vertex_point(vertex)
                 vector = Vector(0, 0, weight * self.scale_selfweight)
-                line = Line.from_point_and_vector(point, vector)
-                name = "{}.vertex.{}.selfweight".format(self.mesh.name, vertex)
-                attr = self.compile_attributes(name=name, color=self.selfweightcolor, arrow="end")
-                guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
-                guids.append(guid)
+                if vector.length > self.tol_vectors:
+                    line = Line.from_point_and_vector(point, vector)
+                    name = "{}.vertex.{}.selfweight".format(self.mesh.name, vertex)
+                    attr = self.compile_attributes(name=name, color=self.selfweightcolor, arrow="end")
+                    guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
+                    guids.append(guid)
 
         if guids:
             if self.selfweightgroup:
@@ -183,11 +238,12 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             if force != 0:
                 line = self.mesh.edge_line(edge)
                 radius = abs(force) * self.scale_forces
-                pipe = Cylinder.from_line_and_radius(line, radius)
-                name = "{}.edge.{}.force".format(self.mesh.name, edge)
-                attr = self.compile_attributes(name=name, color=self.compressioncolor if force < 0 else self.tensioncolor)
-                guid = sc.doc.Objects.AddCylinder(compas_rhino.conversions.cylinder_to_rhino(pipe), attr)
-                guids.append(guid)
+                if radius > self.tol_pipes:
+                    pipe = Cylinder.from_line_and_radius(line, radius)
+                    name = "{}.edge.{}.force".format(self.mesh.name, edge)
+                    attr = self.compile_attributes(name=name, color=self.compressioncolor if force < 0 else self.tensioncolor)
+                    guid = sc.doc.Objects.AddCylinder(compas_rhino.conversions.cylinder_to_rhino(pipe), attr)
+                    guids.append(guid)
 
         if guids:
             if self.forcegroup:
@@ -202,15 +258,17 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         guids = []
 
         for vertex in self.mesh.vertices_where(is_anchor=True):
-            residual = self.mesh.vertex_residual(vertex)
+            residual = self.mesh.vertex_attribute(vertex, "_residual")
 
             if residual is not None:
-                name = "{}.vertex.{}.reaction".format(self.mesh.name, vertex)
-                attr = self.compile_attributes(name=name, color=self.reactioncolor, arrow="end")
-                point = self.mesh.vertex_point(vertex)
-                line = Line.from_point_and_vector(point, residual * -self.scale_residuals)
-                guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
-                guids.append(guid)
+                vector = Vector(*residual) * -self.scale_residuals
+                if vector.length > self.tol_vectors:
+                    name = "{}.vertex.{}.reaction".format(self.mesh.name, vertex)
+                    attr = self.compile_attributes(name=name, color=self.reactioncolor, arrow="end")
+                    point = self.mesh.vertex_point(vertex)
+                    line = Line.from_point_and_vector(point, vector)
+                    guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
+                    guids.append(guid)
 
         if guids:
             if self.reactiongroup:
@@ -225,15 +283,17 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         guids = []
 
         for vertex in self.mesh.vertices_where(is_anchor=False):
-            residual = self.mesh.vertex_residual(vertex)
+            residual = self.mesh.vertex_attribute(vertex, "_residual")
 
             if residual is not None:
-                name = "{}.vertex.{}.residual".format(self.mesh.name, vertex)
-                attr = self.compile_attributes(name=name, color=self.residualcolor, arrow="end")
-                point = self.mesh.vertex_point(vertex)
-                line = Line.from_point_and_vector(point, residual * self.scale_residuals)
-                guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
-                guids.append(guid)
+                vector = Vector(*residual) * self.scale_residuals
+                if vector.length > self.tol_vectors:
+                    name = "{}.vertex.{}.residual".format(self.mesh.name, vertex)
+                    attr = self.compile_attributes(name=name, color=self.residualcolor, arrow="end")
+                    point = self.mesh.vertex_point(vertex)
+                    line = Line.from_point_and_vector(point, vector)
+                    guid = sc.doc.Objects.AddLine(compas_rhino.conversions.line_to_rhino(line), attr)
+                    guids.append(guid)
 
         if guids:
             if self.residualgroup:
@@ -341,7 +401,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
                         values[i] = "-"
                         break
         values = map(str, values)
-        values = rs.PropertyListBox(names, values, message="Face Attributes", title="Update Mesh")
+        values = rs.PropertyListBox(names, values, message="CableMesh Edge Attributes", title="FormFinder")
         if values:
             for name, value in zip(names, values):
                 if value == "-":

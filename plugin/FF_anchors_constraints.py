@@ -21,11 +21,12 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     scene: Scene = session.get("scene")
-
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
-    mesh: CableMesh = meshobj.mesh
 
-    # constraints = session.setdefault("constraints", factory=dict)
+    if not meshobj:
+        return
+
+    mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
     # Modify Anchors
@@ -37,25 +38,27 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    # this should be moved to the data
-    meshobj.is_valid = False
-
     if option == "Remove":
         # Select any of the currently constrained vertices
         # and unconstrain them leaving them as simple anchors
 
-        vertices = meshobj.select_vertices()
-        if vertices:
-            for vertex in vertices:
-                mesh.unset_vertex_attribute(vertex, "constraint")
+        vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
+        if not vertices:
+            return
+
+        for vertex in vertices:
+            mesh.unset_vertex_attribute(vertex, "constraint")
 
     elif option == "Add":
         # Select any set of vertices
         # Make them anchors and constrain them
 
-        vertices = meshobj.select_vertices(redraw=True)
+        vertices = meshobj.select_vertices(show_anchors=True, show_free=True)
         if not vertices:
             return
+
+        # Select the Constraint
+        # -----------------------------------
 
         guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
         if not guid:
@@ -83,6 +86,8 @@ def RunCommand(is_interactive):
             mesh.constraints[str(constraint.guid)] = constraint
             rs.HideObject(guid)
 
+        # -----------------------------------
+
         if constraint:
             for vertex in vertices:
                 constraint.location = mesh.vertex_point(vertex)
@@ -98,7 +103,9 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
+    meshobj.show_anchors = True
     meshobj.show_free = False
+    meshobj.show_edges = False
 
     meshobj.clear()
     meshobj.draw()

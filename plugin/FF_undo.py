@@ -13,20 +13,22 @@ def RunCommand(is_interactive):
     session = Session(name="FormFinder")
 
     scene: Scene = session.setdefault("scene", factory=Scene)
+    scene.clear()
 
-    if session.undo():
-        scene.clear()
-        scene: Scene = session.setdefault("scene", factory=Scene)
+    if not session.undo():
         scene.draw()
 
-        # recreate links
+    else:
+        scene: Scene = session.setdefault("scene", factory=Scene)
+        scene.draw()
 
         meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
         if meshobj:
-            for obj in scene.objects:
-                if isinstance(obj, RhinoConstraintObject):
-                    scene.remove(obj)
+            for sceneobject in scene.objects:
+                if isinstance(sceneobject, RhinoConstraintObject):
+                    scene.clear_context(sceneobject.guids)
+                    scene.remove(sceneobject)
 
             mesh: CableMesh = meshobj.mesh
 

@@ -23,6 +23,10 @@ def RunCommand(is_interactive):
     scene: Scene = session.get("scene")
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+
+    if not meshobj:
+        return
+
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
@@ -48,8 +52,6 @@ def RunCommand(is_interactive):
     # =============================================================================
     # Update scene
     # =============================================================================
-
-    meshobj.show_free = False
 
     meshobj.clear()
     meshobj.draw()

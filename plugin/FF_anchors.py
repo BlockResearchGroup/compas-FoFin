@@ -18,6 +18,10 @@ def RunCommand(is_interactive):
     scene: Scene = session.get("scene")
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: find (cf. jQuery)
+
+    if not meshobj:
+        return
+
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
@@ -37,64 +41,23 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    option = rs.GetString(message="Anchors", strings=["Select", "Unselect"])
+    option = rs.GetString(message="Anchors", strings=["Add", "Remove"])
     if not option:
         return
 
-    if option == "Select":
+    if option == "Add":
 
-        mechanism = rs.GetString(message="Select", strings=["Degree", "Loop", "Manual"])
-        if not mechanism:
-            return
-
-        if mechanism == "Degree":
-            D = rs.GetInteger(message="Vertex Degree", number=2, minimum=1)
-            if not D:
-                return
-
-            vertices = mesh.vertices_where(vertex_degree=D)
-            if not vertices:
-                return
-
+        vertices = meshobj.select_vertices(show_anchors=True, show_free=True)
+        if vertices:
             mesh.vertices_attribute("is_anchor", True, keys=vertices)
 
-        elif mechanism == "Loop":
+    elif option == "Remove":
 
-            meshobj.show_edges = True
-            edges = meshobj.select_edges(redraw=True)
-            if not edges:
-                return
-
-            vertices = []
-            for edge in edges:
-                for u, v in mesh.edge_loop(edge):
-                    vertices.append(u)
-                    vertices.append(v)
-            vertices = list(set(vertices))
-            if not vertices:
-                return
-
-            mesh.vertices_attribute("is_anchor", True, keys=vertices)
-
-        elif mechanism == "Manual":
-
-            meshobj.show_free = True
-            vertices = meshobj.select_vertices(redraw=True)
-            if not vertices:
-                return
-
-            mesh.vertices_attribute("is_anchor", True, keys=vertices)
-
-    elif option == "Unselect":
-
-        meshobj.show_free = False
-        vertices = meshobj.select_vertices(redraw=True)
-        if not vertices:
-            return
-
-        mesh.vertices_attribute("is_anchor", False, keys=vertices)
-        for vertex in vertices:
-            mesh.unset_vertex_attribute(vertex, "constraint")
+        vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
+        if vertices:
+            mesh.vertices_attribute("is_anchor", False, keys=vertices)
+            for vertex in vertices:
+                mesh.unset_vertex_attribute(vertex, "constraint")
 
     # =============================================================================
     # Update scene
@@ -102,8 +65,7 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.is_valid = False
-
+    meshobj.show_anchors = True
     meshobj.show_free = False
     meshobj.show_edges = False
 
@@ -115,7 +77,7 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.CONFIG["autosave"]:
-        session.record(eventname="Identify Anchors")
+        session.record(eventname="Add/Remove Anchors")
 
 
 # =============================================================================

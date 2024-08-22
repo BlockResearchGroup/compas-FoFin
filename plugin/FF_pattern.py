@@ -63,6 +63,9 @@ def RunCommand(is_interactive):
 
         rs.HideObject(guid)
 
+    elif option == "RhinoMesh":
+        pass
+
     elif option == "MeshGrid":
         pass
 

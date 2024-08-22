@@ -18,6 +18,10 @@ def RunCommand(is_interactive):
     scene: Scene = session.get("scene")
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
+
+    if not meshobj:
+        return
+
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================

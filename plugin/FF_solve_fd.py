@@ -20,6 +20,10 @@ def RunCommand(is_interactive):
     scene: Scene = session.get("scene")
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+
+    if not meshobj:
+        return
+
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
@@ -27,9 +31,9 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     vertices = mesh.vertices_attributes("xyz")
+    loads = [mesh.vertex_attribute(vertex, "load") or [0, 0, 0] for vertex in mesh.vertices()]
     fixed = list(mesh.vertices_where(is_anchor=True))
     edges = list(mesh.edges())
-    loads = [[0, 0, 0] for _ in range(len(vertices))]
     q = list(mesh.edges_attribute("q"))
 
     constraints = [None] * len(vertices)
@@ -52,7 +56,7 @@ def RunCommand(is_interactive):
         attr["x"] = result.vertices[index, 0]
         attr["y"] = result.vertices[index, 1]
         attr["z"] = result.vertices[index, 2]
-        attr["residual"] = Vector(*result.residuals[index])
+        attr["_residual"] = Vector(*result.residuals[index])
 
     for index, (edge, attr) in enumerate(mesh.edges(data=True)):
         attr["_f"] = result.forces[index]

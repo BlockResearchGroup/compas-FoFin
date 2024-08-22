@@ -23,9 +23,10 @@ class CableMesh(Mesh):
             is_anchor=False,
             is_constrained=False,
             constraint=None,
-            residual=None,
             load=None,
             thickness=0,
+            # computed values
+            _residual=None,
         )
         self.default_edge_attributes.update(
             q=1.0,
@@ -34,26 +35,16 @@ class CableMesh(Mesh):
             l0=0.0,
             E=0.0,
             radius=0.0,
-            _q=0.0,
+            # computed stuff
             _f=0.0,
-            _l=0.0,
         )
         self.default_face_attributes.update({})
         self.constraints = constraints or {}
 
-    def vertex_residual(self, vertex):
-        residual = self.vertex_attribute(vertex, "residual")
-        if residual is None:
-            residual = Vector(0, 0, 0)
-        return residual
+    # def vertex_residual(self, vertex):
+    #     residual = self.vertex_attribute(vertex, "_residual")
+    #     return residual
 
-    def vertex_load(self, vertex):
-        load = self.vertex_attribute(vertex, "load")
-        if load is None:
-            load = Vector(0, 0, 0)
-        return load
-
-    def edge_force(self, edge):
-        vector = self.edge_direction()
-        vector.scale(self.edge_attribute(edge, "_f"))
-        return vector
+    # def vertex_load(self, vertex):
+    #     load = self.vertex_attribute(vertex, "load")
+    #     return load
