@@ -229,7 +229,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         guids = []
 
         for vertex in self.mesh.vertices_where(is_anchor=False):
-            load = self.mesh.vertex_attribute(vertex, "load")
+            load = self.mesh.vertex_attributes(vertex, ["px", "py", "pz"])
 
             if load is not None:
                 vector = Vector(*load) * self.scale_loads
@@ -260,7 +260,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
                 area = self.mesh.vertex_area(vertex)
                 weight = area * thickness
                 point = self.mesh.vertex_point(vertex)
-                vector = Vector(0, 0, weight * self.scale_selfweight)
+                vector = Vector(0, 0, -weight * self.scale_selfweight)
                 if vector.length > self.tol_vectors:
                     line = Line.from_point_and_vector(point, vector)
                     name = "{}.vertex.{}.selfweight".format(self.mesh.name, vertex)
@@ -383,7 +383,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         mesh = self.mesh  # type: CableMesh
 
         names = names or mesh.default_vertex_attributes.keys()
-        names = sorted(names)
+        names = sorted([name for name in names if not name.startswith("_")])
         values = mesh.vertex_attributes(vertices[0], names)
         if len(vertices) > 1:
             for i, name in enumerate(names):
@@ -411,7 +411,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         mesh = self.mesh  # type: CableMesh
 
         names = names or mesh.default_face_attributes.keys()
-        names = sorted(names)
+        names = sorted([name for name in names if not name.startswith("_")])
         values = mesh.face_attributes(faces[0], names)
         if len(faces) > 1:
             for i, name in enumerate(names):
@@ -439,7 +439,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         mesh = self.mesh  # type: CableMesh
 
         names = names or mesh.default_edge_attributes.keys()
-        names = sorted(names)
+        names = sorted([name for name in names if not name.startswith("_")])
         edge = edges[0]
         values = mesh.edge_attributes(edge, names)
         if len(edges) > 1:

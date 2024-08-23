@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added density attribute to CableMesh.
+* Added selfweight calculation to solver.
+* Added MeshGrid constructor for patterns.
+
 ### Changed
+
+* Changed loads to be defined by separate components.
+* Changed default color of selfweight vectors to white.
+* Changed settings dialog to exclude private names.
 
 ### Removed
 

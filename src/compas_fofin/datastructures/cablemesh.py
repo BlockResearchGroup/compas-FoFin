@@ -19,11 +19,18 @@ class CableMesh(Mesh):
 
     def __init__(self, constraints=None, **kwargs):
         super(CableMesh, self).__init__(**kwargs)
+        self.attributes.update(
+            {
+                "density": 1,
+            }
+        )
         self.default_vertex_attributes.update(
             is_anchor=False,
             is_constrained=False,
             constraint=None,
-            load=None,
+            px=0,
+            py=0,
+            pz=0,
             thickness=0,
             # computed values
             _residual=None,

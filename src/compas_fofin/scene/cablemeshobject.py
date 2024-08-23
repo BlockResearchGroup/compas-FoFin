@@ -10,7 +10,7 @@ class CableMeshObject(MeshObject):
     residualcolor = ColorAttribute(default=Color.cyan())
     reactioncolor = ColorAttribute(default=Color.green())
     loadcolor = ColorAttribute(default=Color.green().darkened(50))
-    selfweightcolor = ColorAttribute(default=Color.black())
+    selfweightcolor = ColorAttribute(default=Color.white())
     compressioncolor = ColorAttribute(default=Color.blue())
     tensioncolor = ColorAttribute(default=Color.red())
 

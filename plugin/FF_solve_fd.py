@@ -1,5 +1,6 @@
 #! python3
 from compas.geometry import Vector
+from compas_fd.loads import SelfweightCalculator
 from compas_fd.solvers import fd_constrained_numpy
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
@@ -40,15 +41,17 @@ def RunCommand(is_interactive):
     # Solve FD
     # =============================================================================
 
-    kmax = session.CONFIG["solvers.fd.kmax"] or 100
+    kmax = session.CONFIG["solvers.constraints.maxiter"] or 100
 
     vertex_index = mesh.vertex_index()
 
     vertices = mesh.vertices_attributes("xyz")
 
-    loads = [mesh.vertex_attribute(vertex, "load") or [0, 0, 0] for vertex in mesh.vertices()]
+    loads = [mesh.vertex_attributes(vertex, ["px", "py", "pz"]) or [0, 0, 0] for vertex in mesh.vertices()]
     fixed = [vertex_index[vertex] for vertex in mesh.vertices_where(is_anchor=True)]
     edges = [(vertex_index[u], vertex_index[v]) for u, v in mesh.edges()]
+
+    selfweight = SelfweightCalculator(mesh, mesh.attributes["density"], thickness_attr_name="thickness")
 
     q = list(mesh.edges_attribute("q"))
 
@@ -67,6 +70,7 @@ def RunCommand(is_interactive):
         loads=loads,
         constraints=constraints,
         kmax=kmax,
+        selfweight=selfweight,
     )
 
     for index, (vertex, attr) in enumerate(mesh.vertices(data=True)):
