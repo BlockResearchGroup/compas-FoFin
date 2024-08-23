@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added intermediate highlighting of edge loop selections.
+
 ### Changed
+
+* Fixed bug in `compas_fofin.session.Session.redo` return clause.
+* Fixed bug in redo command.
+* Fixed relinking of constraints after serialisation.
 
 ### Removed
 
