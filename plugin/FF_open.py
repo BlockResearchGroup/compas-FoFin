@@ -27,9 +27,10 @@ def RunCommand(is_interactive):
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
     if meshobj:
-        for obj in scene.objects:
-            if isinstance(obj, RhinoConstraintObject):
-                scene.remove(obj)
+        for sceneobject in scene.objects:
+            if isinstance(sceneobject, RhinoConstraintObject):
+                scene.clear_context(sceneobject.guids)
+                scene.remove(sceneobject)
 
         mesh: CableMesh = meshobj.mesh
 

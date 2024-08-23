@@ -12,12 +12,9 @@ def RunCommand(is_interactive):
     session = Session(name="FormFinder")
 
     scene = session.scene()
-    scene.clear()
 
-    if not session.redo():
-        scene.draw()
-
-    else:
+    if session.redo():
+        scene.clear()
         scene = session.scene()
         scene.draw()
 
