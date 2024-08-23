@@ -1,4 +1,5 @@
 #! python3
+# r: compas, compas_fd, compas
 import rhinoscriptsyntax as rs  # type: ignore
 
 import compas_rhino
@@ -33,6 +34,8 @@ def RunCommand(is_interactive):
         )
         if result == 6:
             scene.clear()
+        else:
+            return
 
     else:
         scene.clear()
@@ -41,7 +44,7 @@ def RunCommand(is_interactive):
     # Make a CableMesh "Pattern"
     # =============================================================================
 
-    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "MeshGrid"])
+    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "MeshGrid"])
 
     if option == "RhinoBox":
 
@@ -74,7 +77,7 @@ def RunCommand(is_interactive):
             return
 
         obj = compas_rhino.objects.find_object(guid)
-        cylinder = compas_rhino.conversions.brep_to_compas_cylinder(obj.Geometry)
+        cylinder = compas_rhino.conversions.extrusion_to_compas_cylinder(obj.Geometry)
         mesh = cylinder_to_cablemesh(cylinder, U, V, name="CableMesh")
 
         rs.HideObject(guid)
