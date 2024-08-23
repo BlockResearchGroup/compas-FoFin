@@ -1,6 +1,8 @@
 import scriptcontext as sc  # type: ignore
 
 import compas.geometry  # noqa: F401
+import compas_rhino.conversions
+import compas_rhino.objects
 from compas_fofin.scene import ConstraintObject
 from compas_rhino.conversions import curve_to_rhino
 from compas_rhino.conversions import transformation_to_rhino
@@ -12,13 +14,6 @@ class RhinoConstraintObject(RhinoSceneObject, ConstraintObject):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    # @property
-    # def guids(self):
-    #     guids = []
-    #     for child in self.children:
-    #         guids += child.guids
-    #     return guids
 
     def draw(self):
         """Draw the curve.
@@ -36,13 +31,7 @@ class RhinoConstraintObject(RhinoSceneObject, ConstraintObject):
         self._guids = [sc.doc.Objects.AddCurve(geometry, attr)]
         return self.guids
 
-    # def clear_(self):
-    #     compas_rhino.clear(guids=self.guids)
-
-    # def draw_(self):
-    #     for child in self.children:
-    #         child.draw()
-    #         robj = compas_rhino.objects.find_object(child.guids[0])
-    #         robj.UserDictionary["constraint.guid"] = str(self.constraint.guid)
-
-    #     return self.guids
+    def update_constraint_geometry(self):
+        robj = compas_rhino.objects.find_object(self.guids[0])
+        curve = compas_rhino.conversions.curveobject_to_compas(robj)
+        self.constraint.geometry = curve
