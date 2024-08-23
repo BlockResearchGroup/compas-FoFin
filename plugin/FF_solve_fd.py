@@ -42,10 +42,14 @@ def RunCommand(is_interactive):
 
     kmax = session.CONFIG["solvers.fd.kmax"] or 100
 
+    vertex_index = mesh.vertex_index()
+
     vertices = mesh.vertices_attributes("xyz")
+
     loads = [mesh.vertex_attribute(vertex, "load") or [0, 0, 0] for vertex in mesh.vertices()]
-    fixed = list(mesh.vertices_where(is_anchor=True))
-    edges = list(mesh.edges())
+    fixed = [vertex_index[vertex] for vertex in mesh.vertices_where(is_anchor=True)]
+    edges = [(vertex_index[u], vertex_index[v]) for u, v in mesh.edges()]
+
     q = list(mesh.edges_attribute("q"))
 
     constraints = [None] * len(vertices)
