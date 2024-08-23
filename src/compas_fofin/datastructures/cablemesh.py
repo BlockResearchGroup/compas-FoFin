@@ -1,5 +1,5 @@
 from compas.datastructures import Mesh
-from compas.geometry import Vector
+from compas_fd.constraints import Constraint  # noqa: F401
 
 
 class CableMesh(Mesh):
@@ -41,10 +41,16 @@ class CableMesh(Mesh):
         self.default_face_attributes.update({})
         self.constraints = constraints or {}
 
-    # def vertex_residual(self, vertex):
-    #     residual = self.vertex_attribute(vertex, "_residual")
-    #     return residual
+    def vertex_constraint(self, vertex):
+        # type: (int) -> Constraint
+        guid = self.vertex_attribute(vertex, "constraint")
+        if guid:
+            return self.constraints[guid]
 
-    # def vertex_load(self, vertex):
-    #     load = self.vertex_attribute(vertex, "load")
-    #     return load
+    def update_constraints(self):
+        for vertex in self.vertices():
+            constraint = self.vertex_constraint(vertex)
+            if constraint:
+                constraint.location = self.vertex_point(vertex)
+                constraint.project()
+                self.vertex_attributes(vertex, "xyz", constraint.location)
