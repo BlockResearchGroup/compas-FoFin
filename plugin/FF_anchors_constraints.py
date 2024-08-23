@@ -41,57 +41,56 @@ def RunCommand(is_interactive):
     if option == "Remove":
 
         vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
-        if not vertices:
-            return
 
-        for vertex in vertices:
-            mesh.unset_vertex_attribute(vertex, "constraint")
+        if vertices:
+            for vertex in vertices:
+                mesh.unset_vertex_attribute(vertex, "constraint")
 
     elif option == "Add":
 
         vertices = meshobj.select_vertices(show_anchors=True, show_free=True)
-        if not vertices:
-            return
 
-        # Select the Constraint
-        # -----------------------------------
+        if vertices:
 
-        guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
-        if not guid:
-            return
+            # Select the Constraint
+            # -----------------------------------
 
-        robj = compas_rhino.objects.find_object(guid)
-        if not robj:
-            return
+            guid = rs.GetObject(message="Select constraint (Curve)", preselect=True, select=True, filter=rs.filter.curve)
+            if not guid:
+                return
 
-        constraint = None
-        if "constraint.guid" in robj.UserDictionary:
-            if robj.UserDictionary["constraint.guid"] in mesh.constraints:
-                # the constraint already exists
-                constraint = mesh.constraints[robj.UserDictionary["constraint.guid"]]
+            robj = compas_rhino.objects.find_object(guid)
+            if not robj:
+                return
 
-        if not constraint:
-            curve = compas_rhino.conversions.curveobject_to_compas(robj)
-            constraint = Constraint(curve)
-            sceneobject = scene.add(constraint, color=Color.cyan())
-            sceneobject.draw()
+            constraint = None
+            if "constraint.guid" in robj.UserDictionary:
+                if robj.UserDictionary["constraint.guid"] in mesh.constraints:
+                    # the constraint already exists
+                    constraint = mesh.constraints[robj.UserDictionary["constraint.guid"]]
 
-            robj = compas_rhino.objects.find_object(sceneobject.guids[0])
-            robj.UserDictionary["constraint.guid"] = str(constraint.guid)
+            if not constraint:
+                curve = compas_rhino.conversions.curveobject_to_compas(robj)
+                constraint = Constraint(curve)
+                sceneobject = scene.add(constraint, color=Color.cyan())
+                sceneobject.draw()
 
-            mesh.constraints[str(constraint.guid)] = constraint
-            rs.HideObject(guid)
+                robj = compas_rhino.objects.find_object(sceneobject.guids[0])
+                robj.UserDictionary["constraint.guid"] = str(constraint.guid)
 
-        # -----------------------------------
+                mesh.constraints[str(constraint.guid)] = constraint
+                rs.HideObject(guid)
 
-        if constraint:
-            for vertex in vertices:
-                constraint.location = mesh.vertex_point(vertex)
-                constraint.project()
+            # -----------------------------------
 
-                mesh.vertex_attribute(vertex, "is_anchor", True)
-                mesh.vertex_attribute(vertex, "constraint", str(constraint.guid))
-                mesh.vertex_attributes(vertex, "xyz", constraint.location)
+            if constraint:
+                for vertex in vertices:
+                    constraint.location = mesh.vertex_point(vertex)
+                    constraint.project()
+
+                    mesh.vertex_attribute(vertex, "is_anchor", True)
+                    mesh.vertex_attribute(vertex, "constraint", str(constraint.guid))
+                    mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
     # Update scene
