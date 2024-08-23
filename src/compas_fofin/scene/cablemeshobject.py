@@ -4,7 +4,6 @@ from compas.scene.descriptors.color import ColorAttribute
 
 
 class CableMeshObject(MeshObject):
-
     freecolor = ColorAttribute(default=Color.white())
     anchorcolor = ColorAttribute(default=Color.red())
     constraintcolor = ColorAttribute(default=Color.cyan())

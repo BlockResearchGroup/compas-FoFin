@@ -11,9 +11,7 @@ class ListValue(Value):
 
     def _check_list_value_type(self, value):
         for i, item in enumerate(value):
-            assert isinstance(item, self.list_value_type), "List item {}:{} is not of type {}".format(
-                i, item, self.list_value_type
-            )
+            assert isinstance(item, self.list_value_type), "List item {}:{} is not of type {}".format(i, item, self.list_value_type)
 
     def check(self, value):
         super(ListValue, self).check(value)

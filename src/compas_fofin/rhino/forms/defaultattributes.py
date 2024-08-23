@@ -216,8 +216,8 @@ class DefaultAttributesForm(Eto.Forms.Dialog[bool]):
 
 
 if __name__ == "__main__":
-    from compas.datastructures import Mesh
     import compas
+    from compas.datastructures import Mesh
 
     mesh = Mesh.from_obj(compas.get("faces.obj"))
 

@@ -63,7 +63,7 @@ class Value(Data):
 
     @options.setter
     def options(self, options):
-        assert type(options) is list, "Options must be a list"
+        assert isinstance(options, list), "Options must be a list"
         for option in options:
             self._check_type(option)
         self._options = options

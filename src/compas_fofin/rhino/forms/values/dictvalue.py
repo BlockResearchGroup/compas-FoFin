@@ -12,9 +12,7 @@ class DictValue(Value):
     def _check_dict_value_type(self, value):
         for k, v in value.items():
             assert isinstance(k, str), "Dict key {} is not of type {}".format(k, str)
-            assert isinstance(v, self.dict_value_type), "Dict value {}:{} is not of type {}".format(
-                k, v, self.dict_value_type
-            )
+            assert isinstance(v, self.dict_value_type), "Dict value {}:{} is not of type {}".format(k, v, self.dict_value_type)
 
     def check(self, value):
         super(DictValue, self).check(value)
@@ -24,9 +22,7 @@ class DictValue(Value):
         return self.value[key]
 
     def __setitem__(self, key, value):
-        assert isinstance(value, self.dict_value_type), "New value {} is not of type {}".format(
-            value, self.dict_value_type
-        )
+        assert isinstance(value, self.dict_value_type), "New value {} is not of type {}".format(value, self.dict_value_type)
         self.value[key] = value
 
     @property

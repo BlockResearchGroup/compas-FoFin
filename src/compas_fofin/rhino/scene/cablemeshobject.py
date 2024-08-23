@@ -16,7 +16,6 @@ from compas_rhino.scene import RhinoMeshObject
 
 
 class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
-
     mesh: CableMesh
 
     def __init__(

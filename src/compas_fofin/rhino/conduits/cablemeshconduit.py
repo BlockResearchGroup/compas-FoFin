@@ -1,19 +1,18 @@
-from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 
-from System.Drawing import Color
 from Rhino.Geometry import Line
 from Rhino.Geometry import Point3d
-
-from compas_rhino.conduits import BaseConduit
+from System.Drawing import Color
 
 from compas.geometry import add_vectors
-from compas.geometry import subtract_vectors
-from compas.geometry import scale_vector
 from compas.geometry import centroid_points
 from compas.geometry import dot_vectors
 from compas.geometry import length_vector_sqrd
+from compas.geometry import scale_vector
+from compas.geometry import subtract_vectors
+from compas_rhino.conduits import BaseConduit
 
 
 class ReactionConduit(BaseConduit):

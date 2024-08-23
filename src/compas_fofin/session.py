@@ -16,7 +16,6 @@ class SessionError(Exception):
 
 
 class Session:
-
     _instance = None
     _is_inited = False
 

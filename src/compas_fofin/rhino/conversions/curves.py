@@ -1,8 +1,8 @@
 import Rhino
 
-from compas_rhino.geometry import RhinoNurbsCurve
-from compas_rhino.conversions import curve_to_compas_line
 from compas_rhino.conversions import circle_to_compas
+from compas_rhino.conversions import curve_to_compas_line
+from compas_rhino.geometry import RhinoNurbsCurve
 
 # from compas_rhino.geometry import RhinoCircle
 # from compas_rhino.geometry import RhinoEllipse

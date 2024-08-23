@@ -1,5 +1,5 @@
-from .value import Value
 from .dictvalue import DictValue
+from .value import Value
 
 
 class Settings(DictValue):
