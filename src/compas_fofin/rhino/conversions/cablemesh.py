@@ -22,7 +22,7 @@ def cylinder_to_cablemesh(cylinder, U, V, name=None):
     # split for subdivison along length
     start = None
     for edge in mesh.edges():
-        if not mesh.is_edge_on_boundary(*edge):
+        if not mesh.is_edge_on_boundary(edge):
             start = edge
             break
 
@@ -39,7 +39,7 @@ def cylinder_to_cablemesh(cylinder, U, V, name=None):
         for i in range(V - 1):
             t = (i + 1) * 1 / V
             point = start + vector * t
-            w = mesh.split_edge(w, v, t=0.5)
+            w = mesh.split_edge((w, v), t=0.5)
             mesh.vertex_attributes(w, "xyz", point)
             temp.append(w)
         temp.append(v)
@@ -52,5 +52,7 @@ def cylinder_to_cablemesh(cylinder, U, V, name=None):
     for right, left in pairwise(splits + splits[0:1]):
         for (a, b), (aa, bb) in zip(pairwise(right), pairwise(left)):
             mesh.add_face([a, b, bb, aa])
+
+    mesh.remove_duplicate_vertices()
 
     return mesh
