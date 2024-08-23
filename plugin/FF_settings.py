@@ -3,7 +3,6 @@ import ast
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas.scene import Scene
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
 
@@ -11,16 +10,18 @@ from compas_fofin.session import Session
 def RunCommand(is_interactive):
 
     session = Session(name="FormFinder")
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
 
-    option = rs.GetString(message="Update Settings", strings=["Config", "CableMesh", "ForceDensity"])
+    option = rs.GetString(message="Update Settings", strings=["Config", "CableMesh"])
     if not option:
         return
 
     if option == "Config":
         names = sorted(list(session.CONFIG.keys()))
         values = [session.CONFIG[name] for name in names]
+
         values = rs.PropertyListBox(names, values, message="Update Config", title="FormFinder")
+
         if values:
             for name, value in zip(names, values):
                 try:
@@ -30,6 +31,7 @@ def RunCommand(is_interactive):
 
     elif option == "CableMesh":
         meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+
         if meshobj:
             names = []
             values = []
@@ -38,7 +40,9 @@ def RunCommand(is_interactive):
                 if isinstance(value, (bool, int, float, str)):
                     names.append(name)
                     values.append(value)
+
             values = rs.PropertyListBox(names, values, message="Update CableMesh Settings", title="FormFinder")
+
             if values:
                 for name, value in zip(names, values):
                     try:
@@ -46,10 +50,7 @@ def RunCommand(is_interactive):
                     except (ValueError, TypeError):
                         setattr(meshobj, name, value)
 
-    elif option == "ForceDensity":
-        pass
-
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Update Settings")
 
 

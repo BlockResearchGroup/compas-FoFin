@@ -1,7 +1,6 @@
 #! python3
-import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
+import rhinoscriptsyntax as rs  # type: ignore
 
-from compas.scene import Scene
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
@@ -15,7 +14,7 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
+    scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
 
@@ -28,17 +27,20 @@ def RunCommand(is_interactive):
     # Delete edges
     # =============================================================================
 
+    rs.UnselectAllObjects()
+
     meshobj.show_edges = True
-    edges = meshobj.select_edges(redraw=True)
+    edges = meshobj.select_edges()
 
     if edges:
-        fkeys = set()
+        faces = set()
         for edge in edges:
-            fkeys.update(mesh.edge_faces(edge))
+            faces.update(mesh.edge_faces(edge))
 
-        for fkey in fkeys:
-            if fkey is not None:
-                mesh.delete_face(fkey)
+        for face in faces:
+            if face is not None:
+                if mesh.has_face(face):
+                    mesh.delete_face(face)
 
         mesh.remove_unused_vertices()
 
@@ -48,16 +50,18 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
+    meshobj.show_anchors = True
+    meshobj.show_free = False
     meshobj.show_edges = False
 
-    scene.clear()
-    scene.draw()
+    meshobj.clear()
+    meshobj.draw()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Delete Edges")
 
 

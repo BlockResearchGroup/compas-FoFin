@@ -1,6 +1,5 @@
 #! python3
 import compas_rhino.objects
-from compas.scene import Scene
 from compas_fofin.rhino.scene import RhinoConstraintObject
 from compas_fofin.session import Session
 
@@ -8,7 +7,7 @@ from compas_fofin.session import Session
 def RunCommand(is_interactive):
 
     session = Session(name="FormFinder")
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
     scene.redraw()
 
     for obj in scene.objects:

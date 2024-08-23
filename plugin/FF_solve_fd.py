@@ -1,11 +1,9 @@
 #! python3
-import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
-
 from compas.geometry import Vector
-from compas.scene import Scene
 from compas_fd.solvers import fd_constrained_numpy
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
+from compas_fofin.rhino.scene import RhinoConstraintObject
 from compas_fofin.session import Session
 
 
@@ -17,7 +15,7 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
+    scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
@@ -27,8 +25,22 @@ def RunCommand(is_interactive):
     mesh: CableMesh = meshobj.mesh
 
     # =============================================================================
+    # Update Constraints
+    # =============================================================================
+
+    if session.CONFIG["autoupdate.constraints"]:
+
+        for sceneobject in scene.objects:
+            if isinstance(sceneobject, RhinoConstraintObject):
+                sceneobject.update_constraint_geometry()
+
+        mesh.update_constraints()
+
+    # =============================================================================
     # Solve FD
     # =============================================================================
+
+    kmax = session.CONFIG["solvers.fd.kmax"] or 100
 
     vertices = mesh.vertices_attributes("xyz")
     loads = [mesh.vertex_attribute(vertex, "load") or [0, 0, 0] for vertex in mesh.vertices()]
@@ -50,6 +62,7 @@ def RunCommand(is_interactive):
         forcedensities=q,
         loads=loads,
         constraints=constraints,
+        kmax=kmax,
     )
 
     for index, (vertex, attr) in enumerate(mesh.vertices(data=True)):
@@ -72,7 +85,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Solve FD")
 
 

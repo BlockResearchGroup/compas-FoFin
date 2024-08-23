@@ -4,7 +4,6 @@ import rhinoscriptsyntax as rs  # type: ignore
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
-from compas.scene import Scene
 from compas_fofin.rhino.conversions import box_to_cablemesh
 from compas_fofin.rhino.conversions import cylinder_to_cablemesh
 from compas_fofin.session import Session
@@ -18,8 +17,25 @@ def RunCommand(is_interactive):
     # Get stuff from session
     # =============================================================================
 
-    scene: Scene = session.setdefault("scene", factory=Scene)
-    scene.clear()
+    scene = session.scene()
+
+    meshobj = scene.get_node_by_name(name="CableMesh")
+
+    # =============================================================================
+    # Confirmation
+    # =============================================================================
+
+    if meshobj:
+        result = rs.MessageBox(
+            "This will remove all current FormFinder data and objects. Do you wish to proceed?",
+            buttons=4 | 32 | 256 | 0,
+            title="FormFinder",
+        )
+        if result == 6:
+            scene.clear()
+
+    else:
+        scene.clear()
 
     # =============================================================================
     # Make a CableMesh "Pattern"
@@ -83,7 +99,7 @@ def RunCommand(is_interactive):
     # Save session
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Make Pattern")
 
 

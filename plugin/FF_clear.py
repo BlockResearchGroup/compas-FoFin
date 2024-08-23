@@ -1,14 +1,13 @@
 #! python3
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas.scene import Scene
 from compas_fofin.session import Session
 
 
 def RunCommand(is_interactive):
 
     session = Session(name="FormFinder")
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
 
     result = rs.MessageBox(
         "Note that this will remove all FormFinder data and objects. Do you wish to proceed?",
@@ -19,7 +18,7 @@ def RunCommand(is_interactive):
     if result == 6:
         scene.clear()
 
-        if session.CONFIG["autosave"]:
+        if session.CONFIG["autosave.events"]:
             session.record(eventname="Clear")
 
 

@@ -1,11 +1,4 @@
 #! python3
-import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
-
-import compas_rhino
-import compas_rhino.conversions
-import compas_rhino.objects
-from compas.scene import Scene
-from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.rhino.scene import RhinoConstraintObject
@@ -20,7 +13,7 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
+    scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
@@ -33,21 +26,11 @@ def RunCommand(is_interactive):
     # Update Constraints
     # =============================================================================
 
-    constraint: Constraint
-
     for sceneobject in scene.objects:
         if isinstance(sceneobject, RhinoConstraintObject):
-            robj = compas_rhino.objects.find_object(sceneobject.guids[0])
-            curve = compas_rhino.conversions.curveobject_to_compas(robj)
-            sceneobject.constraint.geometry = curve
+            sceneobject.update_constraint_geometry()
 
-    for vertex in mesh.vertices():
-        guid = mesh.vertex_attribute(vertex, "constraint")
-        if guid:
-            constraint = mesh.constraints[guid]
-            constraint.location = mesh.vertex_point(vertex)
-            constraint.project()
-            mesh.vertex_attributes(vertex, "xyz", constraint.location)
+    mesh.update_constraints()
 
     # =============================================================================
     # Update scene
@@ -60,7 +43,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Update Anchors")
 
 

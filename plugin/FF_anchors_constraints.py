@@ -1,11 +1,10 @@
 #! python3
-import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
+import rhinoscriptsyntax as rs  # type: ignore
 
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
 from compas.colors import Color
-from compas.scene import Scene
 from compas_fd.constraints import Constraint
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
@@ -20,7 +19,7 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
+    scene = session.scene()
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
 
     if not meshobj:
@@ -114,7 +113,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname=f"{option} Constraints")
 
 

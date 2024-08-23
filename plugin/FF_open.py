@@ -1,7 +1,6 @@
 #! python3
 import compas_rhino.objects
 from compas.colors import Color
-from compas.scene import Scene
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.forms.filesystem import FileForm
 from compas_fofin.rhino.scene import RhinoCableMeshObject
@@ -17,12 +16,12 @@ def RunCommand(is_interactive):
     if not filepath:
         return
 
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
     scene.clear()
 
     session.open(filepath)
 
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
     scene.draw()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
@@ -42,7 +41,7 @@ def RunCommand(is_interactive):
             robj = compas_rhino.objects.find_object(sceneobject.guids[0])
             robj.UserDictionary["constraint.guid"] = str(guid)
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Open Session")
 
 

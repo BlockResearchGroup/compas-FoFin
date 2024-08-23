@@ -1,7 +1,6 @@
 #! python3
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas.scene import Scene
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
 
@@ -14,8 +13,8 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
+    scene = session.scene()
+    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
     if not meshobj:
         return
@@ -31,7 +30,7 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    vertices = meshobj.select_vertices()
+    vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
     if vertices:
         if option == "Free":
             meshobj.move_vertices(vertices)
@@ -55,7 +54,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Move Anchors")
 
 

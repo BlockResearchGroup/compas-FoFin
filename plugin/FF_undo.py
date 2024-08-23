@@ -1,7 +1,6 @@
 #! python3
 import compas_rhino.objects
 from compas.colors import Color
-from compas.scene import Scene
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.rhino.scene import RhinoConstraintObject
@@ -12,14 +11,14 @@ def RunCommand(is_interactive):
 
     session = Session(name="FormFinder")
 
-    scene: Scene = session.setdefault("scene", factory=Scene)
+    scene = session.scene()
     scene.clear()
 
     if not session.undo():
         scene.draw()
 
     else:
-        scene: Scene = session.setdefault("scene", factory=Scene)
+        scene = session.scene()
         scene.draw()
 
         meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")

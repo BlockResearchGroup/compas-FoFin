@@ -1,7 +1,6 @@
 #! python3
-import rhinoscriptsyntax as rs  # type: ignore  # noqa: F401
+import rhinoscriptsyntax as rs  # type: ignore
 
-from compas.scene import Scene
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.scene import RhinoCableMeshObject
 from compas_fofin.session import Session
@@ -15,9 +14,9 @@ def RunCommand(is_interactive):
     # Load stuff from session
     # =============================================================================
 
-    scene: Scene = session.get("scene")
+    scene = session.scene()
 
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: find (cf. jQuery)
+    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
     if not meshobj:
         return
@@ -76,7 +75,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave"]:
+    if session.CONFIG["autosave.events"]:
         session.record(eventname="Add/Remove Anchors")
 
 
