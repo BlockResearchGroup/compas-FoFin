@@ -74,13 +74,23 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
 
             edges = [self._guid_edge.get(guid) for guid in guids]
 
-            # rs.SelectObjects(guids)
+            edge_guid = {edge: guid for guid, edge in self._edge_guid.items()}
+            edge_guid.update({(v, u): guid for (u, v), guid in edge_guid.items()})
 
+            selected = []
             vertices = []
             for edge in edges:
-                for u, v in self.mesh.edge_loop(edge):
+                loop = self.mesh.edge_loop(edge)
+
+                for u, v in loop:
+                    selected.append(edge_guid[u, v])
+
                     vertices.append(u)
                     vertices.append(v)
+
+            rs.UnselectAllObjects()
+            rs.SelectObjects(selected)
+
             return list(set(vertices))
 
         if option == "Manual":
@@ -118,6 +128,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             edge_guid = {edge: guid for guid, edge in self._guid_edge.items()}
             edge_guid.update({(v, u): guid for (u, v), guid in edge_guid.items()})
 
+            rs.UnselectAllObjects()
             rs.SelectObjects([edge_guid[edge] for edge in edges])
 
             return edges
