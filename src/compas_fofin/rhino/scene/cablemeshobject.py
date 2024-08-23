@@ -74,7 +74,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
 
             edges = [self._guid_edge.get(guid) for guid in guids]
 
-            edge_guid = {edge: guid for guid, edge in self._edge_guid.items()}
+            edge_guid = {edge: guid for guid, edge in self._guid_edge.items()}
             edge_guid.update({(v, u): guid for (u, v), guid in edge_guid.items()})
 
             selected = []
