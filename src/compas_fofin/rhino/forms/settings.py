@@ -25,7 +25,7 @@ class CustomCell(Eto.Forms.CustomCell):
         valueobj = item.GetValue(2)
 
         if isinstance(valueobj, Value):
-            if valueobj.value_type == bool:
+            if isinstance(valueobj.value_type, bool):
                 control = Eto.Forms.CheckBox()
                 control.Checked = value
 
@@ -34,7 +34,7 @@ class CustomCell(Eto.Forms.CustomCell):
 
                 control.CheckedChanged += on_checked
 
-            elif valueobj.value_type == int:
+            elif isinstance(valueobj.value_type, int):
                 control = Eto.Forms.NumericUpDown()
                 control.Value = value
 
@@ -43,7 +43,7 @@ class CustomCell(Eto.Forms.CustomCell):
 
                 control.ValueChanged += on_value_changed
 
-            elif valueobj.value_type == float:
+            elif isinstance(valueobj.value_type, float):
                 control = Eto.Forms.NumericUpDown()
                 control.Value = value
                 precision = str(value)
@@ -56,7 +56,7 @@ class CustomCell(Eto.Forms.CustomCell):
 
                 control.ValueChanged += on_value_changed
 
-            elif valueobj.value_type == str:
+            elif isinstance(valueobj.value_type, str):
                 control = Eto.Forms.TextBox()
                 control.Text = value
 
@@ -65,7 +65,7 @@ class CustomCell(Eto.Forms.CustomCell):
 
                 control.TextChanged += on_text_changed
 
-            elif valueobj.value_type == Color:
+            elif isinstance(valueobj.value_type, Color):
                 control = Eto.Forms.ColorPicker()
                 control.Value = Eto.Drawing.Color.FromArgb(*value.rgb255)
 
