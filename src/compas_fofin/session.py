@@ -22,8 +22,8 @@ class Session:
     CONFIG = {
         "autosave.events": True,
         "autoupdate.constraints": True,
-        "autoupdate.equilibrium": False,
-        "solvers.fd.kmax": 100,
+        # "autoupdate.equilibrium": False,
+        "solvers.constraints.maxiter": 100,
     }
 
     def __new__(cls, *args, **kwargs):
