@@ -21,6 +21,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
 
     def __init__(
         self,
+        disjoint=True,
         loadgroup=None,
         selfweightgroup=None,
         forcegroup=None,
@@ -28,12 +29,20 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         residualgroup=None,
         **kwargs,
     ):
-        super().__init__(**kwargs)
+        super().__init__(disjoint=disjoint, **kwargs)
         self.loadgroup = loadgroup
         self.selfweightgroup = selfweightgroup
         self.forcegroup = forcegroup
         self.reactiongroup = reactiongroup
         self.residualgroup = residualgroup
+
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
+    # Constraints
+    # =============================================================================
+    # =============================================================================
+    # =============================================================================
 
     # =============================================================================
     # =============================================================================
@@ -44,7 +53,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
     # =============================================================================
 
     def select_vertices(self, show_anchors=True, show_free=True):
-        option = rs.GetInteger(message="Select Vertices", strings=["Degree", "EdgeLoop", "Manual"])
+        option = rs.GetString(message="Select Vertices", strings=["Degree", "EdgeLoop", "Manual"])
         if not option:
             return
 
@@ -52,18 +61,21 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             D = rs.GetInteger(message="Vertex Degree", number=2, minimum=1)
             if not D:
                 return
+
             return self.mesh.vertices_where(vertex_degree=D)
 
         if option == "EdgeLoop":
             self.show_edges = True
             self.clear_edges()
             self.draw_edges()
+
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
                 return
+
             edges = [self._guid_edge.get(guid) for guid in guids]
 
-            rs.SelectObjects(guids)
+            # rs.SelectObjects(guids)
 
             vertices = []
             for edge in edges:
@@ -77,9 +89,11 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.show_free = show_free
             self.clear_vertices()
             self.draw_vertices()
+
             guids = compas_rhino.objects.select_points(message="Select Vertices")
             if not guids:
                 return
+
             return [self._guid_vertex.get(guid) for guid in guids]
 
     def select_edges(self):
@@ -91,25 +105,37 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.show_edges = True
             self.clear_edges()
             self.draw_edges()
+
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
                 return
+
             edges = []
             for guid in guids:
                 edge = self._guid_edge[guid]
                 for edge in self.mesh.edge_loop(edge):
                     edges.append(edge)
+
             edge_guid = {edge: guid for guid, edge in self._guid_edge.items()}
+            edge_guid.update({(v, u): guid for (u, v), guid in edge_guid.items()})
+
             rs.SelectObjects([edge_guid[edge] for edge in edges])
+
             return edges
 
         if option == "Manual":
+            self.show_edges = True
             self.clear_edges()
             self.draw_edges()
+
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
                 return
+
             return [self._guid_edge.get(guid) for guid in guids]
+
+        if option == "All":
+            return list(self.mesh.edges())
 
     def select_faces(self, redraw=True):
         if redraw:
@@ -144,6 +170,15 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         Faces with more than 4 vertices will be triangulated on-the-fly.
 
         """
+        for vertex in self.mesh.vertices():
+            if self.mesh.vertex_attribute(vertex, "is_anchor"):
+                if not self.mesh.vertex_attribute(vertex, "constraint"):
+                    self.vertexcolor[vertex] = self.anchorcolor
+                else:
+                    self.vertexcolor[vertex] = self.constraintcolor
+            else:
+                self.vertexcolor[vertex] = self.freecolor
+
         super(RhinoCableMeshObject, self).draw()
 
         if self.show_reactions:
@@ -169,11 +204,14 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         if vertices:
             self.show_vertices = vertices
 
-        for vertex in self.mesh.vertices_where(is_anchor=True):
-            if not self.mesh.vertex_attribute(vertex, "constraint"):
-                self.vertexcolor[vertex] = self.anchorcolor
+        for vertex in self.mesh.vertices():
+            if self.mesh.vertex_attribute(vertex, "is_anchor"):
+                if not self.mesh.vertex_attribute(vertex, "constraint"):
+                    self.vertexcolor[vertex] = self.anchorcolor
+                else:
+                    self.vertexcolor[vertex] = self.constraintcolor
             else:
-                self.vertexcolor[vertex] = self.constraintcolor
+                self.vertexcolor[vertex] = self.freecolor
 
         return super().draw_vertices()
 
@@ -242,7 +280,7 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
                     pipe = Cylinder.from_line_and_radius(line, radius)
                     name = "{}.edge.{}.force".format(self.mesh.name, edge)
                     attr = self.compile_attributes(name=name, color=self.compressioncolor if force < 0 else self.tensioncolor)
-                    guid = sc.doc.Objects.AddCylinder(compas_rhino.conversions.cylinder_to_rhino(pipe), attr)
+                    guid = sc.doc.Objects.AddBrep(compas_rhino.conversions.cylinder_to_rhino_brep(pipe), attr)
                     guids.append(guid)
 
         if guids:
