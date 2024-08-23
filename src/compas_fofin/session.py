@@ -8,6 +8,7 @@ import compas.data
 import compas.datastructures
 import compas.geometry
 import compas.tolerance
+from compas.scene import Scene
 
 
 class SessionError(Exception):
@@ -20,7 +21,10 @@ class Session:
     _is_inited = False
 
     CONFIG = {
-        "autosave": False,
+        "autosave.events": True,
+        "autoupdate.constraints": True,
+        "autoupdate.equilibrium": False,
+        "solvers.fd.kmax": 100,
     }
 
     def __new__(cls, *args, **kwargs):
@@ -127,3 +131,14 @@ class Session:
         for filepath, eventname in self.history:
             os.unlink(filepath)
         self.history = []
+
+    # =============================================================================
+    # Firs-class citizens
+    # =============================================================================
+
+    def scene(self, name=None):
+        # type: (str | None) -> Scene
+        name = name or f"{self.name}.Scene"
+        scene: Scene = self.setdefault(name, factory=Scene)
+        scene.name = name
+        return scene
