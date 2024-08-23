@@ -95,10 +95,6 @@ class Session:
         return True
 
     def redo(self):
-        if self.current < 0:
-            print("Nothing to redo!")
-            return False
-
         if self.current == len(self.history) - 1:
             print("Nothing more to redo!")
             return False
