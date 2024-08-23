@@ -5,6 +5,7 @@ import rhinoscriptsyntax as rs  # type: ignore
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
+from compas_fofin.datastructures import CableMesh
 from compas_fofin.rhino.conversions import box_to_cablemesh
 from compas_fofin.rhino.conversions import cylinder_to_cablemesh
 from compas_fofin.session import Session
@@ -83,10 +84,35 @@ def RunCommand(is_interactive):
         rs.HideObject(guid)
 
     elif option == "RhinoMesh":
-        pass
+
+        guid = compas_rhino.objects.select_mesh("Select a mesh")
+        if not guid:
+            return
+
+        obj = compas_rhino.objects.find_object(guid)
+        mesh = compas_rhino.conversions.mesh_to_compas(obj.Geometry, cls=CableMesh)
+
+        rs.HideObject(guid)
 
     elif option == "MeshGrid":
-        pass
+
+        DX = rs.GetInteger(message="X Size", number=10)
+        if not DX:
+            return
+
+        DY = rs.GetInteger(message="Y Size", number=DX)
+        if not DY:
+            return
+
+        NX = rs.GetInteger(message="Number of faces in X", number=10)
+        if not NX:
+            return
+
+        NY = rs.GetInteger(message="Number of faces in Y", number=NX)
+        if not NY:
+            return
+
+        mesh = CableMesh.from_meshgrid(dx=DX, nx=NX, dy=DY, ny=NY)
 
     else:
         return
