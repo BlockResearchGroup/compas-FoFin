@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Fixed bug in `compas_fofin.rhino.conversions.cylinder_to_cablemesh`.
+* Fixed bug in `compas_fofin.rhino.scene.RhinoCableMeshObject.select_vertices` when using loop selection.
+* Changed `FF_solve_fd` to use proper vertex indexing.
+* Fixed bug in `FF_pattern` to use correct conversion function for cylinders.
+
 ### Removed
 
 
