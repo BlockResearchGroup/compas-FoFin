@@ -20,7 +20,8 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     scene = session.scene()
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
+
+    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
 
     if not meshobj:
         return
@@ -38,8 +39,6 @@ def RunCommand(is_interactive):
         return
 
     if option == "Remove":
-        # Select any of the currently constrained vertices
-        # and unconstrain them leaving them as simple anchors
 
         vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
         if not vertices:
@@ -49,8 +48,6 @@ def RunCommand(is_interactive):
             mesh.unset_vertex_attribute(vertex, "constraint")
 
     elif option == "Add":
-        # Select any set of vertices
-        # Make them anchors and constrain them
 
         vertices = meshobj.select_vertices(show_anchors=True, show_free=True)
         if not vertices:
