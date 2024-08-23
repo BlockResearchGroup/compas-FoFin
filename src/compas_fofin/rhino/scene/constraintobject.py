@@ -35,3 +35,4 @@ class RhinoConstraintObject(RhinoSceneObject, ConstraintObject):
         robj = compas_rhino.objects.find_object(self.guids[0])
         curve = compas_rhino.conversions.curveobject_to_compas(robj)
         self.constraint.geometry = curve
+        return curve
