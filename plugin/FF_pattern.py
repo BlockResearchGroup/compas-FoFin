@@ -1,6 +1,7 @@
 #! python3
 # r: compas, compas_fd, compas
 import rhinoscriptsyntax as rs  # type: ignore
+import scriptcontext as sc  # type: ignore
 
 import compas_rhino
 import compas_rhino.conversions
@@ -45,7 +46,7 @@ def RunCommand(is_interactive):
     # Make a CableMesh "Pattern"
     # =============================================================================
 
-    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "MeshGrid"])
+    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid"])
 
     if option == "RhinoBox":
 
@@ -91,6 +92,32 @@ def RunCommand(is_interactive):
 
         obj = compas_rhino.objects.find_object(guid)
         mesh = compas_rhino.conversions.mesh_to_compas(obj.Geometry, cls=CableMesh)
+
+        rs.HideObject(guid)
+
+    elif option == "RhinoSurface":
+
+        guid = compas_rhino.objects.select_surface("Select a surface")
+        if not guid:
+            return
+
+        U = rs.GetInteger(message="U faces", number=16, minimum=2, maximum=64)
+        if not U:
+            return
+
+        V = rs.GetInteger(message="V faces", number=4, minimum=2, maximum=64)
+        if not V:
+            return
+
+        # ------------------------------------------------
+
+        obj = compas_rhino.objects.find_object(guid)
+        brep = obj.Geometry
+        surface = brep.Surfaces[0]
+
+        # ------------------------------------------------
+
+        mesh = compas_rhino.conversions.surface_to_compas_mesh(surface, nu=U, nv=V, weld=True, cls=CableMesh)
 
         rs.HideObject(guid)
 
