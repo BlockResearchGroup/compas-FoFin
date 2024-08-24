@@ -26,7 +26,6 @@ class CableMesh(Mesh):
         )
         self.default_vertex_attributes.update(
             is_anchor=False,
-            is_constrained=False,
             constraint=None,
             px=0,
             py=0,
