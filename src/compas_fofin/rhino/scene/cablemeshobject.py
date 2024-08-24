@@ -68,6 +68,9 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.clear_edges()
             self.draw_edges()
 
+            rs.EnableRedraw(True)
+            rs.Redraw()
+
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
                 return
@@ -99,6 +102,9 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.clear_vertices()
             self.draw_vertices()
 
+            rs.EnableRedraw(True)
+            rs.Redraw()
+
             guids = compas_rhino.objects.select_points(message="Select Vertices")
             if not guids:
                 return
@@ -114,6 +120,9 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.show_edges = True
             self.clear_edges()
             self.draw_edges()
+
+            rs.EnableRedraw(True)
+            rs.Redraw()
 
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
@@ -138,6 +147,9 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
             self.clear_edges()
             self.draw_edges()
 
+            rs.EnableRedraw(True)
+            rs.Redraw()
+
             guids = compas_rhino.objects.select_lines(message="Select Edges")
             if not guids:
                 return
@@ -151,6 +163,9 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         if redraw:
             self.clear_faces()
             self.draw_faces()
+
+            rs.EnableRedraw(True)
+            rs.Redraw()
 
         guids = compas_rhino.objects.select_meshes(message="Select Faces")
         if not guids:
@@ -383,7 +398,17 @@ class RhinoCableMeshObject(RhinoMeshObject, CableMeshObject):
         mesh = self.mesh  # type: CableMesh
 
         names = names or mesh.default_vertex_attributes.keys()
-        names = sorted([name for name in names if not name.startswith("_")])
+        names = sorted(
+            [
+                name
+                for name in names
+                if not name.startswith("_")
+                and name
+                not in [
+                    "constraint",
+                ]
+            ]
+        )
         values = mesh.vertex_attributes(vertices[0], names)
         if len(vertices) > 1:
             for i, name in enumerate(names):
