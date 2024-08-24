@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added from RhinoSurface constructor.
+
 ### Changed
 
-* fixed failing redraw on Windows for mesh object select methods.
+* Fixed failing redraw on Windows for mesh object select methods.
 
 ### Removed
 
