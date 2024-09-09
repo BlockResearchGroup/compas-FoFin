@@ -1,11 +1,18 @@
-import compas.geometry  # noqa: F401
-from compas.scene import SceneObject
+import scriptcontext as sc  # type: ignore
+
+import compas.geometry  # noqa: F401  # noqa: F401
+import compas_rhino.conversions
+import compas_rhino.objects
 from compas_fd.constraints import Constraint  # noqa: F401
+from compas_rhino.conversions import curve_to_rhino
+from compas_rhino.conversions import transformation_to_rhino
+from compas_rhino.scene import RhinoSceneObject
 
 
-class ConstraintObject(SceneObject):
+class RhinoConstraintObject(RhinoSceneObject):
     def __init__(self, **kwargs):  # type: (...) -> None
-        super(ConstraintObject, self).__init__(**kwargs)
+        super().__init__(**kwargs)
+
         # del kwargs["item"]
         # self.add(item=self.constraint.geometry, **kwargs)
 
@@ -29,14 +36,26 @@ class ConstraintObject(SceneObject):
         self._transformation = transformation
 
     def draw(self):
-        """Draw the constraint.
+        """Draw the curve.
 
         Returns
         -------
-        None
+        list[System.Guid]
+            List of GUIDs of the objects created in Rhino.
 
         """
-        raise NotImplementedError
+        attr = self.compile_attributes()
+        geometry = curve_to_rhino(self.constraint.geometry)
+        geometry.Transform(transformation_to_rhino(self.worldtransformation))
+
+        self._guids = [sc.doc.Objects.AddCurve(geometry, attr)]
+        return self.guids
+
+    def update_constraint_geometry(self):
+        robj = compas_rhino.objects.find_object(self.guids[0])
+        curve = compas_rhino.conversions.curveobject_to_compas(robj)
+        self.constraint.geometry = curve
+        return curve
 
     def clear(self):
         """Clear all components of the constraint.

@@ -1,10 +1,6 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-from Rhino.Geometry import Line
-from Rhino.Geometry import Point3d
-from System.Drawing import Color
+from Rhino.Geometry import Line  # type: ignore
+from Rhino.Geometry import Point3d  # type: ignore
+from System.Drawing import Color  # type: ignore
 
 from compas.geometry import add_vectors
 from compas.geometry import centroid_points
@@ -12,6 +8,7 @@ from compas.geometry import dot_vectors
 from compas.geometry import length_vector_sqrd
 from compas.geometry import scale_vector
 from compas.geometry import subtract_vectors
+from compas_fofin.datastructures import CableMesh
 from compas_rhino.conduits import BaseConduit
 
 
@@ -42,25 +39,32 @@ class ReactionConduit(BaseConduit):
         color = Color.FromArgb(*self.color)
         scale = self.scale
         tol2 = self.tol**2
-        mesh = self.cablemesh
+        mesh: CableMesh = self.cablemesh
+
         lines = []
-        for vertex in mesh.vertices_where(is_anchor=True):
+
+        for vertex in mesh.vertices_where(is_support=True):
             start = mesh.vertex_attributes(vertex, "xyz")
-            reaction = mesh.vertex_attributes(vertex, ["_rx", "_ry", "_rz"])
+            reaction = mesh.vertex_attribute(vertex, ["_residual"])
             nbrs = mesh.vertex_neighbors(vertex)
             points = mesh.vertices_attributes("xyz", keys=nbrs)
             vectors = [subtract_vectors(point, start) for point in points]
             vector = centroid_points(vectors)
             reaction = scale_vector(reaction, -scale)
+
             if length_vector_sqrd(reaction) < tol2:
                 continue
+
             if dot_vectors(vector, reaction) > 0:
                 end = subtract_vectors(start, reaction)
                 line = Line(Point3d(*end), Point3d(*start))
+
             else:
                 end = add_vectors(start, reaction)
                 line = Line(Point3d(*start), Point3d(*end))
+
             lines.append(line)
+
         if lines:
             e.Display.DrawArrows(lines, color)
 
@@ -92,17 +96,21 @@ class LoadConduit(BaseConduit):
         color = Color.FromArgb(*self.color)
         scale = self.scale
         tol2 = self.tol**2
+
         lines = []
+
         for vertex in self.cablemesh.vertices():
             start = self.cablemesh.vertex_coordinates(vertex)
             load = self.cablemesh.vertex_attributes(vertex, ["px", "py", "pz"])
             load = scale_vector(load, scale)
+
             if length_vector_sqrd(load) < tol2:
                 continue
+
             end = add_vectors(start, load)
             line = Line(Point3d(*start), Point3d(*end))
             lines.append(line)
-            # e.Display.DrawArrow(line, color, 0, size)
+
         if lines:
             e.Display.DrawArrows(lines, color)
 
@@ -131,17 +139,22 @@ class SelfweightConduit(BaseConduit):
 
     def PostDrawObjects(self, e):
         color = Color.FromArgb(*self.color)
+
         lines = []
+
         for vertex in self.cablemesh.vertices():
             start = self.cablemesh.vertex_coordinates(vertex)
-            thickness = self.cablemesh.vertex_attribute(vertex, "t")
+            thickness = self.cablemesh.vertex_attribute(vertex, "thickness")
             area = self.cablemesh.vertex_area(vertex)
             weight = thickness * area * self.scale
+
             if weight < self.tol:
                 continue
+
             end = [start[0], start[1], start[2] - weight]
             line = Line(Point3d(*start), Point3d(*end))
             lines.append(line)
+
         if lines:
             e.Display.DrawArrows(lines, color)
 
