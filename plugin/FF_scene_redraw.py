@@ -1,12 +1,12 @@
 #! python3
 import compas_rhino.objects
-from compas_fofin.rhino.scene import RhinoConstraintObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoConstraintObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
     scene = session.scene()
     scene.redraw()
 

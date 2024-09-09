@@ -1,11 +1,13 @@
 #! python3
-from compas_fofin.rhino.forms.filesystem import FileForm
-from compas_fofin.session import Session
+
+from compas_rui.forms import FileForm
+
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     filepath = FileForm.save(session.basedir, "FormFinder.json")
     if not filepath:

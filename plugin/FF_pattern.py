@@ -1,20 +1,20 @@
 #! python3
-# r: compas, compas_fd, compas
-import rhinoscriptsyntax as rs  # type: ignore
-import scriptcontext as sc  # type: ignore
 
+import rhinoscriptsyntax as rs  # type: ignore
+
+import compas_fofin.settings
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
+from compas_fofin.conversions import box_to_cablemesh
+from compas_fofin.conversions import cylinder_to_cablemesh
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.conversions import box_to_cablemesh
-from compas_fofin.rhino.conversions import cylinder_to_cablemesh
-from compas_fofin.session import Session
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     # =============================================================================
     # Get stuff from session
@@ -155,7 +155,7 @@ def RunCommand(is_interactive):
     # Save session
     # =============================================================================
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Make Pattern")
 
 

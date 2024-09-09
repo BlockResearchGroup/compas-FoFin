@@ -2,7 +2,7 @@
   "id": "5df3b821-822e-49e0-b24e-aebbe671c3d1",
   "identity": {
     "name": "COMPAS-FormFinder",
-    "version": "0.1.69-beta",
+    "version": "0.1.74-beta",
     "publisher": {
       "email": "tom.v.mele@gmail.com",
       "name": "Tom Van Mele",
@@ -36,7 +36,7 @@
         "version": "*.*.*"
       },
       "title": "FF_00_about",
-      "uri": "FF_about.py",
+      "uri": "FF.py",
       "image": {
         "light": {
           "type": "svg",
@@ -201,7 +201,7 @@
         "version": "3.*.*"
       },
       "title": "FF_01_open",
-      "uri": "FF_open.py",
+      "uri": "FF_session_open.py",
       "image": {
         "light": {
           "type": "svg",
@@ -216,7 +216,7 @@
         "version": "3.*.*"
       },
       "title": "FF_02_save",
-      "uri": "FF_save.py",
+      "uri": "FF_session_save.py",
       "image": {
         "light": {
           "type": "svg",
@@ -231,7 +231,7 @@
         "version": "3.*.*"
       },
       "title": "FF_03_undo",
-      "uri": "FF_undo.py",
+      "uri": "FF_session_undo.py",
       "image": {
         "light": {
           "type": "svg",
@@ -246,7 +246,7 @@
         "version": "3.*.*"
       },
       "title": "FF_04_redo",
-      "uri": "FF_redo.py",
+      "uri": "FF_session_redo.py",
       "image": {
         "light": {
           "type": "svg",
@@ -276,7 +276,7 @@
         "version": "3.*.*"
       },
       "title": "FF_16_redraw",
-      "uri": "FF_redraw.py",
+      "uri": "FF_scene_redraw.py",
       "image": {
         "light": {
           "type": "svg",
@@ -291,11 +291,23 @@
         "version": "3.*.*"
       },
       "title": "FF_17_clear",
-      "uri": "FF_clear.py",
+      "uri": "FF_scene_clear.py",
       "image": {
         "light": {
           "type": "svg",
           "data": "PHN2ZyBpZD0iVVRJTElUWSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDMyIDMyIj48ZGVmcz48c3R5bGU\u002BLmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0xLC5jbHMtMiwuY2xzLTMsLmNscy00e2ZpbGwtcnVsZTpldmVub2RkO30uY2xzLTV7ZmlsbDpub25lO3N0cm9rZTojYzRjNGM0O3N0cm9rZS13aWR0aDoyLjQzcHg7fS5jbHMtNSwuY2xzLTJ7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fS5jbHMtMntmaWxsOiNjNGM0YzQ7fS5jbHMtMiwuY2xzLTR7c3Ryb2tlOiMwMDA7c3Ryb2tlLXdpZHRoOi45NXB4O30uY2xzLTN7ZmlsbDojMWQxZDFiO30uY2xzLTR7ZmlsbDp1cmwoI0xpbmVhcl9HcmFkaWVudF81Myk7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iTGluZWFyX0dyYWRpZW50XzUzIiB4MT0iMTAuMDYiIHkxPSIyNC41MyIgeDI9IjExLjk2IiB5Mj0iMjQuNTMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmNjNGEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNjZjk2MDAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iNy42OSAyOS4xOSAyIDI3LjQ2IDIgOC4zOSAyNi4wNCAxOC40NCA3LjY5IDI5LjE5Ii8\u002BPHBvbHlnb24gY2xhc3M9ImNscy00IiBwb2ludHM9IjI4LjcyIDE5LjA1IDI5Ljk5IDIyLjcgMTEuNjUgMzAgNy4yMyAyOC43OCA3Ljg2IDI0LjUzIDI2LjE5IDE5LjA1IDI4LjcyIDE5LjA1Ii8\u002BPHBvbHlnb24gY2xhc3M9ImNscy0yIiBwb2ludHM9IjExLjY1IDI2LjAzIDMwIDE5LjA3IDMwIDE3LjgxIDI1LjU3IDE2LjU0IDcuMjIgMjIuODcgNy4yMiAyNC43NiAxMS42NSAyNi4wMyIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxNi43IDIxLjMzIDguNjMgMS45OSAxMy40NyAxLjk5IDIwLjgzIDE5LjYgMTYuNyAyMS4zMyIvPjxsaW5lIGNsYXNzPSJjbHMtNSIgeDE9IjE5LjU5IiB5MT0iMjEuODMiIHgyPSIxMS41NyIgeTI9IjIuNjIiLz48L3N2Zz4="
+        }
+      }
+    }
+  ],
+  "libraries": [
+    {
+      "type": "uri",
+      "library": {
+        "base": "file:///Users/vanmelet/Code/compas-FoFin/src/compas_fofin/",
+        "language": {
+          "id": "*.*.python",
+          "version": "3.*.*"
         }
       }
     }

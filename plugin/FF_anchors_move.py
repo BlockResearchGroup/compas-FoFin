@@ -1,20 +1,21 @@
 #! python3
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.session import Session
+import compas_fofin.settings
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
     # =============================================================================
 
     scene = session.scene()
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
 
     if not meshobj:
         return
@@ -30,7 +31,18 @@ def RunCommand(is_interactive):
     if not option:
         return
 
-    vertices = meshobj.select_vertices(show_anchors=True, show_free=False)
+    meshobj.show_vertices = True
+    meshobj.show_free = False
+    meshobj.show_supports = True
+
+    rs.EnableRedraw(False)
+    meshobj.clear_vertices()
+    meshobj.draw_vertices()
+    rs.EnableRedraw(True)
+    rs.Redraw()
+
+    vertices = meshobj.select_vertices()
+
     if vertices:
         if option == "Free":
             meshobj.move_vertices(vertices)
@@ -43,7 +55,8 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_anchors = True
+    meshobj.show_vertices = True
+    meshobj.show_supports = True
     meshobj.show_free = False
     meshobj.show_edges = False
 
@@ -54,7 +67,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Move Anchors")
 
 

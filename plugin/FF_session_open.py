@@ -1,16 +1,18 @@
 #! python3
+
+import compas_fofin.settings
 import compas_rhino.objects
 from compas.colors import Color
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.forms.filesystem import FileForm
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.rhino.scene import RhinoConstraintObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_fofin.scene import RhinoConstraintObject
+from compas_rui.forms import FileForm
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     filepath = FileForm.open(session.basedir)
     if not filepath:
@@ -42,7 +44,7 @@ def RunCommand(is_interactive):
             robj = compas_rhino.objects.find_object(sceneobject.guids[0])
             robj.UserDictionary["constraint.guid"] = str(guid)
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Open Session")
 
 

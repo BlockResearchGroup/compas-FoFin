@@ -1,12 +1,14 @@
 #! python3
+
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas_fofin.session import Session
+import compas_fofin.settings
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
     scene = session.scene()
 
     result = rs.MessageBox(
@@ -18,7 +20,7 @@ def RunCommand(is_interactive):
     if result == 6:
         scene.clear()
 
-        if session.CONFIG["autosave.events"]:
+        if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
             session.record(eventname="Clear")
 
 

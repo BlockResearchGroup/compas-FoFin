@@ -1,79 +1,36 @@
 #! python3
-import ast
 
-import rhinoscriptsyntax as rs  # type: ignore
-
+import compas_fofin.settings
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_rui.forms import SettingsForm
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
     scene = session.scene()
 
-    option = rs.GetString(message="Update Settings", strings=["SessionConfig", "CableMeshObject", "CableMesh"])
-    if not option:
-        return
+    mesh: RhinoCableMeshObject = scene.find_by_itemtype(itemtype=CableMesh)
 
-    if option == "SessionConfig":
-        names = sorted(list(session.CONFIG.keys()))
-        values = [session.CONFIG[name] for name in names]
+    if mesh:
+        if "CableMesh" in compas_fofin.settings.SETTINGS:
+            for key, value in compas_fofin.settings.SETTINGS["CablMesh"].items():
+                name = "_".join(key.split("."))
+                if hasattr(mesh, name):
+                    value.set(getattr(mesh, name))
 
-        values = rs.PropertyListBox(names, values, message="Update Config", title="FormFinder")
-
-        if values:
-            for name, value in zip(names, values):
-                try:
-                    session.CONFIG[name] = ast.literal_eval(value)
-                except (ValueError, TypeError):
-                    session.CONFIG[name] = value
-
-    elif option == "CableMeshObject":
-        meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
-
-        if meshobj:
-            names = []
-            values = []
-            for name in sorted(list(meshobj.settings.keys())):
-                value = getattr(meshobj, name)
-                if isinstance(value, (bool, int, float, str)):
-                    names.append(name)
-                    values.append(value)
-
-            values = rs.PropertyListBox(names, values, message="Update CableMesh Object Settings", title="FormFinder")
-
-            if values:
-                for name, value in zip(names, values):
-                    try:
-                        setattr(meshobj, name, ast.literal_eval(value))
-                    except (ValueError, TypeError):
-                        setattr(meshobj, name, value)
-
-    elif option == "CableMesh":
-        meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
-        mesh: CableMesh = meshobj.mesh
+    settingsmesh = SettingsForm(settings=compas_fofin.settings.SETTINGS, use_tab=True)
+    if settingsmesh.show():
 
         if mesh:
-            names = []
-            values = []
-            for name in sorted(list(mesh.attributes.keys())):
-                value = mesh.attributes[name]
-                if isinstance(value, (bool, int, float, str)):
-                    names.append(name)
-                    values.append(value)
+            if "CableMesh" in compas_fofin.settings.SETTINGS:
+                for key, value in compas_fofin.settings.SETTINGS["CablMesh"].items():
+                    name = "_".join(key.split("."))
+                    setattr(mesh, name, value.value)
 
-            values = rs.PropertyListBox(names, values, message="Update CableMesh Attributes", title="FormFinder")
-
-            if values:
-                for name, value in zip(names, values):
-                    try:
-                        mesh.attributes[name] = ast.literal_eval(value)
-                    except (ValueError, TypeError):
-                        mesh.attributes[name] = value
-
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Update Settings")
 
 

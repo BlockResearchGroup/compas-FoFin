@@ -1,13 +1,15 @@
 #! python3
+
+import compas_fofin.settings
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.rhino.scene import RhinoConstraintObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_fofin.scene import RhinoConstraintObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -43,7 +45,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Update Anchors")
 
 

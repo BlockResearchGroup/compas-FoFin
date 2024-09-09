@@ -1,19 +1,20 @@
 #! python3
+
 import compas_rhino.objects
 from compas.colors import Color
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.rhino.scene import RhinoConstraintObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_fofin.scene import RhinoConstraintObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     scene = session.scene()
 
-    if session.undo():
+    if session.redo():
         scene.clear()
         scene = session.scene()
         scene.draw()

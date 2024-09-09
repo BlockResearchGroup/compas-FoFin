@@ -1,16 +1,18 @@
 #! python3
+
+import compas_fofin.settings
 from compas.geometry import Vector
 from compas_fd.loads import SelfweightCalculator
 from compas_fd.solvers import fd_constrained_numpy
 from compas_fofin.datastructures import CableMesh
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.rhino.scene import RhinoConstraintObject
-from compas_fofin.session import Session
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_fofin.scene import RhinoConstraintObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -29,7 +31,7 @@ def RunCommand(is_interactive):
     # Update Constraints
     # =============================================================================
 
-    if session.CONFIG["autoupdate.constraints"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autoupdate.constraints"]:
 
         for sceneobject in scene.objects:
             if isinstance(sceneobject, RhinoConstraintObject):
@@ -41,14 +43,14 @@ def RunCommand(is_interactive):
     # Solve FD
     # =============================================================================
 
-    kmax = session.CONFIG["solvers.constraints.maxiter"] or 100
+    kmax = compas_fofin.settings.SETTINGS["Solvers"]["constraints.maxiter"] or 100
 
     vertex_index = mesh.vertex_index()
 
     vertices = mesh.vertices_attributes("xyz")
 
     loads = [mesh.vertex_attributes(vertex, ["px", "py", "pz"]) or [0, 0, 0] for vertex in mesh.vertices()]
-    fixed = [vertex_index[vertex] for vertex in mesh.vertices_where(is_anchor=True)]
+    fixed = [vertex_index[vertex] for vertex in mesh.vertices_where(is_support=True)]
     edges = [(vertex_index[u], vertex_index[v]) for u, v in mesh.edges()]
 
     selfweight = SelfweightCalculator(mesh, mesh.attributes["density"], thickness_attr_name="thickness")
@@ -93,7 +95,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Solve FD")
 
 

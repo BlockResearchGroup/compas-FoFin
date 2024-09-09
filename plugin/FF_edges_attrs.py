@@ -1,13 +1,15 @@
 #! python3
+
 import rhinoscriptsyntax as rs  # type: ignore
 
-from compas_fofin.rhino.scene import RhinoCableMeshObject
-from compas_fofin.session import Session
+import compas_fofin.settings
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_session.namedsession import NamedSession
 
 
 def RunCommand(is_interactive):
 
-    session = Session(name="FormFinder")
+    session = NamedSession(name="FormFinder")
 
     # =============================================================================
     # Load stuff from session
@@ -26,7 +28,16 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
+    meshobj.show_edges = True
+
+    rs.EnableRedraw(False)
+    meshobj.clear_edges()
+    meshobj.draw_edges()
+    rs.EnableRedraw(True)
+    rs.Redraw()
+
     edges = meshobj.select_edges()
+
     if edges:
         meshobj.update_edge_attributes(edges=edges)
 
@@ -36,7 +47,8 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_anchors = True
+    meshobj.show_vertices = True
+    meshobj.show_supports = True
     meshobj.show_free = False
     meshobj.show_edges = False
 
@@ -47,7 +59,7 @@ def RunCommand(is_interactive):
     # Session save
     # =============================================================================
 
-    if session.CONFIG["autosave.events"]:
+    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
         session.record(eventname="Edges Attributes")
 
 
