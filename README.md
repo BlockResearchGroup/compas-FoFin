@@ -16,29 +16,34 @@ using constrained force-density and constrained dynamric relaxation solvers.
 
 ## Installation
 
-The plugin can be installed using Rhino's package manager Yak.
+To install FormFinder, use Rhino's package manager Yak.
 
-![COMPAS FormFinder installation with Yak](resources/images/FormFinder_yak.png)
+![FormFinder installation with Yak](resources/images/FormFinder_yak.png)
 
 ## COMPAS Packages
 
-The plugin is based on COMPAS and written entirely in Python.
-It uses the following packages of the COMPAS framework:
+FormFinder uses the following COMPAS packages:
 
 * [compas](https://github.com/compas-dev/compas)
-* [compas_fd](https://github.com/blockresearchgroup/compas_fd)
 * [compas_dr](https://github.com/blockresearchgroup/compas_dr)
+* [compas_fd](https://github.com/blockresearchgroup/compas_fd)
 * [compas_rui](https://github.com/blockresearchgroup/compas_rui)
 * [compas_session](https://github.com/blockresearchgroup/compas_session)
 
-Note that, at least for now, these packages have to be installed separately from the plugin itself.
-This can be done as described in the COMPAS docs (see [Working in Rhino 8](https://compas.dev/compas/latest/userguide/cad.rhino8.html)).
+After installing FormFinder with Yak, you can check if all requirements are installed using the command `RV_reqs_check`.
 
-> [!WARNING]  
-> We recommend using `pip` based install exclusively,
-> and not mix this installation mechanism with the `# r: package`
-> syntax available for CPython scripts in the new Rhino ScriptEditor,
-> since this can result in duplicated package installations with incompatible versions.
+### Basic Users
+
+Missing requirements can be installed automatically using the command `RV_reqs_install`.
+This command uses Rhino's built in installation mechanism for Python packages (`# r: ...`).
+
+### Advanced Users
+
+If you use Rhino for scripting, and if you have other COMPAS packages installed, or plan to install them in the future, we recommend to install FormFinder's requirements manually using `pip`.
+
+> [!WARNING]
+> `pip` based installations and `# r: ...` based installations should not be mixed,
+> since this will create conflicts between packages and package versions.
 
 ## User Interface
 
@@ -66,7 +71,7 @@ COMPAS FormFinder defines the following Rhino commands:
 * `FF_reqs_install`
 
 These commands can be executed at the Rhino Command Prompt (simply start typing the command name),
-or using the RhinoVAULT toolbar.
+or using the FormFinder toolbar.
 
 ![FormFinder toolbar](resources/images/FormFinder_toolbar.png)
 
