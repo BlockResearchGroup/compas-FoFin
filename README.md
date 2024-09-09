@@ -41,11 +41,11 @@ or using the Python3 shell available in the Rhino ScriptEditor.
 > syntax available for CPython scripts in the new Rhino ScriptEditor,
 > since this can result in duplicated package installations with incompatible versions.
 
+## User Interface
+
 ## Documentation
 
 The functionality of the plugin is documented in this gitbook: <https://blockresearchgroup.gitbook.io/compas-fofin>.
-
-
 
 ## Issues
 

@@ -114,9 +114,11 @@ select = ["E", "F", "I"]
 force-single-line = true
 known-first-party = [
     "compas",
+    "compas_dr",
     "compas_fd",
     "compas_fofin",
     "compas_rhino",
+    "compas_rui",
     "compas_session",
 ]
 
