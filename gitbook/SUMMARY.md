@@ -6,12 +6,6 @@
 * [Getting Started](introduction/getting-started.md)
 * [Tutorial](introduction/tutorial.md)
 
-## Examples
-
-* [Basic Examples](examples/index.md)
-* [Advanced Examples](examples/index-1.md)
-* [Case Studies](examples/index-2.md)
-
 ## Additional information
 
 * [Legal terms](additional-information/legal-terms.md)

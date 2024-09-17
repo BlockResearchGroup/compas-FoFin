@@ -1,3 +1,0 @@
-# Basic Examples
-
-Some text
