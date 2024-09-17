@@ -6,10 +6,15 @@ FormFinder defines a series of Rhino commands which can be executed using the Rh
 
 ## FF\_about
 
+Launch a Rhino "about" window with some basic information about the tool.
+
 <div align="left" data-full-width="false">
 
 <figure><img src="../../resources/FF_toolbar_buttons/1_FF.svg" alt="" width="24"><figcaption></figcaption></figure>
 
 </div>
 
-Launch a Rhino "about" window with some basic information about the tool.
+## FF\_pattern
+
+Create a force pattern from different types of input.
+
