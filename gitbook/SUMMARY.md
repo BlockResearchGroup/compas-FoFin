@@ -4,6 +4,7 @@
 
 * [About](README.md)
 * [Getting Started](introduction/getting-started.md)
+* [User Interface](introduction/user-interface.md)
 * [Tutorial](introduction/tutorial.md)
 
 ## Additional information
