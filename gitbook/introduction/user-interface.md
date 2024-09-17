@@ -9,9 +9,7 @@ FormFinder defines a series of Rhino commands which can be executed using the Rh
 Launch a Rhino "about" window with some basic information about the tool.
 
 <div align="left" data-full-width="false">
-
 <figure><img src="../../resources/FF_toolbar_buttons/1_FF.svg" alt="" width="24"><figcaption></figcaption></figure>
-
 </div>
 
 ## FF\_pattern
