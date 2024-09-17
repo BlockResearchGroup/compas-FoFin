@@ -1,5 +1,5 @@
 compas >= 2.3
 compas_dr >= 0.3
 compas_fd >= 0.5
-compas_rui
-compas_session
+# compas_rui
+# compas_session
