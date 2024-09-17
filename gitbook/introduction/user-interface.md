@@ -19,6 +19,17 @@ Display a dialog with some basic information about the tool.
 </div>
 
 Create a force pattern from different types of input.
+The following input types are available.
+
+### RhinoBox
+
+### RhinoCylinder
+
+### RhinoMesh
+
+### RhinoSurface
+
+### MeshGrid
 
 ## FF\_anchors
 
@@ -67,3 +78,20 @@ Update the position of the constrained vertices by projecting them onto their co
 </div>
 
 Modify the attributes of selected vertices.
+
+## FF\_edges\_q
+
+<div align="left" data-full-width="false">
+<figure><img src="../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" width="64"><figcaption></figcaption></figure>
+</div>
+
+Modify the force densities (``q``) of selected edges.
+Two options are available.
+
+### Absolute Value
+
+This option overwrites all the values of the selected edges with the provided value.
+
+### Scaling Factor
+
+This option scales the values of the selected edges individually using the provided scale factor.
