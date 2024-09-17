@@ -16,7 +16,7 @@ The FormFinder package defines a series of Rhino commands which can be executed 
 <figure>
     <img src="/resources/FF_toolbar_buttons/1_FF.svg" alt="FormFinder toolbar" />
     <figcaption>
-        <p>Button corresponding to the ``FF_about`` command.</p>
+        <p>Button corresponding to the <code>FF_about</code> command.</p>
     </figcaption>
 </figure>
 
