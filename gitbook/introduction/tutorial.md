@@ -14,13 +14,13 @@ After steps 2, 3, 4, and 5, we compute the resulting equilibrium shape.
 
 To create a simple quad mesh, we use the `FF_pattern` button of the toolbar, and select the option "MeshGrid".
 
-We accept the default <mark style="background-color:blue;">X Size</mark>, the default <mark style="background-color:blue;">Y Size</mark>, the default number of <mark style="background-color:blue;">X faces</mark>, and the default number of <mark style="background-color:blue;">Y faces</mark>.
+We accept the default `X Size`, the default `Y Size`, the default number of `X faces`, and the default number of `Y faces`.
 
 ## Fix the Corners
 
 To add anchors (or supports) to the surface, we use the `FF_anchors` button, and select the option "Add".
 
-In a quad mesh, the corners have `degree = 2`. Therefore, to select the corner vertices, we use "Select By Degree" and type 2.
+In a quad mesh, the corners have `degree = 2`. Therefore, to select the corner vertices, we use "Select By Degree" and type `2`.
 
 {% hint style="info" %}
 See [Selecting Vertices](../manual/selecting-vertices.md) for more information about the different selection options.

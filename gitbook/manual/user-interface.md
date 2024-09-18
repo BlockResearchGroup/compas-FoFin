@@ -62,10 +62,10 @@ This option requires the following inputs:
 
 This option requires the following inputs:
 
-* **Size in X**: Defaults to 10.
-* **Size in Y**: Defaults to the size in X.
-* **Number of Faces in X**: Defaults to 10.
-* **Number of Faces in Y**: Defaults to the number of faces in X.
+* **X SizeX**: Defaults to 10.
+* **Y Size**: Defaults to the value of X Size.
+* **X Faces**: Defaults to 10.
+* **Y Faces**: Defaults to the value of X Faces.
 
 ## FF\_anchors
 
