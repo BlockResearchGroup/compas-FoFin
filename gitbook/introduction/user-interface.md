@@ -7,7 +7,9 @@ FormFinder defines a series of Rhino commands which can be executed using the Rh
 ## FF\_about
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/1_FF.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Display a dialog with some basic information about the tool.
@@ -15,11 +17,12 @@ Display a dialog with some basic information about the tool.
 ## FF\_pattern
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
-Create a force pattern from different types of input.
-The following input types are available.
+Create a force pattern from different types of input. The following input types are available.
 
 ### RhinoBox
 
@@ -43,8 +46,9 @@ This option requires the following inputs:
 
 * **Rhino DocObject**: An object with a mesh geometry.
 
-> [!NOTE]
-> The number of faces of the mesh is taken "as is".
+{% hint style="info" %}
+The number of faces of the mesh is taken "as is".
+{% endhint %}
 
 ### RhinoSurface
 
@@ -59,7 +63,9 @@ This option requires the following inputs:
 ## FF\_anchors
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/7_FF_anchors.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Add or remove pattern anchors.
@@ -67,7 +73,9 @@ Add or remove pattern anchors.
 ## FF\_solve\_fd
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/8_FF_fd.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Solve equilibrium with a constrained, iterative variant of the force density method.
@@ -75,7 +83,9 @@ Solve equilibrium with a constrained, iterative variant of the force density met
 ## FF\_anchors\_move
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/9_FF_anchors_move.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Move the anchored vertices of the pattern.
@@ -83,7 +93,9 @@ Move the anchored vertices of the pattern.
 ## FF\_anchors\_constraints
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/10_FF_anchors_modify.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Add geometric constraints to the anchored vertices of the pattern.
@@ -91,15 +103,19 @@ Add geometric constraints to the anchored vertices of the pattern.
 ## FF\_anchors\_update
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/11_FF_anchors_update.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Update the position of the constrained vertices by projecting them onto their constraints.
 
-## FF\_vertices_attrs
+## FF\_vertices\_attrs
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/12_FF_anchors_attr.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Modify the attributes of selected vertices.
@@ -107,11 +123,12 @@ Modify the attributes of selected vertices.
 ## FF\_edges\_q
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
-Modify the force densities (``q``) of selected edges.
-Two options are available.
+Modify the force densities (`q`) of selected edges. Two options are available.
 
 ### Absolute Value
 
@@ -124,7 +141,9 @@ This option scales the values of the selected edges individually using the provi
 ## FF\_edges\_delete
 
 <div align="left" data-full-width="false">
+
 <figure><img src="../../resources/FF_toolbar_buttons/14_FF_edges_remove.svg" alt="" width="64"><figcaption></figcaption></figure>
+
 </div>
 
 Modify the pattern by removing selected edges.
