@@ -45,8 +45,6 @@ Currently, our entire structure lies in the XY plane.
 To create a hypar, we lift two of the supports out of the plane, such that we have two high and two low anchor points.
 We use [FF_anchors_move](../manual/user-interface.md#ff_anchors_move) to lift the anchors.
 
-
-
 ## Scale Force Densities
 
 ## Add a Constraint
