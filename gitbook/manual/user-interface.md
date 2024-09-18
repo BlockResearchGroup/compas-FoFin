@@ -30,7 +30,7 @@ This option requires the following inputs:
 
 * **Rhino DocObject**: An object with a box-like geometry.
 * **Resolution U**: The number of faces in the U direction.
-* **Resolution V**: The number of faces in the V direciton.
+* **Resolution V**: The number of faces in the V direction.
 
 ### RhinoCylinder
 
@@ -38,7 +38,7 @@ This option requires the following inputs:
 
 * **Rhino DocObject**: An object with a cylinder-like geometry.
 * **Resolution U**: The number of faces in the U direction.
-* **Resolution V**: The number of faces in the V direciton.
+* **Resolution V**: The number of faces in the V direction.
 
 ### RhinoMesh
 
@@ -56,7 +56,7 @@ This option requires the following inputs:
 
 * **Rhino DocObject**: An object with a single NURBS surface.
 * **Resolution U**: The number of faces in the U direction.
-* **Resolution V**: The number of faces in the V direciton.
+* **Resolution V**: The number of faces in the V direction.
 
 ### MeshGrid
 
