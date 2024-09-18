@@ -12,15 +12,15 @@ After steps 2, 3, 4, and 5, we compute the resulting equilibrium shape.
 
 ## Create a QuadMesh
 
-To create a simple quadmesh, we use the `FF_pattern` button of the toolbar, and select the option "MeshGrid".
+To create a simple quad mesh, we use the `FF_pattern` button of the toolbar, and select the option "MeshGrid".
 
-We accept the default _X Size_ (hit `Enter`), the default _Y Size_ (hit `Enter`), the [default number of faces in X](#user-content-fn-1)[^1] (hit `Enter`), and the default number of faces in Y (hit `Enter`).
+We accept the default <mark style="background-color:blue;">X Size</mark>, the default <mark style="background-color:blue;">Y Size</mark>, the default number of <mark style="background-color:blue;">X faces</mark>, and the default number of <mark style="background-color:blue;">Y faces</mark>.
 
 ## Fix the Corners
 
 To add anchors (or supports) to the surface, we use the `FF_anchors` button, and select the option "Add".
 
-To select the corner vertices, we use "Select By Degree" and type 2.
+In a quad mesh, the corners have `degree = 2`. Therefore, to select the corner vertices, we use "Select By Degree" and type 2.
 
 {% hint style="info" %}
 See [Selecting Vertices](../manual/selecting-vertices.md) for more information about the different selection options.
@@ -33,5 +33,3 @@ Once we have properly anchored our surface, we can compute an initial equilibriu
 ## Scale Force Densities
 
 ## Add a Constraint
-
-[^1]: ???
