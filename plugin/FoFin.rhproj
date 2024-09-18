@@ -2,7 +2,7 @@
   "id": "5df3b821-822e-49e0-b24e-aebbe671c3d1",
   "identity": {
     "name": "COMPAS-FormFinder",
-    "version": "0.1.74-beta",
+    "version": "0.2-beta",
     "publisher": {
       "email": "tom.v.mele@gmail.com",
       "name": "Tom Van Mele",
@@ -35,7 +35,7 @@
         "id": "*.*.python",
         "version": "*.*.*"
       },
-      "title": "FF_00_about",
+      "title": "FF_about",
       "uri": "FF.py",
       "image": {
         "light": {
@@ -50,7 +50,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_05_pattern",
+      "title": "FF_pattern",
       "uri": "FF_pattern.py",
       "image": {
         "light": {
@@ -65,7 +65,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_06_anchors",
+      "title": "FF_anchors",
       "uri": "FF_anchors.py",
       "image": {
         "light": {
@@ -80,7 +80,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_07_solve_fd",
+      "title": "FF_solve_fd",
       "uri": "FF_solve_fd.py",
       "image": {
         "light": {
@@ -95,7 +95,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_08_anchors_move",
+      "title": "FF_anchors_move",
       "uri": "FF_anchors_move.py",
       "image": {
         "light": {
@@ -110,7 +110,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_09_anchors_constraints",
+      "title": "FF_anchors_constraints",
       "uri": "FF_anchors_constraints.py",
       "image": {
         "light": {
@@ -125,7 +125,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_10_anchors_update",
+      "title": "FF_anchors_update",
       "uri": "FF_anchors_update.py",
       "image": {
         "light": {
@@ -140,7 +140,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_11_vertices_attrs",
+      "title": "FF_vertices_attrs",
       "uri": "FF_vertices_attrs.py",
       "image": {
         "light": {
@@ -150,12 +150,27 @@
       }
     },
     {
+      "id": "30e74b7e-0726-45a9-9b64-fb551482ccc0",
+      "language": {
+        "id": "*.*.python",
+        "version": "3.*.*"
+      },
+      "title": "FF_edges_attrs",
+      "uri": "FF_edges_attrs.py",
+      "image": {
+        "light": {
+          "type": "svg",
+          "data": "PHN2ZyBpZD0iTU9ESUZZIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzIgMzIiPjxkZWZzPjxzdHlsZT4uY2xzLTEsLmNscy0yLC5jbHMtMywuY2xzLTR7c3Ryb2tlOiMwMDA7fS5jbHMtMSwuY2xzLTUsLmNscy00e3N0cm9rZS1taXRlcmxpbWl0OjEwO30uY2xzLTEsLmNscy01LC5jbHMtNiwuY2xzLTcsLmNscy04e2ZpbGw6bm9uZTt9LmNscy05e2ZpbGw6dXJsKCNMaW5lYXJfR3JhZGllbnRfNyk7fS5jbHMtMntzdHJva2Utd2lkdGg6MnB4O30uY2xzLTIsLmNscy0zLC5jbHMtNHtmaWxsOiNmZmY7fS5jbHMtMiwuY2xzLTMsLmNscy02LC5jbHMtNywuY2xzLTh7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO30uY2xzLTIsLmNscy0zLC5jbHMtNiwuY2xzLTh7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7fS5jbHMtMywuY2xzLTUsLmNscy03e3N0cm9rZS13aWR0aDoxcHg7fS5jbHMtNSwuY2xzLTd7c3Ryb2tlOiNiM2IzYjM7c3Ryb2tlLWxpbmVjYXA6c3F1YXJlO30uY2xzLTR7ZmlsdGVyOnVybCgjb3V0ZXItZ2xvdy04KTt9LmNscy02e3N0cm9rZS13aWR0aDouNzVweDt9LmNscy02LC5jbHMtOHtzdHJva2U6IzAwN2YwMDt9LmNscy0xMHtmaWxsOiMwMDdmMDA7fTwvc3R5bGU\u002BPGZpbHRlciBpZD0ib3V0ZXItZ2xvdy04IiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiPjxmZU9mZnNldCBkeD0iMCIgZHk9IjAiLz48ZmVHYXVzc2lhbkJsdXIgcmVzdWx0PSJibHVyIiBzdGREZXZpYXRpb249Ii41Ii8\u002BPGZlRmxvb2QgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9Ii43NSIvPjxmZUNvbXBvc2l0ZSBpbjI9ImJsdXIiIG9wZXJhdG9yPSJpbiIvPjxmZUNvbXBvc2l0ZSBpbj0iU291cmNlR3JhcGhpYyIvPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0iTGluZWFyX0dyYWRpZW50XzciIHgxPSIxOC42MSIgeTE9IjMuNSIgeDI9IjI4LjM5IiB5Mj0iMy41IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI\u002BPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmU0YWI1Ii8\u002BPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYmRjOWZhIi8\u002BPC9saW5lYXJHcmFkaWVudD48L2RlZnM\u002BPGcgaWQ9IkVER0VTLTIiPjxsaW5lIGNsYXNzPSJjbHMtNSIgeDE9IjcuNSIgeTE9IjciIHgyPSI3LjUiIHkyPSIyLjUiLz48bGluZSBjbGFzcz0iY2xzLTUiIHgxPSI3LjUiIHkxPSIyOS41IiB4Mj0iNy41IiB5Mj0iMjUiLz48bGluZSBjbGFzcz0iY2xzLTciIHgxPSIyNC41IiB5MT0iMTIuNSIgeDI9IjI0LjUiIHkyPSIyOS41Ii8\u002BPGxpbmUgY2xhc3M9ImNscy01IiB4MT0iMi41IiB5MT0iNy41IiB4Mj0iMjQuNSIgeTI9IjcuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMiIgeDE9IjcuNSIgeTE9IjI0LjUiIHgyPSI3LjUiIHkyPSI3LjUiLz48bGluZSBjbGFzcz0iY2xzLTUiIHgxPSIyOS41IiB5MT0iMjQuNSIgeDI9IjIuNSIgeTI9IjI0LjUiLz48L2c\u002BPGcgaWQ9IkhJR0hMSUdIVFMiPjxjaXJjbGUgY2xhc3M9ImNscy0zIiBjeD0iNy41IiBjeT0iMjQuNSIgcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNscy0zIiBjeD0iNy41IiBjeT0iNy41IiByPSIyIi8\u002BPC9nPjxnIGlkPSJCT1giPjxnIGlkPSJQT0xZTElORSI\u002BPGxpbmUgY2xhc3M9ImNscy02IiB4MT0iMjAuODYiIHkxPSIxNS41NyIgeDI9IjE4LjE4IiB5Mj0iMTQuNDUiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTIiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjIwLjg2IiB5MT0iMTUuNTciIHgyPSIyNC43NCIgeTI9IjExLjQ2Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS0zIj48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyMS42MiIgeTE9IjguMDgiIHgyPSIyOC4wNyIgeTI9IjcuMDQiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTQiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjI0Ljc0IiB5MT0iMTEuNDYiIHgyPSIyOSIgeTI9IjcuOTYiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTUiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjI4LjA3IiB5MT0iNy4wNCIgeDI9IjI4LjMiIHkyPSI3LjI3Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS02Ij48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyOC4zIiB5MT0iNy4yNyIgeDI9IjI4LjUzIiB5Mj0iNy41Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS03Ij48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyOC41MyIgeTE9IjcuNSIgeDI9IjI4Ljc3IiB5Mj0iNy43MyIvPjwvZz48ZyBpZD0iUE9MWUxJTkUtOCI\u002BPGxpbmUgY2xhc3M9ImNscy04IiB4MT0iMjguNzciIHkxPSI3LjczIiB4Mj0iMjkiIHkyPSI3Ljk2Ii8\u002BPC9nPjxwYXRoIGNsYXNzPSJjbHMtMTAiIGQ9Ik0xOCwxNC4yMWw1LjI5LTMuNDRoLjA5cy0uMDksMC0uMDksMGwyLjQxLTEuMjgtMi4zMiwxLjQ0cy0uMDguMDctLjExLjA0Yy0uMDMtLjA1LjA5LS4wNC4xMS0uMDQsMCwwLTUuMDUsMy43OS01LjA1LDMuNzktLjMyLjI0LS42OC0uMjgtLjM0LS40OWgwWiIvPjxyZWN0IGNsYXNzPSJjbHMtNCIgeD0iMTcuNSIgeT0iMi41IiB3aWR0aD0iMTIiIGhlaWdodD0iMTgiLz48bGluZSBjbGFzcz0iY2xzLTEiIHgxPSIxOCIgeTE9IjQuNSIgeDI9IjI5IiB5Mj0iNC41Ii8\u002BPGxpbmUgY2xhc3M9ImNscy0xIiB4MT0iMjEiIHkxPSI4LjUiIHgyPSIyNiIgeTI9IjguNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIxIiB5MT0iMTAuNSIgeDI9IjI0IiB5Mj0iMTAuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIxIiB5MT0iMTIuNSIgeDI9IjI1IiB5Mj0iMTIuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTQuNSIgeDI9IjI3IiB5Mj0iMTQuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTYuNSIgeDI9IjI2IiB5Mj0iMTYuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTguNSIgeDI9IjI4IiB5Mj0iMTguNSIvPjxyZWN0IGNsYXNzPSJjbHMtOSIgeD0iMTgiIHk9IjMiIHdpZHRoPSIxMSIgaGVpZ2h0PSIxIi8\u002BPGxpbmUgY2xhc3M9ImNscy0xIiB4MT0iMTkiIHkxPSI2LjUiIHgyPSIyNSIgeTI9IjYuNSIvPjwvZz48L3N2Zz4="
+        }
+      }
+    },
+    {
       "id": "5d500d3b-012d-49dc-8d71-563001b9d922",
       "language": {
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_12_edges_q",
+      "title": "FF_edges_q",
       "uri": "FF_edges_q.py",
       "image": {
         "light": {
@@ -170,7 +185,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_13_edges_delete",
+      "title": "FF_edges_delete",
       "uri": "FF_edges_delete.py",
       "image": {
         "light": {
@@ -180,27 +195,12 @@
       }
     },
     {
-      "id": "30e74b7e-0726-45a9-9b64-fb551482ccc0",
-      "language": {
-        "id": "*.*.python",
-        "version": "3.*.*"
-      },
-      "title": "FF_14_edges_attrs",
-      "uri": "FF_edges_attrs.py",
-      "image": {
-        "light": {
-          "type": "svg",
-          "data": "PHN2ZyBpZD0iTU9ESUZZIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzIgMzIiPjxkZWZzPjxzdHlsZT4uY2xzLTEsLmNscy0yLC5jbHMtMywuY2xzLTR7c3Ryb2tlOiMwMDA7fS5jbHMtMSwuY2xzLTUsLmNscy00e3N0cm9rZS1taXRlcmxpbWl0OjEwO30uY2xzLTEsLmNscy01LC5jbHMtNiwuY2xzLTcsLmNscy04e2ZpbGw6bm9uZTt9LmNscy05e2ZpbGw6dXJsKCNMaW5lYXJfR3JhZGllbnRfNyk7fS5jbHMtMntzdHJva2Utd2lkdGg6MnB4O30uY2xzLTIsLmNscy0zLC5jbHMtNHtmaWxsOiNmZmY7fS5jbHMtMiwuY2xzLTMsLmNscy02LC5jbHMtNywuY2xzLTh7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO30uY2xzLTIsLmNscy0zLC5jbHMtNiwuY2xzLTh7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7fS5jbHMtMywuY2xzLTUsLmNscy03e3N0cm9rZS13aWR0aDoxcHg7fS5jbHMtNSwuY2xzLTd7c3Ryb2tlOiNiM2IzYjM7c3Ryb2tlLWxpbmVjYXA6c3F1YXJlO30uY2xzLTR7ZmlsdGVyOnVybCgjb3V0ZXItZ2xvdy04KTt9LmNscy02e3N0cm9rZS13aWR0aDouNzVweDt9LmNscy02LC5jbHMtOHtzdHJva2U6IzAwN2YwMDt9LmNscy0xMHtmaWxsOiMwMDdmMDA7fTwvc3R5bGU\u002BPGZpbHRlciBpZD0ib3V0ZXItZ2xvdy04IiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiPjxmZU9mZnNldCBkeD0iMCIgZHk9IjAiLz48ZmVHYXVzc2lhbkJsdXIgcmVzdWx0PSJibHVyIiBzdGREZXZpYXRpb249Ii41Ii8\u002BPGZlRmxvb2QgZmxvb2QtY29sb3I9IiMwMDAiIGZsb29kLW9wYWNpdHk9Ii43NSIvPjxmZUNvbXBvc2l0ZSBpbjI9ImJsdXIiIG9wZXJhdG9yPSJpbiIvPjxmZUNvbXBvc2l0ZSBpbj0iU291cmNlR3JhcGhpYyIvPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0iTGluZWFyX0dyYWRpZW50XzciIHgxPSIxOC42MSIgeTE9IjMuNSIgeDI9IjI4LjM5IiB5Mj0iMy41IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI\u002BPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmU0YWI1Ii8\u002BPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYmRjOWZhIi8\u002BPC9saW5lYXJHcmFkaWVudD48L2RlZnM\u002BPGcgaWQ9IkVER0VTLTIiPjxsaW5lIGNsYXNzPSJjbHMtNSIgeDE9IjcuNSIgeTE9IjciIHgyPSI3LjUiIHkyPSIyLjUiLz48bGluZSBjbGFzcz0iY2xzLTUiIHgxPSI3LjUiIHkxPSIyOS41IiB4Mj0iNy41IiB5Mj0iMjUiLz48bGluZSBjbGFzcz0iY2xzLTciIHgxPSIyNC41IiB5MT0iMTIuNSIgeDI9IjI0LjUiIHkyPSIyOS41Ii8\u002BPGxpbmUgY2xhc3M9ImNscy01IiB4MT0iMi41IiB5MT0iNy41IiB4Mj0iMjQuNSIgeTI9IjcuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMiIgeDE9IjcuNSIgeTE9IjI0LjUiIHgyPSI3LjUiIHkyPSI3LjUiLz48bGluZSBjbGFzcz0iY2xzLTUiIHgxPSIyOS41IiB5MT0iMjQuNSIgeDI9IjIuNSIgeTI9IjI0LjUiLz48L2c\u002BPGcgaWQ9IkhJR0hMSUdIVFMiPjxjaXJjbGUgY2xhc3M9ImNscy0zIiBjeD0iNy41IiBjeT0iMjQuNSIgcj0iMiIvPjxjaXJjbGUgY2xhc3M9ImNscy0zIiBjeD0iNy41IiBjeT0iNy41IiByPSIyIi8\u002BPC9nPjxnIGlkPSJCT1giPjxnIGlkPSJQT0xZTElORSI\u002BPGxpbmUgY2xhc3M9ImNscy02IiB4MT0iMjAuODYiIHkxPSIxNS41NyIgeDI9IjE4LjE4IiB5Mj0iMTQuNDUiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTIiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjIwLjg2IiB5MT0iMTUuNTciIHgyPSIyNC43NCIgeTI9IjExLjQ2Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS0zIj48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyMS42MiIgeTE9IjguMDgiIHgyPSIyOC4wNyIgeTI9IjcuMDQiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTQiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjI0Ljc0IiB5MT0iMTEuNDYiIHgyPSIyOSIgeTI9IjcuOTYiLz48L2c\u002BPGcgaWQ9IlBPTFlMSU5FLTUiPjxsaW5lIGNsYXNzPSJjbHMtOCIgeDE9IjI4LjA3IiB5MT0iNy4wNCIgeDI9IjI4LjMiIHkyPSI3LjI3Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS02Ij48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyOC4zIiB5MT0iNy4yNyIgeDI9IjI4LjUzIiB5Mj0iNy41Ii8\u002BPC9nPjxnIGlkPSJQT0xZTElORS03Ij48bGluZSBjbGFzcz0iY2xzLTgiIHgxPSIyOC41MyIgeTE9IjcuNSIgeDI9IjI4Ljc3IiB5Mj0iNy43MyIvPjwvZz48ZyBpZD0iUE9MWUxJTkUtOCI\u002BPGxpbmUgY2xhc3M9ImNscy04IiB4MT0iMjguNzciIHkxPSI3LjczIiB4Mj0iMjkiIHkyPSI3Ljk2Ii8\u002BPC9nPjxwYXRoIGNsYXNzPSJjbHMtMTAiIGQ9Ik0xOCwxNC4yMWw1LjI5LTMuNDRoLjA5cy0uMDksMC0uMDksMGwyLjQxLTEuMjgtMi4zMiwxLjQ0cy0uMDguMDctLjExLjA0Yy0uMDMtLjA1LjA5LS4wNC4xMS0uMDQsMCwwLTUuMDUsMy43OS01LjA1LDMuNzktLjMyLjI0LS42OC0uMjgtLjM0LS40OWgwWiIvPjxyZWN0IGNsYXNzPSJjbHMtNCIgeD0iMTcuNSIgeT0iMi41IiB3aWR0aD0iMTIiIGhlaWdodD0iMTgiLz48bGluZSBjbGFzcz0iY2xzLTEiIHgxPSIxOCIgeTE9IjQuNSIgeDI9IjI5IiB5Mj0iNC41Ii8\u002BPGxpbmUgY2xhc3M9ImNscy0xIiB4MT0iMjEiIHkxPSI4LjUiIHgyPSIyNiIgeTI9IjguNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIxIiB5MT0iMTAuNSIgeDI9IjI0IiB5Mj0iMTAuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIxIiB5MT0iMTIuNSIgeDI9IjI1IiB5Mj0iMTIuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTQuNSIgeDI9IjI3IiB5Mj0iMTQuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTYuNSIgeDI9IjI2IiB5Mj0iMTYuNSIvPjxsaW5lIGNsYXNzPSJjbHMtMSIgeDE9IjIzIiB5MT0iMTguNSIgeDI9IjI4IiB5Mj0iMTguNSIvPjxyZWN0IGNsYXNzPSJjbHMtOSIgeD0iMTgiIHk9IjMiIHdpZHRoPSIxMSIgaGVpZ2h0PSIxIi8\u002BPGxpbmUgY2xhc3M9ImNscy0xIiB4MT0iMTkiIHkxPSI2LjUiIHgyPSIyNSIgeTI9IjYuNSIvPjwvZz48L3N2Zz4="
-        }
-      }
-    },
-    {
       "id": "4c4fcea5-16c1-4279-8af2-a957a248933b",
       "language": {
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_01_open",
+      "title": "FF_open",
       "uri": "FF_session_open.py",
       "image": {
         "light": {
@@ -215,7 +215,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_02_save",
+      "title": "FF_save",
       "uri": "FF_session_save.py",
       "image": {
         "light": {
@@ -230,7 +230,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_03_undo",
+      "title": "FF_undo",
       "uri": "FF_session_undo.py",
       "image": {
         "light": {
@@ -245,7 +245,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_04_redo",
+      "title": "FF_redo",
       "uri": "FF_session_redo.py",
       "image": {
         "light": {
@@ -260,7 +260,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_15_settings",
+      "title": "FF_settings",
       "uri": "FF_settings.py",
       "image": {
         "light": {
@@ -275,7 +275,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_16_redraw",
+      "title": "FF_redraw",
       "uri": "FF_scene_redraw.py",
       "image": {
         "light": {
@@ -290,7 +290,7 @@
         "id": "*.*.python",
         "version": "3.*.*"
       },
-      "title": "FF_17_clear",
+      "title": "FF_clear",
       "uri": "FF_scene_clear.py",
       "image": {
         "light": {

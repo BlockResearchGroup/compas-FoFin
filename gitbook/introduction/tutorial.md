@@ -12,13 +12,15 @@ After steps 2, 3, 4, and 5, we compute the resulting equilibrium shape.
 
 ## Create a QuadMesh
 
-To create a simple quad mesh, we use the `FF_pattern` button of the toolbar, and select the option "MeshGrid".
+To create a simple quad mesh, we use the [FF_pattern](../manual/user-interface.md#ff_pattern) button of the toolbar, and select the option "MeshGrid".
 
 We accept the default `X Size`, the default `Y Size`, the default number of `X faces`, and the default number of `Y faces`.
 
+<figure><img src="../.gitbook/assets/Tutorial_00_Meshgrid.png" alt="Create a QuadMesh" /><figcaption><p>Create a quad mesh from a "MeshGrid".</p></figcaption></figure>
+
 ## Fix the Corners
 
-To add anchors (or supports) to the surface, we use the `FF_anchors` button, and select the option "Add".
+To add anchors (or supports) to the surface, we use the [FF_anchors](../manual/user-interface.md#ff_anchors) button, and select the option "Add".
 
 In a quad mesh, the corners have `degree = 2`. Therefore, to select the corner vertices, we use "Select By Degree" and type `2`.
 
@@ -26,7 +28,7 @@ In a quad mesh, the corners have `degree = 2`. Therefore, to select the corner v
 See [Selecting Vertices](../manual/selecting-vertices.md) for more information about the different selection options.
 {% endhint %}
 
-Once we have properly anchored our surface, we can compute an initial equilibrium shape using the `FF_solve_fd` button.
+Once we have properly anchored our surface, we can compute an initial equilibrium shape using the [FF_solve_fd](../manual/user-interface.md#ff_solve_fd) button.
 
 ## Move Two Corners
 
