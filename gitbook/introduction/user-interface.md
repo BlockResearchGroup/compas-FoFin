@@ -23,11 +23,36 @@ The following input types are available.
 
 ### RhinoBox
 
+This option requires the following inputs:
+
+* **Rhino DocObject**: An object with a box-like geometry.
+* **Resolution U**: The number of faces in the U direction.
+* **Resolution V**: The number of faces in the V direciton.
+
 ### RhinoCylinder
+
+This option requires the following inputs:
+
+* **Rhino DocObject**: An object with a cylinder-like geometry.
+* **Resolution U**: The number of faces in the U direction.
+* **Resolution V**: The number of faces in the V direciton.
 
 ### RhinoMesh
 
+This option requires the following inputs:
+
+* **Rhino DocObject**: An object with a mesh geometry.
+
+> [!NOTE]
+> The number of faces of the mesh is taken "as is".
+
 ### RhinoSurface
+
+This option requires the following inputs:
+
+* **Rhino DocObject**: An object with a single NURBS surface.
+* **Resolution U**: The number of faces in the U direction.
+* **Resolution V**: The number of faces in the V direciton.
 
 ### MeshGrid
 
@@ -99,5 +124,7 @@ This option scales the values of the selected edges individually using the provi
 ## FF\_edges\_delete
 
 <div align="left" data-full-width="false">
-<figure><img src="../../resources/FF_toolbar_buttons/14_FF_edges_remove.svg" alt="" width="64"><figcaption><p>Modify the pattern by removing selected edges.</p></figcaption></figure>
+<figure><img src="../../resources/FF_toolbar_buttons/14_FF_edges_remove.svg" alt="" width="64"><figcaption></figcaption></figure>
 </div>
+
+Modify the pattern by removing selected edges.
