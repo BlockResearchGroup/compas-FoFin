@@ -5,7 +5,12 @@
 * [About](README.md)
 * [Getting Started](introduction/getting-started.md)
 * [Tutorial](introduction/tutorial.md)
-* [User Interface](introduction/user-interface.md)
+
+## Manual
+
+* [User Interface](manual/user-interface.md)
+* [Selecting Vertices](manual/selecting-vertices.md)
+* [Selecting Edges](manual/selecting-edges.md)
 
 ## Additional information
 

@@ -22,7 +22,7 @@ Display a dialog with some basic information about the tool.
 
 </div>
 
-Create a force pattern from different types of input. The following input types are available.
+Create a force pattern from different types of input.
 
 ### RhinoBox
 
@@ -59,6 +59,13 @@ This option requires the following inputs:
 * **Resolution V**: The number of faces in the V direciton.
 
 ### MeshGrid
+
+This option requires the following inputs:
+
+* **Size in X**: Defaults to 10.
+* **Size in Y**: Defaults to the size in X.
+* **Number of Faces in X**: Defaults to 10.
+* **Number of Faces in Y**: Defaults to the number of faces in X.
 
 ## FF\_anchors
 
