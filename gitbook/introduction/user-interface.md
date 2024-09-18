@@ -2,7 +2,7 @@
 
 <figure><img src="../.gitbook/assets/FormFinder_toolbar.png" alt="FormFinder toolbar"><figcaption><p>Screenshot of the toolbar of FormFinder in Rhino 8 on Mac.</p></figcaption></figure>
 
-FormFinder defines a series of Rhino commands which can be executed using the Rhino command prompt (by simply typing the command name) or through the corresponding toolbar buttons.
+FormFinder defines a series of Rhino commands which can be executed using the Rhino "command prompt" (by simply typing the command name) or through the corresponding toolbar buttons. Below is an overview of the commands and the corresponding buttons.
 
 ## FF\_about
 
@@ -95,3 +95,9 @@ This option overwrites all the values of the selected edges with the provided va
 ### Scaling Factor
 
 This option scales the values of the selected edges individually using the provided scale factor.
+
+## FF\_edges\_delete
+
+<div align="left" data-full-width="false">
+<figure><img src="../../resources/FF_toolbar_buttons/14_FF_edges_remove.svg" alt="" width="64"><figcaption><p>Modify the pattern by removing selected edges.</p></figcaption></figure>
+</div>
