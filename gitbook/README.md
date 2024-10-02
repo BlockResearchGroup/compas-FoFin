@@ -6,4 +6,12 @@ COMPAS FormFinder is a plugin for Rhino 8 for form finding and structural design
 
 The plugin is written entirely in Python using the COMPAS framework, and can be installed in Rhino 8 using Yak, the official package manager of Rhino.
 
-_More information coming soon..._
+## Typologies
+
+## Solvers
+
+## Target Audience
+
+## Limitations
+
+## Known Problems
