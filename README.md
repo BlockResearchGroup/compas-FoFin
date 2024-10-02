@@ -1,18 +1,15 @@
 # COMPAS Formfinder for Rhino
 
+> [!NOTE]
+> The current version of COMPAS-FormFinder on the Yak package server is `0.2.5`.
+> Note that this is still a pre-release!
+
 ![COMPAS FormFinder](compas-FoFin.png)
 
 COMPAS Formfinder for Rhino is a plugin for Rhino 8
 that can be used for form-finding tension-only, compression-only,
 and mixed tension-compression structures,
 using constrained force-density and constrained dynamric relaxation solvers.
-
-> [!WARNING]  
-> This plugin is under active development,
-> and uses the still somewhat unstable CPython infrastructure
-> of Rhino 8 through the new ScriptEditor.
-> Therefore, unexpected errors may occur here and there.
-> Please let us know via the [Issue Tracker](https://github.com/BlockResearchGroup/compas-FoFin/issues) if you have problems.
 
 ## Installation
 
@@ -30,20 +27,9 @@ FormFinder uses the following COMPAS packages:
 * [compas_rui](https://github.com/blockresearchgroup/compas_rui)
 * [compas_session](https://github.com/blockresearchgroup/compas_session)
 
-After installing FormFinder with Yak, you can check if all requirements are installed using the command `RV_reqs_check`.
-
-### Basic Users
-
-Missing requirements can be installed automatically using the command `RV_reqs_install`.
-This command uses Rhino's built in installation mechanism for Python packages (`# r: ...`).
-
-### Advanced Users
-
-If you use Rhino for scripting, and if you have other COMPAS packages installed, or plan to install them in the future, we recommend to install FormFinder's requirements manually using `pip`.
-
-> [!WARNING]
-> `pip` based installations and `# r: ...` based installations should not be mixed,
-> since this will create conflicts between packages and package versions.
+After installing RhinoVAULT with Yak, these requirements will be installed automatically if they are not yet available.
+Note that the tool ,ight be unresponsive for a few seconds while this happens.
+The packages are installed in a separate virtual environment named `rhinovault`.
 
 ## User Interface
 
@@ -67,8 +53,6 @@ COMPAS FormFinder defines the following Rhino commands:
 * `FF_scene_clear`
 * `FF_scene_redraw`
 * `FF_settings`
-* `FF_reqs_check`
-* `FF_reqs_install`
 
 These commands can be executed at the Rhino Command Prompt (simply start typing the command name),
 or using the FormFinder toolbar.
