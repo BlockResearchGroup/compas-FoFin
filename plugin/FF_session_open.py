@@ -1,4 +1,6 @@
 #! python3
+# venv: formfinder
+# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5, compas_rui>=0.2, compas_session>=0.2
 
 import compas_fofin.settings
 import compas_rhino.objects
@@ -45,7 +47,7 @@ def RunCommand(is_interactive):
             robj.UserDictionary["constraint.guid"] = str(guid)
 
     if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
-        session.record(eventname="Open Session")
+        session.record(name="Open Session")
 
 
 # =============================================================================
