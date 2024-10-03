@@ -4,7 +4,7 @@
 
 FormFinder defines a series of Rhino commands which can be executed using the Rhino "command prompt" (by simply typing the command name) or through the corresponding toolbar buttons. Below is an overview of the commands and the corresponding buttons.
 
-## FF\_about
+## FF
 
 <div align="left" data-full-width="false">
 
@@ -12,7 +12,7 @@ FormFinder defines a series of Rhino commands which can be executed using the Rh
 
 </div>
 
-Display a dialog with some basic information about the tool.
+Display a dialog with some basic information about the tool and links to the documentation.
 
 ## FF\_pattern
 
