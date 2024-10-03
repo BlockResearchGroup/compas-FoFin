@@ -68,3 +68,12 @@ To open the "Toolbars" page, type `Toolbars` on the Rhino command line...
 <figure><img src="/gitbook/.gitbook/assets/Rhino_toolbars.png" alt="Rhino Toolbars page"><figcaption><p>Load the toolbar using the "Toolbars" page.</p></figcaption></figure>
 
 ## Check the Installation
+
+To check the installation, simply press the left-most button on the toolbar.
+This will install any missing COMPAS packages and display a "Splash" screen when the installation is completed.
+Close the screen by agreeing to the [legal terms](../additional-information/legal-terms.md) of using COMPAS-FormFinder.
+
+Note that installing the packages (and the dependencies of the packages) may take some time,
+so don't worry if the the dialog doesn't pop up immediately...
+
+<figure><img src="/gitbook/.gitbook/assets/FormFinder_splash.png" alt="FormFinder splash"><figcaption><p>Once all missing COMPAS packages and their dependencies are installed, a "Splash" screen pops up.</p></figcaption></figure>
