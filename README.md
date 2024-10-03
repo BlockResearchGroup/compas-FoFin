@@ -16,7 +16,7 @@ using constrained force-density and constrained dynamric relaxation solvers.
 To install FormFinder, use Rhino's package manager Yak.
 To open Yak, type `PackageManager` on the Rhino command line.
 
-![FormFinder installation with Yak](resources/images/FormFinder_yak.png)
+![FormFinder installation with Yak](/gitbook/.gitbook/assets/FormFinder_yak.png)
 
 ## COMPAS Packages
 
@@ -30,7 +30,7 @@ FormFinder uses the following COMPAS packages:
 
 After installing RhinoVAULT with Yak, these requirements will be installed automatically if they are not yet available.
 Note that the tool ,ight be unresponsive for a few seconds while this happens.
-The packages are installed in a separate virtual environment named `rhinovault`.
+The packages are installed in a separate virtual environment named `formfinder`.
 
 ## User Interface
 
@@ -58,13 +58,13 @@ COMPAS FormFinder defines the following Rhino commands:
 These commands can be executed at the Rhino Command Prompt (simply start typing the command name),
 or using the FormFinder toolbar.
 
-![FormFinder toolbar](resources/images/FormFinder_toolbar.png)
+![FormFinder toolbar](/gitbook/.gitbook/assets/FormFinder_toolbar.png)
 
 If the toolbar is not visible after installing FormFinder,
 you can load it from the "Toolbars" page.
 To open the "Toolbars" page, type `Toolbars` on the Rhino command line...
 
-![Rhino Toolbars](resources/images/Rhino_toolbars.png)
+![Rhino Toolbars](/gitbook/.gitbook/assets/Rhino_toolbars.png)
 
 ## Documentation
 
