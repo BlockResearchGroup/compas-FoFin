@@ -1,7 +1,7 @@
 # COMPAS Formfinder for Rhino
 
 > [!NOTE]
-> The current version of COMPAS-FormFinder on the Yak package server is `0.2.5`.
+> The current version of COMPAS-FormFinder on the Yak package server is `0.2.19`.
 > Note that this is still a pre-release!
 
 ![COMPAS FormFinder](compas-FoFin.png)
