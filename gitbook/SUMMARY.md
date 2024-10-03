@@ -11,6 +11,7 @@
 * [User Interface](manual/user-interface.md)
 * [Selecting Vertices](manual/selecting-vertices.md)
 * [Selecting Edges](manual/selecting-edges.md)
+* [Settings](manual/settings.md)
 
 ## Additional information
 
