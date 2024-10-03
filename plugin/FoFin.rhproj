@@ -8,17 +8,48 @@
   "id": "5df3b821-822e-49e0-b24e-aebbe671c3d1",
   "identity": {
     "name": "COMPAS-FormFinder",
-    "version": "0.2.5-beta",
+    "version": "0.2.19-beta",
     "publisher": {
       "email": "tom.v.mele@gmail.com",
       "name": "Tom Van Mele",
       "company": "Block Research Group",
       "url": "https://brg.ethz.ch/"
     },
-    "description": "Rhino plugin for form finding of tension-only, compression-only, and mixed tension-compression structures with axial forces, using constrained force-density and dynamic relaxation solvers.",
+    "description": "Form finding of mixed tension/compression structures using constrained force-density and dynamic relaxation solvers.",
     "copyright": "ETH Zurich - Block Research Group",
     "license": "MIT",
-    "url": "https://github.com/blockresearchgroup/compas-FoFin"
+    "url": "https://blockresearchgroup.gitbook.io/compas-fofin",
+    "image": {
+      "light": {
+        "type": "svg",
+        "data": "PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDggNDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0ibm9uZSIgZmlsbC1kYXJrPSJub25lIiBzdHJva2UtZGFyaz0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLXdpZHRoPSIwIiAvPg=="
+      },
+      "projectIcon": {
+        "light": {
+          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAAAIUlEQVRIDe3QAQ0AAADCoPdP7ewBESgMGDBgwIABAwY\u002BMAkYAAGvX7w8AAAAAElFTkSuQmCC",
+          "width": 24,
+          "height": 24
+        },
+        "dark": {
+          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAAAIUlEQVRIDe3QAQ0AAADCoPdP7ewBESgMGDBgwIABAwY\u002BMAkYAAGvX7w8AAAAAElFTkSuQmCC",
+          "width": 24,
+          "height": 24
+        },
+        "icoData": "AAABAAEAGBgAAAEAIAC6AAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAYAAAAGAgGAAAA4Hc9\u002BAAAAARnQU1BAANbXlz/JngAAABEZVhJZk1NACoAAAAIAAGHaQAEAAAAAQAAABoAAAAAAAOgAQADAAAAAQABAACgAgAEAAAAAQAAABigAwAEAAAAAQAAABgAAAAA4jV1rQAAACFJREFUSA3t0AENAAAAwqD3T\u002B3sAREoDBgwYMCAAQMGPjAJGAABr1\u002B8PAAAAABJRU5ErkJggg=="
+      },
+      "categoryIcon": {
+        "light": {
+          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAAFUlEQVQ4EWNgGAWjITAaAqMhAAkBAAQQAAG\u002BY1MiAAAAAElFTkSuQmCC",
+          "width": 16,
+          "height": 16
+        },
+        "dark": {
+          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAAFUlEQVQ4EWNgGAWjITAaAqMhAAkBAAQQAAG\u002BY1MiAAAAAElFTkSuQmCC",
+          "width": 16,
+          "height": 16
+        }
+      }
+    }
   },
   "settings": {
     "buildPath": "build/",
@@ -532,6 +563,20 @@
           "version": "3.*.*"
         }
       }
+    }
+  ],
+  "resources": [
+    {
+      "id": "848a81fd-55b8-4535-ada4-fcaeda84366b",
+      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/index.html"
+    },
+    {
+      "id": "5922e119-726e-4aa8-9ea4-3dbd7497f38c",
+      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/compas-FoFin.png"
+    },
+    {
+      "id": "32673701-1238-49c7-9068-01f7aebd1a38",
+      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/styles.css"
     }
   ]
 }
