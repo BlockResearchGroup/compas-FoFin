@@ -14,6 +14,7 @@ using constrained force-density and constrained dynamric relaxation solvers.
 ## Installation
 
 To install FormFinder, use Rhino's package manager Yak.
+To open Yak, type `PackageManager` on the Rhino command line.
 
 ![FormFinder installation with Yak](resources/images/FormFinder_yak.png)
 
@@ -58,6 +59,12 @@ These commands can be executed at the Rhino Command Prompt (simply start typing 
 or using the FormFinder toolbar.
 
 ![FormFinder toolbar](resources/images/FormFinder_toolbar.png)
+
+If the toolbar is not visible after installing FormFinder,
+you can load it from the "Toolbars" page.
+Top open the "Toolbars" page, type `Toolbars` on the Rhino command line...
+
+![Rhino Toolbars](resources/images/Rhino_toolbars.png)
 
 ## Documentation
 
