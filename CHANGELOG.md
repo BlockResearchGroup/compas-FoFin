@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Changed "About" to a web-based "Splash" screen.
+* Changed `FF_settings` to use `CableMesh` attributes directly.
+
 ### Removed
 
 
