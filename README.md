@@ -62,7 +62,7 @@ or using the FormFinder toolbar.
 
 If the toolbar is not visible after installing FormFinder,
 you can load it from the "Toolbars" page.
-Top open the "Toolbars" page, type `Toolbars` on the Rhino command line...
+To open the "Toolbars" page, type `Toolbars` on the Rhino command line...
 
 ![Rhino Toolbars](resources/images/Rhino_toolbars.png)
 
