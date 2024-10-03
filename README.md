@@ -28,8 +28,8 @@ FormFinder uses the following COMPAS packages:
 * [compas_rui](https://github.com/blockresearchgroup/compas_rui)
 * [compas_session](https://github.com/blockresearchgroup/compas_session)
 
-After installing RhinoVAULT with Yak, these requirements will be installed automatically if they are not yet available.
-Note that the tool ,ight be unresponsive for a few seconds while this happens.
+After installing RhinoVAULT with Yak, these requirements will be installed automatically if necessary.
+The tool might be unresponsive during this process.
 The packages are installed in a separate virtual environment named `formfinder`.
 
 ## User Interface
@@ -62,7 +62,7 @@ or using the FormFinder toolbar.
 
 If the toolbar is not visible after installing FormFinder,
 you can load it from the "Toolbars" page.
-To open the "Toolbars" page, type `Toolbars` on the Rhino command line...
+To open the "Toolbars" page, type `Toolbar` on the Rhino command line...
 
 ![Rhino Toolbars](/gitbook/.gitbook/assets/Rhino_toolbars.png)
 
