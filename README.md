@@ -73,3 +73,7 @@ For further "getting started" instructions, a tutorial, examples, and an detaile
 ## Issues
 
 Please report problems using the issue tracker of the github repo: <https://github.com/blockresearchgroup/compas-FoFin/issues>
+
+## Contributions
+
+If you want to contribute to COMPAS FoFin, check out the [deveoper guide](DEVGUIDE.md).
