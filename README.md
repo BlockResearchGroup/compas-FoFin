@@ -76,4 +76,4 @@ Please report problems using the issue tracker of the github repo: <https://gith
 
 ## Contributions
 
-If you want to contribute to COMPAS FoFin, check out the [deveoper guide](DEVGUIDE.md).
+If you want to contribute to COMPAS FoFin, check out the [developer guide](https://github.com/BlockResearchGroup/compas-FoFin/wiki/Developer-Guide).
