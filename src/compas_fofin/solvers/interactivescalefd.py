@@ -6,12 +6,10 @@ import Rhino  # type: ignore
 from numpy import full_like
 
 import compas_rhino.conversions
-from compas.geometry import Vector
 from compas_fd.constraints import Constraint
 from compas_fd.loads import SelfweightCalculator
 from compas_fd.solvers.fd_constrained_numpy import _is_converged_disp
 from compas_fd.solvers.fd_constrained_numpy import _is_converged_residuals
-from compas_fd.solvers.fd_constrained_numpy import _post_process_fd
 from compas_fd.solvers.fd_constrained_numpy import _solve_fd
 from compas_fd.solvers.fd_constrained_numpy import _update_constraints
 from compas_fd.solvers.fd_numerical_data import FDNumericalData
