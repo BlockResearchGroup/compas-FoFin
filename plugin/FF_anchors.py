@@ -4,15 +4,13 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
-from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
@@ -21,22 +19,28 @@ def RunCommand(is_interactive):
     scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
-
     if not meshobj:
         return
 
-    mesh: CableMesh = meshobj.mesh
+    # =============================================================================
+    # Clear conduits
+    # =============================================================================
+
+    meshobj.clear_conduits()
+
+    meshobj.display_edges_conduit()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Preselect anchors
     # =============================================================================
 
-    fixed = list(mesh.vertices_where(is_fixed=True))
-    leaves = list(mesh.vertices_where(vertex_degree=1))
+    fixed = list(meshobj.mesh.vertices_where(is_fixed=True))
+    leaves = list(meshobj.mesh.vertices_where(vertex_degree=1))
     vertices = list(set(fixed + leaves))
 
     if vertices:
-        mesh.vertices_attribute("is_support", True, keys=vertices)
+        meshobj.mesh.vertices_attribute("is_support", True, keys=vertices)
 
     # =============================================================================
     # Select/Unselect anchors
@@ -49,40 +53,20 @@ def RunCommand(is_interactive):
         return
 
     if option == "Add":
+        selectable = list(meshobj.mesh.vertices())
+        selected = meshobj.select_vertices(selectable)
 
-        meshobj.show_vertices = True
-        meshobj.show_free = True
-        meshobj.show_supports = True
-
-        rs.EnableRedraw(False)
-        meshobj.clear_vertices()
-        meshobj.draw_vertices()
-        rs.EnableRedraw(True)
-        rs.Redraw()
-
-        vertices = meshobj.select_vertices()
-
-        if vertices:
-            mesh.vertices_attribute("is_support", True, keys=vertices)
+        if selected:
+            meshobj.mesh.vertices_attribute("is_support", True, keys=selected)
 
     elif option == "Remove":
+        selectable = list(meshobj.mesh.vertices_where(is_support=True))
+        selected = meshobj.select_vertices(selectable)
 
-        meshobj.show_vertices = True
-        meshobj.show_free = False
-        meshobj.show_supports = True
-
-        rs.EnableRedraw(False)
-        meshobj.clear_vertices()
-        meshobj.draw_vertices()
-        rs.EnableRedraw(True)
-        rs.Redraw()
-
-        vertices = meshobj.select_vertices()
-
-        if vertices:
-            mesh.vertices_attribute("is_support", False, keys=vertices)
-            for vertex in vertices:
-                mesh.unset_vertex_attribute(vertex, "constraint")
+        if selected:
+            meshobj.mesh.vertices_attribute("is_support", False, keys=selected)
+            for vertex in selected:
+                meshobj.mesh.unset_vertex_attribute(vertex, "constraint")
 
     # =============================================================================
     # Update scene
@@ -90,24 +74,39 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_supports = True
-    meshobj.show_free = False
-    meshobj.show_edges = False
-
     meshobj.clear()
-    meshobj.draw()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
+
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name="Add/Remove Anchors")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

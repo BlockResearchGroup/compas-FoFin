@@ -4,29 +4,37 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
 from compas.colors import Color
 from compas_fd.constraints import Constraint
-from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
 
 
 def RunCommand(is_interactive):
+    session = FoFinSession()
 
-    session = NamedSession(name="FormFinder")
+    # =============================================================================
+    # Load stuff from session
+    # =============================================================================
 
     scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
-
     if not meshobj:
         return
 
-    mesh: CableMesh = meshobj.mesh
+    # =============================================================================
+    # Clear conduits
+    # =============================================================================
+
+    meshobj.clear_conduits()
+
+    meshobj.display_edges_conduit()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Modify Anchors
@@ -39,49 +47,19 @@ def RunCommand(is_interactive):
         return
 
     if option == "Remove":
+        selectable = list(meshobj.mesh.vertices_where(is_support=True))
+        selected = meshobj.select_vertices(selectable)
 
-        meshobj.show_vertices = True
-        meshobj.show_free = False
-        meshobj.show_supports = True
-
-        rs.EnableRedraw(False)
-        meshobj.clear_vertices()
-        meshobj.draw_vertices()
-        rs.EnableRedraw(True)
-        rs.Redraw()
-
-        vertices = meshobj.select_vertices()
-
-        if vertices:
-            meshobj.show_vertices = vertices
-
-            rs.EnableRedraw(False)
-            meshobj.clear_vertices()
-            meshobj.draw_vertices()
-            rs.EnableRedraw(True)
-            rs.Redraw()
-
-            for vertex in vertices:
-                mesh.unset_vertex_attribute(vertex, "constraint")
+        if selected:
+            for vertex in selected:
+                meshobj.mesh.unset_vertex_attribute(vertex, "constraint")
 
     elif option == "Add":
+        selectable = list(meshobj.mesh.vertices())
+        selected = meshobj.select_vertices(selectable)
 
-        meshobj.show_vertices = True
-        meshobj.show_free = True
-        meshobj.show_supports = True
-
-        rs.EnableRedraw(False)
-        meshobj.clear_vertices()
-        meshobj.draw_vertices()
-        rs.EnableRedraw(True)
-        rs.Redraw()
-
-        vertices = meshobj.select_vertices()
-
-        if vertices:
-
-            meshobj.show_vertices = vertices
-
+        if selected:
+            meshobj.show_vertices = selected
             rs.EnableRedraw(False)
             meshobj.clear_vertices()
             meshobj.draw_vertices()
@@ -101,9 +79,9 @@ def RunCommand(is_interactive):
 
             constraint = None
             if "constraint.guid" in robj.UserDictionary:
-                if robj.UserDictionary["constraint.guid"] in mesh.constraints:
+                if robj.UserDictionary["constraint.guid"] in meshobj.mesh.constraints:
                     # the constraint already exists
-                    constraint = mesh.constraints[robj.UserDictionary["constraint.guid"]]
+                    constraint = meshobj.mesh.constraints[robj.UserDictionary["constraint.guid"]]
 
             if not constraint:
                 curve = compas_rhino.conversions.curveobject_to_compas(robj)
@@ -114,19 +92,20 @@ def RunCommand(is_interactive):
                 robj = compas_rhino.objects.find_object(sceneobject.guids[0])
                 robj.UserDictionary["constraint.guid"] = str(constraint.guid)
 
-                mesh.constraints[str(constraint.guid)] = constraint
+                meshobj.mesh.constraints[str(constraint.guid)] = constraint
                 rs.HideObject(guid)
 
             # -----------------------------------
+            # -----------------------------------
 
             if constraint:
-                for vertex in vertices:
-                    constraint.location = mesh.vertex_point(vertex)
+                for vertex in selected:
+                    constraint.location = meshobj.mesh.vertex_point(vertex)
                     constraint.project()
 
-                    mesh.vertex_attribute(vertex, "is_support", True)
-                    mesh.vertex_attribute(vertex, "constraint", str(constraint.guid))
-                    mesh.vertex_attributes(vertex, "xyz", constraint.location)
+                    meshobj.mesh.vertex_attribute(vertex, "is_support", True)
+                    meshobj.mesh.vertex_attribute(vertex, "constraint", str(constraint.guid))
+                    meshobj.mesh.vertex_attributes(vertex, "xyz", constraint.location)
 
     # =============================================================================
     # Update scene
@@ -134,24 +113,39 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_supports = True
-    meshobj.show_free = False
-    meshobj.show_edges = False
-
     meshobj.clear()
-    meshobj.draw()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
+
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name=f"{option} Constraints")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

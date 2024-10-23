@@ -9,10 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added `compas_fofin.solvers.interactivescalefd.AutoUpdateFD`.
+* Added `compas_fofin.solvers.interactivescalefd.InteractiveScaleFD`.
+* Added "Interactive" option to `FF_edges_q`.
+* Added `compas_fofin.session.FoFinSession`.
+* Added `compas_fofin.session.FoFinSession.settings`.
+* Added `compas_fofin.scene.RhinoCableMeshObject.edges_conduit`.
+* Added `compas_fofin.scene.RhinoCableMeshObject.mesh_conduit`.
+* Added `compas_fofin.scene.RhinoCableMeshObject.reactions_conduit`.
+* Added `compas_fofin.scene.RhinoCableMeshObject.loads_conduit`.
+* Added `compas_fofin.scene.RhinoCableMeshObject.forces_conduit`.
+* Added `compas_fofin.datastructures.CableMesh.is_solved`.
+* Added automatic recalculation of equilibrium after modifications if `CableMesh.is_solved = True` at start of command.
+
 ### Changed
 
 * Changed "About" to a web-based "Splash" screen.
-* Changed `FF_settings` to use `CableMesh` attributes directly.
+* Changed `compas_fofin.settings.SETTINGS` to `compas_fofin.settings.Settings` using `dataclasses`.
+* Changed `FF_settings` to use the new `Settings` data class.
+* Changed visualisation to combination of object drawing and display conduits.
 
 ### Removed
 

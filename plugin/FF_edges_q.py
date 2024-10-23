@@ -4,15 +4,18 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
-from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
+from compas_fofin.solvers import InteractiveScaleFD
+
+# =============================================================================
+# Command
+# =============================================================================
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
@@ -21,11 +24,17 @@ def RunCommand(is_interactive):
     scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
-
     if not meshobj:
         return
 
-    mesh: CableMesh = meshobj.mesh
+    # =============================================================================
+    # Clear conduits
+    # =============================================================================
+
+    meshobj.clear_conduits()
+
+    meshobj.display_edges_conduit()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Delete edges
@@ -33,32 +42,27 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    option = rs.GetString(message="Update ForceDensity", strings=["Value", "ScaleFactor"])
+    option = rs.GetString(message="Update ForceDensity", strings=["Value", "ScaleFactor", "Interactive"])
     if not option:
         return
 
-    meshobj.show_edges = True
+    selectable = list(meshobj.mesh.edges())
+    selected = meshobj.select_edges(selectable)
 
-    rs.EnableRedraw(False)
-    meshobj.clear_edges()
-    meshobj.draw_edges()
-    rs.EnableRedraw(True)
-    rs.Redraw()
-
-    edges = meshobj.select_edges()
-
-    if edges:
-
+    if selected:
         if option == "Value":
             value = rs.GetReal(message="Value")
-            mesh.edges_attribute("q", value, keys=edges)
+            meshobj.mesh.edges_attribute("q", value, keys=selected)
 
         elif option == "ScaleFactor":
             factor = rs.GetReal(message="ScaleFactor")
+            for edge in selected:
+                q = meshobj.mesh.edge_attribute(edge, "q")
+                meshobj.mesh.edge_attribute(edge, "q", q * factor)
 
-            for edge in edges:
-                q = mesh.edge_attribute(edge, "q")
-                mesh.edge_attribute(edge, "q", q * factor)
+        elif option == "Interactive":
+            interactive = InteractiveScaleFD(meshobj.mesh, selected)
+            interactive()
 
     # =============================================================================
     # Update scene
@@ -66,24 +70,39 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_supports = True
-    meshobj.show_free = False
-    meshobj.show_edges = False
-
     meshobj.clear()
-    meshobj.draw()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
+
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name="Delete Edges")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

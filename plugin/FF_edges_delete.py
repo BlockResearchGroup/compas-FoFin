@@ -4,15 +4,13 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
-from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
@@ -20,12 +18,18 @@ def RunCommand(is_interactive):
 
     scene = session.scene()
 
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")  # replace by: get_object_by_name (cf. jQuery)
-
+    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
     if not meshobj:
         return
 
-    mesh: CableMesh = meshobj.mesh
+    # =============================================================================
+    # Clear conduits
+    # =============================================================================
+
+    meshobj.clear_conduits()
+
+    meshobj.display_edges_conduit()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Delete edges
@@ -33,27 +37,20 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_edges = True
+    selectable = list(meshobj.mesh.edges())
+    selected = meshobj.select_edges(selectable)
 
-    rs.EnableRedraw(False)
-    meshobj.clear_edges()
-    meshobj.draw_edges()
-    rs.EnableRedraw(True)
-    rs.Redraw()
-
-    edges = meshobj.select_edges()
-
-    if edges:
+    if selected:
         faces = set()
-        for edge in edges:
-            faces.update(mesh.edge_faces(edge))
+        for edge in selected:
+            faces.update(meshobj.mesh.edge_faces(edge))
 
         for face in faces:
             if face is not None:
-                if mesh.has_face(face):
-                    mesh.delete_face(face)
+                if meshobj.mesh.has_face(face):
+                    meshobj.mesh.delete_face(face)
 
-        mesh.remove_unused_vertices()
+        meshobj.mesh.remove_unused_vertices()
 
     # =============================================================================
     # Update scene
@@ -61,24 +58,39 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_supports = True
-    meshobj.show_free = False
-    meshobj.show_edges = False
-
     meshobj.clear()
-    meshobj.draw()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
+
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name="Delete Edges")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

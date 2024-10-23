@@ -4,19 +4,18 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
 from compas_fofin.conversions import box_to_cablemesh
 from compas_fofin.conversions import cylinder_to_cablemesh
 from compas_fofin.datastructures import CableMesh
-from compas_session.namedsession import NamedSession
+from compas_fofin.scene import RhinoCableMeshObject
+from compas_fofin.session import FoFinSession
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
 
     # =============================================================================
     # Get stuff from session
@@ -24,7 +23,7 @@ def RunCommand(is_interactive):
 
     scene = session.scene()
 
-    meshobj = scene.get_node_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
 
     # =============================================================================
     # Confirmation
@@ -37,12 +36,7 @@ def RunCommand(is_interactive):
             title="FormFinder",
         )
         if result == 6:
-            scene.clear()
-        else:
-            return
-
-    else:
-        scene.clear()
+            session.clear()
 
     # =============================================================================
     # Make a CableMesh "Pattern"
@@ -51,7 +45,6 @@ def RunCommand(is_interactive):
     option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid"])
 
     if option == "RhinoBox":
-
         guid = compas_rhino.objects.select_object("Select a box")
         if not guid:
             return
@@ -67,7 +60,6 @@ def RunCommand(is_interactive):
         rs.HideObject(guid)
 
     elif option == "RhinoCylinder":
-
         guid = compas_rhino.objects.select_object("Select a cylinder")
         if not guid:
             return
@@ -87,7 +79,6 @@ def RunCommand(is_interactive):
         rs.HideObject(guid)
 
     elif option == "RhinoMesh":
-
         guid = compas_rhino.objects.select_mesh("Select a mesh")
         if not guid:
             return
@@ -98,7 +89,6 @@ def RunCommand(is_interactive):
         rs.HideObject(guid)
 
     elif option == "RhinoSurface":
-
         guid = compas_rhino.objects.select_surface("Select a surface")
         if not guid:
             return
@@ -124,7 +114,6 @@ def RunCommand(is_interactive):
         rs.HideObject(guid)
 
     elif option == "MeshGrid":
-
         DX = rs.GetInteger(message="X Size", number=10)
         if not DX:
             return
@@ -150,19 +139,25 @@ def RunCommand(is_interactive):
     # Update scene
     # =============================================================================
 
-    scene.add(mesh, name=mesh.name)
-    scene.draw()
+    meshobj = scene.add(mesh, name=mesh.name)
+
+    meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+    meshobj.show_edges = True
+    meshobj.show_faces = False
+
+    meshobj.draw()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Save session
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name="Make Pattern")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

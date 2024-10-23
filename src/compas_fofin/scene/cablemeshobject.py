@@ -7,6 +7,11 @@ from compas.geometry import Cylinder
 from compas.geometry import Line
 from compas.geometry import Vector
 from compas.scene.descriptors.color import ColorAttribute
+from compas_fofin.conduits import EdgesConduit
+from compas_fofin.conduits import FacesConduit
+from compas_fofin.conduits import MeshConduit
+from compas_fofin.conduits import ReactionsConduit
+from compas_fofin.conduits import ThickEdgesConduit
 from compas_fofin.datastructures import CableMesh
 from compas_rui.scene import RUIMeshObject
 
@@ -32,8 +37,6 @@ class RhinoCableMeshObject(RUIMeshObject):
         forcegroup=None,
         reactiongroup=None,
         residualgroup=None,
-        show_supports=True,
-        show_free=False,
         show_forces=False,
         show_residuals=False,
         show_reactions=False,
@@ -55,8 +58,6 @@ class RhinoCableMeshObject(RUIMeshObject):
         self.reactiongroup = reactiongroup
         self.residualgroup = residualgroup
 
-        self.show_supports = show_supports
-        self.show_free = show_free
         self.show_forces = show_forces
         self.show_residuals = show_residuals
         self.show_reactions = show_reactions
@@ -71,14 +72,17 @@ class RhinoCableMeshObject(RUIMeshObject):
         self.tol_vectors = tol_vectors
         self.tol_pipes = tol_pipes
 
-        self.is_valid = False
+        self._edges_conduit = None
+        self._faces_conduit = None
+        self._mesh_conduit = None
+        self._reactions_conduit = None
+        self._loads_conduit = None
+        self._forces_conduit = None
 
     @property
     def settings(self):
         settings = super().settings
 
-        settings["show_supports"] = self.show_supports
-        settings["show_free"] = self.show_free
         settings["show_forces"] = self.show_forces
         settings["show_residuals"] = self.show_residuals
         settings["show_reactions"] = self.show_reactions
@@ -105,6 +109,10 @@ class RhinoCableMeshObject(RUIMeshObject):
 
         return settings
 
+    # =============================================================================
+    # Drawing
+    # =============================================================================
+
     def draw(self):
         """Draw the mesh or its components in Rhino.
 
@@ -119,15 +127,6 @@ class RhinoCableMeshObject(RUIMeshObject):
         Faces with more than 4 vertices will be triangulated on-the-fly.
 
         """
-        for vertex in self.mesh.vertices():
-            if self.mesh.vertex_attribute(vertex, "is_support"):
-                if not self.mesh.vertex_attribute(vertex, "constraint"):
-                    self.vertexcolor[vertex] = self.anchorcolor
-                else:
-                    self.vertexcolor[vertex] = self.constraintcolor
-            else:
-                self.vertexcolor[vertex] = self.freecolor
-
         super().draw()
 
         if self.show_reactions:
@@ -144,15 +143,6 @@ class RhinoCableMeshObject(RUIMeshObject):
         return self.guids
 
     def draw_vertices(self):
-        vertices = []
-
-        if self.show_free:
-            vertices += list(self.mesh.vertices_where(is_support=False))
-        if self.show_supports:
-            vertices += list(self.mesh.vertices_where(is_support=True))
-        if vertices:
-            self.show_vertices = vertices
-
         for vertex in self.mesh.vertices():
             if self.mesh.vertex_attribute(vertex, "is_support"):
                 if not self.mesh.vertex_attribute(vertex, "constraint"):
@@ -290,3 +280,140 @@ class RhinoCableMeshObject(RUIMeshObject):
 
         self._guids += guids
         return guids
+
+    # =============================================================================
+    # Conduits
+    # =============================================================================
+
+    # Note that all of the conduits are static.
+    # Dynamic conduits used during interactive processes are defined by those processes themselves...
+
+    @property
+    def edges_conduit(self) -> EdgesConduit:
+        if self._edges_conduit is None:
+            vertex_index = self.mesh.vertex_index()
+            xyz = self.mesh.vertices_attributes("xyz")
+            edges = [(vertex_index[u], vertex_index[v]) for u, v in self.mesh.edges()]
+            self._edges_conduit = EdgesConduit(
+                xyz=xyz,
+                edges=edges,
+            )
+        return self._edges_conduit
+
+    @property
+    def faces_conduit(self) -> FacesConduit:
+        pass
+
+    @property
+    def mesh_conduit(self) -> MeshConduit:
+        if self._mesh_conduit is None:
+            self._mesh_conduit = MeshConduit(self.mesh, Color(0.8, 0.8, 0.8))
+        return self._mesh_conduit
+
+    @property
+    def reactions_conduit(self) -> ReactionsConduit:
+        if self._reactions_conduit is None:
+            self._reactions_conduit = ReactionsConduit(
+                self.mesh,
+                color=self.reactioncolor,
+                scale=self.scale_residuals,
+                tol=self.tol_vectors,
+            )
+        return self._reactions_conduit
+
+    @property
+    def loads_conduit(self):
+        pass
+
+    @property
+    def forces_conduit(self):
+        if self._forces_conduit is None:
+            vertex_index = self.mesh.vertex_index()
+            self._forces_conduit = ThickEdgesConduit(
+                xyz=self.mesh.vertices_attributes("xyz"),
+                edges=[(vertex_index[u], vertex_index[v]) for u, v in self.mesh.edges()],
+                forces=self.mesh.edges_attribute(name="_f"),
+            )
+        return self._forces_conduit
+
+    def clear_edges_conduit(self):
+        try:
+            self.edges_conduit.disable()
+        except:  # noqa: E722
+            pass
+        finally:
+            del self._edges_conduit
+            self._edges_conduit = None
+
+    def clear_faces_conduit(self):
+        try:
+            self.faces_conduit.disable()
+        except:  # noqa: E722
+            pass
+        finally:
+            del self._faces_conduit
+            self._faces_conduit = None
+
+    def clear_mesh_conduit(self):
+        try:
+            self.mesh_conduit.disable()
+        except:  # noqa: E722
+            pass
+        finally:
+            del self._mesh_conduit
+            self._mesh_conduit = None
+
+    def clear_reactions_conduit(self):
+        try:
+            self.reactions_conduit.disable()
+        except:  # noqa: E722
+            pass
+        finally:
+            del self._reactions_conduit
+            self._reactions_conduit = None
+
+    def clear_forces_conduit(self):
+        try:
+            self.forces_conduit.disable()
+        except:  # noqa: E722
+            pass
+        finally:
+            del self._forces_conduit
+            self._forces_conduit = None
+
+    def clear_conduits(self):
+        self.clear_edges_conduit()
+        self.clear_faces_conduit()
+        self.clear_mesh_conduit()
+        self.clear_reactions_conduit()
+        self.clear_forces_conduit()
+
+    def display_edges_conduit(self, thickness: int = None):
+        self.clear_edges_conduit()
+        if thickness is not None:
+            self.edges_conduit.thickness = thickness
+        self.edges_conduit.enable()
+
+    def display_faces_conduit(self):
+        self.clear_faces_conduit()
+        self.faces_conduit.enable()
+
+    def display_mesh_conduit(self, color: Color = None):
+        self.clear_mesh_conduit()
+        if color is not None:
+            self.mesh_conduit.color = color
+        self.mesh_conduit.enable()
+
+    def display_reactions_conduit(self, scale=None, tol=None):
+        self.clear_reactions_conduit()
+        if scale is not None:
+            self.reactions_conduit.scale = scale
+        if tol is not None:
+            self.reactions_conduit.tol = tol
+        self.reactions_conduit.enable()
+
+    def display_forces_conduit(self, tmax: int = None):
+        self.clear_forces_conduit()
+        if tmax is not None:
+            self.forces_conduit.tmax = tmax
+        self.forces_conduit.enable()

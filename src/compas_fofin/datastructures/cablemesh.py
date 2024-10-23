@@ -46,6 +46,7 @@ class CableMesh(Mesh):
         )
         self.default_face_attributes.update({})
         self.constraints = constraints or {}
+        self.is_solved = False
 
     def vertex_constraint(self, vertex):
         # type: (int) -> Constraint

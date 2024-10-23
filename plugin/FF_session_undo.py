@@ -4,40 +4,71 @@
 
 import compas_rhino.objects
 from compas.colors import Color
-from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
 from compas_fofin.scene import RhinoConstraintObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
+    session.clear_conduits()
 
     scene = session.scene()
 
-    if session.undo():
-        scene.clear()
-        scene = session.scene()
-        scene.draw()
+    if not session.undo():
+        return
 
-        meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+    scene.clear()
 
-        if meshobj:
-            for sceneobject in scene.objects:
-                if isinstance(sceneobject, RhinoConstraintObject):
-                    scene.clear_context(sceneobject.guids)
-                    scene.remove(sceneobject)
+    scene = session.scene()
+    scene.draw()
 
-            mesh: CableMesh = meshobj.mesh
+    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+    if not meshobj:
+        return
 
-            for guid in mesh.constraints:
-                constraint = mesh.constraints[guid]
-                sceneobject = scene.add(constraint, color=Color.cyan())
-                sceneobject.draw()
+    # =============================================================================
+    # Remap constraints
+    # =============================================================================
 
-                robj = compas_rhino.objects.find_object(sceneobject.guids[0])
-                robj.UserDictionary["constraint.guid"] = str(guid)
+    for sceneobject in scene.objects:
+        if isinstance(sceneobject, RhinoConstraintObject):
+            scene.clear_context(sceneobject.guids)
+            scene.remove(sceneobject)
+
+    for guid in meshobj.mesh.constraints:
+        constraint = meshobj.mesh.constraints[guid]
+        sceneobject = scene.add(constraint, color=Color.cyan())
+        sceneobject.draw()
+
+        robj = compas_rhino.objects.find_object(sceneobject.guids[0])
+        robj.UserDictionary["constraint.guid"] = str(guid)
+
+    # =============================================================================
+    # Update scene
+    # =============================================================================
+
+    meshobj.clear()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
 
 
 # =============================================================================

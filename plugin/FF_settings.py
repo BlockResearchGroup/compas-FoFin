@@ -2,57 +2,79 @@
 # venv: formfinder
 # r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5, compas_rui>=0.2, compas_session>=0.2
 
-import compas_fofin.settings
-from compas_fofin.datastructures import CableMesh
+import dataclasses
+
+import rhinoscriptsyntax as rs  # type: ignore
+
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_rui.forms import SettingsForm
-from compas_rui.values import BoolValue
-from compas_rui.values import FloatValue
-from compas_rui.values import Settings
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_rui.forms import NamedValuesForm
 
 
 def RunCommand(is_interactive):
+    session = FoFinSession()
+    session.clear_conduits()
 
-    session = NamedSession(name="FormFinder")
+    options = ["Solver", "Drawing", "Display"]
+    option = rs.GetString(message="Settings Section", strings=options)
+    if not option:
+        return
+
+    if option == "Solver":
+        fields = dataclasses.fields(session.settings.solver.__class__)
+        names = [field.name for field in fields]
+        values = [getattr(session.settings.solver, name) for name in names]
+        form = NamedValuesForm(names, values, title="Solver Settings")
+        if form.show():
+            for name, value in form.attributes.items():
+                setattr(session.settings.solver, name, value)
+
+    elif option == "Drawing":
+        fields = dataclasses.fields(session.settings.drawing.__class__)
+        names = [field.name for field in fields]
+        values = [getattr(session.settings.drawing, name) for name in names]
+        form = NamedValuesForm(names, values, title="Drawing Settings")
+        if form.show():
+            for name, value in form.attributes.items():
+                setattr(session.settings.drawing, name, value)
+
+    elif option == "Display":
+        fields = dataclasses.fields(session.settings.display.__class__)
+        names = [field.name for field in fields]
+        values = [getattr(session.settings.display, name) for name in names]
+        form = NamedValuesForm(names, values, title="Display Settings")
+        if form.show():
+            for name, value in form.attributes.items():
+                setattr(session.settings.display, name, value)
+
+    # =============================================================================
+    # Update scene
+    # =============================================================================
+
     scene = session.scene()
 
-    SETTINGS = compas_fofin.settings.SETTINGS
+    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
+    if not meshobj:
+        return
 
-    meshobj: RhinoCableMeshObject = scene.find_by_itemtype(itemtype=CableMesh)
-    if meshobj:
-        SETTINGS["CableMesh"] = Settings(
-            {
-                # "show_supports": BoolValue(meshobj.show_supports),
-                # "show_free": BoolValue(meshobj.show_free),
-                "show_forces": BoolValue(meshobj.show_forces),
-                "show_residuals": BoolValue(meshobj.show_residuals),
-                "show_reactions": BoolValue(meshobj.show_reactions),
-                "show_loads": BoolValue(meshobj.show_loads),
-                "show_selfweight": BoolValue(meshobj.show_selfweight),
-                "scale_forces": FloatValue(meshobj.scale_forces),
-                "scale_residuals": FloatValue(meshobj.scale_residuals),
-                "scale_loads": FloatValue(meshobj.scale_loads),
-                "scale_selfweight": FloatValue(meshobj.scale_selfweight),
-            }
-        )
+    meshobj.clear()
 
-    form = SettingsForm(settings=SETTINGS, use_tab=True)
+    if meshobj.mesh.is_solved:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
 
-    if form.show():
-        if meshobj:
-            meshobj.show_forces = SETTINGS["CableMesh"]["show_forces"]
-            meshobj.show_residuals = SETTINGS["CableMesh"]["show_residuals"]
-            meshobj.show_reactions = SETTINGS["CableMesh"]["show_reactions"]
-            meshobj.show_loads = SETTINGS["CableMesh"]["show_loads"]
-            meshobj.show_selfweight = SETTINGS["CableMesh"]["show_selfweight"]
-            meshobj.scale_forces = SETTINGS["CableMesh"]["scale_forces"]
-            meshobj.scale_residuals = SETTINGS["CableMesh"]["scale_residuals"]
-            meshobj.scale_loads = SETTINGS["CableMesh"]["scale_loads"]
-            meshobj.scale_selfweight = SETTINGS["CableMesh"]["scale_selfweight"]
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
-        session.record(name="Update Settings")
+    meshobj.display_mesh_conduit()
 
 
 # =============================================================================

@@ -47,13 +47,12 @@ class SplashForm(Eto.Forms.Dialog[bool]):
 
 
 def RunCommand(is_interactive):
-
     form = SplashForm(title=compas_fofin.title, url=str(shared / "index.html"))
     form.show()
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":

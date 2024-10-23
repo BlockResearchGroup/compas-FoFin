@@ -4,14 +4,13 @@
 
 import rhinoscriptsyntax as rs  # type: ignore
 
-import compas_fofin.settings
 from compas_fofin.scene import RhinoCableMeshObject
-from compas_session.namedsession import NamedSession
+from compas_fofin.session import FoFinSession
+from compas_fofin.solvers import AutoUpdateFD
 
 
 def RunCommand(is_interactive):
-
-    session = NamedSession(name="FormFinder")
+    session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
@@ -20,9 +19,17 @@ def RunCommand(is_interactive):
     scene = session.scene()
 
     meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
-
     if not meshobj:
         return
+
+    # =============================================================================
+    # Clear conduits
+    # =============================================================================
+
+    meshobj.clear_conduits()
+
+    meshobj.display_edges_conduit()
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Update attributes
@@ -30,30 +37,11 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_free = True
-    meshobj.show_supports = True
+    selectable = list(meshobj.mesh.vertices())
+    selected = meshobj.select_vertices(selectable)
 
-    rs.EnableRedraw(False)
-    meshobj.clear_vertices()
-    meshobj.draw_vertices()
-    rs.EnableRedraw(True)
-    rs.Redraw()
-
-    vertices = meshobj.select_vertices()
-
-    if vertices:
-        meshobj.show_vertices = vertices
-
-        rs.EnableRedraw(False)
-        meshobj.clear_vertices()
-        meshobj.draw_vertices()
-        rs.EnableRedraw(True)
-        rs.Redraw()
-
-        meshobj.update_vertex_attributes(vertices=vertices)
-
-    rs.UnselectAllObjects()
+    if selected:
+        meshobj.update_vertex_attributes(vertices=selected)
 
     # =============================================================================
     # Update scene
@@ -61,19 +49,34 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    meshobj.show_vertices = True
-    meshobj.show_supports = True
-    meshobj.show_free = False
-    meshobj.show_edges = False
-
     meshobj.clear()
-    meshobj.draw()
+    meshobj.clear_conduits()
+
+    if meshobj.mesh.is_solved:
+        autoupdate = AutoUpdateFD(meshobj.mesh, kmax=session.settings.solver.kmax)
+        autoupdate()
+
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
+        meshobj.display_reactions_conduit()
+
+    else:
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.show_edges = False
+        meshobj.show_faces = False
+        meshobj.draw()
+        meshobj.display_edges_conduit()
+
+    meshobj.display_mesh_conduit()
 
     # =============================================================================
     # Session save
     # =============================================================================
 
-    if compas_fofin.settings.SETTINGS["FormFinder"]["autosave.events"]:
+    if session.settings.autosave:
         session.record(name="Vertices Attributes")
 
 

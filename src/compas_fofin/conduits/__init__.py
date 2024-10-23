@@ -2,17 +2,21 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 
-from .cablemeshconduit import ReactionConduit
-from .cablemeshconduit import LoadConduit
+from .cablemeshconduit import ReactionsConduit
+from .cablemeshconduit import LoadsConduit
 from .cablemeshconduit import SelfweightConduit
-from .cablemeshconduit import PipeConduit
-from .cablemeshconduit import EdgeConduit
+from .cablemeshconduit import ThickEdgesConduit
+from .cablemeshconduit import EdgesConduit
+from .cablemeshconduit import FacesConduit
+from .cablemeshconduit import MeshConduit
 
 
 __all__ = [
-    "ReactionConduit",
-    "LoadConduit",
+    "ReactionsConduit",
+    "LoadsConduit",
     "SelfweightConduit",
-    "PipeConduit",
-    "EdgeConduit",
+    "ThickEdgesConduit",
+    "EdgesConduit",
+    "FacesConduit",
+    "MeshConduit",
 ]
