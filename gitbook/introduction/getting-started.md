@@ -6,6 +6,10 @@ COMPAS FormFinder is a plugin for Rhino 8. It uses the CPython runtime that is n
 COMPAS FormFinder is **only available for Rhino 8.**
 {% endhint %}
 
+{% hint style="info %}
+The current version of the plugin is `0.2.62`.
+{% endhint %}
+
 ## Requirements
 
 * [Rhino 8](https://www.rhino3d.com/)
