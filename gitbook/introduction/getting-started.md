@@ -7,7 +7,7 @@ COMPAS FormFinder is **only available for Rhino 8.**
 {% endhint %}
 
 {% hint style="info %}
-The current version of the plugin is `0.2.71`.
+The current version of the plugin is `0.2.75`.
 {% endhint %}
 
 ## Requirements
@@ -30,12 +30,11 @@ FormFinder uses the following COMPAS packages:
 * [compas](https://github.com/compas-dev/compas)
 * [compas_dr](https://github.com/blockresearchgroup/compas_dr)
 * [compas_fd](https://github.com/blockresearchgroup/compas_fd)
-* [compas_rui](https://github.com/blockresearchgroup/compas_rui)
 * [compas_session](https://github.com/blockresearchgroup/compas_session)
 
 After installing RhinoVAULT with Yak, these requirements will be installed automatically if they are not yet available.
 Note that the tool ,ight be unresponsive for a few seconds while this happens.
-The packages are installed in a separate virtual environment named `formfinder`.
+The packages are installed in a separate virtual environment named `brg-csd`.
 
 ## Toolbar
 
