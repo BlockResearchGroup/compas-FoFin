@@ -1,14 +1,20 @@
-import Rhino
+from typing import Union
 
+import Rhino  # type: ignore
+
+import compas.geometry
+from compas.geometry import NurbsCurve
 from compas_rhino.conversions import circle_to_compas
 from compas_rhino.conversions import curve_to_compas_line
-from compas_rhino.geometry import RhinoNurbsCurve
-
-# from compas_rhino.geometry import RhinoCircle
-# from compas_rhino.geometry import RhinoEllipse
 
 
-def curveobject_to_compas(obj):
+def curveobject_to_compas(
+    obj: Rhino.DocObjects.CurveObject,
+) -> Union[
+    compas.geometry.Line,
+    compas.geometry.Circle,
+    compas.geometry.NurbsCurve,
+]:
     if obj.Geometry.IsLinear():
         geometry = curve_to_compas_line(obj.Geometry)
 
@@ -26,7 +32,7 @@ def curveobject_to_compas(obj):
         raise NotImplementedError
 
     elif isinstance(obj.Geometry, Rhino.Geometry.NurbsCurve):
-        geometry = RhinoNurbsCurve.from_rhino(obj.Geometry)
+        geometry = NurbsCurve.from_native(obj.Geometry)
 
     else:
         raise NotImplementedError

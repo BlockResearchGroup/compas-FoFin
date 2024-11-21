@@ -1,6 +1,6 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
+# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
 
 import rhinoscriptsyntax as rs  # type: ignore
 
@@ -9,47 +9,66 @@ from compas_fofin.session import FoFinSession
 from compas_fofin.solvers import AutoUpdateFD
 
 
-def RunCommand(is_interactive):
+def RunCommand():
     session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
     # =============================================================================
 
-    scene = session.scene()
-
-    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.scene.get_node_by_name(name="CableMesh")
     if not meshobj:
         return
 
     # =============================================================================
-    # Update conduits
+    # Clear conduits
     # =============================================================================
 
     meshobj.clear_conduits()
 
-    meshobj.display_edges_conduit()
+    meshobj.display_edges_conduit(thickness=session.settings.drawing.edge_thickness)
     meshobj.display_mesh_conduit()
 
     # =============================================================================
-    # Move anchors
+    # Preselect anchors
+    # =============================================================================
+
+    fixed = list(meshobj.mesh.vertices_where(is_fixed=True))
+    leaves = list(meshobj.mesh.vertices_where(vertex_degree=1))
+    vertices = list(set(fixed + leaves))
+
+    if vertices:
+        meshobj.mesh.vertices_attribute("is_support", True, keys=vertices)
+
+    # =============================================================================
+    # Select/Unselect anchors
     # =============================================================================
 
     rs.UnselectAllObjects()
 
-    options = ["Free", "X", "Y", "Z", "XY", "YZ", "ZX"]
-    option = rs.GetString(message="Set Direction.", strings=options)
+    option = rs.GetString(message="Anchors", strings=["Add", "Remove"])
     if not option:
         return
 
-    selectable = list(meshobj.mesh.vertices_where(is_support=True))
-    selected = meshobj.select_vertices(selectable)
+    if option == "Add":
+        meshobj.show_vertices = list(meshobj.mesh.vertices())
+        meshobj.redraw_vertices()
 
-    if selected:
-        if option == "Free":
-            meshobj.move_vertices(selected)
-        else:
-            meshobj.move_vertices_direction(selected, direction=option)
+        selected = meshobj.select_vertices()
+
+        if selected:
+            meshobj.mesh.vertices_attribute("is_support", True, keys=selected)
+
+    elif option == "Remove":
+        meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
+        meshobj.redraw_vertices()
+
+        selected = meshobj.select_vertices()
+
+        if selected:
+            meshobj.mesh.vertices_attribute("is_support", False, keys=selected)
+            for vertex in selected:
+                meshobj.mesh.unset_vertex_attribute(vertex, "constraint")
 
     # =============================================================================
     # Update scene
@@ -69,14 +88,14 @@ def RunCommand(is_interactive):
         meshobj.show_faces = False
         meshobj.draw()
         meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
-        meshobj.display_reactions_conduit()
+        meshobj.display_reactions_conduit(scale=session.settings.drawing.scale_reactions)
 
     else:
         meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
         meshobj.show_edges = False
         meshobj.show_faces = False
         meshobj.draw()
-        meshobj.display_edges_conduit()
+        meshobj.display_edges_conduit(thickness=session.settings.drawing.edge_thickness)
 
     meshobj.display_mesh_conduit()
 
@@ -85,12 +104,12 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.settings.autosave:
-        session.record(name="Move Anchors")
+        session.record(name="Add/Remove Anchors")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

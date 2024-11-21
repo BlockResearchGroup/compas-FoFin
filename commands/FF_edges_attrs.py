@@ -1,6 +1,6 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
+# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
 
 import rhinoscriptsyntax as rs  # type: ignore
 
@@ -9,16 +9,14 @@ from compas_fofin.session import FoFinSession
 from compas_fofin.solvers import AutoUpdateFD
 
 
-def RunCommand(is_interactive):
+def RunCommand():
     session = FoFinSession()
 
     # =============================================================================
     # Load stuff from session
     # =============================================================================
 
-    scene = session.scene()
-
-    meshobj: RhinoCableMeshObject = scene.get_node_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.scene.get_node_by_name(name="CableMesh")
     if not meshobj:
         return
 
@@ -28,7 +26,7 @@ def RunCommand(is_interactive):
 
     meshobj.clear_conduits()
 
-    meshobj.display_edges_conduit()
+    meshobj.display_edges_conduit(thickness=session.settings.drawing.edge_thickness)
     meshobj.display_mesh_conduit()
 
     # =============================================================================
@@ -37,11 +35,13 @@ def RunCommand(is_interactive):
 
     rs.UnselectAllObjects()
 
-    selectable = list(meshobj.mesh.vertices())
-    selected = meshobj.select_vertices(selectable)
+    meshobj.show_edges = list(meshobj.mesh.edges())
+    meshobj.redraw_edges()
+
+    selected = meshobj.select_edges()
 
     if selected:
-        meshobj.update_vertex_attributes(vertices=selected)
+        meshobj.update_edge_attributes(edges=selected)
 
     # =============================================================================
     # Update scene
@@ -61,14 +61,14 @@ def RunCommand(is_interactive):
         meshobj.show_faces = False
         meshobj.draw()
         meshobj.display_forces_conduit(tmax=session.settings.display.tmax)
-        meshobj.display_reactions_conduit()
+        meshobj.display_reactions_conduit(scale=session.settings.drawing.scale_reactions)
 
     else:
         meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
         meshobj.show_edges = False
         meshobj.show_faces = False
         meshobj.draw()
-        meshobj.display_edges_conduit()
+        meshobj.display_edges_conduit(thickness=session.settings.drawing.edge_thickness)
 
     meshobj.display_mesh_conduit()
 
@@ -77,12 +77,12 @@ def RunCommand(is_interactive):
     # =============================================================================
 
     if session.settings.autosave:
-        session.record(name="Vertices Attributes")
+        session.record(name="Edges Attributes")
 
 
 # =============================================================================
-# Run as main
+# Main
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

@@ -1,18 +1,24 @@
+from typing import Optional
+
+import compas.geometry
 from compas.itertools import pairwise
 from compas_fofin.datastructures import CableMesh
 
 
-def box_to_cablemesh(box, k, name=None):
-    # type(...) -> CableMesh
-    mesh = CableMesh.from_shape(box)  # type: CableMesh
+def box_to_cablemesh(box: compas.geometry.Box, k: int, name: Optional[str] = None) -> CableMesh:
+    mesh: CableMesh = CableMesh.from_shape(box)
     mesh = mesh.subdivided(scheme="quad", k=k)
     mesh.name = name or "CableMesh"
     return mesh
 
 
-def cylinder_to_cablemesh(cylinder, U, V, name=None):
-    # type(...) -> CableMesh
-    mesh = CableMesh.from_shape(cylinder, u=U)  # type: CableMesh
+def cylinder_to_cablemesh(
+    cylinder: compas.geometry.Cylinder,
+    U: int,
+    V: int,
+    name: Optional[str] = None,
+) -> CableMesh:
+    mesh: CableMesh = CableMesh.from_shape(cylinder, u=U)
     mesh.name = name or "CableMesh"
 
     # remove top/bottom

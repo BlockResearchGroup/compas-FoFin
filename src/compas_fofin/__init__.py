@@ -1,21 +1,10 @@
-from __future__ import print_function
-
 import os
 
 __author__ = ["tom van mele"]
 __copyright__ = "Block Research Group - ETH Zurich"
 __license__ = "MIT License"
-__email__ = "van.mele@arch.ethz.ch"
+__email__ = "tom.v.mele@gmail.com"
 __version__ = "0.14.0"
-
-title = "FormFinder"
-designers = ["Juney Lee"]
-developers = ["Tom Van Mele", "Li Chen"]
-documenters = ["Petras Vestartas"]
-description = """
-"""
-website = "https://gitbook.com/blockresearchgroup/compas-Fofin"
-
 
 HERE = os.path.dirname(__file__)
 

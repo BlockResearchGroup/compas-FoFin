@@ -60,6 +60,7 @@ class ReactionsConduit(BaseConduit):
             vectors = [subtract_vectors(point, start) for point in points]
             vector = centroid_points(vectors)
             reaction = scale_vector(reaction, -scale)
+
             if length_vector_sqrd(reaction) < tol2:
                 continue
 

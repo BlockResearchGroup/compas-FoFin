@@ -1,6 +1,6 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
+# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
 
 import rhinoscriptsyntax as rs  # type: ignore
 
@@ -14,16 +14,14 @@ from compas_fofin.scene import RhinoCableMeshObject
 from compas_fofin.session import FoFinSession
 
 
-def RunCommand(is_interactive):
+def RunCommand():
     session = FoFinSession()
 
     # =============================================================================
     # Get stuff from session
     # =============================================================================
 
-    scene = session.scene()
-
-    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.scene.find_by_name(name="CableMesh")
 
     # =============================================================================
     # Confirmation
@@ -139,7 +137,7 @@ def RunCommand(is_interactive):
     # Update scene
     # =============================================================================
 
-    meshobj = scene.add(mesh, name=mesh.name)
+    meshobj = session.scene.add(mesh, name=mesh.name)
 
     meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
     meshobj.show_edges = True
@@ -161,4 +159,4 @@ def RunCommand(is_interactive):
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

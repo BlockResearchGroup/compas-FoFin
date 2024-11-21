@@ -8,7 +8,7 @@
   "id": "5df3b821-822e-49e0-b24e-aebbe671c3d1",
   "identity": {
     "name": "COMPAS-FormFinder",
-    "version": "0.2.62-beta",
+    "version": "0.2.75-beta",
     "publisher": {
       "email": "tom.v.mele@gmail.com",
       "name": "Tom Van Mele",
@@ -73,7 +73,7 @@
         "version": "*.*.*"
       },
       "title": "FF",
-      "uri": "FF.py",
+      "uri": "commands/FF.py",
       "image": {
         "light": {
           "type": "svg",
@@ -100,7 +100,7 @@
         "version": "3.*.*"
       },
       "title": "FF_pattern",
-      "uri": "FF_pattern.py",
+      "uri": "commands/FF_pattern.py",
       "image": {
         "light": {
           "type": "svg",
@@ -127,7 +127,7 @@
         "version": "3.*.*"
       },
       "title": "FF_anchors",
-      "uri": "FF_anchors.py",
+      "uri": "commands/FF_anchors.py",
       "image": {
         "light": {
           "type": "svg",
@@ -154,7 +154,7 @@
         "version": "3.*.*"
       },
       "title": "FF_solve_fd",
-      "uri": "FF_solve_fd.py",
+      "uri": "commands/FF_solve_fd.py",
       "image": {
         "light": {
           "type": "svg",
@@ -181,7 +181,7 @@
         "version": "3.*.*"
       },
       "title": "FF_anchors_move",
-      "uri": "FF_anchors_move.py",
+      "uri": "commands/FF_anchors_move.py",
       "image": {
         "light": {
           "type": "svg",
@@ -208,7 +208,7 @@
         "version": "3.*.*"
       },
       "title": "FF_anchors_constraints",
-      "uri": "FF_anchors_constraints.py",
+      "uri": "commands/FF_anchors_constraints.py",
       "image": {
         "light": {
           "type": "svg",
@@ -235,7 +235,7 @@
         "version": "3.*.*"
       },
       "title": "FF_anchors_update",
-      "uri": "FF_anchors_update.py",
+      "uri": "commands/FF_anchors_update.py",
       "image": {
         "light": {
           "type": "svg",
@@ -262,7 +262,7 @@
         "version": "3.*.*"
       },
       "title": "FF_vertices_attrs",
-      "uri": "FF_vertices_attrs.py",
+      "uri": "commands/FF_vertices_attrs.py",
       "image": {
         "light": {
           "type": "svg",
@@ -289,7 +289,7 @@
         "version": "3.*.*"
       },
       "title": "FF_edges_attrs",
-      "uri": "FF_edges_attrs.py",
+      "uri": "commands/FF_edges_attrs.py",
       "image": {
         "light": {
           "type": "svg",
@@ -316,7 +316,7 @@
         "version": "3.*.*"
       },
       "title": "FF_edges_q",
-      "uri": "FF_edges_q.py",
+      "uri": "commands/FF_edges_q.py",
       "image": {
         "light": {
           "type": "svg",
@@ -343,7 +343,7 @@
         "version": "3.*.*"
       },
       "title": "FF_edges_delete",
-      "uri": "FF_edges_delete.py",
+      "uri": "commands/FF_edges_delete.py",
       "image": {
         "light": {
           "type": "svg",
@@ -370,7 +370,7 @@
         "version": "3.*.*"
       },
       "title": "FF_open",
-      "uri": "FF_session_open.py",
+      "uri": "commands/FF_session_open.py",
       "image": {
         "light": {
           "type": "svg",
@@ -397,7 +397,7 @@
         "version": "3.*.*"
       },
       "title": "FF_save",
-      "uri": "FF_session_save.py",
+      "uri": "commands/FF_session_save.py",
       "image": {
         "light": {
           "type": "svg",
@@ -424,7 +424,7 @@
         "version": "3.*.*"
       },
       "title": "FF_undo",
-      "uri": "FF_session_undo.py",
+      "uri": "commands/FF_session_undo.py",
       "image": {
         "light": {
           "type": "svg",
@@ -451,7 +451,7 @@
         "version": "3.*.*"
       },
       "title": "FF_redo",
-      "uri": "FF_session_redo.py",
+      "uri": "commands/FF_session_redo.py",
       "image": {
         "light": {
           "type": "svg",
@@ -478,7 +478,7 @@
         "version": "3.*.*"
       },
       "title": "FF_settings",
-      "uri": "FF_settings.py",
+      "uri": "commands/FF_settings.py",
       "image": {
         "light": {
           "type": "svg",
@@ -505,7 +505,7 @@
         "version": "3.*.*"
       },
       "title": "FF_redraw",
-      "uri": "FF_scene_redraw.py",
+      "uri": "commands/FF_scene_redraw.py",
       "image": {
         "light": {
           "type": "svg",
@@ -532,7 +532,7 @@
         "version": "3.*.*"
       },
       "title": "FF_clear",
-      "uri": "FF_scene_clear.py",
+      "uri": "commands/FF_scene_clear.py",
       "image": {
         "light": {
           "type": "svg",
@@ -557,7 +557,17 @@
     {
       "type": "uri",
       "library": {
-        "base": "file:///Users/vanmelet/Code/compas-FoFin/src/compas_fofin/",
+        "base": "src/compas_fofin/",
+        "language": {
+          "id": "*.*.python",
+          "version": "3.*.*"
+        }
+      }
+    },
+    {
+      "type": "uri",
+      "library": {
+        "base": "file:///Users/vanmelet/Code/compas_rui/src/compas_rui/",
         "language": {
           "id": "*.*.python",
           "version": "3.*.*"
@@ -568,15 +578,15 @@
   "resources": [
     {
       "id": "848a81fd-55b8-4535-ada4-fcaeda84366b",
-      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/index.html"
+      "uri": "resources/splash/index.html"
     },
     {
       "id": "5922e119-726e-4aa8-9ea4-3dbd7497f38c",
-      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/compas-FoFin.png"
+      "uri": "resources/splash/compas-FoFin.png"
     },
     {
       "id": "32673701-1238-49c7-9068-01f7aebd1a38",
-      "uri": "file:///Users/vanmelet/Code/compas-FoFin/resources/splash/styles.css"
+      "uri": "resources/splash/styles.css"
     }
   ]
 }

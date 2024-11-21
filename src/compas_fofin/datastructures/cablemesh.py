@@ -1,3 +1,6 @@
+from typing import Optional
+from typing import Union
+
 from compas.datastructures import Mesh
 from compas_fd.constraints import Constraint  # noqa: F401
 
@@ -6,18 +9,18 @@ class CableMesh(Mesh):
     """The FoFin CableMesh."""
 
     @property
-    def __data__(self):
+    def __data__(self) -> dict:
         data = super(CableMesh, self).__data__
         data["constraints"] = self.constraints
         return data
 
     @classmethod
-    def __from_data__(cls, data):
+    def __from_data__(cls, data: dict) -> "CableMesh":
         cablemesh = super(CableMesh, cls).__from_data__(data)
         cablemesh.constraints = data["constraints"]
         return cablemesh
 
-    def __init__(self, constraints=None, **kwargs):
+    def __init__(self, constraints: Optional[list[Constraint]] = None, **kwargs) -> None:
         super(CableMesh, self).__init__(**kwargs)
         self.attributes.update(
             {
@@ -48,13 +51,12 @@ class CableMesh(Mesh):
         self.constraints = constraints or {}
         self.is_solved = False
 
-    def vertex_constraint(self, vertex):
-        # type: (int) -> Constraint
+    def vertex_constraint(self, vertex: int) -> Union[Constraint, None]:
         guid = self.vertex_attribute(vertex, "constraint")
         if guid:
             return self.constraints[guid]
 
-    def update_constraints(self):
+    def update_constraints(self) -> None:
         for vertex in self.vertices():
             constraint = self.vertex_constraint(vertex)
             if constraint:

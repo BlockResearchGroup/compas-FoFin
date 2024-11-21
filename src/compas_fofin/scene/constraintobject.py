@@ -1,38 +1,33 @@
 import scriptcontext as sc  # type: ignore
 
-import compas.geometry  # noqa: F401  # noqa: F401
+import compas.geometry
 import compas_rhino.conversions
 import compas_rhino.objects
-from compas_fd.constraints import Constraint  # noqa: F401
+from compas_fd.constraints import Constraint
 from compas_rhino.conversions import curve_to_rhino
 from compas_rhino.conversions import transformation_to_rhino
 from compas_rhino.scene import RhinoSceneObject
 
 
 class RhinoConstraintObject(RhinoSceneObject):
-    def __init__(self, **kwargs):  # type: (...) -> None
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-        # del kwargs["item"]
-        # self.add(item=self.constraint.geometry, **kwargs)
-
     @property
-    def constraint(self):
-        # type: () -> Constraint
+    def constraint(self) -> Constraint:
         return self.item
 
     @constraint.setter
-    def constraint(self, constraint):
+    def constraint(self, constraint: Constraint) -> None:
         self.item = constraint
         self._transformation = None
 
     @property
-    def transformation(self):
-        # type: () -> compas.geometry.Transformation | None
+    def transformation(self) -> compas.geometry.Transformation:
         return self._transformation
 
     @transformation.setter
-    def transformation(self, transformation):
+    def transformation(self, transformation: compas.geometry.Transformation) -> None:
         self._transformation = transformation
 
     def draw(self):

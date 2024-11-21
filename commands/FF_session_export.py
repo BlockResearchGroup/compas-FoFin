@@ -1,6 +1,6 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
+# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
 
 import rhinoscriptsyntax as rs  # type: ignore
 
@@ -10,11 +10,10 @@ from compas_fofin.session import FoFinSession
 from compas_rui.forms import FileForm
 
 
-def RunCommand(is_interactive):
+def RunCommand():
     session = FoFinSession()
 
-    scene = session.scene()
-    meshobj: RhinoCableMeshObject = scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.scene.find_by_name(name="CableMesh")
 
     options = ["Scene", "CableMesh"]
     option = rs.GetString(message="Export", strings=options)
@@ -26,7 +25,7 @@ def RunCommand(is_interactive):
         if not filepath:
             return
 
-        compas.json_dump(scene, filepath)
+        compas.json_dump(session.scene, filepath)
 
     elif option == "CableMesh":
         filepath = FileForm.save(session.basedir, "FormFinder-cablemesh.json")
@@ -41,4 +40,4 @@ def RunCommand(is_interactive):
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

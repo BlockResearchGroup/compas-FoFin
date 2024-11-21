@@ -1,6 +1,5 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
 
 import pathlib
 
@@ -9,8 +8,6 @@ import Eto.Forms  # type: ignore
 import Rhino  # type: ignore
 import Rhino.UI  # type: ignore
 import System  # type: ignore
-
-import compas_fofin
 
 pluginfile = Rhino.PlugIns.PlugIn.PathFromId(System.Guid("5df3b821-822e-49e0-b24e-aebbe671c3d1"))
 shared = pathlib.Path(str(pluginfile)).parent / "shared"
@@ -46,8 +43,8 @@ class SplashForm(Eto.Forms.Dialog[bool]):
         return self.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
 
 
-def RunCommand(is_interactive):
-    form = SplashForm(title=compas_fofin.title, url=str(shared / "index.html"))
+def RunCommand():
+    form = SplashForm(title="FormFinder", url=str(shared / "index.html"))
     form.show()
 
 
@@ -56,4 +53,4 @@ def RunCommand(is_interactive):
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

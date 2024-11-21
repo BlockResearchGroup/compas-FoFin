@@ -1,13 +1,11 @@
-# import pathlib
-# from typing import Union
+import rhinoscriptsyntax as rs  # type: ignore
 
-from compas_session.namedsession import NamedSession
-
-from .settings import Settings
+from compas_fofin.settings import FoFinSettings
+from compas_session.session import Session
 
 
-class FoFinSession(NamedSession):
-    settings = Settings()
+class FoFinSession(Session):
+    settings: FoFinSettings
 
     def __new__(cls, **kwargs):
         if "name" in kwargs:
@@ -17,17 +15,22 @@ class FoFinSession(NamedSession):
     def __init__(self, **kwargs):
         if "name" in kwargs:
             del kwargs["name"]
-        super().__init__(name="FormFinder", **kwargs)
+        super().__init__(name="FormFinder", settings=FoFinSettings(), **kwargs)
 
     def clear(self, clear_scene=True, clear_context=True):
-        scene = self.scene()
-        for sceneobject in scene.objects:
+        for sceneobject in self.scene.objects:
             if hasattr(sceneobject, "clear_conduits"):
                 sceneobject.clear_conduits()
-        scene.clear(clear_scene=clear_scene, clear_context=clear_context)
+        self.scene.clear(clear_scene=clear_scene, clear_context=clear_context)
 
     def clear_conduits(self):
-        scene = self.scene()
-        for sceneobject in scene.objects:
+        for sceneobject in self.scene.objects:
             if hasattr(sceneobject, "clear_conduits"):
                 sceneobject.clear_conduits()
+
+    def confirm(self, message):
+        result = rs.MessageBox(message, buttons=4 | 32 | 256 | 0, title="Confirmation")
+        return result == 6
+
+    def warn(self, message):
+        return rs.MessageBox(message, title="Warning")

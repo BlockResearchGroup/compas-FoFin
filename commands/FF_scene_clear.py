@@ -1,13 +1,13 @@
 #! python3
-# venv: formfinder
-# r: compas>=2.4, compas_dr>=0.3, compas_fd>=0.5.2, compas_rui>=0.3, compas_session>=0.3
+# venv: brg-csd
+# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
 
 import rhinoscriptsyntax as rs  # type: ignore
 
 from compas_fofin.session import FoFinSession
 
 
-def RunCommand(is_interactive):
+def RunCommand():
     session = FoFinSession()
 
     result = rs.MessageBox(
@@ -28,4 +28,4 @@ def RunCommand(is_interactive):
 # =============================================================================
 
 if __name__ == "__main__":
-    RunCommand(True)
+    RunCommand()

@@ -7,7 +7,7 @@ COMPAS FormFinder is **only available for Rhino 8.**
 {% endhint %}
 
 {% hint style="info %}
-The current version of the plugin is `0.2.62`.
+The current version of the plugin is `0.2.71`.
 {% endhint %}
 
 ## Requirements
