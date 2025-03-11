@@ -1,16 +1,12 @@
-name: build
+name: release
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
-    if: "!contains(github.event.pull_request.labels.*.name, 'docs-only')"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -23,3 +19,12 @@ jobs:
           python: ${{ matrix.python }}
           invoke_lint: true
           invoke_test: true
+
+  Publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: compas-dev/compas-actions.publish@v3
+        with:
+          pypi_token: ${{ secrets.PYPI }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
