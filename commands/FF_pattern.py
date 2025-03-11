@@ -1,17 +1,20 @@
 #! python3
 # venv: brg-csd
-# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
+# r: compas_fofin>=0.14.0
 
 import rhinoscriptsyntax as rs  # type: ignore
 
+import compas
 import compas_rhino
 import compas_rhino.conversions
 import compas_rhino.objects
+from compas.datastructures import Mesh
 from compas_fofin.conversions import box_to_cablemesh
 from compas_fofin.conversions import cylinder_to_cablemesh
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
 from compas_fofin.session import FoFinSession
+from compas_rui.forms import FileForm
 
 
 def RunCommand():
@@ -40,7 +43,7 @@ def RunCommand():
     # Make a CableMesh "Pattern"
     # =============================================================================
 
-    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid"])
+    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid", "JSON"])
 
     if option == "RhinoBox":
         guid = compas_rhino.objects.select_object("Select a box")
@@ -129,6 +132,14 @@ def RunCommand():
             return
 
         mesh = CableMesh.from_meshgrid(dx=DX, nx=NX, dy=DY, ny=NY)
+
+    elif option == "JSON":
+        filepath = FileForm.open(session.basedir)
+        if not filepath:
+            return
+
+        temp: Mesh = compas.json_load(filepath)
+        mesh: CableMesh = temp.copy(cls=CableMesh)
 
     else:
         return

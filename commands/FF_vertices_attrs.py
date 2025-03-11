@@ -1,6 +1,6 @@
 #! python3
 # venv: brg-csd
-# r: compas_dr>=0.3, compas_fd>=0.5.2, compas_session>=0.4.5
+# r: compas_fofin>=0.14.0
 
 import rhinoscriptsyntax as rs  # type: ignore
 

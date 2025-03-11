@@ -30,20 +30,10 @@
           "width": 24,
           "height": 24
         },
-        "dark": {
-          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAGKADAAQAAAABAAAAGAAAAADiNXWtAAAAIUlEQVRIDe3QAQ0AAADCoPdP7ewBESgMGDBgwIABAwY\u002BMAkYAAGvX7w8AAAAAElFTkSuQmCC",
-          "width": 24,
-          "height": 24
-        },
         "icoData": "AAABAAEAGBgAAAEAIAC6AAAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAYAAAAGAgGAAAA4Hc9\u002BAAAAARnQU1BAANbXlz/JngAAABEZVhJZk1NACoAAAAIAAGHaQAEAAAAAQAAABoAAAAAAAOgAQADAAAAAQABAACgAgAEAAAAAQAAABigAwAEAAAAAQAAABgAAAAA4jV1rQAAACFJREFUSA3t0AENAAAAwqD3T\u002B3sAREoDBgwYMCAAQMGPjAJGAABr1\u002B8PAAAAABJRU5ErkJggg=="
       },
       "categoryIcon": {
         "light": {
-          "bytes": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAAFUlEQVQ4EWNgGAWjITAaAqMhAAkBAAQQAAG\u002BY1MiAAAAAElFTkSuQmCC",
-          "width": 16,
-          "height": 16
-        },
-        "dark": {
           "bytes": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEKADAAQAAAABAAAAEAAAAAA0VXHyAAAAFUlEQVQ4EWNgGAWjITAaAqMhAAkBAAQQAAG\u002BY1MiAAAAAElFTkSuQmCC",
           "width": 16,
           "height": 16
@@ -553,28 +543,7 @@
       }
     }
   ],
-  "libraries": [
-    {
-      "type": "uri",
-      "library": {
-        "base": "src/compas_fofin/",
-        "language": {
-          "id": "*.*.python",
-          "version": "3.*.*"
-        }
-      }
-    },
-    {
-      "type": "uri",
-      "library": {
-        "base": "file:///Users/vanmelet/Code/compas_rui/src/compas_rui/",
-        "language": {
-          "id": "*.*.python",
-          "version": "3.*.*"
-        }
-      }
-    }
-  ],
+  "libraries": [],
   "resources": [
     {
       "id": "848a81fd-55b8-4535-ada4-fcaeda84366b",

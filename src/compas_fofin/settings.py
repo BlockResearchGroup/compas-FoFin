@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from pydantic import Field
 
 from compas_session.settings import Settings
 
