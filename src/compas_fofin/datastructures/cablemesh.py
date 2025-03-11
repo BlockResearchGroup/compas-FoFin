@@ -17,7 +17,7 @@ class CableMesh(Mesh):
     @classmethod
     def __from_data__(cls, data: dict) -> "CableMesh":
         cablemesh = super(CableMesh, cls).__from_data__(data)
-        cablemesh.constraints = data["constraints"]
+        cablemesh.constraints = data.get("constraints") or {}
         return cablemesh
 
     def __init__(self, constraints: Optional[list[Constraint]] = None, **kwargs) -> None:
