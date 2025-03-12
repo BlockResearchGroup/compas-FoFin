@@ -1,6 +1,6 @@
 #! python3
 # venv: brg-csd
-# r: compas_fofin>=0.14.0
+# r: compas_fofin>=0.15.2
 
 from compas_fofin.session import FoFinSession
 from compas_rui.forms import FileForm
