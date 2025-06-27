@@ -42,3 +42,4 @@ class FoFinSettings(Settings):
     solver: SolverSettings = SolverSettings()
     drawing: DrawingSettings = DrawingSettings()
     display: DisplaySettings = DisplaySettings()
+    autosave: bool = True
