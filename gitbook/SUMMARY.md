@@ -30,6 +30,8 @@
 * [Compressive Form-Active](examples-basic/compressive-form-active/README.md)
   * [Catenary Arch with Corrugations](examples-basic/compressive-form-active/catenary-arch-with-corrugations.md)
   * [Vault with Lips](examples-basic/compressive-form-active/vault-with-lips.md)
+* [Mixed Form-Active](examples-basic/mixed-form-active/README.md)
+  * [Compressive Arch Supported](examples-basic/mixed-form-active/compressive-arch-supported.md)
 
 ## Additional information
 
