@@ -44,3 +44,7 @@
 * [Github](https://github.com/BlockResearchGroup/compas-FoFin)
 * [Block Research Group](https://brg.ethz.ch)
 * [COMPAS](https://compas.dev)
+
+## EXAMPLES - ADVANCED
+
+* [Line Constraints - Convertible Wave](examples-advanced/line-constraints-convertible-wave.md)
