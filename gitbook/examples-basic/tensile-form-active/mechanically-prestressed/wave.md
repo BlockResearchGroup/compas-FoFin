@@ -79,7 +79,7 @@ The shape is not defined yet by clear ridges and valleys. This is because integr
 
 > **Interactive**
 >
-> **Continuous**
+> **Edge Loop**
 
 Select all continuous edges spanning in between the anchor and scale up their force densities q interactively, e.g., by a factor of 10.
 
