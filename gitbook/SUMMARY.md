@@ -34,3 +34,6 @@
 * [Tensile Form-Active](examples-basic/tensile-form-active/README.md)
   * [Mechanically prestressed](examples-basic/tensile-form-active/mechanically-prestressed/README.md)
     * [Hypar](examples-basic/tensile-form-active/mechanically-prestressed/hypar.md)
+    * [Conical](examples-basic/tensile-form-active/mechanically-prestressed/conical.md)
+    * [Wave](examples-basic/tensile-form-active/mechanically-prestressed/wave.md)
+    * [Arch supported](examples-basic/tensile-form-active/mechanically-prestressed/arch-supported.md)

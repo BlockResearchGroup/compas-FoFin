@@ -21,7 +21,7 @@ Back then, physical form finding with soap films defined the shape in the absenc
 
 The following steps show how to create a hypar with compas-FoFin:
 
-## 1. <img src="../../../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt="" data-size="line"> Create CableMesh
+## 1. <img src="../../../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt="" data-size="line"> Create MeshGrid
 
 <div align="left" data-full-width="false"><figure><img src="../../../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt=""><figcaption></figcaption></figure></div>
 
@@ -35,7 +35,7 @@ The following steps show how to create a hypar with compas-FoFin:
 >
 > **Dimension in the Y direction: 10 (default)**
 
-Create a CableMesh data structure with the fastest way of a regular default grid in the XY plane.
+Create a MeshGrid data structure with the fastest way of a regular default grid in the XY plane.
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 11.17.00.png" alt=""><figcaption></figcaption></figure>
 
