@@ -1,11 +1,9 @@
 # Selecting Vertices
 
-Many of the commands of COMPAS FormFinder operate onn a selection of vertices.
-Vertices can be selected in various ways.
+Many of the commands of COMPAS FormFinder operate on a selection of vertices. Vertices can be selected in various ways.
 
 {% hint style="info" %}
-If any of the mechanisms described below don't work as advertised,
-please file an issue on the [Issue Tracker](https://github.com/BlockResearchGroup/compas-FoFin/issues) describing the problem.
+If any of the mechanisms described below don't work as advertised, please file an issue on the [Issue Tracker](https://github.com/BlockResearchGroup/compas-FoFin/issues) describing the problem.
 {% endhint %}
 
 ## All
@@ -22,13 +20,11 @@ Note that you have to switch the Rhino display mode to "Shaded" to see the bound
 
 ## Degree
 
-Select all vertices which have a specific degree.
-The degree of a vertex is defined as the number of connected vertices of that vertex.
-For example, in a quad mesh:
+Select all vertices which have a specific degree. The degree of a vertex is defined as the number of connected vertices of that vertex. For example, in a quad mesh:
 
-* Corners have ``degree = 2``
-* Other boundary vertices have ``degree = 3``
-* Internal vertices have ``degree = 4``
+* Corners have `degree = 2`
+* Other boundary vertices have `degree = 3`
+* Internal vertices have `degree = 4`
 
 ## EdgeLoop
 

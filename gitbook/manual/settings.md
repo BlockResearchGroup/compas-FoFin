@@ -1,16 +1,21 @@
 # Settings
 
-To inspect or modify the settings of FormFinder,
-use the `FF_settings` command or the corresponding toolbar button.
+To inspect or modify the settings of FormFinder, use the `FF_settings` command or the corresponding toolbar button.
 
 The following sections of settings are available:
 
-* FormFinder
-* Solvers
-* CableMesh
+* Solver
+* Drawing
+* Display
 
-## FormFinder
+## Solver
 
-## Solvers
+<figure><img src="../.gitbook/assets/Solver.png" alt=""><figcaption></figcaption></figure>
 
-## CableMesh
+## Drawing
+
+<figure><img src="../.gitbook/assets/Drawing.png" alt=""><figcaption></figcaption></figure>
+
+## Display
+
+<figure><img src="../.gitbook/assets/Display.png" alt=""><figcaption></figcaption></figure>
