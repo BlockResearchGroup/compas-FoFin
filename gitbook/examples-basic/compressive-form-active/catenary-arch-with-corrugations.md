@@ -35,7 +35,9 @@ Load the session file of the hanging cables example in pure tension:\
 
 <figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.43.png" alt=""><figcaption></figcaption></figure>
 
-## 2. <img src="broken-reference" alt="" data-size="line"> Scale Force Densities
+## 2. <img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" data-size="line"> Scale Force Densities
+
+<div align="left"><figure><img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt=""><figcaption></figcaption></figure></div>
 
 > **Value**
 >
@@ -51,7 +53,9 @@ In order to turn tensile edges into compressive edges, the force densities must 
 
 Corrugations can be created by alternating high and low force densities in the cables. Cables with lower forces have higher rise,  cables with higher forces have lower rise.&#x20;
 
-## 3. <img src="broken-reference" alt="" data-size="line"> Scale Force Densities
+## 3. <img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" data-size="line"> Scale Force Densities
+
+<div align="left"><figure><img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt=""><figcaption></figcaption></figure></div>
 
 > **Interactive**
 >

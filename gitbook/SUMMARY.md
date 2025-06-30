@@ -29,6 +29,7 @@
     * [Catenary Cables](examples-basic/tensile-form-active/funicular/catenary-cables.md)
 * [Compressive Form-Active](examples-basic/compressive-form-active/README.md)
   * [Catenary Arch with Corrugations](examples-basic/compressive-form-active/catenary-arch-with-corrugations.md)
+  * [Vault with Lips](examples-basic/compressive-form-active/vault-with-lips.md)
 
 ## Additional information
 
