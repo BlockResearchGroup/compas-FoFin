@@ -1,6 +1,6 @@
 #! python3
 # venv: brg-csd
-# r: compas_fofin>=0.15.2
+# r: compas_fofin>=0.15.3
 
 from compas_fofin.datastructures import CableMesh
 from compas_fofin.scene import RhinoCableMeshObject
