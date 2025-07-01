@@ -13,10 +13,6 @@ A catenary cable under its own self-weight is the most primitive typology for a 
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.50.27.png" alt=""><figcaption><p>Poleni’s drawing of Hooke’s analogy between an arch and a hanging chain</p></figcaption></figure>
 
-{% hint style="danger" %}
-The example is simplified to a constant external load and does not use self-weight computed based on the tributary area of each node. This will be introduced in the advanced examples. So basically the shape is a parabola as the force applied is uniform with respect to horizontal distance.
-{% endhint %}
-
 ## 1. <img src="../../../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt="" data-size="line"> Create CableMesh
 
 <div align="left"><figure><img src="../../../../resources/FF_toolbar_buttons/6_FF_pattern.svg" alt=""><figcaption></figcaption></figure></div>
@@ -56,7 +52,7 @@ Constraint its two opposing boundary vertices so that they can take reaction for
 >
 > Edge Loop
 
-Select all edges connecting the supports and set the force densities q to a number close to 0 (0.0001).&#x20;
+Select all edges perpendicular to the ones connecting the supports and set the force densities q to a number close to 0 (0.0001).&#x20;
 
 {% hint style="danger" %}
 It is numerically not possible to set q to 0.
@@ -72,29 +68,31 @@ Finding the equilibrium will not change the geometry of the Cablemesh as there i
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.51.42.png" alt=""><figcaption></figcaption></figure>
 
-## 5. <img src="../../../../resources/FF_toolbar_buttons/10_FF_anchors_modify.svg" alt="" data-size="line"> Node Attributes&#x20;
+## 5. <img src="../../../../resources/FF_toolbar_buttons/10_FF_anchors_modify.svg" alt="" data-size="line"> Vertices Attributes&#x20;
 
 <div align="left"><figure><img src="../../../../resources/FF_toolbar_buttons/10_FF_anchors_modify.svg" alt=""><figcaption></figcaption></figure></div>
 
 > **All**
 >
-> **pz = -1.0**
+> **Thickness = 0.1**
 
-Select all nodes and apply a uniform point load of -1.0 in the negative Z direction with the **pz** attribute.
+Select all nodes and apply a uniform thickness of 0.1. The forces will be calculated based to the tributary area of each node.
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.51.54.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-07-01 at 15.53.46.png" alt=""><figcaption></figcaption></figure>
 
-The external loads are displayed with green arrows:
+After running the force density method, the two boundary edges will have higher forces compared to the rest, so the two boundary arches will be more shallow. This happens because the tributary area of the nodes on the boundaries is half compared to the nodes in the middle of the cable mesh. So, in the next step we have to scale the q values on the boundaries by 0.5:
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.06.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-07-01 at 15.53.25.png" alt=""><figcaption></figcaption></figure>
 
-## 6. <img src="../../../../resources/FF_toolbar_buttons/8_FF_fd.svg" alt="" data-size="line"> Force Density Method
+## 7. <img src="../../../../resources/FF_toolbar_buttons/8_FF_fd.svg" alt="" data-size="line"> Scale Force Density
 
-<div align="left"><figure><img src="../../../../resources/FF_toolbar_buttons/8_FF_fd.svg" alt=""><figcaption></figcaption></figure></div>
+<div align="left"><figure><img src="../../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt=""><figcaption></figcaption></figure></div>
 
-The system finds a funicular shape that is hanging down much because the ratio of forces to force densities is relatively high:
+Select the two boundary edges and scale the q values to 0.5:
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.20.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-07-01 at 15.57.50.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-07-01 at 15.59.29.png" alt=""><figcaption></figcaption></figure>
 
 ## 7. <img src="../../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" data-size="line"> Scale Force Densities
 
@@ -102,10 +100,8 @@ The system finds a funicular shape that is hanging down much because the ratio o
 
 > &#x20;**Interactive**
 >
-> Edge Loop
+> All
 
-Scale the edges connecting the supports in the hanging cable direction interactively until reaching your target design:
+Scale the edges connecting the supports in the hanging cable direction interactively until reaching your target design (alternatively, you can use a scale factor applied to all the edges):
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.32.png" alt=""><figcaption></figcaption></figure>
-
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.43.png" alt=""><figcaption></figcaption></figure>

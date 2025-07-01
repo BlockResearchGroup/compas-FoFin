@@ -31,9 +31,9 @@ This example shows you how to create a funicular barrel vault and extend it with
 Load the session file of the hanging cables example in pure tension:\
 
 
-{% file src="../../.gitbook/assets/ex_funicolar_tension.json" %}
+{% file src="../../.gitbook/assets/Ex_funicular_cables.json" %}
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 14.52.43.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-01 at 16.02.55.png" alt=""><figcaption></figcaption></figure>
 
 ## 2. <img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt="" data-size="line"> Scale Force Densities
 
@@ -43,11 +43,11 @@ Load the session file of the hanging cables example in pure tension:\
 >
 > Edge Loop
 >
-> **-4**
+> **-1**
 
-In order to turn tensile edges into compressive edges, the force densities must have a negative value. Select the edges connecting the supports and scale them by a factor of -4 to invert the sense of force in the edges.
+In order to turn tensile edges into compressive edges, the force densities must have a negative value. Select the edges connecting the supports and scale them by a factor of -1 to invert the sense of force in the edges.
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 16.40.23.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-01 at 16.04.06.png" alt=""><figcaption></figcaption></figure>
 
 ## Introduce Corrugations
 
@@ -57,18 +57,14 @@ Corrugations can be created by alternating high and low force densities in the c
 
 <div align="left"><figure><img src="../../../resources/FF_toolbar_buttons/13_FF_edges_q.svg" alt=""><figcaption></figcaption></figure></div>
 
-> **Interactive**
+> **Scale Factor**
 >
 > **Edge Loop**
 
-Select alternating loops of edges connecting the supports:
+Select alternating loops of edges connecting the supports and set a scale factor for the q values to create the creases:
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 16.40.35.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-01 at 16.06.28.png" alt=""><figcaption></figcaption></figure>
 
-The interactive scaling of force densities allows tweaking your design intuitively:
-
-<figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 16.40.45.png" alt=""><figcaption></figcaption></figure>
+The q values can be also interactively scaled, allows tweaking your design intuitively:
 
 The equilibrium shape will have corrugations with arches alternatively carrying low and high forces.
-
-<figure><img src="../../.gitbook/assets/Screenshot 2025-06-30 at 16.40.56.png" alt=""><figcaption></figcaption></figure>

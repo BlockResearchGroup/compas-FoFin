@@ -33,6 +33,11 @@
 * [Mixed Form-Active](examples-basic/mixed-form-active/README.md)
   * [Compressive Arch Supported](examples-basic/mixed-form-active/compressive-arch-supported.md)
 
+## EXAMPLES - ADVANCED
+
+* [Line Constraints - Convertible Wave](examples-advanced/line-constraints-convertible-wave.md)
+* [Curve Constraints - Geometry Generation](examples-advanced/curve-constraints-geometry-generation.md)
+
 ## Additional information
 
 * [Legal terms](additional-information/legal-terms.md)
@@ -44,7 +49,3 @@
 * [Github](https://github.com/BlockResearchGroup/compas-FoFin)
 * [Block Research Group](https://brg.ethz.ch)
 * [COMPAS](https://compas.dev)
-
-## EXAMPLES - ADVANCED
-
-* [Line Constraints - Convertible Wave](examples-advanced/line-constraints-convertible-wave.md)
