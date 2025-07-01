@@ -17,21 +17,23 @@ Start with the target boundary curves by opening the Rhino File:
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-06-30 at 22.23.53.png" alt=""><figcaption></figcaption></figure>
 
-## 1. <img src="broken-reference" alt="" data-size="line"> Create CableMesh
+## 1.  Create CableMesh
 
-> **from Surface**
+> **from RhinoSurface**
 >
 > **Number of faces in the U direction: 9**
 >
 > **Number of faces in the V direction: 19**
 
-Create a CableMesh data structure from a planar surface that spans between the endpoints of the curves.&#x20;
+Create a CableMesh data structure from a planar Rhino surface that spans between the endpoints of the curves.&#x20;
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-06-30 at 22.24.04.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-06-30 at 22.24.15.png" alt=""><figcaption></figcaption></figure>
 
-## 2. <img src="broken-reference" alt="" data-size="line"> Identity Anchors
+## 2. Identify Anchors
+
+<div align="left" data-full-width="false"><figure><img src="../../resources/FF_toolbar_buttons/7_FF_anchors.svg" alt=""><figcaption></figcaption></figure></div>
 
 > **Select**&#x20;
 >
@@ -41,7 +43,9 @@ Anchor its corner vertices along the boundary.
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-06-30 at 22.24.26.png" alt=""><figcaption></figcaption></figure>
 
-## 3. <img src="broken-reference" alt="" data-size="line"> Set Node Constraints
+## 3.  Set Anchor Constraints
+
+<div align="left"><figure><img src="../../resources/FF_toolbar_buttons/10_FF_anchors_modify.svg" alt=""><figcaption></figcaption></figure></div>
 
 > **Select**
 >
