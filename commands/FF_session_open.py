@@ -23,7 +23,7 @@ def RunCommand():
 
     session.scene.draw()
 
-    meshobj: RhinoCableMeshObject = session.scene.get_node_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.find_cablemesh()
     if meshobj:
         # =============================================================================
         # Remap constraints
@@ -35,8 +35,8 @@ def RunCommand():
                 session.scene.remove(sceneobject)
 
         for guid in meshobj.mesh.constraints:
-            constraint = meshobj.mesh.constraints[guid]
-            sceneobject = session.scene.add(constraint, color=Color.cyan())
+            constraint = meshobj.mesh.constraints[guid]  # type: ignore
+            sceneobject = session.scene.add(constraint, color=Color.cyan())  # type: ignore
             sceneobject.draw()
 
             robj = compas_rhino.objects.find_object(sceneobject.guids[0])

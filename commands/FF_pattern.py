@@ -24,7 +24,7 @@ def RunCommand():
     # Get stuff from session
     # =============================================================================
 
-    meshobj: RhinoCableMeshObject = session.scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.find_cablemesh()
 
     # =============================================================================
     # Confirmation
@@ -43,7 +43,9 @@ def RunCommand():
     # Make a CableMesh "Pattern"
     # =============================================================================
 
-    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid", "JSON"])
+    mesh: CableMesh
+
+    option = rs.GetString(message="CableMesh From", strings=["RhinoBox", "RhinoCylinder", "RhinoMesh", "RhinoSurface", "MeshGrid", "Json"])
 
     if option == "RhinoBox":
         guid = compas_rhino.objects.select_object("Select a box")
@@ -75,6 +77,9 @@ def RunCommand():
 
         obj = compas_rhino.objects.find_object(guid)
         cylinder = compas_rhino.conversions.extrusion_to_compas_cylinder(obj.Geometry)
+        if not cylinder:
+            return
+
         mesh = cylinder_to_cablemesh(cylinder, U, V, name="CableMesh")
 
         rs.HideObject(guid)
@@ -85,7 +90,7 @@ def RunCommand():
             return
 
         obj = compas_rhino.objects.find_object(guid)
-        mesh = compas_rhino.conversions.mesh_to_compas(obj.Geometry, cls=CableMesh)
+        mesh = compas_rhino.conversions.mesh_to_compas(obj.Geometry, cls=CableMesh)  # type: ignore
 
         rs.HideObject(guid)
 
@@ -110,7 +115,7 @@ def RunCommand():
 
         # ------------------------------------------------
 
-        mesh = compas_rhino.conversions.surface_to_compas_mesh(surface, nu=U, nv=V, weld=True, cls=CableMesh)
+        mesh = compas_rhino.conversions.surface_to_compas_mesh(surface, nu=U, nv=V, weld=True, cls=CableMesh)  # type: ignore
 
         rs.HideObject(guid)
 
@@ -131,14 +136,14 @@ def RunCommand():
         if not NY:
             return
 
-        mesh = CableMesh.from_meshgrid(dx=DX, nx=NX, dy=DY, ny=NY)
+        mesh = CableMesh.from_meshgrid(dx=DX, nx=NX, dy=DY, ny=NY)  # type: ignore
 
-    elif option == "JSON":
+    elif option == "Json":
         filepath = FileForm.open(session.basedir)
         if not filepath:
             return
 
-        temp: Mesh = compas.json_load(filepath)
+        temp: Mesh = compas.json_load(filepath)  # type: ignore
         mesh: CableMesh = temp.copy(cls=CableMesh)
 
     else:
@@ -148,7 +153,7 @@ def RunCommand():
     # Update scene
     # =============================================================================
 
-    meshobj = session.scene.add(mesh, name=mesh.name)
+    meshobj = session.scene.add(mesh, name=mesh.name)  # type: ignore
 
     meshobj.show_vertices = list(meshobj.mesh.vertices_where(is_support=True))
     meshobj.show_edges = True

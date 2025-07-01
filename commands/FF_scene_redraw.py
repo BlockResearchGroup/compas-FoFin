@@ -15,7 +15,7 @@ def RunCommand():
 
     session.scene.redraw()
 
-    meshobj: RhinoCableMeshObject = session.scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.find_cablemesh()
     if not meshobj:
         return
 

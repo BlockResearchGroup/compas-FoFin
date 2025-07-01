@@ -16,7 +16,7 @@ def RunCommand():
     # Load stuff from session
     # =============================================================================
 
-    meshobj: RhinoCableMeshObject = session.scene.get_node_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.find_cablemesh()
     if not meshobj:
         return
 

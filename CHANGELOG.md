@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added `FoFinSession.find_cablemesh`.
+
 ### Changed
 
+* Changed value of `FoFinSession.settings.autosave` to `True`.
+
 ### Removed
+
+* Removed option to export `Scene` (only `CableMesh`).
 
 
 ## [0.15.2] 2025-03-11

@@ -21,7 +21,7 @@ def RunCommand():
     # Load stuff from session
     # =============================================================================
 
-    meshobj: RhinoCableMeshObject = session.scene.find_by_name(name="CableMesh")
+    meshobj: RhinoCableMeshObject = session.find_cablemesh()
     if not meshobj:
         return
 
@@ -88,13 +88,13 @@ def RunCommand():
             if not constraint:
                 curve = compas_rhino.conversions.curveobject_to_compas(robj)
                 constraint = Constraint(curve)
-                sceneobject = session.scene.add(constraint, color=Color.cyan())
+                sceneobject = session.scene.add(constraint, color=Color.cyan())  # type: ignore
                 sceneobject.draw()
 
                 robj = compas_rhino.objects.find_object(sceneobject.guids[0])
                 robj.UserDictionary["constraint.guid"] = str(constraint.guid)
 
-                meshobj.mesh.constraints[str(constraint.guid)] = constraint
+                meshobj.mesh.constraints[str(constraint.guid)] = constraint  # type: ignore
                 rs.HideObject(guid)
 
             # -----------------------------------

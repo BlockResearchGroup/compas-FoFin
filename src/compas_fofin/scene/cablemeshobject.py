@@ -20,7 +20,7 @@ from compas_rui.scene import RUIMeshObject
 
 class RhinoCableMeshObject(RUIMeshObject):
     session = FoFinSession()
-    mesh: CableMesh
+    mesh: CableMesh  # type: ignore
 
     freecolor = ColorAttribute(default=Color.white())
     anchorcolor = ColorAttribute(default=Color.red())
@@ -87,7 +87,7 @@ class RhinoCableMeshObject(RUIMeshObject):
 
     @property
     def faces_conduit(self) -> FacesConduit:
-        pass
+        raise NotImplementedError
 
     @property
     def mesh_conduit(self) -> MeshConduit:
